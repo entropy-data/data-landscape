@@ -32,34 +32,7 @@ Pushing to `main` deploys via GitHub Pages. The `CNAME` file binds the site to `
 
 ## Contributing
 
-The drawer content for every standard lives in [`standards.json`](./standards.json). To add, fix, or extend a standard, edit that file — not the inline `<script>` in `index.html`.
-
-Each entry is keyed by a slug (the same id referenced from the button's `@click="selectedId = '<slug>'"` in `index.html`) and has the shape:
-
-```json
-{
-  "name": "ODCS",
-  "fullName": "Open Data Contract Standard",
-  "category": "API Interfaces",
-  "highlight": true,
-  "governance": "BITOL / Linux Foundation",
-  "status": "v3.1 stable; v3.2 in progress",
-  "description": [
-    "First paragraph.",
-    "Second paragraph."
-  ],
-  "note": "Optional amber callout, e.g. acronym collisions.",
-  "links": [
-    { "label": "Official site", "url": "https://bitol.io" }
-  ],
-  "firstReleased": 2023,
-  "tier":          "stable"
-}
-```
-
-`firstReleased` shows in the *Compare* table view. `tier` is optional — when present it overrides the derivation from `status`. Valid values: `stable`, `emerging`, `legacy`, `vendor`.
-
-Adding a new tile to the grid still requires an HTML edit in `index.html` (button + logo) plus a matching entry in `standards.json`.
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Maintained by
 
