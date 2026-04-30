@@ -3,3 +3,4 @@
 .vscode/
 node_modules/
 .playwright-cli/
+package-lock.json
