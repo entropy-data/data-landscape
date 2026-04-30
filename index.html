@@ -243,6 +243,106 @@
       background: rgba(255, 255, 255, 0.25);
       color: white;
     }
+    /* View toggle */
+    .view-toggle {
+      display: inline-flex;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 9999px;
+      padding: 2px;
+    }
+    .view-toggle button {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #4b5563;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+    }
+    .view-toggle button.active {
+      background: #4f46e5;
+      color: white;
+    }
+
+    /* Compare table */
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.85rem;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .compare-table thead th {
+      background: #f3f4f6;
+      color: #374151;
+      font-weight: 700;
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid #e5e7eb;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .compare-table thead th:hover { background: #e5e7eb; }
+    .compare-table thead th .sort-arrow { color: #9ca3af; margin-left: 0.25rem; }
+    .compare-table thead th.sorted .sort-arrow { color: #4f46e5; }
+    .compare-table tbody td {
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+    }
+    .compare-table tbody tr {
+      cursor: pointer;
+      transition: background 80ms ease;
+    }
+    .compare-table tbody tr:hover { background: #eef2ff; }
+    .compare-table tbody tr:last-child td { border-bottom: none; }
+    .compare-table .row-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #111827;
+    }
+    .compare-table .row-name img { width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; }
+    .tier-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .tier-flagship { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
+    .fact-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: #374151;
+      border: 1px solid #e5e7eb;
+      white-space: nowrap;
+    }
+    .fact-badge-highlight {
+      background: #eef2ff;
+      color: #4338ca;
+      border-color: #c7d2fe;
+    }
+    .tier-stable   { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .tier-emerging { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+    .tier-legacy   { background: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb; }
+    .tier-vendor   { background: #fafafa; color: #6b7280; border: 1px dashed #d1d5db; }
+
     /* Filter dimming */
     .item.item-dim {
       opacity: 0.18;
@@ -252,6 +352,7 @@
     .category-panel.panel-dim {
       opacity: 0.45;
     }
+
 
     .github-corner svg { fill: #4f46e5; color: #fff; position: absolute; top: 0; right: 0; border: 0; z-index: 20; }
     .github-corner:hover .octo-arm { animation: octocat-wave 560ms ease-in-out; }
@@ -281,10 +382,11 @@
                 history.replaceState({}, '', url);
               });
               $watch('activeFilter', () => applyFilter());
-              $nextTick(() => {
+              $nextTick(async () => {
                 buildButtonMeta();
                 computeCounts();
                 applyFilter();
+                await loadStandards();
                 const initial = new URLSearchParams(window.location.search).get('std');
                 if (initial && standards[initial]) selectedId = initial;
               })"
@@ -306,10 +408,7 @@
           Inspired by the <a href="https://landscape.cncf.io/" class="text-indigo-600 hover:text-indigo-500" target="_blank">CNCF Landscape</a>
           and the <a href="https://technologie.deutschland-stack.gov.de/" class="text-indigo-600 hover:text-indigo-500" target="_blank">Deutschland Stack</a>,
           and <a href="https://www.entropy-data.com/learn/talk-open-standards-for-data-mesh" class="text-indigo-600 hover:text-indigo-500">Simon's talk on open standards</a>.
-          Click any standard to learn more.
-        </p>
-        <p class="mt-3 text-sm text-gray-600">
-          <a href="/data-landscape.pdf" download class="text-indigo-600 hover:text-indigo-500 underline">Download as PDF</a>
+          Click any standard to learn more, or <a href="/data-landscape.pdf" download class="text-indigo-600 hover:text-indigo-500">download as PDF</a>.
         </p>
       </div>
       <aside class="lg:w-72 lg:flex-none lg:mt-2">
@@ -344,9 +443,13 @@
         <button type="button" class="chip" :class="{ active: activeFilter === 'OSI' }" @click="activeFilter = 'OSI'">OSI Initiative <span class="chip-count" x-text="counts.OSI"></span></button>
         <button type="button" class="chip" :class="{ active: activeFilter === 'vendor' }" @click="activeFilter = 'vendor'">Vendor <span class="chip-count" x-text="counts.vendor"></span></button>
       </div>
+      <div class="view-toggle" role="group" aria-label="View mode">
+        <button type="button" :class="{ active: viewMode === 'landscape' }" @click="viewMode = 'landscape'" aria-pressed="viewMode === 'landscape'">Landscape</button>
+        <button type="button" :class="{ active: viewMode === 'table' }" @click="viewMode = 'table'" aria-pressed="viewMode === 'table'">Compare</button>
+      </div>
     </div>
 
-    <div class="landscape" :data-filter="activeFilter">
+    <div class="landscape" :data-filter="activeFilter" x-show="viewMode === 'landscape'">
 
       <!-- Section: Definition -->
       <section class="landscape-section">
@@ -486,7 +589,7 @@
                 <span class="item-umbrella">W3C</span>
               </button>
               <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'json-ld'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
+                <img class="item-logo" src="/media/icons/standards-map/logos/json-ld.png" alt="" loading="lazy">
                 <span class="item-name">JSON-LD</span>
                 <span class="item-umbrella">W3C</span>
               </button>
@@ -898,6 +1001,45 @@
 
     </div>
 
+    <!-- Compare table -->
+    <div x-show="viewMode === 'table'" x-cloak>
+      <div class="overflow-x-auto">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <template x-for="col in tableColumns" :key="col.key">
+                <th @click="sortBy(col.key)" :class="{ sorted: sortColumn === col.key }">
+                  <span x-text="col.label"></span>
+                  <span class="sort-arrow" x-text="sortColumn === col.key ? (sortDir === 1 ? '↑' : '↓') : '↕'"></span>
+                </th>
+              </template>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="row in sortedTableRows" :key="row.id">
+              <tr @click="selectedId = row.id">
+                <td>
+                  <span class="row-name">
+                    <template x-if="row.logo">
+                      <img :src="row.logo" alt="">
+                    </template>
+                    <span x-text="row.name"></span>
+                  </span>
+                </td>
+                <td x-text="row.category"></td>
+                <td>
+                  <span class="tier-badge" :class="'tier-' + row.tier" x-text="row.tier"></span>
+                </td>
+                <td x-text="row.governance"></td>
+                <td x-text="row.firstReleased ?? '—'"></td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-3 text-xs text-gray-500">Click any row to open the standard. Click a column header to sort.</p>
+    </div>
+
     <!-- Legend -->
     <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-gray-600">
       <div class="flex items-center gap-2">
@@ -925,23 +1067,24 @@
 
         <details class="group rounded-lg border border-gray-200 bg-white px-5 py-4 open:bg-gray-50">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-gray-900">
-            <span>What's the origin story behind this Data Landscape?</span>
+            <span>Why did we build this — and what's the origin story?</span>
             <svg class="h-5 w-5 flex-none text-gray-500 transition group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
           </summary>
           <div class="mt-3 text-sm leading-6 text-gray-700 space-y-3">
+            <p>Because <a href="https://www.entropy-data.com" class="text-indigo-600 hover:text-indigo-500">Entropy Data</a> loves open standards — and is building its product on top of them. ODCS, ODPS, OpenLineage, MCP, and the rest are the spine of our marketplace; the same set of specs you can use without us. We also use this landscape ourselves to <a href="https://docs.entropy-data.com/poc#communicate-with-your-stakeholders" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">communicate with stakeholders</a> on PoCs — to explain why a contract-first, vendor-neutral foundation is the cheaper long-term bet than yet another proprietary catalog. See <a href="https://www.entropy-data.com" class="text-indigo-600 hover:text-indigo-500">www.entropy-data.com</a> for the full story.</p>
             <p>It started as a single slide. Simon was preparing a talk on <a href="https://www.entropy-data.com/learn/talk-open-standards-for-data-mesh" class="text-indigo-600 hover:text-indigo-500">open standards for data mesh</a> for the Data Mesh Belgium meetup in Leuven (April 2026), and wanted one picture that answered "which standards actually matter, and where do they fit?" Every existing diagram either flattened everything into one box or focused on a single vendor's stack.</p>
-            <p>The slide kept growing. After the talk, enough people asked for "the picture" that turning it into an interactive, linkable page made more sense than mailing around a PNG. Inspired by the <a href="https://landscape.cncf.io/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">CNCF Landscape</a> and the <a href="https://technologie.deutschland-stack.gov.de/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">Deutschland Stack</a>, but narrower in scope: open standards only, no vendors.</p>
-            <p>Curated by <a href="https://www.entropy-data.com" class="text-indigo-600 hover:text-indigo-500">Entropy Data</a>. It's still a living view, and suggestions and corrections are welcome.</p>
+            <p>The slide kept growing. After the talk, enough people asked for "the picture" that turning it into an interactive, linkable page made more sense than mailing around a PNG. Inspired by the <a href="https://landscape.cncf.io/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">CNCF Landscape</a> and the <a href="https://technologie.deutschland-stack.gov.de/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">Deutschland Stack</a>, but narrower in scope: open standards only, no vendors. It's still a living view — suggestions and corrections welcome.</p>
           </div>
         </details>
 
         <details class="group rounded-lg border border-gray-200 bg-white px-5 py-4 open:bg-gray-50">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-gray-900">
-            <span>Why do you call this a <em>data</em> landscape? It is mostly about metadata standards, and it is of no help regarding vendor selection.</span>
+            <span>Why do you call this a <em>data</em> landscape?</span>
             <svg class="h-5 w-5 flex-none text-gray-500 transition group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
           </summary>
           <div class="mt-3 text-sm leading-6 text-gray-700 space-y-3">
-            <p>Guilty as charged. Most of what's here is metadata: schemas, contracts, lineage events, and catalog APIs all describe data rather than <em>are</em> data. We still call it the "Data Landscape" because that's the conversation people are having. When teams say "our data stack" they mean the standards, formats, and protocols around the data, not the bytes themselves.</p>
+            <p>Fair pushback: most of what's here is <em>metadata</em>, not data. Schemas, contracts, lineage events, and catalog APIs all describe data rather than <em>are</em> data — and the page won't help you pick a vendor. Guilty as charged on both counts.</p>
+            <p>We still call it the "Data Landscape" because that's the conversation people are having. When teams say "our data stack" they mean the standards, formats, and protocols around the data, not the bytes themselves.</p>
             <p>It's also deliberately not a vendor landscape. There's no Snowflake vs Databricks, no "best catalog of 2026". The CNCF Landscape catalogues vendors and projects; this one catalogues the open <em>standards</em> they should interoperate around. If you're picking a vendor, ask which of these standards they implement. That's the question this landscape helps you ask, not answer.</p>
           </div>
         </details>
@@ -1040,12 +1183,26 @@
           </button>
         </div>
 
-        <template x-if="selected?.highlight">
-          <div class="mt-5 inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700 ring-1 ring-indigo-200">
-            <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 0 0 .95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 0 0-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 0 0-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 0 0-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 0 0 .951-.69l1.07-3.292z"/></svg>
-            Highlighted by Entropy Data
-          </div>
-        </template>
+        <div class="mt-5 flex flex-wrap items-center gap-1.5">
+          <template x-if="selected?.category">
+            <span class="fact-badge" x-text="selected.category"></span>
+          </template>
+          <template x-if="selectedTier">
+            <span class="tier-badge" :class="'tier-' + selectedTier" x-text="selectedTier"></span>
+          </template>
+          <template x-if="selected?.governance">
+            <span class="fact-badge" x-text="selected.governance"></span>
+          </template>
+          <template x-if="selected?.firstReleased">
+            <span class="fact-badge" x-text="'Since ' + selected.firstReleased"></span>
+          </template>
+          <template x-if="selected?.highlight">
+            <span class="fact-badge fact-badge-highlight">
+              <svg class="h-3 w-3 inline-block -mt-0.5 mr-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 0 0 .95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 0 0-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 0 0-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 0 0-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 0 0 .951-.69l1.07-3.292z"/></svg>
+              Highlighted
+            </span>
+          </template>
+        </div>
 
         <dl class="mt-6 space-y-4 text-sm">
           <div>
@@ -1138,898 +1295,6 @@
 
 <script>
   function standardsMap() {
-    const data = {
-      'sql': {
-        name: 'SQL',
-        fullName: 'Structured Query Language',
-        category: 'Query',
-        governance: 'ANSI / ISO/IEC 9075',
-        status: 'Stable since 1986; revised regularly (latest SQL:2023)',
-        description: [
-          'SQL is the standard query language for relational databases. It is the oldest and most universal de-facto standard in the data world.',
-          'Despite vendor-specific dialects, the ISO/IEC 9075 core defines a portable subset that every serious analytical engine implements.'
-        ],
-        links: [
-          { label: 'ISO/IEC 9075 standard', url: 'https://www.iso.org/standard/76583.html' },
-          { label: 'Wikipedia: SQL', url: 'https://en.wikipedia.org/wiki/SQL' }
-        ]
-      },
-      'opentelemetry': {
-        name: 'OpenTelemetry',
-        fullName: 'OpenTelemetry',
-        category: 'Observability',
-        governance: 'CNCF (Cloud Native Computing Foundation), Linux Foundation',
-        status: 'Stable; widely adopted across cloud-native stacks',
-        description: [
-          'Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.',
-          'In a data mesh context, OpenTelemetry is the natural choice for instrumenting pipelines and platform services so a federated governance team can correlate behaviour across domains.'
-        ],
-        links: [
-          { label: 'opentelemetry.io', url: 'https://opentelemetry.io' },
-          { label: 'GitHub: open-telemetry', url: 'https://github.com/open-telemetry' }
-        ]
-      },
-      'oors': {
-        name: 'OORS',
-        fullName: 'Open Observability Results Standard',
-        category: 'Observability',
-        governance: 'BITOL / Linux Foundation (draft)',
-        status: 'Emerging — auxiliary BITOL standard, not yet released',
-        description: [
-          'Auxiliary BITOL standard answering: what does an observability or quality-check result look like? Designed to sit alongside ODCS and ODPS so any tool can publish and consume verifiable check results.',
-          'Today every tool reports check outcomes in its own shape. OORS aims to give the marketplace, governance UI, and AI agents one consistent format to ingest.'
-        ],
-        links: [
-          { label: 'BITOL project', url: 'https://bitol.io' }
-        ]
-      },
-      'odcs': {
-        name: 'ODCS',
-        fullName: 'Open Data Contract Standard',
-        category: 'API Interfaces',
-        highlight: true,
-        governance: 'BITOL / Linux Foundation',
-        status: 'v3.1 stable; v3.2 in progress',
-        description: [
-          'YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.',
-          'Originated as PayPal\'s internal Data Contract Template (donated as ODCS 2.x). Starting with v3.0 the standard was generalised for any enterprise.'
-        ],
-        links: [
-          { label: 'Official site', url: 'https://bitol.io' },
-          { label: 'GitHub: open-data-contract-standard', url: 'https://github.com/bitol-io/open-data-contract-standard' },
-          { label: 'Spec (latest)', url: 'https://bitol-io.github.io/open-data-contract-standard/latest/' },
-          { label: 'Data Contract CLI', url: 'https://github.com/datacontract/datacontract-cli' }
-        ]
-      },
-      'openapi': {
-        name: 'OpenAPI',
-        fullName: 'OpenAPI Specification',
-        category: 'API Interfaces',
-        governance: 'OpenAPI Initiative, Linux Foundation',
-        status: 'Stable; OAS 3.1 current',
-        description: [
-          'Originally Swagger (2011), now the de-facto standard for describing REST APIs. Tooling exists for almost every language and platform.',
-          'OpenAPI is the reference success story for what an open standard can become. ODCS is essentially trying to do for data what OpenAPI did for REST APIs.'
-        ],
-        links: [
-          { label: 'openapis.org', url: 'https://www.openapis.org' },
-          { label: 'GitHub: OAI/OpenAPI-Specification', url: 'https://github.com/OAI/OpenAPI-Specification' }
-        ]
-      },
-      'asyncapi': {
-        name: 'AsyncAPI',
-        fullName: 'AsyncAPI Specification',
-        category: 'API Interfaces',
-        governance: 'AsyncAPI Initiative, Linux Foundation',
-        status: 'Stable; v3 current',
-        description: [
-          'Open-source standard for defining event-driven and message-based APIs across protocols like Kafka, AMQP, MQTT, WebSocket, and NATS.',
-          'Where OpenAPI describes synchronous request/response, AsyncAPI describes asynchronous channels. The two specifications are intentionally aligned in style.'
-        ],
-        links: [
-          { label: 'asyncapi.com', url: 'https://www.asyncapi.com' },
-          { label: 'GitHub: asyncapi', url: 'https://github.com/asyncapi' }
-        ]
-      },
-      'graphql': {
-        name: 'GraphQL',
-        fullName: 'GraphQL',
-        category: 'API Interfaces',
-        governance: 'GraphQL Foundation, Linux Foundation',
-        status: 'Stable; widely adopted',
-        description: [
-          'Query language and runtime for APIs originally created at Facebook. Lets clients ask for exactly the data they need from a typed schema.',
-          'In a data mesh, GraphQL appears mostly on the consumption side — an output-port style for application teams that prefer typed graph queries over SQL.'
-        ],
-        links: [
-          { label: 'graphql.org', url: 'https://graphql.org' },
-          { label: 'Specification', url: 'https://spec.graphql.org' }
-        ]
-      },
-      'grpc': {
-        name: 'gRPC',
-        fullName: 'gRPC Remote Procedure Call',
-        category: 'API Interfaces',
-        governance: 'CNCF (Incubating), Linux Foundation',
-        status: 'Stable; ubiquitous in cloud-native stacks',
-        description: [
-          'High-performance, language-agnostic RPC framework built on HTTP/2 and Protocol Buffers. Originated at Google, donated to CNCF.',
-          'In a data architecture, gRPC shows up wherever services need fast, strongly-typed binary communication — internal service mesh, streaming pipelines, ML model serving.'
-        ],
-        links: [
-          { label: 'grpc.io', url: 'https://grpc.io' },
-          { label: 'GitHub: grpc', url: 'https://github.com/grpc/grpc' }
-        ]
-      },
-      'dbt': {
-        name: 'dbt',
-        fullName: 'data build tool',
-        category: 'Processing & Data Quality (vendor)',
-        governance: 'dbt Labs (vendor-driven open source)',
-        status: 'De-facto standard for analytics engineering; vendor-governed format',
-        description: [
-          'SQL-first transformation framework with built-in tests, documentation, and lineage. The de-facto standard for analytics engineering — used both to model warehouse data and to express the quality checks that ride alongside the transformations.',
-          'Vendor-governed by dbt Labs rather than a foundation, so it isn\'t an open standard in the strict sense. Included here on the de-facto criterion: its YAML and Jinja-SQL conventions are what other tools (SQLMesh, Lightdash) interoperate with.'
-        ],
-        links: [
-          { label: 'getdbt.com', url: 'https://www.getdbt.com' }
-        ]
-      },
-      'great-expectations': {
-        name: 'Great Expectations',
-        fullName: 'Great Expectations',
-        category: 'Data Quality (vendor)',
-        governance: 'GX Labs (vendor-driven open source)',
-        status: 'Widely adopted; vendor-driven',
-        description: [
-          'Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.',
-          'Open source and useful, but the spec is governed by one company, so it sits in the same vendor-driven bucket as dbt and SodaCL.'
-        ],
-        links: [
-          { label: 'greatexpectations.io', url: 'https://greatexpectations.io' },
-          { label: 'GitHub: great-expectations', url: 'https://github.com/great-expectations/great_expectations' }
-        ]
-      },
-      'sodacl': {
-        name: 'SodaCL',
-        fullName: 'Soda Checks Language',
-        category: 'Data Quality (vendor)',
-        governance: 'Soda (vendor-driven open source)',
-        status: 'Widely adopted; vendor-driven',
-        description: [
-          'YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.',
-          'Used under the hood by the Data Contract CLI to actually execute the quality checks declared in an ODCS contract.'
-        ],
-        links: [
-          { label: 'docs.soda.io/soda-cl', url: 'https://docs.soda.io/soda-cl/soda-cl-overview.html' },
-          { label: 'Soda Core (open source)', url: 'https://github.com/sodadata/soda-core' }
-        ]
-      },
-      'odps': {
-        name: 'ODPS',
-        fullName: 'Open Data Product Standard',
-        category: 'Data Products',
-        highlight: true,
-        governance: 'BITOL / Linux Foundation',
-        status: 'v1.0',
-        description: [
-          'YAML standard for describing data products. Mirrors ODCS on fundamentals, ownership, and terms, and adds input ports, output ports, and management ports.',
-          'Each port references an ODCS contract. Combined, ODCS + ODPS yield the full data-mesh dependency graph — consumers, products, sources — derived directly from YAML.'
-        ],
-        note: 'Acronym collision: "ODPS" also names the Open Data Product Specification (ODPSpec), a separate project. Watch which one you read.',
-        links: [
-          { label: 'GitHub: open-data-product-standard', url: 'https://github.com/bitol-io/open-data-product-standard' },
-          { label: 'BITOL', url: 'https://bitol.io' }
-        ]
-      },
-      'dpds': {
-        name: 'DPDS',
-        fullName: 'Data Product Descriptor Specification',
-        category: 'Data Products',
-        governance: 'OpenDataMesh community',
-        status: 'Active; community-driven specification',
-        description: [
-          'YAML-based specification for describing data products with input ports, output ports, control ports, and discovery ports. Maintained by the OpenDataMesh initiative.',
-          'Distinct from BITOL\'s ODPS: similar problem space, different community and slightly different mental model. Worth knowing both exist before you commit to one.'
-        ],
-        links: [
-          { label: 'dpds.opendatamesh.org', url: 'https://dpds.opendatamesh.org/concepts/data-product-descriptor/' },
-          { label: 'OpenDataMesh', url: 'https://www.opendatamesh.org' }
-        ]
-      },
-      'odpspec': {
-        name: 'ODPSpec',
-        fullName: 'Open Data Product Specification',
-        category: 'Data Products',
-        governance: 'opendataproducts.org / Linux Foundation',
-        status: 'Active; mature pricing & i18n features',
-        description: [
-          'Standalone open specification for describing data products, governed under the Linux Foundation umbrella. Strong on pricing plans and internationalisation, making it a natural fit for external data marketplaces with complex commercial terms.',
-          'Different mental model from BITOL\'s ODPS: no concept of input ports, at most one linked contract at the top level. Both are valid — they solve different problems.'
-        ],
-        links: [
-          { label: 'opendataproducts.org', url: 'https://opendataproducts.org' }
-        ]
-      },
-      'dprod': {
-        name: 'DPROD',
-        fullName: 'Data Product Vocabulary (DPROD)',
-        category: 'Data Products',
-        governance: 'EKGF / Object Management Group (OMG) — RDF/OWL vocabulary',
-        status: 'Active in semantic-web circles',
-        description: [
-          'RDF/OWL vocabulary for describing data products. Composes naturally with other semantic-web vocabularies (DCAT, SKOS, FIBO, etc.) when your stack already lives in the linked-data world.',
-          'Where ODPS is YAML and strict, DPROD is RDF and graph-native. Both have their place; the format choice determines what else you can compose with.'
-        ],
-        links: [
-          { label: 'DPROD specification', url: 'https://ekgf.github.io/dprod/' }
-        ]
-      },
-      'iceberg': {
-        name: 'Iceberg',
-        fullName: 'Apache Iceberg',
-        category: 'Open Table Formats',
-        governance: 'Apache Software Foundation',
-        status: 'Stable; effectively the winner of the table-format race',
-        description: [
-          'Open table format for huge analytic datasets — schema evolution, hidden partitioning, time travel, ACID semantics on object storage.',
-          'Originated at Netflix; now a default in Snowflake, Databricks, AWS, and most query engines. Increasingly the substrate that other layers (catalogs, lakehouses) build on.'
-        ],
-        links: [
-          { label: 'iceberg.apache.org', url: 'https://iceberg.apache.org' }
-        ]
-      },
-      'delta': {
-        name: 'Delta',
-        fullName: 'Delta Lake',
-        category: 'Open Table Formats',
-        governance: 'Linux Foundation (originally Databricks)',
-        status: 'Stable; widely deployed',
-        description: [
-          'Open-source storage layer that brings ACID transactions, schema enforcement, and time travel to data lakes. The original lakehouse format.',
-          'Delta Universal Format (UniForm) now also writes Iceberg-compatible metadata, narrowing the gap between the two formats.'
-        ],
-        links: [
-          { label: 'delta.io', url: 'https://delta.io' }
-        ]
-      },
-      'hudi': {
-        name: 'Hudi',
-        fullName: 'Apache Hudi',
-        category: 'Open Table Formats',
-        governance: 'Apache Software Foundation',
-        status: 'Stable; strong streaming/upsert focus',
-        description: [
-          'Transactional data lake platform that pioneered incremental processing and upserts on data lakes.',
-          'Less mainstream than Iceberg or Delta today, but still the table format of choice when streaming upserts and CDC are first-class requirements.'
-        ],
-        links: [
-          { label: 'hudi.apache.org', url: 'https://hudi.apache.org' }
-        ]
-      },
-      'ducklake': {
-        name: 'DuckLake',
-        fullName: 'DuckLake',
-        category: 'Catalog APIs',
-        governance: 'DuckDB Labs (vendor-driven open source)',
-        status: 'New (2025); experimental',
-        description: [
-          'Lakehouse catalog format from DuckDB Labs that puts the catalog inside a regular SQL database — no separate REST catalog, no manifest sprawl. Designed for simplicity and zero-infrastructure analytics.',
-          'Brand new and vendor-driven. Worth tracking, but not yet a peer of Iceberg REST or Unity Catalog in production maturity.'
-        ],
-        links: [
-          { label: 'ducklake.select', url: 'https://ducklake.select' },
-          { label: 'duckdb.org', url: 'https://duckdb.org' }
-        ]
-      },
-      'xml-schema': {
-        name: 'XML Schema',
-        fullName: 'XML Schema Definition (XSD)',
-        category: 'Schema',
-        governance: 'W3C',
-        status: 'Stable since 2001',
-        description: [
-          'W3C standard for describing the structure, content, and constraints of XML documents.',
-          'Still the schema language of record in many enterprise integration scenarios — SOAP, banking, healthcare, and government.'
-        ],
-        links: [
-          { label: 'W3C: XML Schema', url: 'https://www.w3.org/XML/Schema' }
-        ]
-      },
-      'json-schema': {
-        name: 'JSON Schema',
-        fullName: 'JSON Schema',
-        category: 'Schema',
-        governance: 'JSON Schema community / IETF',
-        status: 'Latest draft 2020-12; on track for IETF standardisation',
-        description: [
-          'Vocabulary for validating, annotating, and documenting JSON. The schema language of choice for modern HTTP APIs and event payloads.',
-          'ODCS uses JSON Schema concepts for typing complex column structures, and the OpenAPI / AsyncAPI specs are themselves anchored in JSON Schema.'
-        ],
-        links: [
-          { label: 'json-schema.org', url: 'https://json-schema.org' }
-        ]
-      },
-      'sql-ddl': {
-        name: 'SQL DDL',
-        fullName: 'SQL Data Definition Language',
-        category: 'Schema',
-        governance: 'ANSI / ISO/IEC 9075',
-        status: 'Stable; per-vendor extensions are everywhere',
-        description: [
-          'The CREATE / ALTER / DROP subset of SQL — the most universal way to describe a relational schema.',
-          'The Data Contract CLI imports SQL DDL into ODCS contracts and exports back to it, because every relational engine speaks at least a flavour of it.'
-        ],
-        links: [
-          { label: 'ISO/IEC 9075 standard', url: 'https://www.iso.org/standard/76583.html' }
-        ]
-      },
-      'avro-schema': {
-        name: 'AVRO Schema',
-        fullName: 'Apache Avro Schema',
-        category: 'Schema',
-        governance: 'Apache Software Foundation',
-        status: 'Stable; ubiquitous in streaming',
-        description: [
-          'JSON-based schema language used to describe Avro-encoded records. Standard in Kafka via Confluent Schema Registry.',
-          'Strong support for schema evolution rules — a key reason it has stuck around as the default schema dialect for event streams.'
-        ],
-        links: [
-          { label: 'avro.apache.org', url: 'https://avro.apache.org' }
-        ]
-      },
-      'protobuf': {
-        name: 'Protobuf',
-        fullName: 'Protocol Buffers',
-        category: 'Schema',
-        governance: 'Google (open source, vendor-driven)',
-        status: 'Stable; de-facto schema for binary RPC',
-        description: [
-          'Google\'s language-neutral, platform-neutral mechanism for serialising structured data. Compact binary encoding plus strong schema evolution rules.',
-          'The schema language behind gRPC and many internal RPC stacks. Open source but governed by Google, so it sits in the same vendor-driven bucket as dbt.'
-        ],
-        links: [
-          { label: 'protobuf.dev', url: 'https://protobuf.dev' },
-          { label: 'GitHub: protobuf', url: 'https://github.com/protocolbuffers/protobuf' }
-        ]
-      },
-      'iceberg-catalog': {
-        name: 'Iceberg Catalog',
-        fullName: 'Iceberg REST Catalog',
-        category: 'Catalog APIs',
-        governance: 'Apache Software Foundation',
-        status: 'Stable; rapidly becoming the default catalog protocol',
-        description: [
-          'Open REST API specification for Iceberg metadata catalogs. Decouples engines (Spark, Trino, Snowflake, Dremio, ...) from the catalog backend.',
-          'Together with Iceberg the table format, this is what is making "open lakehouse" something more than marketing.'
-        ],
-        links: [
-          { label: 'Iceberg REST catalog', url: 'https://iceberg.apache.org/concepts/catalog/' }
-        ]
-      },
-      'unity-catalog': {
-        name: 'Unity Catalog',
-        fullName: 'Unity Catalog',
-        category: 'Catalog APIs',
-        governance: 'Linux Foundation (originally Databricks)',
-        status: 'Open-sourced 2024; growing ecosystem',
-        description: [
-          'Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation.',
-          'Now competing with Iceberg REST as a catalog protocol. The two camps overlap and influence each other; expect convergence over the next couple of years.'
-        ],
-        links: [
-          { label: 'unitycatalog.io', url: 'https://www.unitycatalog.io' },
-          { label: 'GitHub: unitycatalog', url: 'https://github.com/unitycatalog/unitycatalog' }
-        ]
-      },
-      'hive-metastore': {
-        name: 'Hive Metastore',
-        fullName: 'Apache Hive Metastore',
-        category: 'Catalog APIs',
-        governance: 'Apache Software Foundation',
-        status: 'Legacy; still everywhere',
-        description: [
-          'The metastore protocol of the Hadoop era. Long-standing de-facto standard for big-data catalogs — spoken by Spark, Trino, Presto, and most lakehouse engines.',
-          'Slowly being superseded by Iceberg REST and Unity Catalog, but installed bases will keep it relevant for many years to come.'
-        ],
-        links: [
-          { label: 'hive.apache.org', url: 'https://hive.apache.org' }
-        ]
-      },
-      'schema-registry': {
-        name: 'Schema Registry',
-        fullName: 'Confluent Schema Registry',
-        category: 'Catalog APIs',
-        governance: 'Confluent (open API; multiple compatible implementations)',
-        status: 'De-facto standard for streaming schemas',
-        description: [
-          'A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, "what shape is this Kafka topic?" has no answer.',
-          'The REST API was designed by Confluent but the protocol is widely re-implemented: Apicurio Registry (Red Hat), AWS Glue Schema Registry, Karapace (Aiven), and Redpanda Schema Registry all speak it. That makes it the de-facto schema catalog of the streaming world, even if it is not formally standardised.'
-        ],
-        links: [
-          { label: 'Confluent Schema Registry', url: 'https://docs.confluent.io/platform/current/schema-registry/index.html' },
-          { label: 'Apicurio Registry', url: 'https://www.apicur.io/registry/' }
-        ]
-      },
-      'csv': {
-        name: 'CSV',
-        fullName: 'Comma-Separated Values (RFC 4180)',
-        category: 'File Formats',
-        governance: 'IETF (RFC 4180)',
-        status: 'Stable; the lowest common denominator for tabular data',
-        description: [
-          'Plain-text tabular format. RFC 4180 specifies a baseline; in practice every tool has its own dialect for quoting, escaping, and line endings.',
-          'Loved and hated in equal measure: terrible for nested data, perfect for spreadsheets, mandatory in data lake on-ramps.'
-        ],
-        links: [
-          { label: 'RFC 4180', url: 'https://www.ietf.org/rfc/rfc4180.txt' }
-        ]
-      },
-      'json': {
-        name: 'JSON',
-        fullName: 'JavaScript Object Notation',
-        category: 'File Formats',
-        governance: 'IETF RFC 8259 / ECMA-404',
-        status: 'Stable; ubiquitous',
-        description: [
-          'Standard text-based format for structured data. Pairs naturally with JSON Schema, OpenAPI, and AsyncAPI.',
-          'In a lake, line-delimited JSON (NDJSON / JSONL) is the typical landing format before transformation into columnar formats like Parquet.'
-        ],
-        links: [
-          { label: 'json.org', url: 'https://www.json.org' },
-          { label: 'RFC 8259', url: 'https://www.rfc-editor.org/rfc/rfc8259' }
-        ]
-      },
-      'xml': {
-        name: 'XML',
-        fullName: 'Extensible Markup Language',
-        category: 'File Formats',
-        governance: 'W3C',
-        status: 'Stable since 1998; XML 1.1 current',
-        description: [
-          'Tag-based markup format for structured documents and data. Verbose by modern standards, but unmatched tooling around schemas, transformations, and validation (XSD, XSLT, XPath, XQuery).',
-          'Still the format of record in many enterprise integration scenarios — banking, healthcare, government, and SOAP-based B2B exchange.'
-        ],
-        links: [
-          { label: 'W3C: XML', url: 'https://www.w3.org/XML/' }
-        ]
-      },
-      'parquet': {
-        name: 'PARQUET',
-        fullName: 'Apache Parquet',
-        category: 'File Formats',
-        governance: 'Apache Software Foundation',
-        status: 'Stable; the columnar default',
-        description: [
-          'Columnar storage format optimised for analytics: predicate pushdown, column pruning, efficient compression, and typed schemas.',
-          'Effectively the default storage format underneath every modern table format (Iceberg, Delta, Hudi).'
-        ],
-        links: [
-          { label: 'parquet.apache.org', url: 'https://parquet.apache.org' }
-        ]
-      },
-      'avro': {
-        name: 'AVRO',
-        fullName: 'Apache Avro',
-        category: 'File Formats',
-        governance: 'Apache Software Foundation',
-        status: 'Stable; standard in Kafka',
-        description: [
-          'Row-oriented binary format that ships its schema alongside the data. Excellent for streaming and event payloads where messages are written and read one at a time.',
-          'The natural counterpart to Parquet: Avro for streams, Parquet for analytics.'
-        ],
-        links: [
-          { label: 'avro.apache.org', url: 'https://avro.apache.org' }
-        ]
-      },
-      'orc': {
-        name: 'ORC',
-        fullName: 'Apache ORC (Optimized Row Columnar)',
-        category: 'File Formats',
-        governance: 'Apache Software Foundation',
-        status: 'Stable; mostly seen in Hive-era stacks',
-        description: [
-          'Columnar file format created for the Hive ecosystem. Strong compression and ACID support inside Hive.',
-          'Less common in greenfield projects today — Parquet has won most workloads — but still pervasive in big-data installations.'
-        ],
-        links: [
-          { label: 'orc.apache.org', url: 'https://orc.apache.org' }
-        ]
-      },
-      'openlineage': {
-        name: 'OpenLineage',
-        fullName: 'OpenLineage',
-        category: 'Lineage',
-        governance: 'Linux Foundation',
-        status: 'Stable; growing integration list',
-        description: [
-          'Open standard for collecting lineage metadata from data pipelines, including column-level lineage. Producers emit OpenLineage events; consumers (Marquez, catalogs, custom UIs) ingest them.',
-          'For runtime lineage details — how the pipeline actually works — OpenLineage traces are the answer, not the data contract. Use both: contracts for design, OpenLineage for execution.'
-        ],
-        links: [
-          { label: 'openlineage.io', url: 'https://openlineage.io' }
-        ]
-      },
-      'opa': {
-        name: 'OPA',
-        fullName: 'Open Policy Agent',
-        category: 'Policies',
-        governance: 'CNCF (Graduated)',
-        status: 'Stable; de-facto policy engine for cloud-native',
-        description: [
-          'General-purpose policy engine that decouples policy decisions from your services. Policies are written in Rego and evaluated at request time.',
-          'In a data mesh, OPA shows up wherever federated governance needs to enforce rules — access requests, contract gates in CI, infrastructure guard-rails — without putting the rules into application code.'
-        ],
-        links: [
-          { label: 'openpolicyagent.org', url: 'https://www.openpolicyagent.org' }
-        ]
-      },
-      'mcp': {
-        name: 'MCP',
-        fullName: 'Model Context Protocol',
-        category: 'AI Interfaces',
-        governance: 'Linux Foundation (created by Anthropic; multi-vendor steering)',
-        status: 'Active; rapid adoption since late 2024',
-        description: [
-          'Open protocol for connecting AI applications and agents to external systems: data sources, tools, and workflows. The "USB-C for AI": one spec, many servers and clients.',
-          'For data architectures, MCP is becoming the standard way LLMs discover and query data products, semantic models, and catalogs. Created by Anthropic and now hosted at the Linux Foundation; Claude, ChatGPT, Cursor, VS Code, and many others speak it.'
-        ],
-        links: [
-          { label: 'modelcontextprotocol.io', url: 'https://modelcontextprotocol.io' },
-          { label: 'GitHub: modelcontextprotocol', url: 'https://github.com/modelcontextprotocol' }
-        ]
-      },
-      'a2a': {
-        name: 'A2A',
-        fullName: 'Agent2Agent Protocol',
-        category: 'AI Interfaces',
-        governance: 'Linux Foundation (created by Google; multi-vendor steering)',
-        status: 'Active; donated to LF in 2025',
-        description: [
-          'Open protocol for AI agents to discover, communicate, and collaborate with each other across vendors and frameworks. Where MCP is agent-to-tools, A2A is agent-to-agent: capability discovery, task delegation, and multi-turn dialogue between independently developed agents.',
-          'Created by Google and donated to the Linux Foundation. Increasingly paired with MCP in production stacks: A2A for agent-to-agent orchestration, MCP for the tools and data each agent reaches into.'
-        ],
-        links: [
-          { label: 'a2a-protocol.org', url: 'https://a2a-protocol.org' },
-          { label: 'GitHub: a2aproject/A2A', url: 'https://github.com/a2aproject/A2A' }
-        ]
-      },
-      's3': {
-        name: 'S3',
-        fullName: 'Amazon S3 API',
-        category: 'Storage',
-        governance: 'AWS (vendor-controlled, but de-facto standard)',
-        status: 'De-facto standard; implemented by everyone',
-        description: [
-          'AWS\'s object storage API has become the lingua franca of the data lake. Every cloud, every storage vendor, every minio-style appliance speaks some flavour of it.',
-          'Strictly speaking it is not an open standard — AWS controls it — but the practical reality is that "talks S3" is treated as a portability guarantee.'
-        ],
-        links: [
-          { label: 'AWS S3 API reference', url: 'https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html' }
-        ]
-      },
-      'osi': {
-        name: 'OSI',
-        fullName: 'Open Semantic Interchange',
-        category: 'Semantics',
-        highlight: true,
-        governance: 'OSI Initiative — Snowflake, Databricks, Tableau, MicroStrategy, and many more',
-        status: 'v0.1.1; explicitly early, working groups very active',
-        description: [
-          'Vendor-agnostic open-source standard for exchanging semantic models — datasets, relationships, metrics, and AI context — between BI platforms, AI agents, and analytics tools.',
-          'Overlaps with ODCS on datasets and relationships, and adds metrics (e.g. total_revenue = SUM(order_total)) and dynamic fields (e.g. full_name = first_name + " " + last_name). ODCS still owns terms of use, quality, and SLAs.'
-        ],
-        note: 'Acronym collision with the OSI networking model from CS class. This OSI is the Open Semantic Interchange.',
-        links: [
-          { label: 'opensemantic.com', url: 'https://opensemantic.com' },
-          { label: 'GitHub: open-semantic-interchange', url: 'https://github.com/open-semantic-interchange/OSI' },
-          { label: 'Open Semantic Editor', url: 'https://editor.opensemantic.com' }
-        ]
-      },
-      'rdf-owl': {
-        name: 'RDF/OWL',
-        fullName: 'Resource Description Framework / Web Ontology Language',
-        category: 'Semantics',
-        governance: 'W3C',
-        status: 'Stable; foundation of the semantic web',
-        description: [
-          'RDF is the W3C model for representing graph data; OWL extends it for richer ontologies and reasoning. Together they are the foundation of the semantic web.',
-          'YAML formats like ODCS and OSI buy simplicity at the cost of composability. RDF/OWL trade off the other way: harder to author, much easier to compose vocabularies that were never designed together.'
-        ],
-        links: [
-          { label: 'W3C: RDF', url: 'https://www.w3.org/RDF/' },
-          { label: 'W3C: OWL', url: 'https://www.w3.org/OWL/' }
-        ]
-      },
-      'dcat': {
-        name: 'DCAT',
-        fullName: 'Data Catalog Vocabulary',
-        category: 'Semantics',
-        governance: 'W3C',
-        status: 'Stable; v3 current',
-        description: [
-          'RDF vocabulary designed to facilitate interoperability between data catalogs. Mandatory for many EU open-data portals.',
-          'DCAT lives in the RDF / semantic-web world as a catalog vocabulary inspired by libraries and dataset offerings. Different mental model from contract-first standards like ODCS.'
-        ],
-        links: [
-          { label: 'W3C: DCAT', url: 'https://www.w3.org/TR/vocab-dcat/' }
-        ]
-      },
-      'skos': {
-        name: 'SKOS',
-        fullName: 'Simple Knowledge Organization System',
-        category: 'Semantics',
-        governance: 'W3C',
-        status: 'Stable since 2009',
-        description: [
-          'W3C standard for representing thesauri, taxonomies, and controlled vocabularies in RDF.',
-          'Useful for sharing classifications — PII categories, business glossaries, regulatory taxonomies — in a way that other tools can consume without bespoke mapping.'
-        ],
-        links: [
-          { label: 'W3C: SKOS', url: 'https://www.w3.org/2004/02/skos/' }
-        ]
-      },
-      'shacl': {
-        name: 'SHACL',
-        fullName: 'Shapes Constraint Language',
-        category: 'Semantics',
-        governance: 'W3C',
-        status: 'Stable; SHACL 1.1 in progress',
-        description: [
-          'W3C language for validating RDF graphs against a set of conditions — the JSON Schema of the RDF world.',
-          'Used heavily where the semantic stack actually has to enforce rules, not just describe them.'
-        ],
-        links: [
-          { label: 'W3C: SHACL', url: 'https://www.w3.org/TR/shacl/' }
-        ]
-      },
-      'json-ld': {
-        name: 'JSON-LD',
-        fullName: 'JSON for Linking Data',
-        category: 'Semantics',
-        governance: 'W3C',
-        status: 'Stable; JSON-LD 1.1 current',
-        description: [
-          'A JSON-based serialisation for linked data. Lets you embed semantic context (types, relationships, IRIs) into ordinary JSON without breaking JSON consumers that ignore it.',
-          'The pragmatic on-ramp into the RDF world: how Schema.org rides on web pages, how decentralised identity (DID, Verifiable Credentials) ships its payloads, and how many APIs add semantics to existing JSON without forcing clients to learn RDF.'
-        ],
-        links: [
-          { label: 'W3C: JSON-LD 1.1', url: 'https://www.w3.org/TR/json-ld11/' },
-          { label: 'json-ld.org', url: 'https://json-ld.org' }
-        ]
-      },
-      'sparql': {
-        name: 'SPARQL',
-        fullName: 'SPARQL Protocol and RDF Query Language',
-        category: 'Query',
-        governance: 'W3C',
-        status: 'Stable; SPARQL 1.1 current, 1.2 in progress',
-        description: [
-          'The query language for RDF graphs. Pattern-matching syntax that walks graph triples, with federation across endpoints, updates, and a standardised HTTP protocol.',
-          'Where SQL is to relational tables, SPARQL is to RDF: the standard way to ask questions of an OSI, DCAT, SKOS, or SHACL-validated graph. Without it, the rest of the W3C semantic stack cannot answer queries portably.'
-        ],
-        links: [
-          { label: 'W3C: SPARQL 1.1', url: 'https://www.w3.org/TR/sparql11-overview/' }
-        ]
-      },
-      'hdfs': {
-        name: 'HDFS',
-        fullName: 'Hadoop Distributed File System',
-        category: 'Storage Systems',
-        governance: 'Apache Software Foundation',
-        status: 'Stable; mature, declining in greenfield projects',
-        description: [
-          'Distributed file system designed to run on commodity hardware, originally inspired by Google File System. The storage substrate of the classic Hadoop stack.',
-          'Object storage (S3 and friends) has displaced HDFS in most new architectures, but large existing deployments mean it remains an important interface to support.'
-        ],
-        links: [
-          { label: 'hadoop.apache.org', url: 'https://hadoop.apache.org' }
-        ]
-      },
-      'jdbc': {
-        name: 'JDBC',
-        fullName: 'Java Database Connectivity',
-        category: 'Database Connectivity',
-        governance: 'Java Community Process (JCP)',
-        status: 'Stable; ubiquitous in JVM ecosystems',
-        description: [
-          'Standard Java API for connecting to relational databases. Every serious analytical engine, BI tool, and JVM-based data pipeline speaks JDBC.',
-          'Row-oriented by design — fine for transactional workloads, suboptimal for moving large analytical result sets where columnar transports like ADBC are faster.'
-        ],
-        links: [
-          { label: 'JDBC overview', url: 'https://docs.oracle.com/javase/tutorial/jdbc/' }
-        ]
-      },
-      'odbc': {
-        name: 'ODBC',
-        fullName: 'Open Database Connectivity',
-        category: 'Database Connectivity',
-        governance: 'ISO/IEC 9075-3 (originally Microsoft / SQL Access Group)',
-        status: 'Stable since 1992; cross-language standard',
-        description: [
-          'C-based, language-neutral API for accessing relational databases. The cross-platform sibling of JDBC, and the connectivity layer behind most BI tools and Excel-style integrations.',
-          'Like JDBC, ODBC is row-oriented — efficient for transactional access, less so for analytical column-heavy result sets.'
-        ],
-        links: [
-          { label: 'ISO/IEC 9075-3', url: 'https://www.iso.org/standard/76585.html' },
-          { label: 'Microsoft ODBC reference', url: 'https://learn.microsoft.com/en-us/sql/odbc/reference/odbc-overview' }
-        ]
-      },
-      'adbc': {
-        name: 'ADBC',
-        fullName: 'Arrow Database Connectivity',
-        category: 'Database Connectivity',
-        governance: 'Apache Software Foundation (Arrow project)',
-        status: 'Stable; growing driver ecosystem',
-        description: [
-          'Arrow-native database connectivity API. Where JDBC and ODBC marshal results row-by-row, ADBC moves data as Arrow record batches — zero-copy where possible, dramatically faster for analytical workloads.',
-          'Designed to coexist with JDBC and ODBC: drivers can wrap them today, and engines can expose ADBC natively for the columnar fast path.'
-        ],
-        links: [
-          { label: 'arrow.apache.org/adbc', url: 'https://arrow.apache.org/adbc/' }
-        ]
-      },
-      'http': {
-        name: 'HTTP',
-        fullName: 'Hypertext Transfer Protocol',
-        category: 'Interconnection',
-        governance: 'IETF',
-        status: 'Stable; HTTP/3 (RFC 9114) is current',
-        description: [
-          'The application protocol of the web, and the universal transport beneath REST APIs, OpenAPI, GraphQL, gRPC (HTTP/2), Iceberg REST catalogs, and OpenLineage events.',
-          'Most data interfaces today are some flavour of "HTTP plus a schema" — which is why HTTP is a load-bearing assumption in almost any modern data architecture.'
-        ],
-        links: [
-          { label: 'RFC 9110 (HTTP semantics)', url: 'https://www.rfc-editor.org/rfc/rfc9110' }
-        ]
-      },
-      'kafka': {
-        name: 'Kafka',
-        fullName: 'Apache Kafka',
-        category: 'Messaging',
-        governance: 'Apache Software Foundation',
-        status: 'Stable; the de-facto streaming platform',
-        description: [
-          'Distributed log and streaming platform. Originally built at LinkedIn, donated to ASF; now the default backbone for event-driven data pipelines.',
-          'The Kafka wire protocol is openly documented and re-implemented by Redpanda, WarpStream, and others, so it sits next to AMQP as a standard option for asynchronous data movement.'
-        ],
-        links: [
-          { label: 'kafka.apache.org', url: 'https://kafka.apache.org' }
-        ]
-      },
-      'mqtt': {
-        name: 'MQTT',
-        fullName: 'Message Queuing Telemetry Transport',
-        category: 'Messaging',
-        governance: 'OASIS',
-        status: 'Stable; MQTT 5.0 standardised',
-        description: [
-          'Lightweight publish-subscribe messaging protocol designed for constrained devices and unreliable networks. The dominant wire protocol for IoT and edge data.',
-          'Where AMQP and Kafka fit centralised broker patterns inside the data centre, MQTT is what shows up at the edge: sensors, vehicles, factory floors. Bridging MQTT into Kafka is a common ingest pattern for industrial data.'
-        ],
-        links: [
-          { label: 'mqtt.org', url: 'https://mqtt.org' },
-          { label: 'OASIS MQTT 5.0', url: 'https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html' }
-        ]
-      },
-      'cloudevents': {
-        name: 'CloudEvents',
-        fullName: 'CloudEvents',
-        category: 'Messaging',
-        governance: 'CNCF (Graduated)',
-        status: 'Stable; CloudEvents 1.0 graduated at CNCF',
-        description: [
-          'Specification for describing event data in a common way. Defines a vendor-neutral envelope (id, source, type, time, data) plus protocol bindings for HTTP, Kafka, AMQP, MQTT, NATS, and others.',
-          'Where Kafka/AMQP/MQTT are transports, CloudEvents is the shape of what flows over them. Increasingly the default cross-system event format in cloud-native and serverless architectures.'
-        ],
-        links: [
-          { label: 'cloudevents.io', url: 'https://cloudevents.io' },
-          { label: 'GitHub: cloudevents/spec', url: 'https://github.com/cloudevents/spec' }
-        ]
-      },
-      'amqp': {
-        name: 'AMQP',
-        fullName: 'Advanced Message Queuing Protocol',
-        category: 'Messaging',
-        governance: 'OASIS',
-        status: 'Stable; AMQP 1.0 standardised',
-        description: [
-          'Open wire-level protocol for message-oriented middleware. Reliable, broker-mediated message exchange independent of any single vendor.',
-          'Implemented by RabbitMQ, Azure Service Bus, ActiveMQ and others. Sits next to MQTT and the Kafka protocol as a standard option for asynchronous data movement.'
-        ],
-        links: [
-          { label: 'amqp.org', url: 'https://www.amqp.org' },
-          { label: 'OASIS AMQP 1.0', url: 'https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-overview-v1.0-os.html' }
-        ]
-      },
-      'ftp': {
-        name: 'FTP / SFTP',
-        fullName: 'File Transfer Protocol / SSH File Transfer Protocol',
-        category: 'Interconnection',
-        governance: 'IETF',
-        status: 'Stable; legacy but pervasive in B2B data exchange',
-        description: [
-          'FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.',
-          'Unsexy but unavoidable: many regulated industries — banking, insurance, public sector — still hand off bulk data between organisations as nightly (S)FTP drops.'
-        ],
-        links: [
-          { label: 'RFC 959 (FTP)', url: 'https://www.rfc-editor.org/rfc/rfc959' },
-          { label: 'SFTP draft', url: 'https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-13' }
-        ]
-      },
-      'dataframe': {
-        name: 'DataFrame API',
-        fullName: 'Python Dataframe API Standard',
-        category: 'In-Memory Format',
-        governance: 'Consortium for Python Data API Standards (data-apis.org)',
-        status: 'Draft RFC; multi-vendor adoption underway',
-        description: [
-          'Open standard for a portable DataFrame API across Python implementations. The aim: write code once, run on pandas, Polars, Modin, cuDF, or any compliant library.',
-          'Sister specification to the Array API Standard. Sponsored by data-apis.org with backing from Quansight, NVIDIA, Microsoft, Intel, and the major DataFrame projects. The standard everyone reaches for when "which DataFrame API?" needs to stop being a portability question.'
-        ],
-        links: [
-          { label: 'data-apis.org', url: 'https://data-apis.org' },
-          { label: 'DataFrame API draft RFC', url: 'https://data-apis.org/dataframe-api/draft/' }
-        ]
-      },
-      'arrow': {
-        name: 'Apache Arrow',
-        fullName: 'Apache Arrow',
-        category: 'In-Memory Format',
-        governance: 'Apache Software Foundation',
-        status: 'Stable; broadly adopted across the analytics stack',
-        description: [
-          'Language-agnostic columnar in-memory format for analytical data. Designed for zero-copy reads and efficient interchange between processes, languages, and engines.',
-          'Foundation for ADBC, the basis of pandas 2.x, the wire format of Arrow Flight, and the in-memory layout of DuckDB, Polars, and many others. Arrow is the connective tissue of modern analytics.'
-        ],
-        links: [
-          { label: 'arrow.apache.org', url: 'https://arrow.apache.org' }
-        ]
-      },
-      'spark': {
-        name: 'Spark',
-        fullName: 'Apache Spark',
-        category: 'Processing',
-        governance: 'Apache Software Foundation',
-        status: 'Stable; Spark 3.x mainstream, 4.x emerging',
-        description: [
-          'Distributed analytics engine with a DataFrame API across Scala, Java, Python, and R. The classic large-scale processing engine for batch and streaming workloads.',
-          'Spark Connect decouples client and engine, making the DataFrame API a portable client interface — which is why it shows up here as an interface, not just an engine.'
-        ],
-        links: [
-          { label: 'spark.apache.org', url: 'https://spark.apache.org' }
-        ]
-      },
-      'pandas': {
-        name: 'Pandas',
-        fullName: 'pandas',
-        category: 'Processing',
-        governance: 'NumFOCUS (open source)',
-        status: 'Stable; the de-facto Python DataFrame API',
-        description: [
-          'The original Python DataFrame library. Whatever else a Python data practitioner uses, they almost certainly know pandas — which makes its API a de-facto interface that other libraries (Polars, Modin, cuDF) deliberately mimic.',
-          'Pandas 2.x added Arrow-backed columns, narrowing the gap with newer engines while preserving the familiar API.'
-        ],
-        links: [
-          { label: 'pandas.pydata.org', url: 'https://pandas.pydata.org' }
-        ]
-      },
-      'ibis': {
-        name: 'Ibis',
-        fullName: 'Ibis',
-        category: 'Processing',
-        governance: 'Ibis Project (open source)',
-        status: 'Stable; multi-backend',
-        description: [
-          'Portable Python DataFrame API that compiles expressions to a backend of choice — DuckDB, BigQuery, Snowflake, Postgres, Spark, and many others.',
-          'Lets analytics code be written once and executed against whichever engine the data happens to live on, without rewriting in each backend\'s SQL dialect.'
-        ],
-        links: [
-          { label: 'ibis-project.org', url: 'https://ibis-project.org' }
-        ]
-      }
-    };
-
     const orgLogos = {
       'ASF': '/media/icons/standards-map/logos/apache.png',
       'Anthropic': '/media/icons/standards-map/logos/mcp.svg',
@@ -2059,13 +1324,77 @@
     }
 
     return {
-      standards: data,
+      standards: {},
       selectedId: null,
       activeFilter: null,
+      viewMode: 'landscape',
+      sortColumn: 'category',
+      sortDir: 1,
+      tableColumns: [
+        { key: 'name',          label: 'Name' },
+        { key: 'category',      label: 'Category' },
+        { key: 'tier',          label: 'Tier' },
+        { key: 'governance',    label: 'Governance' },
+        { key: 'firstReleased', label: 'First release' },
+      ],
       counts: { all: 0, BITOL: 0, LF: 0, ASF: 0, CNCF: 0, W3C: 0, IETF: 0, ISO: 0, OASIS: 0, OMG: 0, OSI: 0, vendor: 0 },
       buttonMeta: {},
       get selected() {
         return this.selectedId ? this.standards[this.selectedId] : null;
+      },
+      get selectedTier() {
+        return this.selectedId ? this.tierOf(this.selectedId, this.selected) : null;
+      },
+      tierOf(id, std) {
+        if (std?.tier) return std.tier;
+        const status = (std?.status || '').toLowerCase();
+        if (/\b(emerging|experimental)\b|\bv?0\.\d/.test(status)) return 'emerging';
+        if (this.buttonMeta[id]?.vendor) return 'vendor';
+        if (/\blegacy\b/.test(status)) return 'legacy';
+        return 'stable';
+      },
+      get sortedTableRows() {
+        const col = this.sortColumn;
+        const dir = this.sortDir;
+        const rows = Object.entries(this.standards).map(([id, std]) => ({
+          id,
+          name: std.name || id,
+          category: std.category || '',
+          tier: this.tierOf(id, std),
+          governance: std.governance || '',
+          firstReleased: std.firstReleased ?? null,
+          logo: this.buttonMeta[id]?.logo || null,
+        }));
+        const cmp = (a, b) => {
+          let va = a[col], vb = b[col];
+          if (va == null && vb == null) return 0;
+          if (va == null) return 1;
+          if (vb == null) return -1;
+          if (typeof va === 'string') va = va.toLowerCase();
+          if (typeof vb === 'string') vb = vb.toLowerCase();
+          if (va < vb) return -1 * dir;
+          if (va > vb) return  1 * dir;
+          return a.name.localeCompare(b.name);
+        };
+        return rows.sort(cmp);
+      },
+      sortBy(key) {
+        if (this.sortColumn === key) {
+          this.sortDir = -this.sortDir;
+        } else {
+          this.sortColumn = key;
+          this.sortDir = 1;
+        }
+      },
+      async loadStandards() {
+        try {
+          const res = await fetch('/standards.json', { cache: 'no-cache' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          this.standards = await res.json();
+        } catch (e) {
+          console.error('Failed to load standards.json', e);
+          this.standards = {};
+        }
       },
       get standardLogo() {
         return this.buttonMeta[this.selectedId]?.logo || null;

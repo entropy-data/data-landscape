@@ -42,6 +42,7 @@ main > div.mx-auto.max-w-7xl.px-6.lg\\:px-8.mt-10.mb-8,
 footer { display: none !important; }
 
 main { margin: 0 !important; padding: 0 !important; }
+main .mx-auto { max-width: none !important; padding-left: 0 !important; padding-right: 0 !important; }
 .landscape { background: white !important; border: 0 !important; padding: 0 !important; }
 .landscape-section + .landscape-section { margin-top: 1.25rem; }
 .landscape-section { break-inside: avoid; page-break-inside: avoid; }
