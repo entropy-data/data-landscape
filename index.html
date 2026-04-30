@@ -1,0 +1,2112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Data Landscape — Open Standards for Modern Data Architecture</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive landscape of the open standards that power a modern data architecture — from ODCS, ODPS, and OSI to OpenAPI, Iceberg, OpenLineage, OpenTelemetry, and more. Click any standard for details.">
+  <meta property="og:title" content="Data Landscape">
+  <meta property="og:description" content="Interactive landscape of the open standards that power a modern data architecture — from ODCS, ODPS, and OSI to OpenAPI, Iceberg, OpenLineage, OpenTelemetry, and more.">
+  <meta property="og:type" content="article"/>
+  <meta property="og:image" content="https://data-landscape.com/media/social/data-architecture-landscape.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:url" content="https://data-landscape.com/"/>
+  <meta property="article:published_time" content="2026-04-28T00:00:00+02:00"/>
+  <meta property="article:author" content="Dr. Simon Harrer"/>
+  <meta name="author" content="Dr. Simon Harrer">
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Data Landscape"/>
+  <meta name="twitter:description" content="Interactive landscape of the open standards that power a modern data architecture.">
+  <meta name="twitter:image" content="https://data-landscape.com/media/social/data-architecture-landscape.png"/>
+
+  <link rel="canonical" href="https://data-landscape.com/"/>
+  <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/dist/output.css">
+
+  <script defer src="/js/alpine-3.12.0.js"></script>
+  <script async src="https://cloud.umami.is/script.js" data-website-id="444f6c61-c71c-4de7-ade4-362782c4bd51" data-domains="data-landscape.com,www.data-landscape.com"></script>
+
+  <style>
+    .landscape {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+    .landscape-section + .landscape-section {
+      margin-top: 1.5rem;
+    }
+    .landscape-section-title {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #4f46e5;
+      margin-bottom: 0.6rem;
+    }
+    .landscape-section-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+    @media (min-width: 768px) {
+      .landscape-section-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    }
+    .col-2 { grid-column: span 2 / span 2; }
+    .col-3 { grid-column: span 3 / span 3; }
+    .col-4 { grid-column: span 4 / span 4; }
+    .col-5 { grid-column: span 5 / span 5; }
+    .col-7 { grid-column: span 7 / span 7; }
+    @media (max-width: 767.98px) {
+      .col-2, .col-3, .col-4, .col-5, .col-7 { grid-column: span 1 / span 1; }
+    }
+
+    .category-panel {
+      background: white;
+      border: 1px solid #c7d2fe;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .category-panel-header {
+      background: #4f46e5;
+      color: white;
+      padding: 0.4rem 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .category-panel-header img {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      filter: brightness(0) invert(1);
+    }
+    .category-panel-header .name {
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .category-panel-header .name-suffix {
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 0.7rem;
+      opacity: 0.85;
+      margin-left: 0.15rem;
+    }
+    .category-panel-header .count {
+      margin-left: auto;
+      background: rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .category-panel-body {
+      flex: 1;
+      background: #eef2ff;
+      padding: 0.4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 0.4rem;
+      align-content: start;
+    }
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: white;
+      border: 1px solid #e0e7ff;
+      border-radius: 5px;
+      padding: 0.55rem 0.3rem;
+      cursor: pointer;
+      min-height: 60px;
+      transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+      outline: none;
+      width: 100%;
+    }
+    .item:hover {
+      border-color: #6366f1;
+      box-shadow: 0 4px 8px -2px rgb(99 102 241 / 0.25);
+      transform: translateY(-1px);
+    }
+    .item:focus-visible {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgb(99 102 241 / 0.35);
+    }
+    .item-logo {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      margin-bottom: 4px;
+    }
+    .item-vendor .item-logo {
+      filter: grayscale(1);
+      opacity: 0.7;
+    }
+    .item-name {
+      font-weight: 700;
+      font-size: 0.78rem;
+      line-height: 1.15;
+      color: #1f2937;
+    }
+    .item-umbrella {
+      margin-top: 3px;
+      font-size: 0.6rem;
+      color: #6366f1;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .item-highlight {
+      border: 2px solid #4338ca;
+      background: #eef2ff;
+    }
+    .item-highlight .item-name {
+      color: #312e81;
+    }
+    .item-soft {
+      background: #fafafa;
+      border-style: dashed;
+      border-color: #c7d2fe;
+    }
+    .item-vendor {
+      background: #f9fafb;
+      border-color: #e5e7eb;
+    }
+    .item-vendor .item-name { color: #6b7280; }
+    .item-vendor .item-umbrella { color: #9ca3af; }
+    .item-vendor:hover {
+      border-color: #9ca3af;
+      box-shadow: 0 4px 8px -2px rgb(107 114 128 / 0.2);
+    }
+
+    /* Toolbar */
+    .landscape-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      flex: 1;
+    }
+    .chip {
+      background: white;
+      border: 1px solid #e5e7eb;
+      color: #4b5563;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.3rem 0.7rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 100ms ease;
+    }
+    .chip:hover { border-color: #6366f1; color: #4338ca; }
+    .chip.active { background: #4f46e5; border-color: #4f46e5; color: white; }
+    .chip .chip-count {
+      display: inline-block;
+      margin-left: 0.4rem;
+      padding: 0 6px;
+      background: rgba(79, 70, 229, 0.1);
+      color: #4338ca;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .chip.active .chip-count {
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+    }
+    /* Filter dimming */
+    .item.item-dim {
+      opacity: 0.18;
+      pointer-events: none;
+      filter: grayscale(0.6);
+    }
+    .category-panel.panel-dim {
+      opacity: 0.45;
+    }
+  </style>
+</head>
+<body class="bg-white">
+
+
+<header class="bg-white" x-data="{ isOpen: false }">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8" aria-label="Global">
+    <div class="flex lg:flex-1">
+      <a href="https://www.entropy-data.com" class="-m-1.5 p-1.5 text-xl text-gray-900 font-semibold flex items-center gap-2" aria-label="Entropy Data">
+        <img src="/media/logo_fuchsia_v2.svg" alt="Entropy Data Logo" class="h-8 w-auto"/>
+        <span class="sr-only">Entropy Data</span>
+        Entropy Data
+      </a>
+    </div>
+    <div class="hidden lg:flex lg:gap-x-12"></div>
+    <div class="flex flex-1 items-center justify-end gap-x-6">
+      <a href="https://demo.entropy-data.com/start"
+         class="hidden sm:block inline-block rounded-lg py-1 px-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+         rel="nofollow">Try Demo</a>
+      <a href="https://app.entropy-data.com/create-account?ref=sign-up-header"
+         class="hidden sm:block rounded-full py-2 px-4 bg-indigo-600 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign up for free</a>
+    </div>
+    <div class="flex lg:hidden">
+      <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="isOpen = !isOpen">
+        <span class="sr-only">Open main menu</span>
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+  <div class="lg:hidden" role="dialog" aria-modal="true" x-show="isOpen">
+    <div class="fixed inset-0 z-10"></div>
+    <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10" @click.outside="isOpen = false">
+      <div class="flex items-center gap-x-6">
+        <a aria-label="Entropy Data" href="https://www.entropy-data.com" class="text-xl text-gray-900 font-semibold">Entropy Data</a>
+        <button type="button" class="ml-auto -m-2.5 rounded-md p-2.5 text-gray-700" @click="isOpen = !isOpen">
+          <span class="sr-only">Close menu</span>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="mt-6 flow-root">
+        <div class="-my-6 divide-y divide-gray-500/10">
+          <div class="space-y-2 py-6"></div>
+          <div class="py-6">
+            <a href="https://demo.entropy-data.com/start" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" rel="nofollow">Try Demo</a>
+            <a href="https://app.entropy-data.com/create-account?ref=sign-up-menu-mobile" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sign up for free</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<main class="mt-8 mb-20" x-data="standardsMap()"
+      x-init="$watch('selectedId', v => document.body.style.overflow = v ? 'hidden' : '');
+              $watch('activeFilter', () => applyFilter());
+              $nextTick(() => { buildButtonMeta(); computeCounts(); applyFilter(); })"
+      @keydown.escape.window="selectedId = null; activeFilter = null">
+
+  <!-- Hero -->
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 mt-10 mb-8">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
+      <div class="flex-1">
+        <p class="text-base font-semibold leading-7 text-indigo-600">Knowledge</p>
+        <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          Data Landscape
+        </h1>
+        <p class="mt-3 max-w-3xl text-lg leading-8 text-gray-600 italic">
+          An opinionated view at the standards in the world of data.
+        </p>
+        <p class="mt-4 max-w-3xl text-base leading-7 text-gray-700">
+          The open standards that power a modern data architecture, organised by what they describe.
+          Inspired by the <a href="https://landscape.cncf.io/" class="text-indigo-600 hover:text-indigo-500" target="_blank">CNCF Landscape</a>
+          and the <a href="https://technologie.deutschland-stack.gov.de/" class="text-indigo-600 hover:text-indigo-500" target="_blank">Deutschland Stack</a>,
+          and <a href="https://www.entropy-data.com/learn/talk-open-standards-for-data-mesh" class="text-indigo-600 hover:text-indigo-500">Simon's talk on open standards</a>.
+          Click any standard to learn more.
+        </p>
+      </div>
+      <aside class="lg:w-72 lg:flex-none lg:mt-2">
+        <figure class="rounded-lg border border-indigo-100 bg-indigo-50/60 p-5">
+          <blockquote class="text-sm leading-6 text-gray-800 italic">
+            <p>&ldquo;Ohhh this is amazing!! You don't know how much that's helping immediately at a project I'm currently on!&rdquo;</p>
+          </blockquote>
+          <figcaption class="mt-3 text-xs text-gray-600">
+            <a href="https://www.linkedin.com/in/tiankaifeng/" target="_blank" rel="noopener" class="font-semibold text-indigo-700 hover:text-indigo-500">Tiankai Feng</a>
+          </figcaption>
+        </figure>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Landscape -->
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+
+    <!-- Toolbar: filter + view toggle -->
+    <div class="landscape-toolbar">
+      <div class="filter-chips" role="group" aria-label="Filter by umbrella">
+        <button type="button" class="chip" :class="{ active: !activeFilter }" @click="activeFilter = null">All <span class="chip-count" x-text="counts.all"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'BITOL' }" @click="activeFilter = 'BITOL'">BITOL @ LF <span class="chip-count" x-text="counts.BITOL"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'LF' }" @click="activeFilter = 'LF'">LF <span class="chip-count" x-text="counts.LF"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'ASF' }" @click="activeFilter = 'ASF'">ASF <span class="chip-count" x-text="counts.ASF"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'CNCF' }" @click="activeFilter = 'CNCF'">CNCF <span class="chip-count" x-text="counts.CNCF"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'W3C' }" @click="activeFilter = 'W3C'">W3C <span class="chip-count" x-text="counts.W3C"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'IETF' }" @click="activeFilter = 'IETF'">IETF <span class="chip-count" x-text="counts.IETF"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'ISO' }" @click="activeFilter = 'ISO'">ISO/IEC <span class="chip-count" x-text="counts.ISO"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'OASIS' }" @click="activeFilter = 'OASIS'">OASIS <span class="chip-count" x-text="counts.OASIS"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'OMG' }" @click="activeFilter = 'OMG'">OMG <span class="chip-count" x-text="counts.OMG"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'OSI' }" @click="activeFilter = 'OSI'">OSI Initiative <span class="chip-count" x-text="counts.OSI"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'vendor' }" @click="activeFilter = 'vendor'">Vendor <span class="chip-count" x-text="counts.vendor"></span></button>
+      </div>
+    </div>
+
+    <div class="landscape" :data-filter="activeFilter">
+
+      <!-- Section: Definition -->
+      <section class="landscape-section">
+        <h2 class="landscape-section-title">Definition &mdash; how data is described</h2>
+        <div class="landscape-section-grid">
+
+          <div class="category-panel col-3">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/api.svg" alt="">
+              <span class="name">API Interfaces</span>
+              <span class="count">5</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item item-highlight" data-umbrella="BITOL @ LF" @click="selectedId = 'odcs'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/bitol.svg" alt="" loading="lazy">
+                <span class="item-name">ODCS</span>
+                <span class="item-umbrella">BITOL @ LF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'openapi'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/openapi.svg" alt="" loading="lazy">
+                <span class="item-name">OpenAPI</span>
+                <span class="item-umbrella">LF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'asyncapi'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/asyncapi.svg" alt="" loading="lazy">
+                <span class="item-name">AsyncAPI</span>
+                <span class="item-umbrella">LF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'graphql'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/graphql.svg" alt="" loading="lazy">
+                <span class="item-name">GraphQL</span>
+                <span class="item-umbrella">LF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="CNCF" @click="selectedId = 'grpc'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/grpc.png" alt="" loading="lazy">
+                <span class="item-name">gRPC</span>
+                <span class="item-umbrella">CNCF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-3">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/products.svg" alt="">
+              <span class="name">Data Products</span>
+              <span class="count">4</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item item-highlight" data-umbrella="BITOL @ LF" @click="selectedId = 'odps'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/bitol.svg" alt="" loading="lazy">
+                <span class="item-name">ODPS</span>
+                <span class="item-umbrella">BITOL @ LF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="LF opendataproducts" @click="selectedId = 'odpspec'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/odpspec.png" alt="" loading="lazy">
+                <span class="item-name">ODPSpec</span>
+                <span class="item-umbrella">LF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="OpenDataMesh" @click="selectedId = 'dpds'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/dpds.png" alt="" loading="lazy">
+                <span class="item-name">DPDS</span>
+                <span class="item-umbrella">ODM</span>
+              </button>
+              <button type="button" class="item" data-umbrella="OMG" @click="selectedId = 'dprod'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/dprod.jpg" alt="" loading="lazy">
+                <span class="item-name">DPROD</span>
+                <span class="item-umbrella">OMG</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-3">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/schema.svg" alt="">
+              <span class="name">Schema</span>
+              <span class="count">5</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'xml-schema'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
+                <span class="item-name">XML Schema</span>
+                <span class="item-umbrella">W3C</span>
+              </button>
+              <button type="button" class="item" data-umbrella="IETF" @click="selectedId = 'json-schema'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/json-schema.png" alt="" loading="lazy">
+                <span class="item-name">JSON Schema</span>
+                <span class="item-umbrella">IETF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="ISO/IEC" @click="selectedId = 'sql-ddl'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/iso.png" alt="" loading="lazy">
+                <span class="item-name">SQL DDL</span>
+                <span class="item-umbrella">ISO/IEC</span>
+              </button>
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'avro-schema'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/avro.svg" alt="" loading="lazy">
+                <span class="item-name">AVRO Schema</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+              <button type="button" class="item item-vendor" data-umbrella="Google vendor" @click="selectedId = 'protobuf'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/google.svg" alt="" loading="lazy">
+                <span class="item-name">Protobuf</span>
+                <span class="item-umbrella">Google</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-3">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/semantics.svg" alt="">
+              <span class="name">Semantics</span>
+              <span class="count">6</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item item-highlight" data-umbrella="OSI Initiative" @click="selectedId = 'osi'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/osi.svg" alt="" loading="lazy">
+                <span class="item-name">OSI</span>
+                <span class="item-umbrella">OSI Initiative</span>
+              </button>
+              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'rdf-owl'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
+                <span class="item-name">RDF/OWL</span>
+                <span class="item-umbrella">W3C</span>
+              </button>
+              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'dcat'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
+                <span class="item-name">DCAT</span>
+                <span class="item-umbrella">W3C</span>
+              </button>
+              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'skos'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
+                <span class="item-name">SKOS</span>
+                <span class="item-umbrella">W3C</span>
+              </button>
+              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'shacl'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
+                <span class="item-name">SHACL</span>
+                <span class="item-umbrella">W3C</span>
+              </button>
+              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'json-ld'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
+                <span class="item-name">JSON-LD</span>
+                <span class="item-umbrella">W3C</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section: Storage -->
+      <section class="landscape-section">
+        <h2 class="landscape-section-title">Storage &mdash; where data lives</h2>
+        <div class="landscape-section-grid">
+
+          <div class="category-panel col-5">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/files.svg" alt="">
+              <span class="name">File Formats</span>
+              <span class="count">6</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="IETF" @click="selectedId = 'csv'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/ietf.svg" alt="" loading="lazy">
+                <span class="item-name">CSV</span>
+                <span class="item-umbrella">IETF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="IETF" @click="selectedId = 'json'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/json.png" alt="" loading="lazy">
+                <span class="item-name">JSON</span>
+                <span class="item-umbrella">IETF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'xml'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/xml.svg" alt="" loading="lazy">
+                <span class="item-name">XML</span>
+                <span class="item-umbrella">W3C</span>
+              </button>
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'parquet'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/parquet.svg" alt="" loading="lazy">
+                <span class="item-name">PARQUET</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'avro'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/avro.svg" alt="" loading="lazy">
+                <span class="item-name">AVRO</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'orc'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/orc.png" alt="" loading="lazy">
+                <span class="item-name">ORC</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-4">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/tables.svg" alt="">
+              <span class="name">Open Table Formats</span>
+              <span class="count">3</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'iceberg'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/iceberg.svg" alt="" loading="lazy">
+                <span class="item-name">Iceberg</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'delta'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/delta.png" alt="" loading="lazy">
+                <span class="item-name">Delta</span>
+                <span class="item-umbrella">LF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'hudi'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/hudi.svg" alt="" loading="lazy">
+                <span class="item-name">Hudi</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-3">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/storage.svg" alt="">
+              <span class="name">Storage Systems</span>
+              <span class="count">2</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item item-vendor" data-umbrella="AWS vendor" @click="selectedId = 's3'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/aws.svg" alt="" loading="lazy">
+                <span class="item-name">S3</span>
+                <span class="item-umbrella">AWS</span>
+              </button>
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'hdfs'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/hadoop.png" alt="" loading="lazy">
+                <span class="item-name">HDFS</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section: Movement -->
+      <section class="landscape-section">
+        <h2 class="landscape-section-title">Movement &mdash; how data flows between systems</h2>
+        <div class="landscape-section-grid">
+
+          <div class="category-panel col-4">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/api.svg" alt="">
+              <span class="name">Database Connectivity</span>
+              <span class="count">3</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="JCP" @click="selectedId = 'jdbc'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/jdbc.svg" alt="" loading="lazy">
+                <span class="item-name">JDBC</span>
+                <span class="item-umbrella">JCP</span>
+              </button>
+              <button type="button" class="item" data-umbrella="ISO/IEC" @click="selectedId = 'odbc'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/iso.png" alt="" loading="lazy">
+                <span class="item-name">ODBC</span>
+                <span class="item-umbrella">ISO/IEC</span>
+              </button>
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'adbc'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/arrow.png" alt="" loading="lazy">
+                <span class="item-name">ADBC</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-4">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/api.svg" alt="">
+              <span class="name">Interconnection</span>
+              <span class="count">2</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="IETF" @click="selectedId = 'http'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/ietf.svg" alt="" loading="lazy">
+                <span class="item-name">HTTP</span>
+                <span class="item-umbrella">IETF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="IETF" @click="selectedId = 'ftp'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/ietf.svg" alt="" loading="lazy">
+                <span class="item-name">FTP / SFTP</span>
+                <span class="item-umbrella">IETF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-4">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/api.svg" alt="">
+              <span class="name">Messaging</span>
+              <span class="count">4</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'kafka'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/kafka.svg" alt="" loading="lazy">
+                <span class="item-name">Kafka</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="OASIS" @click="selectedId = 'amqp'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/oasis.png" alt="" loading="lazy">
+                <span class="item-name">AMQP</span>
+                <span class="item-umbrella">OASIS</span>
+              </button>
+              <button type="button" class="item" data-umbrella="OASIS" @click="selectedId = 'mqtt'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/mqtt.svg" alt="" loading="lazy">
+                <span class="item-name">MQTT</span>
+                <span class="item-umbrella">OASIS</span>
+              </button>
+              <button type="button" class="item" data-umbrella="CNCF" @click="selectedId = 'cloudevents'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/cloudevents.svg" alt="" loading="lazy">
+                <span class="item-name">CloudEvents</span>
+                <span class="item-umbrella">CNCF</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section: Transformation -->
+      <section class="landscape-section">
+        <h2 class="landscape-section-title">Transformation &mdash; how data is processed and reshaped</h2>
+        <div class="landscape-section-grid">
+
+          <div class="category-panel col-5">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/storage.svg" alt="">
+              <span class="name">In-Memory Format</span>
+              <span class="count">2</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'arrow'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/arrow.png" alt="" loading="lazy">
+                <span class="item-name">Apache Arrow</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="data-apis" @click="selectedId = 'dataframe'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/dataframe.png" alt="" loading="lazy">
+                <span class="item-name">DataFrame API</span>
+                <span class="item-umbrella">data-apis</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-7">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/query.svg" alt="">
+              <span class="name">Processing</span>
+              <span class="count">4</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item item-vendor" data-umbrella="dbt Labs vendor" @click="selectedId = 'dbt'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/dbt.png" alt="" loading="lazy">
+                <span class="item-name">dbt</span>
+                <span class="item-umbrella">dbt Labs</span>
+              </button>
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'spark'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/spark.svg" alt="" loading="lazy">
+                <span class="item-name">Spark</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="NumFOCUS" @click="selectedId = 'pandas'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/pandas.svg" alt="" loading="lazy">
+                <span class="item-name">Pandas</span>
+                <span class="item-umbrella">NumFOCUS</span>
+              </button>
+              <button type="button" class="item" data-umbrella="Ibis Project" @click="selectedId = 'ibis'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/ibis.png" alt="" loading="lazy">
+                <span class="item-name">Ibis</span>
+                <span class="item-umbrella">Ibis</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section: Discovery -->
+      <section class="landscape-section">
+        <h2 class="landscape-section-title">Discovery &mdash; how data is found and traced</h2>
+        <div class="landscape-section-grid">
+
+          <div class="category-panel col-7">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/catalog.svg" alt="">
+              <span class="name">Catalog APIs</span>
+              <span class="count">5</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'iceberg-catalog'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/iceberg.svg" alt="" loading="lazy">
+                <span class="item-name">Iceberg Catalog</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'unity-catalog'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/unity-catalog.svg" alt="" loading="lazy">
+                <span class="item-name">Unity Catalog</span>
+                <span class="item-umbrella">LF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'hive-metastore'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/hive-metastore.svg" alt="" loading="lazy">
+                <span class="item-name">Hive Metastore</span>
+                <span class="item-umbrella">ASF</span>
+              </button>
+              <button type="button" class="item item-vendor" data-umbrella="DuckDB Labs vendor" @click="selectedId = 'ducklake'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/duckdb.svg" alt="" loading="lazy">
+                <span class="item-name">DuckLake</span>
+                <span class="item-umbrella">DuckDB Labs</span>
+              </button>
+              <button type="button" class="item item-vendor" data-umbrella="Confluent vendor" @click="selectedId = 'schema-registry'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/confluent.svg" alt="" loading="lazy">
+                <span class="item-name">Schema<br>Registry</span>
+                <span class="item-umbrella">Confluent</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-5">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/lineage.svg" alt="">
+              <span class="name">Lineage</span>
+              <span class="count">1</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'openlineage'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/openlineage.png" alt="" loading="lazy">
+                <span class="item-name">OpenLineage</span>
+                <span class="item-umbrella">LF</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section: Operations -->
+      <section class="landscape-section">
+        <h2 class="landscape-section-title">Operations &mdash; how data is queried, observed, governed</h2>
+        <div class="landscape-section-grid">
+
+          <div class="category-panel col-2">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/query.svg" alt="">
+              <span class="name">Query</span>
+              <span class="count">2</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="ISO/IEC" @click="selectedId = 'sql'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/iso.png" alt="" loading="lazy">
+                <span class="item-name">SQL</span>
+                <span class="item-umbrella">ISO/IEC</span>
+              </button>
+              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'sparql'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
+                <span class="item-name">SPARQL</span>
+                <span class="item-umbrella">W3C</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-3">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/quality.svg" alt="">
+              <span class="name">Data Quality</span>
+              <span class="count">3</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item item-vendor" data-umbrella="dbt Labs vendor" @click="selectedId = 'dbt'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/dbt.png" alt="" loading="lazy">
+                <span class="item-name">dbt</span>
+                <span class="item-umbrella">dbt Labs</span>
+              </button>
+              <button type="button" class="item item-vendor" data-umbrella="GX Labs vendor" @click="selectedId = 'great-expectations'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/great-expectations.png" alt="" loading="lazy">
+                <span class="item-name">Great Expectations</span>
+                <span class="item-umbrella">GX Labs</span>
+              </button>
+              <button type="button" class="item item-vendor" data-umbrella="Soda vendor" @click="selectedId = 'sodacl'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/soda.png" alt="" loading="lazy">
+                <span class="item-name">SodaCL</span>
+                <span class="item-umbrella">Soda</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-3">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/observability.svg" alt="">
+              <span class="name">Observability</span>
+              <span class="count">2</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="CNCF" @click="selectedId = 'opentelemetry'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/opentelemetry.svg" alt="" loading="lazy">
+                <span class="item-name">Open<br>Telemetry</span>
+                <span class="item-umbrella">CNCF</span>
+              </button>
+              <button type="button" class="item item-soft" data-umbrella="BITOL @ LF" @click="selectedId = 'oors'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/bitol.svg" alt="" loading="lazy">
+                <span class="item-name">OORS</span>
+                <span class="item-umbrella">BITOL @ LF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-2">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/policies.svg" alt="">
+              <span class="name">Policies</span>
+              <span class="count">1</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="CNCF" @click="selectedId = 'opa'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/opa.png" alt="" loading="lazy">
+                <span class="item-name">OPA</span>
+                <span class="item-umbrella">CNCF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-panel col-2">
+            <div class="category-panel-header">
+              <img src="/media/icons/standards-map/api.svg" alt="">
+              <span class="name">AI Interfaces</span>
+              <span class="count">2</span>
+            </div>
+            <div class="category-panel-body">
+              <button type="button" class="item" data-umbrella="LF Anthropic" @click="selectedId = 'mcp'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/mcp.svg" alt="" loading="lazy">
+                <span class="item-name">MCP</span>
+                <span class="item-umbrella">LF</span>
+              </button>
+              <button type="button" class="item" data-umbrella="LF Google" @click="selectedId = 'a2a'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/a2a.svg" alt="" loading="lazy">
+                <span class="item-name">A2A</span>
+                <span class="item-umbrella">LF</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Legend -->
+    <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-gray-600">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-5 h-5 rounded border border-indigo-200 bg-white"></span>
+        <span>Open standard</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-5 h-5 rounded bg-indigo-50" style="border: 2px solid #4338ca;"></span>
+        <span>Highlighted by Entropy Data &mdash; the ones to bet on today</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-5 h-5 rounded bg-gray-50" style="border: 1px dashed #c7d2fe;"></span>
+        <span>Emerging / draft</span>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="mt-12 border-t border-gray-200 pt-10">
+      <h2 class="text-2xl font-bold tracking-tight text-gray-900">FAQ</h2>
+      <dl class="mt-6 space-y-4">
+
+        <details class="group rounded-lg border border-gray-200 bg-white px-5 py-4 open:bg-gray-50">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-gray-900">
+            <span>What's the origin story behind this Data Landscape?</span>
+            <svg class="h-5 w-5 flex-none text-gray-500 transition group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+          </summary>
+          <div class="mt-3 text-sm leading-6 text-gray-700 space-y-3">
+            <p>It started as a single slide. Simon was preparing a talk on <a href="https://www.entropy-data.com/learn/talk-open-standards-for-data-mesh" class="text-indigo-600 hover:text-indigo-500">open standards for data mesh</a> for the Data Mesh Belgium meetup in Leuven (April 2026), and wanted one picture that answered "which standards actually matter, and where do they fit?" Every existing diagram either flattened everything into one box or focused on a single vendor's stack.</p>
+            <p>The slide kept growing. After the talk, enough people asked for "the picture" that turning it into an interactive, linkable page made more sense than mailing around a PNG. Inspired by the <a href="https://landscape.cncf.io/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">CNCF Landscape</a> and the <a href="https://technologie.deutschland-stack.gov.de/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">Deutschland Stack</a>, but narrower in scope: open standards only, no vendors.</p>
+            <p>Curated by <a href="https://entropy-data.com" class="text-indigo-600 hover:text-indigo-500">Entropy Data</a>, with early contributions from Denis Arnaud, Benjamin Ditel, Stefan Negele, and Erik Wilde. It's still a living view, and suggestions and corrections are welcome.</p>
+          </div>
+        </details>
+
+        <details class="group rounded-lg border border-gray-200 bg-white px-5 py-4 open:bg-gray-50">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-gray-900">
+            <span>Why do you call this a <em>data</em> landscape? It is mostly about metadata standards, and it is of no help regarding vendor selection.</span>
+            <svg class="h-5 w-5 flex-none text-gray-500 transition group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+          </summary>
+          <div class="mt-3 text-sm leading-6 text-gray-700 space-y-3">
+            <p>Guilty as charged. Most of what's here is metadata: schemas, contracts, lineage events, and catalog APIs all describe data rather than <em>are</em> data. We still call it the "Data Landscape" because that's the conversation people are having. When teams say "our data stack" they mean the standards, formats, and protocols around the data, not the bytes themselves.</p>
+            <p>It's also deliberately not a vendor landscape. There's no Snowflake vs Databricks, no "best catalog of 2026". The CNCF Landscape catalogues vendors and projects; this one catalogues the open <em>standards</em> they should interoperate around. If you're picking a vendor, ask which of these standards they implement. That's the question this landscape helps you ask, not answer.</p>
+          </div>
+        </details>
+
+        <details class="group rounded-lg border border-gray-200 bg-white px-5 py-4 open:bg-gray-50">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-gray-900">
+            <span>Why did you include vendor specs in an overview of open standards?</span>
+            <svg class="h-5 w-5 flex-none text-gray-500 transition group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+          </summary>
+          <div class="mt-3 text-sm leading-6 text-gray-700 space-y-3">
+            <p>Most "open standards" started as vendor specs. Iceberg came out of Netflix, Delta Lake out of Databricks, gRPC and Protobuf out of Google, OpenLineage was incubated at Datakin. What matters is whether the spec is <em>openly governed and openly implementable</em> today, not who wrote the first commit.</p>
+            <p>We include a spec when (a) the specification is published under an open license, (b) there are multiple independent implementations or a credible path to them, and (c) it's the de-facto standard for its slot in a modern data architecture. A spec that's effectively a single-vendor lock-in dressed as a standard doesn't make the cut, even if its repo is on GitHub.</p>
+            <p>The <em>Status</em> field in the drawer makes the governance situation explicit for each entry (foundation-hosted, vendor-led, draft, etc.), so you can judge for yourself.</p>
+          </div>
+        </details>
+
+      </dl>
+    </div>
+
+    <!-- Contribute CTA -->
+    <div class="mt-10 rounded-lg border border-indigo-200 bg-indigo-50 px-6 py-8 text-center">
+      <p class="font-semibold text-gray-900">Missed a standard? Spotted something wrong?</p>
+      <p class="mt-1 text-sm text-gray-700">This landscape is a living view &mdash; suggestions and corrections welcome.</p>
+      <div class="mt-5 flex flex-wrap justify-center gap-3">
+        <a href="mailto:simon.harrer@entropy-data.com?subject=Data%20Architecture%20Landscape%20feedback"
+           class="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+          Email Simon
+        </a>
+        <a href="https://www.linkedin.com/in/simonharrer/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 rounded-md bg-white px-3.5 py-2 text-sm font-semibold text-indigo-700 ring-1 ring-inset ring-indigo-300 hover:bg-indigo-100">
+          DM on LinkedIn
+        </a>
+      </div>
+      <p class="mt-6 text-xs text-gray-600">
+        Curated by <a href="https://entropy-data.com" class="text-indigo-700 hover:text-indigo-500">Entropy Data</a>, with contributions by
+        <a href="https://www.linkedin.com/in/da115/" target="_blank" rel="noopener" class="text-indigo-700 hover:text-indigo-500">Denis Arnaud</a>,
+        <a href="https://www.linkedin.com/in/benjamin-ditel/" target="_blank" rel="noopener" class="text-indigo-700 hover:text-indigo-500">Benjamin Ditel</a>,
+        <a href="https://www.linkedin.com/in/stefan-negele-573153112/" target="_blank" rel="noopener" class="text-indigo-700 hover:text-indigo-500">Stefan Negele</a>,
+        and <a href="https://www.linkedin.com/in/erikwilde/" target="_blank" rel="noopener" class="text-indigo-700 hover:text-indigo-500">Erik Wilde</a>.
+      </p>
+    </div>
+  </div>
+
+  <!-- Drawer backdrop -->
+  <div x-show="selectedId !== null"
+       x-transition:enter="transition ease-out duration-200"
+       x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+       x-transition:leave="transition ease-in duration-150"
+       x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+       class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-30"
+       @click="selectedId = null"
+       style="display: none;"></div>
+
+  <!-- Drawer -->
+  <aside x-show="selectedId !== null"
+         x-transition:enter="transform transition ease-out duration-300"
+         x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+         x-transition:leave="transform transition ease-in duration-200"
+         x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
+         class="fixed top-0 right-0 z-40 w-full sm:w-[480px] h-full bg-white shadow-2xl overflow-y-auto"
+         role="dialog" aria-modal="true"
+         style="display: none;">
+    <template x-if="selected">
+      <div class="p-8">
+        <div class="flex items-start justify-between gap-4">
+          <div class="flex items-start gap-4">
+            <template x-if="standardLogo">
+              <img :src="standardLogo" alt="" width="56" height="56" class="h-14 w-14 max-h-14 max-w-14 flex-shrink-0 object-contain">
+            </template>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600" x-text="selected.category"></p>
+              <h2 class="mt-1 text-3xl font-bold text-gray-900" x-text="selected.name"></h2>
+              <p class="mt-1 text-base text-gray-600" x-text="selected.fullName"></p>
+            </div>
+          </div>
+          <button type="button"
+                  class="-m-2 rounded-md p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100"
+                  @click="selectedId = null"
+                  aria-label="Close">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <template x-if="selected?.highlight">
+          <div class="mt-5 inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700 ring-1 ring-indigo-200">
+            <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 0 0 .95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 0 0-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 0 0-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 0 0-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 0 0 .951-.69l1.07-3.292z"/></svg>
+            Highlighted by Entropy Data
+          </div>
+        </template>
+
+        <dl class="mt-6 space-y-4 text-sm">
+          <div>
+            <dt class="font-semibold text-gray-900">Governance</dt>
+            <dd class="mt-1 text-gray-700 flex items-center gap-2">
+              <template x-if="orgLogo">
+                <img :src="orgLogo" alt="" width="20" height="20" class="h-5 w-5 max-h-5 max-w-5 flex-shrink-0 object-contain" :class="orgIsVendor ? 'grayscale opacity-70' : ''">
+              </template>
+              <span x-text="selected.governance"></span>
+            </dd>
+          </div>
+          <template x-if="selected?.status">
+            <div>
+              <dt class="font-semibold text-gray-900">Status</dt>
+              <dd class="mt-1 text-gray-700" x-text="selected?.status"></dd>
+            </div>
+          </template>
+        </dl>
+
+        <div class="mt-6 prose prose-sm max-w-none text-gray-700">
+          <template x-for="(para, i) in selected.description" :key="i">
+            <p x-text="para"></p>
+          </template>
+        </div>
+
+        <template x-if="selected?.note">
+          <div class="mt-5 border-l-4 border-amber-400 bg-amber-50 p-4 rounded-r text-sm text-amber-900">
+            <span x-text="selected?.note"></span>
+          </div>
+        </template>
+
+        <div class="mt-8">
+          <h3 class="text-sm font-semibold text-gray-900">Links</h3>
+          <ul class="mt-3 space-y-2 text-sm">
+            <template x-for="link in selected.links" :key="link.url">
+              <li>
+                <a :href="link.url" target="_blank" rel="noopener"
+                   class="inline-flex items-center gap-1.5 text-indigo-600 hover:text-indigo-500 hover:underline">
+                  <template x-if="link.url.includes('github.com')">
+                    <svg class="h-4 w-4 text-gray-700" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                    </svg>
+                  </template>
+                  <span x-text="link.label"></span>
+                  <template x-if="!link.url.includes('github.com')">
+                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-7.5 1.5L21 3m0 0h-5.25M21 3v5.25"/>
+                    </svg>
+                  </template>
+                </a>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </div>
+    </template>
+  </aside>
+
+</main>
+
+
+<footer class="bg-white">
+  <div class="mx-auto max-w-7xl overflow-hidden py-20 px-6 sm:py-24 lg:px-8">
+    <nav class="-mb-6 mt-10 columns-2 sm:flex sm:justify-center sm:space-x-12" aria-label="Footer">
+      <div class="pb-6"><a href="https://www.entropy-data.com/" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Entropy Data</a></div>
+      <div class="pb-6"><a href="https://docs.entropy-data.com/" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Documentation</a></div>
+      <div class="pb-6"><a href="mailto:hello@entropy-data.com" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Contact</a></div>
+      <div class="pb-6"><a href="https://www.entropy-data.com/terms-of-service" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Terms of Service</a></div>
+      <div class="pb-6"><a href="https://www.entropy-data.com/privacy-policy" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Privacy Policy</a></div>
+      <div class="pb-6"><a href="https://www.entropy-data.com/legal-notice" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Legal Notice</a></div>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  function standardsMap() {
+    const data = {
+      'sql': {
+        name: 'SQL',
+        fullName: 'Structured Query Language',
+        category: 'Query',
+        governance: 'ANSI / ISO/IEC 9075',
+        status: 'Stable since 1986; revised regularly (latest SQL:2023)',
+        description: [
+          'SQL is the standard query language for relational databases. It is the oldest and most universal de-facto standard in the data world.',
+          'Despite vendor-specific dialects, the ISO/IEC 9075 core defines a portable subset that every serious analytical engine implements.'
+        ],
+        links: [
+          { label: 'ISO/IEC 9075 standard', url: 'https://www.iso.org/standard/76583.html' },
+          { label: 'Wikipedia: SQL', url: 'https://en.wikipedia.org/wiki/SQL' }
+        ]
+      },
+      'opentelemetry': {
+        name: 'OpenTelemetry',
+        fullName: 'OpenTelemetry',
+        category: 'Observability',
+        governance: 'CNCF (Cloud Native Computing Foundation), Linux Foundation',
+        status: 'Stable; widely adopted across cloud-native stacks',
+        description: [
+          'Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.',
+          'In a data mesh context, OpenTelemetry is the natural choice for instrumenting pipelines and platform services so a federated governance team can correlate behaviour across domains.'
+        ],
+        links: [
+          { label: 'opentelemetry.io', url: 'https://opentelemetry.io' },
+          { label: 'GitHub: open-telemetry', url: 'https://github.com/open-telemetry' }
+        ]
+      },
+      'oors': {
+        name: 'OORS',
+        fullName: 'Open Observability Results Standard',
+        category: 'Observability',
+        governance: 'BITOL / Linux Foundation (draft)',
+        status: 'Emerging — auxiliary BITOL standard, not yet released',
+        description: [
+          'Auxiliary BITOL standard answering: what does an observability or quality-check result look like? Designed to sit alongside ODCS and ODPS so any tool can publish and consume verifiable check results.',
+          'Today every tool reports check outcomes in its own shape. OORS aims to give the marketplace, governance UI, and AI agents one consistent format to ingest.'
+        ],
+        links: [
+          { label: 'BITOL project', url: 'https://bitol.io' }
+        ]
+      },
+      'odcs': {
+        name: 'ODCS',
+        fullName: 'Open Data Contract Standard',
+        category: 'API Interfaces',
+        highlight: true,
+        governance: 'BITOL / Linux Foundation',
+        status: 'v3.1 stable; v3.2 in progress',
+        description: [
+          'YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.',
+          'Originated as PayPal\'s internal Data Contract Template (donated as ODCS 2.x). Starting with v3.0 the standard was generalised for any enterprise.'
+        ],
+        links: [
+          { label: 'Official site', url: 'https://bitol.io' },
+          { label: 'GitHub: open-data-contract-standard', url: 'https://github.com/bitol-io/open-data-contract-standard' },
+          { label: 'Spec (latest)', url: 'https://bitol-io.github.io/open-data-contract-standard/latest/' },
+          { label: 'Data Contract CLI', url: 'https://github.com/datacontract/datacontract-cli' }
+        ]
+      },
+      'openapi': {
+        name: 'OpenAPI',
+        fullName: 'OpenAPI Specification',
+        category: 'API Interfaces',
+        governance: 'OpenAPI Initiative, Linux Foundation',
+        status: 'Stable; OAS 3.1 current',
+        description: [
+          'Originally Swagger (2011), now the de-facto standard for describing REST APIs. Tooling exists for almost every language and platform.',
+          'OpenAPI is the reference success story for what an open standard can become. ODCS is essentially trying to do for data what OpenAPI did for REST APIs.'
+        ],
+        links: [
+          { label: 'openapis.org', url: 'https://www.openapis.org' },
+          { label: 'GitHub: OAI/OpenAPI-Specification', url: 'https://github.com/OAI/OpenAPI-Specification' }
+        ]
+      },
+      'asyncapi': {
+        name: 'AsyncAPI',
+        fullName: 'AsyncAPI Specification',
+        category: 'API Interfaces',
+        governance: 'AsyncAPI Initiative, Linux Foundation',
+        status: 'Stable; v3 current',
+        description: [
+          'Open-source standard for defining event-driven and message-based APIs across protocols like Kafka, AMQP, MQTT, WebSocket, and NATS.',
+          'Where OpenAPI describes synchronous request/response, AsyncAPI describes asynchronous channels. The two specifications are intentionally aligned in style.'
+        ],
+        links: [
+          { label: 'asyncapi.com', url: 'https://www.asyncapi.com' },
+          { label: 'GitHub: asyncapi', url: 'https://github.com/asyncapi' }
+        ]
+      },
+      'graphql': {
+        name: 'GraphQL',
+        fullName: 'GraphQL',
+        category: 'API Interfaces',
+        governance: 'GraphQL Foundation, Linux Foundation',
+        status: 'Stable; widely adopted',
+        description: [
+          'Query language and runtime for APIs originally created at Facebook. Lets clients ask for exactly the data they need from a typed schema.',
+          'In a data mesh, GraphQL appears mostly on the consumption side — an output-port style for application teams that prefer typed graph queries over SQL.'
+        ],
+        links: [
+          { label: 'graphql.org', url: 'https://graphql.org' },
+          { label: 'Specification', url: 'https://spec.graphql.org' }
+        ]
+      },
+      'grpc': {
+        name: 'gRPC',
+        fullName: 'gRPC Remote Procedure Call',
+        category: 'API Interfaces',
+        governance: 'CNCF (Incubating), Linux Foundation',
+        status: 'Stable; ubiquitous in cloud-native stacks',
+        description: [
+          'High-performance, language-agnostic RPC framework built on HTTP/2 and Protocol Buffers. Originated at Google, donated to CNCF.',
+          'In a data architecture, gRPC shows up wherever services need fast, strongly-typed binary communication — internal service mesh, streaming pipelines, ML model serving.'
+        ],
+        links: [
+          { label: 'grpc.io', url: 'https://grpc.io' },
+          { label: 'GitHub: grpc', url: 'https://github.com/grpc/grpc' }
+        ]
+      },
+      'dbt': {
+        name: 'dbt',
+        fullName: 'data build tool',
+        category: 'Processing & Data Quality (vendor)',
+        governance: 'dbt Labs (vendor-driven open source)',
+        status: 'De-facto standard for analytics engineering; vendor-governed format',
+        description: [
+          'SQL-first transformation framework with built-in tests, documentation, and lineage. The de-facto standard for analytics engineering — used both to model warehouse data and to express the quality checks that ride alongside the transformations.',
+          'Vendor-governed by dbt Labs rather than a foundation, so it isn\'t an open standard in the strict sense. Included here on the de-facto criterion: its YAML and Jinja-SQL conventions are what other tools (SQLMesh, Lightdash) interoperate with.'
+        ],
+        links: [
+          { label: 'getdbt.com', url: 'https://www.getdbt.com' }
+        ]
+      },
+      'great-expectations': {
+        name: 'Great Expectations',
+        fullName: 'Great Expectations',
+        category: 'Data Quality (vendor)',
+        governance: 'GX Labs (vendor-driven open source)',
+        status: 'Widely adopted; vendor-driven',
+        description: [
+          'Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.',
+          'Open source and useful, but the spec is governed by one company, so it sits in the same vendor-driven bucket as dbt and SodaCL.'
+        ],
+        links: [
+          { label: 'greatexpectations.io', url: 'https://greatexpectations.io' },
+          { label: 'GitHub: great-expectations', url: 'https://github.com/great-expectations/great_expectations' }
+        ]
+      },
+      'sodacl': {
+        name: 'SodaCL',
+        fullName: 'Soda Checks Language',
+        category: 'Data Quality (vendor)',
+        governance: 'Soda (vendor-driven open source)',
+        status: 'Widely adopted; vendor-driven',
+        description: [
+          'YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.',
+          'Used under the hood by the Data Contract CLI to actually execute the quality checks declared in an ODCS contract.'
+        ],
+        links: [
+          { label: 'docs.soda.io/soda-cl', url: 'https://docs.soda.io/soda-cl/soda-cl-overview.html' },
+          { label: 'Soda Core (open source)', url: 'https://github.com/sodadata/soda-core' }
+        ]
+      },
+      'odps': {
+        name: 'ODPS',
+        fullName: 'Open Data Product Standard',
+        category: 'Data Products',
+        highlight: true,
+        governance: 'BITOL / Linux Foundation',
+        status: 'v1.0',
+        description: [
+          'YAML standard for describing data products. Mirrors ODCS on fundamentals, ownership, and terms, and adds input ports, output ports, and management ports.',
+          'Each port references an ODCS contract. Combined, ODCS + ODPS yield the full data-mesh dependency graph — consumers, products, sources — derived directly from YAML.'
+        ],
+        note: 'Acronym collision: "ODPS" also names the Open Data Product Specification (ODPSpec), a separate project. Watch which one you read.',
+        links: [
+          { label: 'GitHub: open-data-product-standard', url: 'https://github.com/bitol-io/open-data-product-standard' },
+          { label: 'BITOL', url: 'https://bitol.io' }
+        ]
+      },
+      'dpds': {
+        name: 'DPDS',
+        fullName: 'Data Product Descriptor Specification',
+        category: 'Data Products',
+        governance: 'OpenDataMesh community',
+        status: 'Active; community-driven specification',
+        description: [
+          'YAML-based specification for describing data products with input ports, output ports, control ports, and discovery ports. Maintained by the OpenDataMesh initiative.',
+          'Distinct from BITOL\'s ODPS: similar problem space, different community and slightly different mental model. Worth knowing both exist before you commit to one.'
+        ],
+        links: [
+          { label: 'dpds.opendatamesh.org', url: 'https://dpds.opendatamesh.org/concepts/data-product-descriptor/' },
+          { label: 'OpenDataMesh', url: 'https://www.opendatamesh.org' }
+        ]
+      },
+      'odpspec': {
+        name: 'ODPSpec',
+        fullName: 'Open Data Product Specification',
+        category: 'Data Products',
+        governance: 'opendataproducts.org / Linux Foundation',
+        status: 'Active; mature pricing & i18n features',
+        description: [
+          'Standalone open specification for describing data products, governed under the Linux Foundation umbrella. Strong on pricing plans and internationalisation, making it a natural fit for external data marketplaces with complex commercial terms.',
+          'Different mental model from BITOL\'s ODPS: no concept of input ports, at most one linked contract at the top level. Both are valid — they solve different problems.'
+        ],
+        links: [
+          { label: 'opendataproducts.org', url: 'https://opendataproducts.org' }
+        ]
+      },
+      'dprod': {
+        name: 'DPROD',
+        fullName: 'Data Product Vocabulary (DPROD)',
+        category: 'Data Products',
+        governance: 'EKGF / Object Management Group (OMG) — RDF/OWL vocabulary',
+        status: 'Active in semantic-web circles',
+        description: [
+          'RDF/OWL vocabulary for describing data products. Composes naturally with other semantic-web vocabularies (DCAT, SKOS, FIBO, etc.) when your stack already lives in the linked-data world.',
+          'Where ODPS is YAML and strict, DPROD is RDF and graph-native. Both have their place; the format choice determines what else you can compose with.'
+        ],
+        links: [
+          { label: 'DPROD specification', url: 'https://ekgf.github.io/dprod/' }
+        ]
+      },
+      'iceberg': {
+        name: 'Iceberg',
+        fullName: 'Apache Iceberg',
+        category: 'Open Table Formats',
+        governance: 'Apache Software Foundation',
+        status: 'Stable; effectively the winner of the table-format race',
+        description: [
+          'Open table format for huge analytic datasets — schema evolution, hidden partitioning, time travel, ACID semantics on object storage.',
+          'Originated at Netflix; now a default in Snowflake, Databricks, AWS, and most query engines. Increasingly the substrate that other layers (catalogs, lakehouses) build on.'
+        ],
+        links: [
+          { label: 'iceberg.apache.org', url: 'https://iceberg.apache.org' }
+        ]
+      },
+      'delta': {
+        name: 'Delta',
+        fullName: 'Delta Lake',
+        category: 'Open Table Formats',
+        governance: 'Linux Foundation (originally Databricks)',
+        status: 'Stable; widely deployed',
+        description: [
+          'Open-source storage layer that brings ACID transactions, schema enforcement, and time travel to data lakes. The original lakehouse format.',
+          'Delta Universal Format (UniForm) now also writes Iceberg-compatible metadata, narrowing the gap between the two formats.'
+        ],
+        links: [
+          { label: 'delta.io', url: 'https://delta.io' }
+        ]
+      },
+      'hudi': {
+        name: 'Hudi',
+        fullName: 'Apache Hudi',
+        category: 'Open Table Formats',
+        governance: 'Apache Software Foundation',
+        status: 'Stable; strong streaming/upsert focus',
+        description: [
+          'Transactional data lake platform that pioneered incremental processing and upserts on data lakes.',
+          'Less mainstream than Iceberg or Delta today, but still the table format of choice when streaming upserts and CDC are first-class requirements.'
+        ],
+        links: [
+          { label: 'hudi.apache.org', url: 'https://hudi.apache.org' }
+        ]
+      },
+      'ducklake': {
+        name: 'DuckLake',
+        fullName: 'DuckLake',
+        category: 'Catalog APIs',
+        governance: 'DuckDB Labs (vendor-driven open source)',
+        status: 'New (2025); experimental',
+        description: [
+          'Lakehouse catalog format from DuckDB Labs that puts the catalog inside a regular SQL database — no separate REST catalog, no manifest sprawl. Designed for simplicity and zero-infrastructure analytics.',
+          'Brand new and vendor-driven. Worth tracking, but not yet a peer of Iceberg REST or Unity Catalog in production maturity.'
+        ],
+        links: [
+          { label: 'ducklake.select', url: 'https://ducklake.select' },
+          { label: 'duckdb.org', url: 'https://duckdb.org' }
+        ]
+      },
+      'xml-schema': {
+        name: 'XML Schema',
+        fullName: 'XML Schema Definition (XSD)',
+        category: 'Schema',
+        governance: 'W3C',
+        status: 'Stable since 2001',
+        description: [
+          'W3C standard for describing the structure, content, and constraints of XML documents.',
+          'Still the schema language of record in many enterprise integration scenarios — SOAP, banking, healthcare, and government.'
+        ],
+        links: [
+          { label: 'W3C: XML Schema', url: 'https://www.w3.org/XML/Schema' }
+        ]
+      },
+      'json-schema': {
+        name: 'JSON Schema',
+        fullName: 'JSON Schema',
+        category: 'Schema',
+        governance: 'JSON Schema community / IETF',
+        status: 'Latest draft 2020-12; on track for IETF standardisation',
+        description: [
+          'Vocabulary for validating, annotating, and documenting JSON. The schema language of choice for modern HTTP APIs and event payloads.',
+          'ODCS uses JSON Schema concepts for typing complex column structures, and the OpenAPI / AsyncAPI specs are themselves anchored in JSON Schema.'
+        ],
+        links: [
+          { label: 'json-schema.org', url: 'https://json-schema.org' }
+        ]
+      },
+      'sql-ddl': {
+        name: 'SQL DDL',
+        fullName: 'SQL Data Definition Language',
+        category: 'Schema',
+        governance: 'ANSI / ISO/IEC 9075',
+        status: 'Stable; per-vendor extensions are everywhere',
+        description: [
+          'The CREATE / ALTER / DROP subset of SQL — the most universal way to describe a relational schema.',
+          'The Data Contract CLI imports SQL DDL into ODCS contracts and exports back to it, because every relational engine speaks at least a flavour of it.'
+        ],
+        links: [
+          { label: 'ISO/IEC 9075 standard', url: 'https://www.iso.org/standard/76583.html' }
+        ]
+      },
+      'avro-schema': {
+        name: 'AVRO Schema',
+        fullName: 'Apache Avro Schema',
+        category: 'Schema',
+        governance: 'Apache Software Foundation',
+        status: 'Stable; ubiquitous in streaming',
+        description: [
+          'JSON-based schema language used to describe Avro-encoded records. Standard in Kafka via Confluent Schema Registry.',
+          'Strong support for schema evolution rules — a key reason it has stuck around as the default schema dialect for event streams.'
+        ],
+        links: [
+          { label: 'avro.apache.org', url: 'https://avro.apache.org' }
+        ]
+      },
+      'protobuf': {
+        name: 'Protobuf',
+        fullName: 'Protocol Buffers',
+        category: 'Schema',
+        governance: 'Google (open source, vendor-driven)',
+        status: 'Stable; de-facto schema for binary RPC',
+        description: [
+          'Google\'s language-neutral, platform-neutral mechanism for serialising structured data. Compact binary encoding plus strong schema evolution rules.',
+          'The schema language behind gRPC and many internal RPC stacks. Open source but governed by Google, so it sits in the same vendor-driven bucket as dbt.'
+        ],
+        links: [
+          { label: 'protobuf.dev', url: 'https://protobuf.dev' },
+          { label: 'GitHub: protobuf', url: 'https://github.com/protocolbuffers/protobuf' }
+        ]
+      },
+      'iceberg-catalog': {
+        name: 'Iceberg Catalog',
+        fullName: 'Iceberg REST Catalog',
+        category: 'Catalog APIs',
+        governance: 'Apache Software Foundation',
+        status: 'Stable; rapidly becoming the default catalog protocol',
+        description: [
+          'Open REST API specification for Iceberg metadata catalogs. Decouples engines (Spark, Trino, Snowflake, Dremio, ...) from the catalog backend.',
+          'Together with Iceberg the table format, this is what is making "open lakehouse" something more than marketing.'
+        ],
+        links: [
+          { label: 'Iceberg REST catalog', url: 'https://iceberg.apache.org/concepts/catalog/' }
+        ]
+      },
+      'unity-catalog': {
+        name: 'Unity Catalog',
+        fullName: 'Unity Catalog',
+        category: 'Catalog APIs',
+        governance: 'Linux Foundation (originally Databricks)',
+        status: 'Open-sourced 2024; growing ecosystem',
+        description: [
+          'Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation.',
+          'Now competing with Iceberg REST as a catalog protocol. The two camps overlap and influence each other; expect convergence over the next couple of years.'
+        ],
+        links: [
+          { label: 'unitycatalog.io', url: 'https://www.unitycatalog.io' },
+          { label: 'GitHub: unitycatalog', url: 'https://github.com/unitycatalog/unitycatalog' }
+        ]
+      },
+      'hive-metastore': {
+        name: 'Hive Metastore',
+        fullName: 'Apache Hive Metastore',
+        category: 'Catalog APIs',
+        governance: 'Apache Software Foundation',
+        status: 'Legacy; still everywhere',
+        description: [
+          'The metastore protocol of the Hadoop era. Long-standing de-facto standard for big-data catalogs — spoken by Spark, Trino, Presto, and most lakehouse engines.',
+          'Slowly being superseded by Iceberg REST and Unity Catalog, but installed bases will keep it relevant for many years to come.'
+        ],
+        links: [
+          { label: 'hive.apache.org', url: 'https://hive.apache.org' }
+        ]
+      },
+      'schema-registry': {
+        name: 'Schema Registry',
+        fullName: 'Confluent Schema Registry',
+        category: 'Catalog APIs',
+        governance: 'Confluent (open API; multiple compatible implementations)',
+        status: 'De-facto standard for streaming schemas',
+        description: [
+          'A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, "what shape is this Kafka topic?" has no answer.',
+          'The REST API was designed by Confluent but the protocol is widely re-implemented: Apicurio Registry (Red Hat), AWS Glue Schema Registry, Karapace (Aiven), and Redpanda Schema Registry all speak it. That makes it the de-facto schema catalog of the streaming world, even if it is not formally standardised.'
+        ],
+        links: [
+          { label: 'Confluent Schema Registry', url: 'https://docs.confluent.io/platform/current/schema-registry/index.html' },
+          { label: 'Apicurio Registry', url: 'https://www.apicur.io/registry/' }
+        ]
+      },
+      'csv': {
+        name: 'CSV',
+        fullName: 'Comma-Separated Values (RFC 4180)',
+        category: 'File Formats',
+        governance: 'IETF (RFC 4180)',
+        status: 'Stable; the lowest common denominator for tabular data',
+        description: [
+          'Plain-text tabular format. RFC 4180 specifies a baseline; in practice every tool has its own dialect for quoting, escaping, and line endings.',
+          'Loved and hated in equal measure: terrible for nested data, perfect for spreadsheets, mandatory in data lake on-ramps.'
+        ],
+        links: [
+          { label: 'RFC 4180', url: 'https://www.ietf.org/rfc/rfc4180.txt' }
+        ]
+      },
+      'json': {
+        name: 'JSON',
+        fullName: 'JavaScript Object Notation',
+        category: 'File Formats',
+        governance: 'IETF RFC 8259 / ECMA-404',
+        status: 'Stable; ubiquitous',
+        description: [
+          'Standard text-based format for structured data. Pairs naturally with JSON Schema, OpenAPI, and AsyncAPI.',
+          'In a lake, line-delimited JSON (NDJSON / JSONL) is the typical landing format before transformation into columnar formats like Parquet.'
+        ],
+        links: [
+          { label: 'json.org', url: 'https://www.json.org' },
+          { label: 'RFC 8259', url: 'https://www.rfc-editor.org/rfc/rfc8259' }
+        ]
+      },
+      'xml': {
+        name: 'XML',
+        fullName: 'Extensible Markup Language',
+        category: 'File Formats',
+        governance: 'W3C',
+        status: 'Stable since 1998; XML 1.1 current',
+        description: [
+          'Tag-based markup format for structured documents and data. Verbose by modern standards, but unmatched tooling around schemas, transformations, and validation (XSD, XSLT, XPath, XQuery).',
+          'Still the format of record in many enterprise integration scenarios — banking, healthcare, government, and SOAP-based B2B exchange.'
+        ],
+        links: [
+          { label: 'W3C: XML', url: 'https://www.w3.org/XML/' }
+        ]
+      },
+      'parquet': {
+        name: 'PARQUET',
+        fullName: 'Apache Parquet',
+        category: 'File Formats',
+        governance: 'Apache Software Foundation',
+        status: 'Stable; the columnar default',
+        description: [
+          'Columnar storage format optimised for analytics: predicate pushdown, column pruning, efficient compression, and typed schemas.',
+          'Effectively the default storage format underneath every modern table format (Iceberg, Delta, Hudi).'
+        ],
+        links: [
+          { label: 'parquet.apache.org', url: 'https://parquet.apache.org' }
+        ]
+      },
+      'avro': {
+        name: 'AVRO',
+        fullName: 'Apache Avro',
+        category: 'File Formats',
+        governance: 'Apache Software Foundation',
+        status: 'Stable; standard in Kafka',
+        description: [
+          'Row-oriented binary format that ships its schema alongside the data. Excellent for streaming and event payloads where messages are written and read one at a time.',
+          'The natural counterpart to Parquet: Avro for streams, Parquet for analytics.'
+        ],
+        links: [
+          { label: 'avro.apache.org', url: 'https://avro.apache.org' }
+        ]
+      },
+      'orc': {
+        name: 'ORC',
+        fullName: 'Apache ORC (Optimized Row Columnar)',
+        category: 'File Formats',
+        governance: 'Apache Software Foundation',
+        status: 'Stable; mostly seen in Hive-era stacks',
+        description: [
+          'Columnar file format created for the Hive ecosystem. Strong compression and ACID support inside Hive.',
+          'Less common in greenfield projects today — Parquet has won most workloads — but still pervasive in big-data installations.'
+        ],
+        links: [
+          { label: 'orc.apache.org', url: 'https://orc.apache.org' }
+        ]
+      },
+      'openlineage': {
+        name: 'OpenLineage',
+        fullName: 'OpenLineage',
+        category: 'Lineage',
+        governance: 'Linux Foundation',
+        status: 'Stable; growing integration list',
+        description: [
+          'Open standard for collecting lineage metadata from data pipelines, including column-level lineage. Producers emit OpenLineage events; consumers (Marquez, catalogs, custom UIs) ingest them.',
+          'For runtime lineage details — how the pipeline actually works — OpenLineage traces are the answer, not the data contract. Use both: contracts for design, OpenLineage for execution.'
+        ],
+        links: [
+          { label: 'openlineage.io', url: 'https://openlineage.io' }
+        ]
+      },
+      'opa': {
+        name: 'OPA',
+        fullName: 'Open Policy Agent',
+        category: 'Policies',
+        governance: 'CNCF (Graduated)',
+        status: 'Stable; de-facto policy engine for cloud-native',
+        description: [
+          'General-purpose policy engine that decouples policy decisions from your services. Policies are written in Rego and evaluated at request time.',
+          'In a data mesh, OPA shows up wherever federated governance needs to enforce rules — access requests, contract gates in CI, infrastructure guard-rails — without putting the rules into application code.'
+        ],
+        links: [
+          { label: 'openpolicyagent.org', url: 'https://www.openpolicyagent.org' }
+        ]
+      },
+      'mcp': {
+        name: 'MCP',
+        fullName: 'Model Context Protocol',
+        category: 'AI Interfaces',
+        governance: 'Linux Foundation (created by Anthropic; multi-vendor steering)',
+        status: 'Active; rapid adoption since late 2024',
+        description: [
+          'Open protocol for connecting AI applications and agents to external systems: data sources, tools, and workflows. The "USB-C for AI": one spec, many servers and clients.',
+          'For data architectures, MCP is becoming the standard way LLMs discover and query data products, semantic models, and catalogs. Created by Anthropic and now hosted at the Linux Foundation; Claude, ChatGPT, Cursor, VS Code, and many others speak it.'
+        ],
+        links: [
+          { label: 'modelcontextprotocol.io', url: 'https://modelcontextprotocol.io' },
+          { label: 'GitHub: modelcontextprotocol', url: 'https://github.com/modelcontextprotocol' }
+        ]
+      },
+      'a2a': {
+        name: 'A2A',
+        fullName: 'Agent2Agent Protocol',
+        category: 'AI Interfaces',
+        governance: 'Linux Foundation (created by Google; multi-vendor steering)',
+        status: 'Active; donated to LF in 2025',
+        description: [
+          'Open protocol for AI agents to discover, communicate, and collaborate with each other across vendors and frameworks. Where MCP is agent-to-tools, A2A is agent-to-agent: capability discovery, task delegation, and multi-turn dialogue between independently developed agents.',
+          'Created by Google and donated to the Linux Foundation. Increasingly paired with MCP in production stacks: A2A for agent-to-agent orchestration, MCP for the tools and data each agent reaches into.'
+        ],
+        links: [
+          { label: 'a2a-protocol.org', url: 'https://a2a-protocol.org' },
+          { label: 'GitHub: a2aproject/A2A', url: 'https://github.com/a2aproject/A2A' }
+        ]
+      },
+      's3': {
+        name: 'S3',
+        fullName: 'Amazon S3 API',
+        category: 'Storage',
+        governance: 'AWS (vendor-controlled, but de-facto standard)',
+        status: 'De-facto standard; implemented by everyone',
+        description: [
+          'AWS\'s object storage API has become the lingua franca of the data lake. Every cloud, every storage vendor, every minio-style appliance speaks some flavour of it.',
+          'Strictly speaking it is not an open standard — AWS controls it — but the practical reality is that "talks S3" is treated as a portability guarantee.'
+        ],
+        links: [
+          { label: 'AWS S3 API reference', url: 'https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html' }
+        ]
+      },
+      'osi': {
+        name: 'OSI',
+        fullName: 'Open Semantic Interchange',
+        category: 'Semantics',
+        highlight: true,
+        governance: 'OSI Initiative — Snowflake, Databricks, Tableau, MicroStrategy, and many more',
+        status: 'v0.1.1; explicitly early, working groups very active',
+        description: [
+          'Vendor-agnostic open-source standard for exchanging semantic models — datasets, relationships, metrics, and AI context — between BI platforms, AI agents, and analytics tools.',
+          'Overlaps with ODCS on datasets and relationships, and adds metrics (e.g. total_revenue = SUM(order_total)) and dynamic fields (e.g. full_name = first_name + " " + last_name). ODCS still owns terms of use, quality, and SLAs.'
+        ],
+        note: 'Acronym collision with the OSI networking model from CS class. This OSI is the Open Semantic Interchange.',
+        links: [
+          { label: 'opensemantic.com', url: 'https://opensemantic.com' },
+          { label: 'GitHub: open-semantic-interchange', url: 'https://github.com/open-semantic-interchange/OSI' },
+          { label: 'Open Semantic Editor', url: 'https://editor.opensemantic.com' }
+        ]
+      },
+      'rdf-owl': {
+        name: 'RDF/OWL',
+        fullName: 'Resource Description Framework / Web Ontology Language',
+        category: 'Semantics',
+        governance: 'W3C',
+        status: 'Stable; foundation of the semantic web',
+        description: [
+          'RDF is the W3C model for representing graph data; OWL extends it for richer ontologies and reasoning. Together they are the foundation of the semantic web.',
+          'YAML formats like ODCS and OSI buy simplicity at the cost of composability. RDF/OWL trade off the other way: harder to author, much easier to compose vocabularies that were never designed together.'
+        ],
+        links: [
+          { label: 'W3C: RDF', url: 'https://www.w3.org/RDF/' },
+          { label: 'W3C: OWL', url: 'https://www.w3.org/OWL/' }
+        ]
+      },
+      'dcat': {
+        name: 'DCAT',
+        fullName: 'Data Catalog Vocabulary',
+        category: 'Semantics',
+        governance: 'W3C',
+        status: 'Stable; v3 current',
+        description: [
+          'RDF vocabulary designed to facilitate interoperability between data catalogs. Mandatory for many EU open-data portals.',
+          'DCAT lives in the RDF / semantic-web world as a catalog vocabulary inspired by libraries and dataset offerings. Different mental model from contract-first standards like ODCS.'
+        ],
+        links: [
+          { label: 'W3C: DCAT', url: 'https://www.w3.org/TR/vocab-dcat/' }
+        ]
+      },
+      'skos': {
+        name: 'SKOS',
+        fullName: 'Simple Knowledge Organization System',
+        category: 'Semantics',
+        governance: 'W3C',
+        status: 'Stable since 2009',
+        description: [
+          'W3C standard for representing thesauri, taxonomies, and controlled vocabularies in RDF.',
+          'Useful for sharing classifications — PII categories, business glossaries, regulatory taxonomies — in a way that other tools can consume without bespoke mapping.'
+        ],
+        links: [
+          { label: 'W3C: SKOS', url: 'https://www.w3.org/2004/02/skos/' }
+        ]
+      },
+      'shacl': {
+        name: 'SHACL',
+        fullName: 'Shapes Constraint Language',
+        category: 'Semantics',
+        governance: 'W3C',
+        status: 'Stable; SHACL 1.1 in progress',
+        description: [
+          'W3C language for validating RDF graphs against a set of conditions — the JSON Schema of the RDF world.',
+          'Used heavily where the semantic stack actually has to enforce rules, not just describe them.'
+        ],
+        links: [
+          { label: 'W3C: SHACL', url: 'https://www.w3.org/TR/shacl/' }
+        ]
+      },
+      'json-ld': {
+        name: 'JSON-LD',
+        fullName: 'JSON for Linking Data',
+        category: 'Semantics',
+        governance: 'W3C',
+        status: 'Stable; JSON-LD 1.1 current',
+        description: [
+          'A JSON-based serialisation for linked data. Lets you embed semantic context (types, relationships, IRIs) into ordinary JSON without breaking JSON consumers that ignore it.',
+          'The pragmatic on-ramp into the RDF world: how Schema.org rides on web pages, how decentralised identity (DID, Verifiable Credentials) ships its payloads, and how many APIs add semantics to existing JSON without forcing clients to learn RDF.'
+        ],
+        links: [
+          { label: 'W3C: JSON-LD 1.1', url: 'https://www.w3.org/TR/json-ld11/' },
+          { label: 'json-ld.org', url: 'https://json-ld.org' }
+        ]
+      },
+      'sparql': {
+        name: 'SPARQL',
+        fullName: 'SPARQL Protocol and RDF Query Language',
+        category: 'Query',
+        governance: 'W3C',
+        status: 'Stable; SPARQL 1.1 current, 1.2 in progress',
+        description: [
+          'The query language for RDF graphs. Pattern-matching syntax that walks graph triples, with federation across endpoints, updates, and a standardised HTTP protocol.',
+          'Where SQL is to relational tables, SPARQL is to RDF: the standard way to ask questions of an OSI, DCAT, SKOS, or SHACL-validated graph. Without it, the rest of the W3C semantic stack cannot answer queries portably.'
+        ],
+        links: [
+          { label: 'W3C: SPARQL 1.1', url: 'https://www.w3.org/TR/sparql11-overview/' }
+        ]
+      },
+      'hdfs': {
+        name: 'HDFS',
+        fullName: 'Hadoop Distributed File System',
+        category: 'Storage Systems',
+        governance: 'Apache Software Foundation',
+        status: 'Stable; mature, declining in greenfield projects',
+        description: [
+          'Distributed file system designed to run on commodity hardware, originally inspired by Google File System. The storage substrate of the classic Hadoop stack.',
+          'Object storage (S3 and friends) has displaced HDFS in most new architectures, but large existing deployments mean it remains an important interface to support.'
+        ],
+        links: [
+          { label: 'hadoop.apache.org', url: 'https://hadoop.apache.org' }
+        ]
+      },
+      'jdbc': {
+        name: 'JDBC',
+        fullName: 'Java Database Connectivity',
+        category: 'Database Connectivity',
+        governance: 'Java Community Process (JCP)',
+        status: 'Stable; ubiquitous in JVM ecosystems',
+        description: [
+          'Standard Java API for connecting to relational databases. Every serious analytical engine, BI tool, and JVM-based data pipeline speaks JDBC.',
+          'Row-oriented by design — fine for transactional workloads, suboptimal for moving large analytical result sets where columnar transports like ADBC are faster.'
+        ],
+        links: [
+          { label: 'JDBC overview', url: 'https://docs.oracle.com/javase/tutorial/jdbc/' }
+        ]
+      },
+      'odbc': {
+        name: 'ODBC',
+        fullName: 'Open Database Connectivity',
+        category: 'Database Connectivity',
+        governance: 'ISO/IEC 9075-3 (originally Microsoft / SQL Access Group)',
+        status: 'Stable since 1992; cross-language standard',
+        description: [
+          'C-based, language-neutral API for accessing relational databases. The cross-platform sibling of JDBC, and the connectivity layer behind most BI tools and Excel-style integrations.',
+          'Like JDBC, ODBC is row-oriented — efficient for transactional access, less so for analytical column-heavy result sets.'
+        ],
+        links: [
+          { label: 'ISO/IEC 9075-3', url: 'https://www.iso.org/standard/76585.html' },
+          { label: 'Microsoft ODBC reference', url: 'https://learn.microsoft.com/en-us/sql/odbc/reference/odbc-overview' }
+        ]
+      },
+      'adbc': {
+        name: 'ADBC',
+        fullName: 'Arrow Database Connectivity',
+        category: 'Database Connectivity',
+        governance: 'Apache Software Foundation (Arrow project)',
+        status: 'Stable; growing driver ecosystem',
+        description: [
+          'Arrow-native database connectivity API. Where JDBC and ODBC marshal results row-by-row, ADBC moves data as Arrow record batches — zero-copy where possible, dramatically faster for analytical workloads.',
+          'Designed to coexist with JDBC and ODBC: drivers can wrap them today, and engines can expose ADBC natively for the columnar fast path.'
+        ],
+        links: [
+          { label: 'arrow.apache.org/adbc', url: 'https://arrow.apache.org/adbc/' }
+        ]
+      },
+      'http': {
+        name: 'HTTP',
+        fullName: 'Hypertext Transfer Protocol',
+        category: 'Interconnection',
+        governance: 'IETF',
+        status: 'Stable; HTTP/3 (RFC 9114) is current',
+        description: [
+          'The application protocol of the web, and the universal transport beneath REST APIs, OpenAPI, GraphQL, gRPC (HTTP/2), Iceberg REST catalogs, and OpenLineage events.',
+          'Most data interfaces today are some flavour of "HTTP plus a schema" — which is why HTTP is a load-bearing assumption in almost any modern data architecture.'
+        ],
+        links: [
+          { label: 'RFC 9110 (HTTP semantics)', url: 'https://www.rfc-editor.org/rfc/rfc9110' }
+        ]
+      },
+      'kafka': {
+        name: 'Kafka',
+        fullName: 'Apache Kafka',
+        category: 'Messaging',
+        governance: 'Apache Software Foundation',
+        status: 'Stable; the de-facto streaming platform',
+        description: [
+          'Distributed log and streaming platform. Originally built at LinkedIn, donated to ASF; now the default backbone for event-driven data pipelines.',
+          'The Kafka wire protocol is openly documented and re-implemented by Redpanda, WarpStream, and others, so it sits next to AMQP as a standard option for asynchronous data movement.'
+        ],
+        links: [
+          { label: 'kafka.apache.org', url: 'https://kafka.apache.org' }
+        ]
+      },
+      'mqtt': {
+        name: 'MQTT',
+        fullName: 'Message Queuing Telemetry Transport',
+        category: 'Messaging',
+        governance: 'OASIS',
+        status: 'Stable; MQTT 5.0 standardised',
+        description: [
+          'Lightweight publish-subscribe messaging protocol designed for constrained devices and unreliable networks. The dominant wire protocol for IoT and edge data.',
+          'Where AMQP and Kafka fit centralised broker patterns inside the data centre, MQTT is what shows up at the edge: sensors, vehicles, factory floors. Bridging MQTT into Kafka is a common ingest pattern for industrial data.'
+        ],
+        links: [
+          { label: 'mqtt.org', url: 'https://mqtt.org' },
+          { label: 'OASIS MQTT 5.0', url: 'https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html' }
+        ]
+      },
+      'cloudevents': {
+        name: 'CloudEvents',
+        fullName: 'CloudEvents',
+        category: 'Messaging',
+        governance: 'CNCF (Graduated)',
+        status: 'Stable; CloudEvents 1.0 graduated at CNCF',
+        description: [
+          'Specification for describing event data in a common way. Defines a vendor-neutral envelope (id, source, type, time, data) plus protocol bindings for HTTP, Kafka, AMQP, MQTT, NATS, and others.',
+          'Where Kafka/AMQP/MQTT are transports, CloudEvents is the shape of what flows over them. Increasingly the default cross-system event format in cloud-native and serverless architectures.'
+        ],
+        links: [
+          { label: 'cloudevents.io', url: 'https://cloudevents.io' },
+          { label: 'GitHub: cloudevents/spec', url: 'https://github.com/cloudevents/spec' }
+        ]
+      },
+      'amqp': {
+        name: 'AMQP',
+        fullName: 'Advanced Message Queuing Protocol',
+        category: 'Messaging',
+        governance: 'OASIS',
+        status: 'Stable; AMQP 1.0 standardised',
+        description: [
+          'Open wire-level protocol for message-oriented middleware. Reliable, broker-mediated message exchange independent of any single vendor.',
+          'Implemented by RabbitMQ, Azure Service Bus, ActiveMQ and others. Sits next to MQTT and the Kafka protocol as a standard option for asynchronous data movement.'
+        ],
+        links: [
+          { label: 'amqp.org', url: 'https://www.amqp.org' },
+          { label: 'OASIS AMQP 1.0', url: 'https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-overview-v1.0-os.html' }
+        ]
+      },
+      'ftp': {
+        name: 'FTP / SFTP',
+        fullName: 'File Transfer Protocol / SSH File Transfer Protocol',
+        category: 'Interconnection',
+        governance: 'IETF',
+        status: 'Stable; legacy but pervasive in B2B data exchange',
+        description: [
+          'FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.',
+          'Unsexy but unavoidable: many regulated industries — banking, insurance, public sector — still hand off bulk data between organisations as nightly (S)FTP drops.'
+        ],
+        links: [
+          { label: 'RFC 959 (FTP)', url: 'https://www.rfc-editor.org/rfc/rfc959' },
+          { label: 'SFTP draft', url: 'https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-13' }
+        ]
+      },
+      'dataframe': {
+        name: 'DataFrame API',
+        fullName: 'Python Dataframe API Standard',
+        category: 'In-Memory Format',
+        governance: 'Consortium for Python Data API Standards (data-apis.org)',
+        status: 'Draft RFC; multi-vendor adoption underway',
+        description: [
+          'Open standard for a portable DataFrame API across Python implementations. The aim: write code once, run on pandas, Polars, Modin, cuDF, or any compliant library.',
+          'Sister specification to the Array API Standard. Sponsored by data-apis.org with backing from Quansight, NVIDIA, Microsoft, Intel, and the major DataFrame projects. The standard everyone reaches for when "which DataFrame API?" needs to stop being a portability question.'
+        ],
+        links: [
+          { label: 'data-apis.org', url: 'https://data-apis.org' },
+          { label: 'DataFrame API draft RFC', url: 'https://data-apis.org/dataframe-api/draft/' }
+        ]
+      },
+      'arrow': {
+        name: 'Apache Arrow',
+        fullName: 'Apache Arrow',
+        category: 'In-Memory Format',
+        governance: 'Apache Software Foundation',
+        status: 'Stable; broadly adopted across the analytics stack',
+        description: [
+          'Language-agnostic columnar in-memory format for analytical data. Designed for zero-copy reads and efficient interchange between processes, languages, and engines.',
+          'Foundation for ADBC, the basis of pandas 2.x, the wire format of Arrow Flight, and the in-memory layout of DuckDB, Polars, and many others. Arrow is the connective tissue of modern analytics.'
+        ],
+        links: [
+          { label: 'arrow.apache.org', url: 'https://arrow.apache.org' }
+        ]
+      },
+      'spark': {
+        name: 'Spark',
+        fullName: 'Apache Spark',
+        category: 'Processing',
+        governance: 'Apache Software Foundation',
+        status: 'Stable; Spark 3.x mainstream, 4.x emerging',
+        description: [
+          'Distributed analytics engine with a DataFrame API across Scala, Java, Python, and R. The classic large-scale processing engine for batch and streaming workloads.',
+          'Spark Connect decouples client and engine, making the DataFrame API a portable client interface — which is why it shows up here as an interface, not just an engine.'
+        ],
+        links: [
+          { label: 'spark.apache.org', url: 'https://spark.apache.org' }
+        ]
+      },
+      'pandas': {
+        name: 'Pandas',
+        fullName: 'pandas',
+        category: 'Processing',
+        governance: 'NumFOCUS (open source)',
+        status: 'Stable; the de-facto Python DataFrame API',
+        description: [
+          'The original Python DataFrame library. Whatever else a Python data practitioner uses, they almost certainly know pandas — which makes its API a de-facto interface that other libraries (Polars, Modin, cuDF) deliberately mimic.',
+          'Pandas 2.x added Arrow-backed columns, narrowing the gap with newer engines while preserving the familiar API.'
+        ],
+        links: [
+          { label: 'pandas.pydata.org', url: 'https://pandas.pydata.org' }
+        ]
+      },
+      'ibis': {
+        name: 'Ibis',
+        fullName: 'Ibis',
+        category: 'Processing',
+        governance: 'Ibis Project (open source)',
+        status: 'Stable; multi-backend',
+        description: [
+          'Portable Python DataFrame API that compiles expressions to a backend of choice — DuckDB, BigQuery, Snowflake, Postgres, Spark, and many others.',
+          'Lets analytics code be written once and executed against whichever engine the data happens to live on, without rewriting in each backend\'s SQL dialect.'
+        ],
+        links: [
+          { label: 'ibis-project.org', url: 'https://ibis-project.org' }
+        ]
+      }
+    };
+
+    const orgLogos = {
+      'ASF': '/media/icons/standards-map/logos/apache.png',
+      'Anthropic': '/media/icons/standards-map/logos/mcp.svg',
+      'AWS': '/media/icons/standards-map/logos/aws.svg',
+      'BITOL': '/media/icons/standards-map/logos/bitol.svg',
+      'Confluent': '/media/icons/standards-map/logos/confluent.svg',
+      'dbt': '/media/icons/standards-map/logos/dbt.png',
+      'DuckDB': '/media/icons/standards-map/logos/duckdb.svg',
+      'Google': '/media/icons/standards-map/logos/google.svg',
+      'GX': '/media/icons/standards-map/logos/great-expectations.png',
+      'Ibis': '/media/icons/standards-map/logos/ibis.png',
+      'IETF': '/media/icons/standards-map/logos/ietf.svg',
+      'ISO/IEC': '/media/icons/standards-map/logos/iso.png',
+      'OASIS': '/media/icons/standards-map/logos/oasis.png',
+      'OpenDataMesh': '/media/icons/standards-map/logos/dpds.png',
+      'OSI': '/media/icons/standards-map/logos/osi.svg',
+      'Soda': '/media/icons/standards-map/logos/soda.png',
+      'W3C': '/media/icons/standards-map/logos/w3c.svg',
+    };
+
+    function resolveOrgLogo(umbrella) {
+      if (!umbrella) return null;
+      for (const key of Object.keys(orgLogos)) {
+        if (umbrella.toLowerCase().includes(key.toLowerCase())) return orgLogos[key];
+      }
+      return null;
+    }
+
+    return {
+      standards: data,
+      selectedId: null,
+      activeFilter: null,
+      counts: { all: 0, BITOL: 0, LF: 0, ASF: 0, CNCF: 0, W3C: 0, IETF: 0, ISO: 0, OASIS: 0, OMG: 0, OSI: 0, vendor: 0 },
+      buttonMeta: {},
+      get selected() {
+        return this.selectedId ? this.standards[this.selectedId] : null;
+      },
+      get standardLogo() {
+        return this.buttonMeta[this.selectedId]?.logo || null;
+      },
+      get orgLogo() {
+        const meta = this.buttonMeta[this.selectedId];
+        return meta ? resolveOrgLogo(meta.umbrella) : null;
+      },
+      get orgIsVendor() {
+        return !!this.buttonMeta[this.selectedId]?.vendor;
+      },
+      buildButtonMeta() {
+        const map = {};
+        document.querySelectorAll('.item').forEach(el => {
+          const click = el.getAttribute('@click') || '';
+          const m = click.match(/selectedId\s*=\s*'([^']+)'/);
+          if (!m) return;
+          const img = el.querySelector('.item-logo');
+          map[m[1]] = {
+            logo: img?.getAttribute('src') || null,
+            umbrella: el.dataset.umbrella || '',
+            vendor: el.classList.contains('item-vendor'),
+          };
+        });
+        this.buttonMeta = map;
+      },
+      computeCounts() {
+        const norm = s => (s || '').toLowerCase();
+        const items = Array.from(document.querySelectorAll('.item[data-umbrella]'));
+        const seen = new Set();
+        const unique = items.filter(el => {
+          const name = el.querySelector('.item-name')?.textContent?.trim();
+          if (seen.has(name)) return false;
+          seen.add(name);
+          return true;
+        });
+        const counts = { all: unique.length };
+        ['BITOL', 'LF', 'ASF', 'CNCF', 'W3C', 'IETF', 'ISO', 'OASIS', 'OMG', 'OSI', 'vendor'].forEach(f => {
+          counts[f] = unique.filter(el => norm(el.dataset.umbrella).includes(norm(f))).length;
+        });
+        this.counts = counts;
+      },
+      applyFilter() {
+        const f = this.activeFilter;
+        const norm = s => (s || '').toLowerCase();
+        const items = document.querySelectorAll('.item[data-umbrella]');
+        items.forEach(el => {
+          const u = norm(el.dataset.umbrella);
+          const match = !f || u.includes(norm(f));
+          el.classList.toggle('item-dim', !match);
+        });
+        document.querySelectorAll('.category-panel').forEach(panel => {
+          const allDim = !panel.querySelector('.item:not(.item-dim)');
+          panel.classList.toggle('panel-dim', !!f && allDim);
+        });
+      }
+    };
+  }
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
