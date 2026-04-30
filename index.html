@@ -247,58 +247,6 @@
 <body class="bg-white">
 
 
-<header class="bg-white" x-data="{ isOpen: false }">
-  <nav class="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8" aria-label="Global">
-    <div class="flex lg:flex-1">
-      <a href="https://www.entropy-data.com" class="-m-1.5 p-1.5 text-xl text-gray-900 font-semibold flex items-center gap-2" aria-label="Entropy Data">
-        <img src="/media/logo_fuchsia_v2.svg" alt="Entropy Data Logo" class="h-8 w-auto"/>
-        <span class="sr-only">Entropy Data</span>
-        Entropy Data
-      </a>
-    </div>
-    <div class="hidden lg:flex lg:gap-x-12"></div>
-    <div class="flex flex-1 items-center justify-end gap-x-6">
-      <a href="https://demo.entropy-data.com/start"
-         class="hidden sm:block inline-block rounded-lg py-1 px-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-         rel="nofollow">Try Demo</a>
-      <a href="https://app.entropy-data.com/create-account?ref=sign-up-header"
-         class="hidden sm:block rounded-full py-2 px-4 bg-indigo-600 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign up for free</a>
-    </div>
-    <div class="flex lg:hidden">
-      <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="isOpen = !isOpen">
-        <span class="sr-only">Open main menu</span>
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
-        </svg>
-      </button>
-    </div>
-  </nav>
-  <div class="lg:hidden" role="dialog" aria-modal="true" x-show="isOpen">
-    <div class="fixed inset-0 z-10"></div>
-    <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10" @click.outside="isOpen = false">
-      <div class="flex items-center gap-x-6">
-        <a aria-label="Entropy Data" href="https://www.entropy-data.com" class="text-xl text-gray-900 font-semibold">Entropy Data</a>
-        <button type="button" class="ml-auto -m-2.5 rounded-md p-2.5 text-gray-700" @click="isOpen = !isOpen">
-          <span class="sr-only">Close menu</span>
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
-      <div class="mt-6 flow-root">
-        <div class="-my-6 divide-y divide-gray-500/10">
-          <div class="space-y-2 py-6"></div>
-          <div class="py-6">
-            <a href="https://demo.entropy-data.com/start" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" rel="nofollow">Try Demo</a>
-            <a href="https://app.entropy-data.com/create-account?ref=sign-up-menu-mobile" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sign up for free</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
-
-
 <main class="mt-8 mb-20" x-data="standardsMap()"
       x-init="$watch('selectedId', v => document.body.style.overflow = v ? 'hidden' : '');
               $watch('activeFilter', () => applyFilter());
@@ -1102,16 +1050,19 @@
 </main>
 
 
-<footer class="bg-white">
-  <div class="mx-auto max-w-7xl overflow-hidden py-20 px-6 sm:py-24 lg:px-8">
-    <nav class="-mb-6 mt-10 columns-2 sm:flex sm:justify-center sm:space-x-12" aria-label="Footer">
-      <div class="pb-6"><a href="https://www.entropy-data.com/" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Entropy Data</a></div>
-      <div class="pb-6"><a href="https://docs.entropy-data.com/" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Documentation</a></div>
-      <div class="pb-6"><a href="mailto:hello@entropy-data.com" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Contact</a></div>
-      <div class="pb-6"><a href="https://www.entropy-data.com/terms-of-service" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Terms of Service</a></div>
-      <div class="pb-6"><a href="https://www.entropy-data.com/privacy-policy" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Privacy Policy</a></div>
-      <div class="pb-6"><a href="https://www.entropy-data.com/legal-notice" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Legal Notice</a></div>
-    </nav>
+<footer class="bg-white border-t border-gray-200">
+  <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+    <div class="flex flex-col items-center gap-3 text-center">
+      <p class="text-sm text-gray-600">Created by</p>
+      <a href="https://www.entropy-data.com" class="flex items-center gap-2 text-lg text-gray-900 font-semibold hover:text-indigo-600" aria-label="Entropy Data">
+        <img src="/media/logo_fuchsia_v2.svg" alt="" class="h-8 w-auto"/>
+        Entropy Data
+      </a>
+      <nav class="mt-2 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-gray-500" aria-label="Footer">
+        <a href="https://www.entropy-data.com/legal-notice" class="hover:text-gray-900">Legal Notice</a>
+        <a href="https://www.entropy-data.com/privacy-policy" class="hover:text-gray-900">Privacy Policy</a>
+      </nav>
+    </div>
   </div>
 </footer>
 
