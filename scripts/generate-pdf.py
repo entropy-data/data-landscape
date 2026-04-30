@@ -70,7 +70,8 @@ main { margin: 0 !important; padding: 0 !important; }
 }
 #pdf-footer a { color: #4f46e5; text-decoration: none; }
 
-@page { size: A3 landscape; margin: 12mm; }
+@page { size: A3 landscape; margin: 0; }
+body { margin: 0; padding: 12mm; box-sizing: border-box; }
 """
 
 HIDE_SCRIPT = r"""
@@ -128,6 +129,10 @@ def ensure_chromium() -> None:
 
 
 async def render(base_url: str) -> None:
+    # Render onto a single A3 landscape page. Scale the rendered content
+    # down just enough to fit, so the result fills the full A3 area.
+    PAGE_WIDTH_PX = 1587   # 420 mm @ 96 dpi
+    PAGE_HEIGHT_PX = 1123  # 297 mm @ 96 dpi
     async with async_playwright() as p:
         try:
             browser = await p.chromium.launch()
@@ -137,7 +142,7 @@ async def render(base_url: str) -> None:
             ensure_chromium()
             browser = await p.chromium.launch()
 
-        context = await browser.new_context(viewport={"width": 1600, "height": 1000})
+        context = await browser.new_context(viewport={"width": PAGE_WIDTH_PX, "height": PAGE_HEIGHT_PX})
         page = await context.new_page()
         await page.goto(base_url, wait_until="networkidle")
 
@@ -150,13 +155,23 @@ async def render(base_url: str) -> None:
         await page.wait_for_timeout(300)
         await page.emulate_media(media="print")
 
+        content_height_px = await page.evaluate(
+            "() => Math.ceil(document.documentElement.getBoundingClientRect().height)"
+        )
+        scale = min(1.0, PAGE_HEIGHT_PX / content_height_px)
+        # Playwright clamps scale to [0.1, 2.0]; keep a tiny margin below 1.0
+        # so rounding never tips the content over a page boundary.
+        scale = max(0.1, min(scale - 0.005, 2.0))
+
         await page.pdf(
             path=str(OUT),
             format="A3",
             landscape=True,
+            scale=scale,
             print_background=True,
-            margin={"top": "12mm", "bottom": "12mm", "left": "12mm", "right": "12mm"},
+            margin={"top": "0", "bottom": "0", "left": "0", "right": "0"},
         )
+        print(f"  content height: {content_height_px}px  scale: {scale:.3f}")
         await browser.close()
 
 
