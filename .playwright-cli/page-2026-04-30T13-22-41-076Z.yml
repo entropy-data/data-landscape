@@ -1,0 +1,426 @@
+- generic [active] [ref=e1]:
+  - link "View source on GitHub":
+    - /url: https://github.com/entropy-data/data-landscape
+    - img [ref=e2] [cursor=pointer]
+  - main [ref=e6]:
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - paragraph [ref=e10]: Open Standards
+        - heading "Data Landscape" [level=1] [ref=e11]
+        - paragraph [ref=e12]: An opinionated view at open standards.
+        - paragraph [ref=e13]:
+          - text: The open standards that power a modern data architecture, organised by what they describe. Inspired by the
+          - link "CNCF Landscape" [ref=e14] [cursor=pointer]:
+            - /url: https://landscape.cncf.io/
+          - text: and the
+          - link "Deutschland Stack" [ref=e15] [cursor=pointer]:
+            - /url: https://technologie.deutschland-stack.gov.de/
+          - text: ", and"
+          - link "Simon's talk on open standards" [ref=e16] [cursor=pointer]:
+            - /url: https://www.entropy-data.com/learn/talk-open-standards-for-data-mesh
+          - text: . Click any standard to learn more.
+      - complementary [ref=e17]:
+        - figure "Tiankai Feng" [ref=e18]:
+          - blockquote [ref=e19]:
+            - paragraph [ref=e20]: “Ohhh this is amazing!! You don't know how much that's helping immediately at a project I'm currently on!”
+          - link "Tiankai Feng" [ref=e22] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/tiankaifeng/
+    - generic [ref=e23]:
+      - group "Filter by umbrella" [ref=e25]:
+        - button "All 61" [ref=e26] [cursor=pointer]:
+          - text: All
+          - generic [ref=e27]: "61"
+        - button "BITOL @ LF 3" [ref=e28] [cursor=pointer]:
+          - text: BITOL @ LF
+          - generic [ref=e29]: "3"
+        - button "LF 12" [ref=e30] [cursor=pointer]:
+          - text: LF
+          - generic [ref=e31]: "12"
+        - button "ASF 13" [ref=e32] [cursor=pointer]:
+          - text: ASF
+          - generic [ref=e33]: "13"
+        - button "CNCF 4" [ref=e34] [cursor=pointer]:
+          - text: CNCF
+          - generic [ref=e35]: "4"
+        - button "W3C 8" [ref=e36] [cursor=pointer]:
+          - text: W3C
+          - generic [ref=e37]: "8"
+        - button "IETF 5" [ref=e38] [cursor=pointer]:
+          - text: IETF
+          - generic [ref=e39]: "5"
+        - button "ISO/IEC 3" [ref=e40] [cursor=pointer]:
+          - text: ISO/IEC
+          - generic [ref=e41]: "3"
+        - button "OASIS 2" [ref=e42] [cursor=pointer]:
+          - text: OASIS
+          - generic [ref=e43]: "2"
+        - button "OMG 1" [ref=e44] [cursor=pointer]:
+          - text: OMG
+          - generic [ref=e45]: "1"
+        - button "OSI Initiative 1" [ref=e46] [cursor=pointer]:
+          - text: OSI Initiative
+          - generic [ref=e47]: "1"
+        - button "Vendor 7" [ref=e48] [cursor=pointer]:
+          - text: Vendor
+          - generic [ref=e49]: "7"
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - heading "Definition — how data is described" [level=2] [ref=e52]
+          - generic [ref=e53]:
+            - generic [ref=e54]:
+              - generic [ref=e55]:
+                - generic [ref=e56]: API Interfaces
+                - generic [ref=e57]: "5"
+              - generic [ref=e58]:
+                - button "ODCS BITOL @ LF" [ref=e59] [cursor=pointer]:
+                  - generic [ref=e60]: ODCS
+                  - generic [ref=e61]: BITOL @ LF
+                - button "OpenAPI LF" [ref=e62] [cursor=pointer]:
+                  - generic [ref=e63]: OpenAPI
+                  - generic [ref=e64]: LF
+                - button "AsyncAPI LF" [ref=e65] [cursor=pointer]:
+                  - generic [ref=e66]: AsyncAPI
+                  - generic [ref=e67]: LF
+                - button "GraphQL LF" [ref=e68] [cursor=pointer]:
+                  - generic [ref=e69]: GraphQL
+                  - generic [ref=e70]: LF
+                - button "gRPC CNCF" [ref=e71] [cursor=pointer]:
+                  - generic [ref=e72]: gRPC
+                  - generic [ref=e73]: CNCF
+            - generic [ref=e74]:
+              - generic [ref=e75]:
+                - generic [ref=e76]: Data Products
+                - generic [ref=e77]: "4"
+              - generic [ref=e78]:
+                - button "ODPS BITOL @ LF" [ref=e79] [cursor=pointer]:
+                  - generic [ref=e80]: ODPS
+                  - generic [ref=e81]: BITOL @ LF
+                - button "ODPSpec LF" [ref=e82] [cursor=pointer]:
+                  - generic [ref=e83]: ODPSpec
+                  - generic [ref=e84]: LF
+                - button "DPDS ODM" [ref=e85] [cursor=pointer]:
+                  - generic [ref=e86]: DPDS
+                  - generic [ref=e87]: ODM
+                - button "DPROD OMG" [ref=e88] [cursor=pointer]:
+                  - generic [ref=e89]: DPROD
+                  - generic [ref=e90]: OMG
+            - generic [ref=e91]:
+              - generic [ref=e92]:
+                - generic [ref=e93]: Schema
+                - generic [ref=e94]: "5"
+              - generic [ref=e95]:
+                - button "XML Schema W3C" [ref=e96] [cursor=pointer]:
+                  - generic [ref=e97]: XML Schema
+                  - generic [ref=e98]: W3C
+                - button "JSON Schema IETF" [ref=e99] [cursor=pointer]:
+                  - generic [ref=e100]: JSON Schema
+                  - generic [ref=e101]: IETF
+                - button "SQL DDL ISO/IEC" [ref=e102] [cursor=pointer]:
+                  - generic [ref=e103]: SQL DDL
+                  - generic [ref=e104]: ISO/IEC
+                - button "AVRO Schema ASF" [ref=e105] [cursor=pointer]:
+                  - generic [ref=e106]: AVRO Schema
+                  - generic [ref=e107]: ASF
+                - button "Protobuf Google" [ref=e108] [cursor=pointer]:
+                  - generic [ref=e109]: Protobuf
+                  - generic [ref=e110]: Google
+            - generic [ref=e111]:
+              - generic [ref=e112]:
+                - generic [ref=e113]: Semantics
+                - generic [ref=e114]: "6"
+              - generic [ref=e115]:
+                - button "OSI OSI Initiative" [ref=e116] [cursor=pointer]:
+                  - generic [ref=e117]: OSI
+                  - generic [ref=e118]: OSI Initiative
+                - button "RDF/OWL W3C" [ref=e119] [cursor=pointer]:
+                  - generic [ref=e120]: RDF/OWL
+                  - generic [ref=e121]: W3C
+                - button "DCAT W3C" [ref=e122] [cursor=pointer]:
+                  - generic [ref=e123]: DCAT
+                  - generic [ref=e124]: W3C
+                - button "SKOS W3C" [ref=e125] [cursor=pointer]:
+                  - generic [ref=e126]: SKOS
+                  - generic [ref=e127]: W3C
+                - button "SHACL W3C" [ref=e128] [cursor=pointer]:
+                  - generic [ref=e129]: SHACL
+                  - generic [ref=e130]: W3C
+                - button "JSON-LD W3C" [ref=e131] [cursor=pointer]:
+                  - generic [ref=e132]: JSON-LD
+                  - generic [ref=e133]: W3C
+        - generic [ref=e134]:
+          - heading "Storage — where data lives" [level=2] [ref=e135]
+          - generic [ref=e136]:
+            - generic [ref=e137]:
+              - generic [ref=e138]:
+                - generic [ref=e139]: File Formats
+                - generic [ref=e140]: "6"
+              - generic [ref=e141]:
+                - button "CSV IETF" [ref=e142] [cursor=pointer]:
+                  - generic [ref=e143]: CSV
+                  - generic [ref=e144]: IETF
+                - button "JSON IETF" [ref=e145] [cursor=pointer]:
+                  - generic [ref=e146]: JSON
+                  - generic [ref=e147]: IETF
+                - button "XML W3C" [ref=e148] [cursor=pointer]:
+                  - generic [ref=e149]: XML
+                  - generic [ref=e150]: W3C
+                - button "PARQUET ASF" [ref=e151] [cursor=pointer]:
+                  - generic [ref=e152]: PARQUET
+                  - generic [ref=e153]: ASF
+                - button "AVRO ASF" [ref=e154] [cursor=pointer]:
+                  - generic [ref=e155]: AVRO
+                  - generic [ref=e156]: ASF
+                - button "ORC ASF" [ref=e157] [cursor=pointer]:
+                  - generic [ref=e158]: ORC
+                  - generic [ref=e159]: ASF
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - generic [ref=e162]: Open Table Formats
+                - generic [ref=e163]: "3"
+              - generic [ref=e164]:
+                - button "Iceberg ASF" [ref=e165] [cursor=pointer]:
+                  - generic [ref=e166]: Iceberg
+                  - generic [ref=e167]: ASF
+                - button "Delta LF" [ref=e168] [cursor=pointer]:
+                  - generic [ref=e169]: Delta
+                  - generic [ref=e170]: LF
+                - button "Hudi ASF" [ref=e171] [cursor=pointer]:
+                  - generic [ref=e172]: Hudi
+                  - generic [ref=e173]: ASF
+            - generic [ref=e174]:
+              - generic [ref=e175]:
+                - generic [ref=e176]: Storage Systems
+                - generic [ref=e177]: "2"
+              - generic [ref=e178]:
+                - button "S3 AWS" [ref=e179] [cursor=pointer]:
+                  - generic [ref=e180]: S3
+                  - generic [ref=e181]: AWS
+                - button "HDFS ASF" [ref=e182] [cursor=pointer]:
+                  - generic [ref=e183]: HDFS
+                  - generic [ref=e184]: ASF
+        - generic [ref=e185]:
+          - heading "Movement — how data flows between systems" [level=2] [ref=e186]
+          - generic [ref=e187]:
+            - generic [ref=e188]:
+              - generic [ref=e189]:
+                - generic [ref=e190]: Database Connectivity
+                - generic [ref=e191]: "3"
+              - generic [ref=e192]:
+                - button "JDBC JCP" [ref=e193] [cursor=pointer]:
+                  - generic [ref=e194]: JDBC
+                  - generic [ref=e195]: JCP
+                - button "ODBC ISO/IEC" [ref=e196] [cursor=pointer]:
+                  - generic [ref=e197]: ODBC
+                  - generic [ref=e198]: ISO/IEC
+                - button "ADBC ASF" [ref=e199] [cursor=pointer]:
+                  - generic [ref=e200]: ADBC
+                  - generic [ref=e201]: ASF
+            - generic [ref=e202]:
+              - generic [ref=e203]:
+                - generic [ref=e204]: Interconnection
+                - generic [ref=e205]: "2"
+              - generic [ref=e206]:
+                - button "HTTP IETF" [ref=e207] [cursor=pointer]:
+                  - generic [ref=e208]: HTTP
+                  - generic [ref=e209]: IETF
+                - button "FTP / SFTP IETF" [ref=e210] [cursor=pointer]:
+                  - generic [ref=e211]: FTP / SFTP
+                  - generic [ref=e212]: IETF
+            - generic [ref=e213]:
+              - generic [ref=e214]:
+                - generic [ref=e215]: Messaging
+                - generic [ref=e216]: "4"
+              - generic [ref=e217]:
+                - button "Kafka ASF" [ref=e218] [cursor=pointer]:
+                  - generic [ref=e219]: Kafka
+                  - generic [ref=e220]: ASF
+                - button "AMQP OASIS" [ref=e221] [cursor=pointer]:
+                  - generic [ref=e222]: AMQP
+                  - generic [ref=e223]: OASIS
+                - button "MQTT OASIS" [ref=e224] [cursor=pointer]:
+                  - generic [ref=e225]: MQTT
+                  - generic [ref=e226]: OASIS
+                - button "CloudEvents CNCF" [ref=e227] [cursor=pointer]:
+                  - generic [ref=e228]: CloudEvents
+                  - generic [ref=e229]: CNCF
+        - generic [ref=e230]:
+          - heading "Transformation — how data is processed and reshaped" [level=2] [ref=e231]
+          - generic [ref=e232]:
+            - generic [ref=e233]:
+              - generic [ref=e234]:
+                - generic [ref=e235]: In-Memory Format
+                - generic [ref=e236]: "2"
+              - generic [ref=e237]:
+                - button "Apache Arrow ASF" [ref=e238] [cursor=pointer]:
+                  - generic [ref=e239]: Apache Arrow
+                  - generic [ref=e240]: ASF
+                - button "DataFrame API data-apis" [ref=e241] [cursor=pointer]:
+                  - generic [ref=e242]: DataFrame API
+                  - generic [ref=e243]: data-apis
+            - generic [ref=e244]:
+              - generic [ref=e245]:
+                - generic [ref=e246]: Processing
+                - generic [ref=e247]: "4"
+              - generic [ref=e248]:
+                - button "dbt dbt Labs" [ref=e249] [cursor=pointer]:
+                  - generic [ref=e250]: dbt
+                  - generic [ref=e251]: dbt Labs
+                - button "Spark ASF" [ref=e252] [cursor=pointer]:
+                  - generic [ref=e253]: Spark
+                  - generic [ref=e254]: ASF
+                - button "Pandas NumFOCUS" [ref=e255] [cursor=pointer]:
+                  - generic [ref=e256]: Pandas
+                  - generic [ref=e257]: NumFOCUS
+                - button "Ibis Ibis" [ref=e258] [cursor=pointer]:
+                  - generic [ref=e259]: Ibis
+                  - generic [ref=e260]: Ibis
+        - generic [ref=e261]:
+          - heading "Discovery — how data is found and traced" [level=2] [ref=e262]
+          - generic [ref=e263]:
+            - generic [ref=e264]:
+              - generic [ref=e265]:
+                - generic [ref=e266]: Catalog APIs
+                - generic [ref=e267]: "5"
+              - generic [ref=e268]:
+                - button "Iceberg Catalog ASF" [ref=e269] [cursor=pointer]:
+                  - generic [ref=e270]: Iceberg Catalog
+                  - generic [ref=e271]: ASF
+                - button "Unity Catalog LF" [ref=e272] [cursor=pointer]:
+                  - generic [ref=e273]: Unity Catalog
+                  - generic [ref=e274]: LF
+                - button "Hive Metastore ASF" [ref=e275] [cursor=pointer]:
+                  - generic [ref=e276]: Hive Metastore
+                  - generic [ref=e277]: ASF
+                - button "DuckLake DuckDB Labs" [ref=e278] [cursor=pointer]:
+                  - generic [ref=e279]: DuckLake
+                  - generic [ref=e280]: DuckDB Labs
+                - button "Schema Registry Confluent" [ref=e281] [cursor=pointer]:
+                  - generic [ref=e282]:
+                    - text: Schema
+                    - text: Registry
+                  - generic [ref=e283]: Confluent
+            - generic [ref=e284]:
+              - generic [ref=e285]:
+                - generic [ref=e286]: Lineage
+                - generic [ref=e287]: "1"
+              - button "OpenLineage LF" [ref=e289] [cursor=pointer]:
+                - generic [ref=e290]: OpenLineage
+                - generic [ref=e291]: LF
+        - generic [ref=e292]:
+          - heading "Operations — how data is queried, observed, governed" [level=2] [ref=e293]
+          - generic [ref=e294]:
+            - generic [ref=e295]:
+              - generic [ref=e296]:
+                - generic [ref=e297]: Query
+                - generic [ref=e298]: "2"
+              - generic [ref=e299]:
+                - button "SQL ISO/IEC" [ref=e300] [cursor=pointer]:
+                  - generic [ref=e301]: SQL
+                  - generic [ref=e302]: ISO/IEC
+                - button "SPARQL W3C" [ref=e303] [cursor=pointer]:
+                  - generic [ref=e304]: SPARQL
+                  - generic [ref=e305]: W3C
+            - generic [ref=e306]:
+              - generic [ref=e307]:
+                - generic [ref=e308]: Data Quality
+                - generic [ref=e309]: "3"
+              - generic [ref=e310]:
+                - button "dbt dbt Labs" [ref=e311] [cursor=pointer]:
+                  - generic [ref=e312]: dbt
+                  - generic [ref=e313]: dbt Labs
+                - button "Great Expectations GX Labs" [ref=e314] [cursor=pointer]:
+                  - generic [ref=e315]: Great Expectations
+                  - generic [ref=e316]: GX Labs
+                - button "SodaCL Soda" [ref=e317] [cursor=pointer]:
+                  - generic [ref=e318]: SodaCL
+                  - generic [ref=e319]: Soda
+            - generic [ref=e320]:
+              - generic [ref=e321]:
+                - generic [ref=e322]: Observability
+                - generic [ref=e323]: "2"
+              - generic [ref=e324]:
+                - button "Open Telemetry CNCF" [ref=e325] [cursor=pointer]:
+                  - generic [ref=e326]:
+                    - text: Open
+                    - text: Telemetry
+                  - generic [ref=e327]: CNCF
+                - button "OORS BITOL @ LF" [ref=e328] [cursor=pointer]:
+                  - generic [ref=e329]: OORS
+                  - generic [ref=e330]: BITOL @ LF
+            - generic [ref=e331]:
+              - generic [ref=e332]:
+                - generic [ref=e333]: Policies
+                - generic [ref=e334]: "1"
+              - button "OPA CNCF" [ref=e336] [cursor=pointer]:
+                - generic [ref=e337]: OPA
+                - generic [ref=e338]: CNCF
+            - generic [ref=e339]:
+              - generic [ref=e340]:
+                - generic [ref=e341]: AI Interfaces
+                - generic [ref=e342]: "2"
+              - generic [ref=e343]:
+                - button "MCP LF" [ref=e344] [cursor=pointer]:
+                  - generic [ref=e345]: MCP
+                  - generic [ref=e346]: LF
+                - button "A2A LF" [ref=e347] [cursor=pointer]:
+                  - generic [ref=e348]: A2A
+                  - generic [ref=e349]: LF
+      - generic [ref=e350]:
+        - generic [ref=e353]: Open standard
+        - generic [ref=e356]: Highlighted by Entropy Data — the ones to bet on today
+        - generic [ref=e359]: Emerging / draft
+      - generic [ref=e360]:
+        - heading "FAQ" [level=2] [ref=e361]
+        - generic [ref=e362]:
+          - group [ref=e363]:
+            - generic "What's the origin story behind this Data Landscape?" [ref=e364] [cursor=pointer]:
+              - generic [ref=e365]: What's the origin story behind this Data Landscape?
+              - img [ref=e366]
+          - group [ref=e368]:
+            - generic "Why do you call this a data landscape? It is mostly about metadata standards, and it is of no help regarding vendor selection." [ref=e369] [cursor=pointer]:
+              - generic [ref=e370]:
+                - text: Why do you call this a
+                - emphasis [ref=e371]: data
+                - text: landscape? It is mostly about metadata standards, and it is of no help regarding vendor selection.
+              - img [ref=e372]
+          - group [ref=e374]:
+            - generic "Why did you include vendor specs in an overview of open standards?" [ref=e375] [cursor=pointer]:
+              - generic [ref=e376]: Why did you include vendor specs in an overview of open standards?
+              - img [ref=e377]
+      - generic [ref=e379]:
+        - heading "Thank you" [level=2] [ref=e380]
+        - paragraph [ref=e381]:
+          - text: This landscape is curated by
+          - link "Entropy Data" [ref=e382] [cursor=pointer]:
+            - /url: https://www.entropy-data.com/
+          - text: ", with grateful thanks to everyone who helped shape it:"
+          - link "Denis Arnaud" [ref=e383] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/da115/
+          - text: ","
+          - link "Benjamin Ditel" [ref=e384] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/benjamin-ditel/
+          - text: ","
+          - link "Stefan Negele" [ref=e385] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/stefan-negele-573153112/
+          - text: ", and"
+          - link "Erik Wilde" [ref=e386] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/erikwilde/
+          - text: .
+      - generic [ref=e387]:
+        - paragraph [ref=e388]: Missed a standard? Spotted something wrong?
+        - paragraph [ref=e389]: This landscape is a living view — suggestions and corrections welcome.
+        - generic [ref=e390]:
+          - link "Open an issue" [ref=e391] [cursor=pointer]:
+            - /url: https://github.com/entropy-data/data-landscape/issues/new
+            - img [ref=e392]
+            - text: Open an issue
+          - link "Email Simon" [ref=e394] [cursor=pointer]:
+            - /url: mailto:simon.harrer@entropy-data.com?subject=Data%20Landscape%20feedback
+          - link "DM on LinkedIn" [ref=e395] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/simonharrer/
+  - contentinfo [ref=e396]:
+    - navigation "Footer" [ref=e398]:
+      - link "Legal Notice" [ref=e399] [cursor=pointer]:
+        - /url: https://www.entropy-data.com/legal-notice
+      - link "Privacy Policy" [ref=e400] [cursor=pointer]:
+        - /url: https://www.entropy-data.com/privacy-policy
