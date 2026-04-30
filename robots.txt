@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://data-landscape.com/sitemap.xml
+Sitemap: https://www.data-landscape.com/sitemap.xml

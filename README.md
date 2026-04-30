@@ -1,6 +1,6 @@
 # Data Landscape
 
-Source for [data-landscape.com](https://data-landscape.com) — an interactive landscape of the open standards that power a modern data architecture.
+Source for [www.data-landscape.com](https://www.data-landscape.com) — an interactive landscape of the open standards that power a modern data architecture.
 
 Static site, served by GitHub Pages from the repository root. No build step.
 
@@ -18,7 +18,7 @@ Then open http://localhost:8000.
 
 ## Deploying
 
-Pushing to `main` deploys via GitHub Pages. The `CNAME` file binds the site to `data-landscape.com`.
+Pushing to `main` deploys via GitHub Pages. The `CNAME` file binds the site to `www.data-landscape.com` (the apex `data-landscape.com` redirects to www).
 
 ## Maintained by
 
