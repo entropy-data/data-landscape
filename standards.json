@@ -509,7 +509,7 @@
     "links": [
       {
         "label": "Iceberg REST catalog",
-        "url": "https://iceberg.apache.org/concepts/catalog/"
+        "url": "https://iceberg.apache.org/terms/#catalog"
       }
     ],
     "firstReleased": 2022
