@@ -1553,5 +1553,83 @@
     "logo": "/media/icons/standards-map/logos/ibis.png",
     "umbrella": "Ibis",
     "umbrellaSearch": "Ibis Project"
+  },
+  "linkml": {
+    "name": "LinkML",
+    "fullName": "Linked data Modeling Language",
+    "category": "Schema",
+    "governance": "LinkML community / Monarch Initiative",
+    "status": "Stable; widely used in biomedical and life-sciences data modelling",
+    "niche": true,
+    "nicheReason": "Specialised modelling language with deepest adoption in biomedical and research data communities (Monarch, NIH Bridge2AI, INCLUDE). Powerful for cross-format schemas — generates JSON Schema, SHACL, RDF, Pydantic, Java, etc. from one source — but outside life-sciences its mindshare is still small.",
+    "description": [
+      "YAML-based schema language for modelling structured data and ontologies. One LinkML schema can be compiled to JSON Schema, SHACL, RDF/OWL, Pydantic classes, Protobuf, and SQL DDL — useful when the same domain model needs to power validation, semantics, and code generation simultaneously.",
+      "Sits between schema languages (JSON Schema, AVRO Schema) and ontology languages (RDF/OWL, SHACL). Pragmatic, opinionated, and increasingly the default modelling vehicle in linked-data-friendly research consortia."
+    ],
+    "links": [
+      {
+        "label": "linkml.io",
+        "url": "https://linkml.io"
+      },
+      {
+        "label": "GitHub: linkml/linkml",
+        "url": "https://github.com/linkml/linkml"
+      }
+    ],
+    "firstReleased": 2019,
+    "logo": "/media/icons/standards-map/logos/linkml.png",
+    "umbrella": "LinkML"
+  },
+  "schemaorg": {
+    "name": "schema.org",
+    "fullName": "schema.org vocabulary",
+    "category": "Semantics",
+    "governance": "schema.org Community Group / W3C",
+    "status": "Stable; mainstream for web structured data, niche in data-architecture contexts",
+    "niche": true,
+    "nicheReason": "Mainstream on the public web — Google rich results, Bing, Yandex, and email actions all consume schema.org markup — but inside data-architecture and data-mesh contexts it rarely surfaces. Listed because anyone modelling cross-domain semantics will eventually meet it, and because it's the largest open-vocabulary effort by far.",
+    "description": [
+      "Open vocabulary of types and properties for structured data on the web, originated by Google, Microsoft, Yahoo, and Yandex in 2011 and now stewarded by the schema.org Community Group at W3C. Provides ~800 types (Person, Organization, Product, Dataset, Article…) and thousands of properties.",
+      "Most often serialised as JSON-LD inside HTML pages so search engines can read structured data. The Dataset and DataCatalog types overlap with DCAT — and many open-data portals publish both views of the same metadata."
+    ],
+    "links": [
+      {
+        "label": "schema.org",
+        "url": "https://schema.org"
+      },
+      {
+        "label": "GitHub: schemaorg/schemaorg",
+        "url": "https://github.com/schemaorg/schemaorg"
+      }
+    ],
+    "firstReleased": 2011,
+    "logo": "/media/icons/standards-map/logos/schemaorg.svg",
+    "umbrella": "W3C"
+  },
+  "shex": {
+    "name": "ShEx",
+    "fullName": "Shape Expressions Language",
+    "category": "Semantics",
+    "governance": "W3C Shape Expressions Community Group",
+    "status": "Stable; ShEx 2.1 current",
+    "niche": true,
+    "nicheReason": "RDF shape-validation language that pre-dates and parallels SHACL. Adoption is concentrated in linked-data communities (Wikidata, biomedical knowledge graphs); SHACL — being a W3C Recommendation rather than a Community Group spec — is the more common pick in mainstream contexts.",
+    "description": [
+      "Concise, human-friendly grammar for describing the expected shape of RDF graphs. Used to validate that linked data conforms to a target schema before publishing or ingesting it.",
+      "Originated alongside SHACL during the W3C RDF Data Shapes Working Group. The two specs solve overlapping problems with different design choices: ShEx prioritises a compact ShExC syntax and recursive shape definitions; SHACL prioritises RDF-native rule expression."
+    ],
+    "links": [
+      {
+        "label": "shex.io",
+        "url": "https://shex.io/"
+      },
+      {
+        "label": "ShEx 2.1 Primer",
+        "url": "https://shex.io/shex-primer/"
+      }
+    ],
+    "firstReleased": 2017,
+    "logo": "/media/icons/standards-map/logos/shex.svg",
+    "umbrella": "W3C"
   }
 }
