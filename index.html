@@ -418,19 +418,34 @@
       opacity: 0.45;
     }
 
-    /* Niche tiles: hidden by default, revealed by the toolbar toggle */
-    .item-niche { display: none; }
-    .landscape.show-niche .item-niche {
-      display: flex;
+    /* Pre-classification state: count badges hidden until standards.json loads
+       and tilesIn() returns real numbers. Tiles themselves don't exist yet
+       (x-for renders nothing while standards is empty). */
+    .landscape:not(.ready) .category-panel-header .count { visibility: hidden; }
+
+    /* Niche tiles: distinctive dashed slate treatment. Visibility is controlled
+       by tilesIn() filtering, not CSS display. */
+    .item-niche {
       border-style: dashed;
       border-color: #94a3b8;
       background: #f8fafc;
     }
-    .landscape.show-niche .item-niche .item-name { color: #475569; }
-    .landscape.show-niche .item-niche .item-umbrella { color: #94a3b8; }
-    .landscape.show-niche .item-niche:hover {
+    .item-niche .item-name { color: #475569; }
+    .item-niche .item-umbrella { color: #94a3b8; }
+    .item-niche:hover {
       border-color: #64748b;
       box-shadow: 0 4px 8px -2px rgb(100 116 139 / 0.25);
+    }
+
+    /* Legacy tiles: distinctive strong black border to mark them as
+       superseded but still in use. Visibility controlled by tilesIn(). */
+    .item-legacy {
+      border: 2px solid #111827;
+      background: #f9fafb;
+    }
+    .item-legacy:hover {
+      border-color: #000;
+      box-shadow: 0 4px 8px -2px rgb(17 24 39 / 0.35);
     }
     .niche-toggle {
       display: inline-flex;
@@ -453,6 +468,13 @@
       border-color: #4f46e5;
       color: white;
       border-style: solid;
+    }
+    .legacy-toggle {
+      border-color: #6b7280;
+    }
+    .legacy-toggle.active {
+      background: #111827;
+      border-color: #111827;
     }
     .niche-toggle .chip-count {
       display: inline-block;
@@ -497,23 +519,26 @@
                 if (v) url.searchParams.set('std', v); else url.searchParams.delete('std');
                 history.replaceState({}, '', url);
               });
-              $watch('activeFilter', () => applyFilter());
-              $watch('showNiche', v => {
-                computeCounts();
-                applyFilter();
-                updateCategoryCounts();
+              $watch('activeFilter', () => $nextTick(() => applyFilter()));
+              const updateIncludeParam = (n, l) => {
                 const url = new URL(window.location);
-                if (v) url.searchParams.set('include', 'niche'); else url.searchParams.delete('include');
+                const items = [];
+                if (n) items.push('niche');
+                if (l) items.push('legacy');
+                if (items.length) url.searchParams.set('include', items.join(',')); else url.searchParams.delete('include');
                 history.replaceState({}, '', url);
-              });
+              };
+              $watch('showNiche',  v => { $nextTick(() => applyFilter()); updateIncludeParam(v, showLegacy); });
+              $watch('showLegacy', v => { $nextTick(() => applyFilter()); updateIncludeParam(showNiche, v); });
               $nextTick(async () => {
                 const params = new URLSearchParams(window.location.search);
-                showNiche = params.get('include') === 'niche';
-                buildButtonMeta();
-                computeCounts();
-                applyFilter();
-                updateCategoryCounts();
+                const includes = (params.get('include') || '').split(',').map(s => s.trim()).filter(Boolean);
+                showNiche = includes.includes('niche');
+                showLegacy = includes.includes('legacy');
                 await loadStandards();
+                await $nextTick();
+                applyFilter();
+                document.querySelector('.landscape')?.classList.add('ready');
                 const initial = params.get('std');
                 if (initial && standards[initial]) selectedId = initial;
               })"
@@ -578,6 +603,15 @@
           <span x-text="showNiche ? '✓ Niche' : '+ Niche'"></span>
           <span class="chip-count" x-text="counts.niche"></span>
         </button>
+        <button type="button"
+                class="niche-toggle legacy-toggle"
+                :class="{ active: showLegacy }"
+                @click="showLegacy = !showLegacy"
+                aria-pressed="showLegacy"
+                title="Legacy standards — superseded by newer alternatives but still in use. Hidden by default.">
+          <span x-text="showLegacy ? '✓ Legacy' : '+ Legacy'"></span>
+          <span class="chip-count" x-text="counts.legacy"></span>
+        </button>
       </div>
       <div class="view-toggle" role="group" aria-label="View mode">
         <button type="button" :class="{ active: viewMode === 'landscape' }" @click="viewMode = 'landscape'" aria-pressed="viewMode === 'landscape'">Landscape</button>
@@ -585,7 +619,7 @@
       </div>
     </div>
 
-    <div class="landscape" :data-filter="activeFilter" :class="{ 'show-niche': showNiche }" x-show="viewMode === 'landscape'">
+    <div class="landscape" :data-filter="activeFilter" :class="{ 'show-niche': showNiche, 'show-legacy': showLegacy }" x-show="viewMode === 'landscape'">
 
       <!-- Section: Definition -->
       <section class="landscape-section">
@@ -596,34 +630,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/api.svg" alt="">
               <span class="name">API Interfaces</span>
-              <span class="count">5</span>
+              <span class="count" x-text="tilesIn('API Interfaces').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item item-highlight" data-umbrella="BITOL @ LF" @click="selectedId = 'odcs'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/bitol.svg" alt="" loading="lazy">
-                <span class="item-name">ODCS</span>
-                <span class="item-umbrella">BITOL @ LF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'openapi'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/openapi.svg" alt="" loading="lazy">
-                <span class="item-name">OpenAPI</span>
-                <span class="item-umbrella">LF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'asyncapi'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/asyncapi.svg" alt="" loading="lazy">
-                <span class="item-name">AsyncAPI</span>
-                <span class="item-umbrella">LF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'graphql'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/graphql.svg" alt="" loading="lazy">
-                <span class="item-name">GraphQL</span>
-                <span class="item-umbrella">LF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="CNCF" @click="selectedId = 'grpc'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/grpc.png" alt="" loading="lazy">
-                <span class="item-name">gRPC</span>
-                <span class="item-umbrella">CNCF</span>
-              </button>
+              <template x-for="entry in tilesIn('API Interfaces')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -631,29 +655,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/products.svg" alt="">
               <span class="name">Data Products</span>
-              <span class="count">4</span>
+              <span class="count" x-text="tilesIn('Data Products').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item item-highlight" data-umbrella="BITOL @ LF" @click="selectedId = 'odps'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/bitol.svg" alt="" loading="lazy">
-                <span class="item-name">ODPS</span>
-                <span class="item-umbrella">BITOL @ LF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="LF opendataproducts" @click="selectedId = 'odpspec'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/odpspec.png" alt="" loading="lazy">
-                <span class="item-name">ODPSpec</span>
-                <span class="item-umbrella">LF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="OpenDataMesh" @click="selectedId = 'dpds'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/dpds.png" alt="" loading="lazy">
-                <span class="item-name">DPDS</span>
-                <span class="item-umbrella">ODM</span>
-              </button>
-              <button type="button" class="item" data-umbrella="OMG" @click="selectedId = 'dprod'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/dprod.jpg" alt="" loading="lazy">
-                <span class="item-name">DPROD</span>
-                <span class="item-umbrella">OMG</span>
-              </button>
+              <template x-for="entry in tilesIn('Data Products')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -661,34 +680,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/schema.svg" alt="">
               <span class="name">Schema</span>
-              <span class="count">5</span>
+              <span class="count" x-text="tilesIn('Schema').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'xml-schema'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
-                <span class="item-name">XML Schema</span>
-                <span class="item-umbrella">W3C</span>
-              </button>
-              <button type="button" class="item" data-umbrella="IETF" @click="selectedId = 'json-schema'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/json-schema.png" alt="" loading="lazy">
-                <span class="item-name">JSON Schema</span>
-                <span class="item-umbrella">IETF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="ISO/IEC" @click="selectedId = 'sql-ddl'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/iso.png" alt="" loading="lazy">
-                <span class="item-name">SQL DDL</span>
-                <span class="item-umbrella">ISO/IEC</span>
-              </button>
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'avro-schema'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/avro.svg" alt="" loading="lazy">
-                <span class="item-name">AVRO Schema</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
-              <button type="button" class="item item-vendor" data-umbrella="Google vendor" @click="selectedId = 'protobuf'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/google.svg" alt="" loading="lazy">
-                <span class="item-name">Protobuf</span>
-                <span class="item-umbrella">Google</span>
-              </button>
+              <template x-for="entry in tilesIn('Schema')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -696,39 +705,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/semantics.svg" alt="">
               <span class="name">Semantics</span>
-              <span class="count">6</span>
+              <span class="count" x-text="tilesIn('Semantics').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item item-highlight" data-umbrella="OSI Initiative" @click="selectedId = 'osi'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/osi.svg" alt="" loading="lazy">
-                <span class="item-name">OSI</span>
-                <span class="item-umbrella">OSI Initiative</span>
-              </button>
-              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'rdf-owl'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
-                <span class="item-name">RDF/OWL</span>
-                <span class="item-umbrella">W3C</span>
-              </button>
-              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'dcat'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
-                <span class="item-name">DCAT</span>
-                <span class="item-umbrella">W3C</span>
-              </button>
-              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'skos'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
-                <span class="item-name">SKOS</span>
-                <span class="item-umbrella">W3C</span>
-              </button>
-              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'shacl'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
-                <span class="item-name">SHACL</span>
-                <span class="item-umbrella">W3C</span>
-              </button>
-              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'json-ld'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/json-ld.png" alt="" loading="lazy">
-                <span class="item-name">JSON-LD</span>
-                <span class="item-umbrella">W3C</span>
-              </button>
+              <template x-for="entry in tilesIn('Semantics')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -744,44 +738,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/files.svg" alt="">
               <span class="name">File Formats</span>
-              <span class="count">6</span>
+              <span class="count" x-text="tilesIn('File Formats').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="IETF" @click="selectedId = 'csv'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/ietf.svg" alt="" loading="lazy">
-                <span class="item-name">CSV</span>
-                <span class="item-umbrella">IETF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="IETF" @click="selectedId = 'json'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/json.png" alt="" loading="lazy">
-                <span class="item-name">JSON</span>
-                <span class="item-umbrella">IETF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'xml'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/xml.svg" alt="" loading="lazy">
-                <span class="item-name">XML</span>
-                <span class="item-umbrella">W3C</span>
-              </button>
-              <button type="button" class="item item-niche" data-umbrella="yaml.org" @click="selectedId = 'yaml'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/yaml.svg" alt="" loading="lazy">
-                <span class="item-name">YAML</span>
-                <span class="item-umbrella">YAML.org</span>
-              </button>
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'parquet'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/parquet.svg" alt="" loading="lazy">
-                <span class="item-name">PARQUET</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'avro'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/avro.svg" alt="" loading="lazy">
-                <span class="item-name">AVRO</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'orc'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/orc.png" alt="" loading="lazy">
-                <span class="item-name">ORC</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
+              <template x-for="entry in tilesIn('File Formats')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -789,24 +763,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/tables.svg" alt="">
               <span class="name">Open Table Formats</span>
-              <span class="count">3</span>
+              <span class="count" x-text="tilesIn('Open Table Formats').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'iceberg'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/iceberg.svg" alt="" loading="lazy">
-                <span class="item-name">Iceberg</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'delta'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/delta.png" alt="" loading="lazy">
-                <span class="item-name">Delta</span>
-                <span class="item-umbrella">LF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'hudi'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/hudi.svg" alt="" loading="lazy">
-                <span class="item-name">Hudi</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
+              <template x-for="entry in tilesIn('Open Table Formats')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -814,19 +788,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/storage.svg" alt="">
               <span class="name">Storage Systems</span>
-              <span class="count">2</span>
+              <span class="count" x-text="tilesIn('Storage Systems').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item item-vendor" data-umbrella="AWS vendor" @click="selectedId = 's3'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/aws.svg" alt="" loading="lazy">
-                <span class="item-name">S3</span>
-                <span class="item-umbrella">AWS</span>
-              </button>
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'hdfs'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/hadoop.png" alt="" loading="lazy">
-                <span class="item-name">HDFS</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
+              <template x-for="entry in tilesIn('Storage Systems')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -842,24 +821,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/api.svg" alt="">
               <span class="name">Database Connectivity</span>
-              <span class="count">3</span>
+              <span class="count" x-text="tilesIn('Database Connectivity').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="JCP" @click="selectedId = 'jdbc'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/jdbc.svg" alt="" loading="lazy">
-                <span class="item-name">JDBC</span>
-                <span class="item-umbrella">JCP</span>
-              </button>
-              <button type="button" class="item" data-umbrella="ISO/IEC" @click="selectedId = 'odbc'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/iso.png" alt="" loading="lazy">
-                <span class="item-name">ODBC</span>
-                <span class="item-umbrella">ISO/IEC</span>
-              </button>
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'adbc'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/arrow.png" alt="" loading="lazy">
-                <span class="item-name">ADBC</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
+              <template x-for="entry in tilesIn('Database Connectivity')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -867,19 +846,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/api.svg" alt="">
               <span class="name">Interconnection</span>
-              <span class="count">2</span>
+              <span class="count" x-text="tilesIn('Interconnection').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="IETF" @click="selectedId = 'http'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/ietf.svg" alt="" loading="lazy">
-                <span class="item-name">HTTP</span>
-                <span class="item-umbrella">IETF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="IETF" @click="selectedId = 'ftp'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/ietf.svg" alt="" loading="lazy">
-                <span class="item-name">FTP / SFTP</span>
-                <span class="item-umbrella">IETF</span>
-              </button>
+              <template x-for="entry in tilesIn('Interconnection')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -887,29 +871,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/api.svg" alt="">
               <span class="name">Messaging</span>
-              <span class="count">4</span>
+              <span class="count" x-text="tilesIn('Messaging').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'kafka'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/kafka.svg" alt="" loading="lazy">
-                <span class="item-name">Kafka</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="OASIS" @click="selectedId = 'amqp'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/oasis.png" alt="" loading="lazy">
-                <span class="item-name">AMQP</span>
-                <span class="item-umbrella">OASIS</span>
-              </button>
-              <button type="button" class="item" data-umbrella="OASIS" @click="selectedId = 'mqtt'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/mqtt.svg" alt="" loading="lazy">
-                <span class="item-name">MQTT</span>
-                <span class="item-umbrella">OASIS</span>
-              </button>
-              <button type="button" class="item" data-umbrella="CNCF" @click="selectedId = 'cloudevents'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/cloudevents.svg" alt="" loading="lazy">
-                <span class="item-name">CloudEvents</span>
-                <span class="item-umbrella">CNCF</span>
-              </button>
+              <template x-for="entry in tilesIn('Messaging')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -925,19 +904,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/storage.svg" alt="">
               <span class="name">In-Memory Format</span>
-              <span class="count">2</span>
+              <span class="count" x-text="tilesIn('In-Memory Format').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'arrow'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/arrow.png" alt="" loading="lazy">
-                <span class="item-name">Apache Arrow</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="data-apis" @click="selectedId = 'dataframe'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/dataframe.png" alt="" loading="lazy">
-                <span class="item-name">DataFrame API</span>
-                <span class="item-umbrella">data-apis</span>
-              </button>
+              <template x-for="entry in tilesIn('In-Memory Format')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -945,29 +929,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/query.svg" alt="">
               <span class="name">Processing</span>
-              <span class="count">4</span>
+              <span class="count" x-text="tilesIn('Processing').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item item-vendor" data-umbrella="dbt Labs vendor" @click="selectedId = 'dbt'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/dbt.png" alt="" loading="lazy">
-                <span class="item-name">dbt</span>
-                <span class="item-umbrella">dbt Labs</span>
-              </button>
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'spark'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/spark.svg" alt="" loading="lazy">
-                <span class="item-name">Spark</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="NumFOCUS" @click="selectedId = 'pandas'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/pandas.svg" alt="" loading="lazy">
-                <span class="item-name">Pandas</span>
-                <span class="item-umbrella">NumFOCUS</span>
-              </button>
-              <button type="button" class="item" data-umbrella="Ibis Project" @click="selectedId = 'ibis'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/ibis.png" alt="" loading="lazy">
-                <span class="item-name">Ibis</span>
-                <span class="item-umbrella">Ibis</span>
-              </button>
+              <template x-for="entry in tilesIn('Processing')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -983,34 +962,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/catalog.svg" alt="">
               <span class="name">Catalog APIs</span>
-              <span class="count">5</span>
+              <span class="count" x-text="tilesIn('Catalog APIs').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'iceberg-catalog'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/iceberg.svg" alt="" loading="lazy">
-                <span class="item-name">Iceberg Catalog</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'unity-catalog'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/unity-catalog.svg" alt="" loading="lazy">
-                <span class="item-name">Unity Catalog</span>
-                <span class="item-umbrella">LF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'hive-metastore'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/hive-metastore.svg" alt="" loading="lazy">
-                <span class="item-name">Hive Metastore</span>
-                <span class="item-umbrella">ASF</span>
-              </button>
-              <button type="button" class="item item-vendor item-niche" data-umbrella="DuckDB Labs vendor" @click="selectedId = 'ducklake'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/duckdb.svg" alt="" loading="lazy">
-                <span class="item-name">DuckLake</span>
-                <span class="item-umbrella">DuckDB Labs</span>
-              </button>
-              <button type="button" class="item item-vendor" data-umbrella="Confluent vendor" @click="selectedId = 'schema-registry'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/confluent.svg" alt="" loading="lazy">
-                <span class="item-name">Schema<br>Registry</span>
-                <span class="item-umbrella">Confluent</span>
-              </button>
+              <template x-for="entry in tilesIn('Catalog APIs')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -1018,14 +987,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/lineage.svg" alt="">
               <span class="name">Lineage</span>
-              <span class="count">1</span>
+              <span class="count" x-text="tilesIn('Lineage').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="LF" @click="selectedId = 'openlineage'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/openlineage.png" alt="" loading="lazy">
-                <span class="item-name">OpenLineage</span>
-                <span class="item-umbrella">LF</span>
-              </button>
+              <template x-for="entry in tilesIn('Lineage')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -1041,19 +1020,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/query.svg" alt="">
               <span class="name">Query</span>
-              <span class="count">2</span>
+              <span class="count" x-text="tilesIn('Query').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="ISO/IEC" @click="selectedId = 'sql'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/iso.png" alt="" loading="lazy">
-                <span class="item-name">SQL</span>
-                <span class="item-umbrella">ISO/IEC</span>
-              </button>
-              <button type="button" class="item" data-umbrella="W3C" @click="selectedId = 'sparql'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="" loading="lazy">
-                <span class="item-name">SPARQL</span>
-                <span class="item-umbrella">W3C</span>
-              </button>
+              <template x-for="entry in tilesIn('Query')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -1061,24 +1045,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/quality.svg" alt="">
               <span class="name">Data Quality</span>
-              <span class="count">3</span>
+              <span class="count" x-text="tilesIn('Data Quality').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item item-vendor" data-umbrella="dbt Labs vendor" @click="selectedId = 'dbt'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/dbt.png" alt="" loading="lazy">
-                <span class="item-name">dbt</span>
-                <span class="item-umbrella">dbt Labs</span>
-              </button>
-              <button type="button" class="item item-vendor" data-umbrella="GX Labs vendor" @click="selectedId = 'great-expectations'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/great-expectations.png" alt="" loading="lazy">
-                <span class="item-name">Great Expectations</span>
-                <span class="item-umbrella">GX Labs</span>
-              </button>
-              <button type="button" class="item item-vendor" data-umbrella="Soda vendor" @click="selectedId = 'sodacl'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/soda.png" alt="" loading="lazy">
-                <span class="item-name">SodaCL</span>
-                <span class="item-umbrella">Soda</span>
-              </button>
+              <template x-for="entry in tilesIn('Data Quality')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -1086,19 +1070,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/observability.svg" alt="">
               <span class="name">Observability</span>
-              <span class="count">2</span>
+              <span class="count" x-text="tilesIn('Observability').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="CNCF" @click="selectedId = 'opentelemetry'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/opentelemetry.svg" alt="" loading="lazy">
-                <span class="item-name">Open<br>Telemetry</span>
-                <span class="item-umbrella">CNCF</span>
-              </button>
-              <button type="button" class="item item-soft" data-umbrella="BITOL @ LF" @click="selectedId = 'oors'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/bitol.svg" alt="" loading="lazy">
-                <span class="item-name">OORS</span>
-                <span class="item-umbrella">BITOL @ LF</span>
-              </button>
+              <template x-for="entry in tilesIn('Observability')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -1106,14 +1095,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/policies.svg" alt="">
               <span class="name">Policies</span>
-              <span class="count">1</span>
+              <span class="count" x-text="tilesIn('Policies').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="CNCF" @click="selectedId = 'opa'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/opa.png" alt="" loading="lazy">
-                <span class="item-name">OPA</span>
-                <span class="item-umbrella">CNCF</span>
-              </button>
+              <template x-for="entry in tilesIn('Policies')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -1121,19 +1120,24 @@
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/api.svg" alt="">
               <span class="name">AI Interfaces</span>
-              <span class="count">2</span>
+              <span class="count" x-text="tilesIn('AI Interfaces').length"></span>
             </div>
             <div class="category-panel-body">
-              <button type="button" class="item" data-umbrella="LF Anthropic" @click="selectedId = 'mcp'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/mcp.svg" alt="" loading="lazy">
-                <span class="item-name">MCP</span>
-                <span class="item-umbrella">LF</span>
-              </button>
-              <button type="button" class="item" data-umbrella="LF Google" @click="selectedId = 'a2a'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/a2a.svg" alt="" loading="lazy">
-                <span class="item-name">A2A</span>
-                <span class="item-umbrella">LF</span>
-              </button>
+              <template x-for="entry in tilesIn('AI Interfaces')" :key="entry.slug">
+                <button type="button" class="item"
+                        :class="{
+                          'item-highlight': entry.highlight,
+                          'item-vendor': entry.vendor,
+                          'item-niche': entry.niche,
+                          'item-legacy': entry.tier === 'legacy'
+                        }"
+                        :data-umbrella="entry.umbrellaSearch || entry.umbrella"
+                        @click="selectedId = entry.slug">
+                  <img class="item-logo" :src="entry.logo" alt="" loading="lazy">
+                  <span class="item-name" x-text="entry.name"></span>
+                  <span class="item-umbrella" x-text="entry.umbrella"></span>
+                </button>
+              </template>
             </div>
           </div>
 
@@ -1510,9 +1514,8 @@
         { key: 'firstReleased',  label: 'First release' },
         { key: 'standardReason', label: 'Why a standard' },
       ],
-      counts: { all: 0, BITOL: 0, LF: 0, ASF: 0, CNCF: 0, W3C: 0, IETF: 0, ISO: 0, OASIS: 0, OMG: 0, OSI: 0, vendor: 0, niche: 0 },
       showNiche: false,
-      buttonMeta: {},
+      showLegacy: false,
       get selected() {
         return this.selectedId ? this.standards[this.selectedId] : null;
       },
@@ -1523,16 +1526,56 @@
         if (std?.tier) return std.tier;
         const status = (std?.status || '').toLowerCase();
         if (/\b(emerging|experimental)\b|\bv?0\.\d/.test(status)) return 'emerging';
-        if (this.buttonMeta[id]?.vendor) return 'vendor';
+        if (std?.vendor) return 'vendor';
         if (/\blegacy\b/.test(status)) return 'legacy';
         return 'stable';
+      },
+      tilesIn(category) {
+        const showNiche = this.showNiche;
+        const showLegacy = this.showLegacy;
+        return Object.entries(this.standards)
+          .filter(([slug, e]) => {
+            if (e.category !== category) return false;
+            if (!e.logo || !e.umbrella) return false;
+            if (e.niche && !showNiche) return false;
+            if (e.tier === 'legacy' && !showLegacy) return false;
+            return true;
+          })
+          .map(([slug, e]) => ({ slug, ...e }));
+      },
+      get counts() {
+        const norm = s => (s || '').toLowerCase();
+        const all = Object.values(this.standards).filter(e => e.logo && e.umbrella);
+        const visible = all.filter(e => {
+          if (e.niche && !this.showNiche) return false;
+          if (e.tier === 'legacy' && !this.showLegacy) return false;
+          return true;
+        });
+        const dedupe = entries => {
+          const seen = new Set();
+          return entries.filter(e => { if (seen.has(e.name)) return false; seen.add(e.name); return true; });
+        };
+        const unique = dedupe(visible);
+        const uniqueAll = dedupe(all);
+        const result = { all: unique.length };
+        ['BITOL', 'LF', 'ASF', 'CNCF', 'W3C', 'IETF', 'ISO', 'OASIS', 'OMG', 'OSI', 'vendor'].forEach(f => {
+          result[f] = unique.filter(e => norm(e.umbrellaSearch || e.umbrella).includes(norm(f))).length;
+        });
+        result.niche  = uniqueAll.filter(e => e.niche).length;
+        result.legacy = uniqueAll.filter(e => e.tier === 'legacy').length;
+        return result;
       },
       get sortedTableRows() {
         const col = this.sortColumn;
         const dir = this.sortDir;
         const showNiche = this.showNiche;
+        const showLegacy = this.showLegacy;
         const rows = Object.entries(this.standards)
-          .filter(([id]) => showNiche || !this.buttonMeta[id]?.niche)
+          .filter(([id, std]) => {
+            if (std.niche && !showNiche) return false;
+            if (std.tier === 'legacy' && !showLegacy) return false;
+            return true;
+          })
           .map(([id, std]) => ({
             id,
             name: std.name || id,
@@ -1541,7 +1584,7 @@
             governance: std.governance || '',
             firstReleased: std.firstReleased ?? null,
             standardReason: std.standardReason || '',
-            logo: this.buttonMeta[id]?.logo || null,
+            logo: std.logo || null,
           }));
         const cmp = (a, b) => {
           let va = a[col], vb = b[col];
@@ -1575,65 +1618,14 @@
         }
       },
       get standardLogo() {
-        return this.buttonMeta[this.selectedId]?.logo || null;
+        return this.selected?.logo || null;
       },
       get orgLogo() {
-        const meta = this.buttonMeta[this.selectedId];
-        return meta ? resolveOrgLogo(meta.umbrella) : null;
+        const u = this.selected?.umbrella;
+        return u ? resolveOrgLogo(u) : null;
       },
       get orgIsVendor() {
-        return !!this.buttonMeta[this.selectedId]?.vendor;
-      },
-      buildButtonMeta() {
-        const map = {};
-        document.querySelectorAll('.item').forEach(el => {
-          const click = el.getAttribute('@click') || '';
-          const m = click.match(/selectedId\s*=\s*'([^']+)'/);
-          if (!m) return;
-          const img = el.querySelector('.item-logo');
-          map[m[1]] = {
-            logo: img?.getAttribute('src') || null,
-            umbrella: el.dataset.umbrella || '',
-            vendor: el.classList.contains('item-vendor'),
-            niche: el.classList.contains('item-niche'),
-          };
-        });
-        this.buttonMeta = map;
-      },
-      computeCounts() {
-        const norm = s => (s || '').toLowerCase();
-        const showNiche = this.showNiche;
-        const items = Array.from(document.querySelectorAll('.item[data-umbrella]'))
-          .filter(el => showNiche || !el.classList.contains('item-niche'));
-        const seen = new Set();
-        const unique = items.filter(el => {
-          const name = el.querySelector('.item-name')?.textContent?.trim();
-          if (seen.has(name)) return false;
-          seen.add(name);
-          return true;
-        });
-        const counts = { all: unique.length };
-        ['BITOL', 'LF', 'ASF', 'CNCF', 'W3C', 'IETF', 'ISO', 'OASIS', 'OMG', 'OSI', 'vendor'].forEach(f => {
-          counts[f] = unique.filter(el => norm(el.dataset.umbrella).includes(norm(f))).length;
-        });
-        const allItems = Array.from(document.querySelectorAll('.item[data-umbrella]'));
-        const allSeen = new Set();
-        counts.niche = allItems.filter(el => {
-          const name = el.querySelector('.item-name')?.textContent?.trim();
-          if (allSeen.has(name)) return false;
-          allSeen.add(name);
-          return el.classList.contains('item-niche');
-        }).length;
-        this.counts = counts;
-      },
-      updateCategoryCounts() {
-        const showNiche = this.showNiche;
-        document.querySelectorAll('.category-panel').forEach(panel => {
-          const sel = showNiche ? '.item' : '.item:not(.item-niche)';
-          const n = panel.querySelectorAll(sel).length;
-          const badge = panel.querySelector('.category-panel-header .count');
-          if (badge) badge.textContent = String(n);
-        });
+        return this.selected?.vendor === true;
       },
       applyFilter() {
         const f = this.activeFilter;
@@ -1644,10 +1636,15 @@
           const match = !f || u.includes(norm(f));
           el.classList.toggle('item-dim', !match);
         });
+        const showNiche = this.showNiche;
+        const showLegacy = this.showLegacy;
         document.querySelectorAll('.category-panel').forEach(panel => {
-          const visibleSel = this.showNiche ? '.item' : '.item:not(.item-niche)';
-          const visible = panel.querySelectorAll(visibleSel);
-          const allDim = visible.length > 0 && ![...visible].some(el => !el.classList.contains('item-dim'));
+          const visible = [...panel.querySelectorAll('.item')].filter(el => {
+            if (el.classList.contains('item-niche') && !showNiche) return false;
+            if (el.classList.contains('item-legacy') && !showLegacy) return false;
+            return true;
+          });
+          const allDim = visible.length > 0 && !visible.some(el => !el.classList.contains('item-dim'));
           panel.classList.toggle('panel-dim', !!f && allDim);
         });
       }

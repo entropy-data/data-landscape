@@ -13,15 +13,17 @@ Open http://localhost:3000 to see your changes.
 
 ## Editing a standard
 
-The drawer content for every standard lives in [`standards.json`](./standards.json). To add, fix, or extend a standard, edit that file — not the inline `<script>` in `index.html`.
+Every standard — both its tile on the landscape and its drawer content — lives in [`standards.json`](./standards.json). To add, fix, or extend a standard, edit that file. The HTML in `index.html` only declares the panel layout; tiles render automatically from the JSON via Alpine `x-for`.
 
-Each entry is keyed by a slug (the same id referenced from the button's `@click="selectedId = '<slug>'"` in `index.html`) and has the shape:
+Each entry is keyed by a slug and has the shape:
 
 ```json
 {
   "name": "ODCS",
   "fullName": "Open Data Contract Standard",
   "category": "API Interfaces",
+  "logo": "/media/icons/standards-map/logos/bitol.svg",
+  "umbrella": "BITOL @ LF",
   "highlight": true,
   "governance": "BITOL / Linux Foundation",
   "status": "v3.1 stable; v3.2 in progress",
@@ -38,23 +40,30 @@ Each entry is keyed by a slug (the same id referenced from the button's `@click=
 }
 ```
 
+- `category` must match one of the panel headers in `index.html` (e.g. *API Interfaces*, *File Formats*, *Catalog APIs*). Mismatched categories silently drop the tile.
+- `logo` is the path to the tile's logo asset under `/media/icons/standards-map/logos/`. Without it the entry won't render as a tile (useful when adding a draft entry).
+- `umbrella` is the short label shown beneath the name on the tile (e.g. `LF`, `BITOL @ LF`, `OASIS`). It also drives the org filter chips — clicking *LF* keeps every tile whose `umbrella` (or `umbrellaSearch`) contains "LF".
+- `umbrellaSearch` (optional) — separate string used only for filter matching when the visible label differs from the search keywords. Example: tile shows `ODM` but `umbrellaSearch` is `OpenDataMesh` so the *LF* filter still picks it up.
+- `vendor: true` (optional) — applies the muted single-vendor styling to the tile and the *Vendor* filter chip counts it.
+- `highlight: true` (optional) — applies the indigo "highlighted" treatment used for the picks Entropy Data bets on.
+
 - `firstReleased` shows in the *Compare* table view.
 - `tier` is optional — when present it overrides the derivation from `status`. Valid values: `stable`, `emerging`, `legacy`, `vendor`.
 - `niche` (boolean, optional) — set to `true` for narrowly-used or specialised standards. Niche entries are hidden from the default landscape and from the PDF, and only appear when a visitor flips the **Niche** toggle in the toolbar (`?include=niche` in the URL). Use this to admit deliberate omissions without bloating the headline grid.
 - `nicheReason` (string, required when `niche: true`) — short explanation of *why* the entry is niche. Surfaced as a slate callout at the top of the drawer ("Why this is listed as niche") so curious readers see the editorial rationale before the description.
+- Setting `tier: "legacy"` does double duty: it drives the gray *legacy* badge in the drawer **and** hides the entry behind the **Legacy** toggle (`?include=legacy`). Legacy entries get a strong black border on the tile when the toggle is on so they read as "superseded but still in use".
 
 ## Adding a new standard
 
-1. Add a new entry to `standards.json` keyed by a unique slug.
-2. Add a matching tile (button + logo) to the grid in `index.html`. The button's `@click` must reference the same slug.
-3. Drop the logo asset into `media/` and reference it from the new tile.
+1. Drop the logo asset into `/media/icons/standards-map/logos/` (SVG preferred, PNG OK).
+2. Add a new entry to `standards.json` keyed by a unique slug, with at minimum `name`, `category`, `logo`, `umbrella`, `description`, and `links`. The tile appears automatically in the matching panel.
+3. If your `category` is brand new (not already listed in `index.html` as a panel), add the panel block to the relevant section in `index.html` — header (icon + `<span class="name">`) and a `category-panel-body` with the standard `x-for` template. Existing categories require no HTML changes.
 
-For a niche standard (one you want available behind the toolbar toggle but not in the default landscape or the PDF), also:
+For a niche or legacy standard (one you want available behind a toolbar toggle but not in the default landscape or the PDF):
 
-- Set `"niche": true` on the entry in `standards.json`.
-- Add `item-niche` to the tile's classes, e.g. `class="item item-niche"`.
+- Set `"niche": true` (with a `nicheReason`) or `"tier": "legacy"` on the entry. That's all — `tilesIn()` filters them out by default and the relevant toolbar toggle (`?include=niche` / `?include=legacy`) reveals them.
 
-Category count badges update automatically — no need to hand-edit the `<span class="count">` in the panel header.
+Category count badges, chip counts, and Compare-table rows update reactively from the JSON — nothing in the HTML needs editing for a regular tile addition.
 
 ## Submitting changes
 

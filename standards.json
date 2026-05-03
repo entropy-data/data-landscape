@@ -19,7 +19,59 @@
         "url": "https://en.wikipedia.org/wiki/SQL"
       }
     ],
-    "firstReleased": 1986
+    "firstReleased": 1986,
+    "logo": "/media/icons/standards-map/logos/iso.png",
+    "umbrella": "ISO/IEC"
+  },
+  "mdx": {
+    "name": "MDX",
+    "fullName": "Multidimensional Expressions",
+    "category": "Query",
+    "governance": "Originally Microsoft (1997); referenced by the XMLA specification",
+    "status": "Legacy; ubiquitous in OLAP/cube tooling, no significant new adoption",
+    "description": [
+      "Query language for multidimensional databases — the OLAP-cube counterpart to SQL. Used to express slice, dice, and rollup operations against star/snowflake schemas exposed as cubes.",
+      "Originated with Microsoft OLE DB for OLAP and adopted by Microsoft Analysis Services, Mondrian, SAP BW, AtScale, and Oracle Essbase. Still pervasive in enterprise BI estates even though greenfield analytics has largely moved to SQL plus semantic layers."
+    ],
+    "links": [
+      {
+        "label": "Microsoft MDX reference",
+        "url": "https://learn.microsoft.com/en-us/analysis-services/multidimensional-models/mdx/mdx-query-the-basic-query"
+      },
+      {
+        "label": "Wikipedia: MultiDimensional eXpressions",
+        "url": "https://en.wikipedia.org/wiki/MultiDimensional_eXpressions"
+      }
+    ],
+    "firstReleased": 1997,
+    "tier": "legacy",
+    "logo": "/media/icons/standards-map/logos/microsoft.svg",
+    "umbrella": "Microsoft"
+  },
+  "substrait": {
+    "name": "Substrait",
+    "fullName": "Substrait",
+    "category": "Query",
+    "governance": "Linux Foundation (Substrait Project)",
+    "status": "Stable; growing adoption across query engines",
+    "description": [
+      "Cross-language, cross-engine specification for representing relational query plans. Where SQL is the query language for humans, Substrait is the serialised intermediate representation engines exchange.",
+      "Adopted by DuckDB, Apache DataFusion, Velox, and Ibis (which compiles its DataFrame expressions to Substrait). Aims to be the portable IR between query frontends and execution engines, similar to LLVM IR for compilers."
+    ],
+    "standardReason": "Substrait is published as an open specification with protobuf-defined plan types, governed by the Linux Foundation. Multiple independent engines consume and produce Substrait plans, which is exactly the cross-vendor interchange contract that makes it a standard rather than a project.",
+    "links": [
+      {
+        "label": "substrait.io",
+        "url": "https://substrait.io"
+      },
+      {
+        "label": "GitHub: substrait-io/substrait",
+        "url": "https://github.com/substrait-io/substrait"
+      }
+    ],
+    "firstReleased": 2021,
+    "logo": "/media/icons/standards-map/logos/substrait.svg",
+    "umbrella": "LF"
   },
   "opentelemetry": {
     "name": "OpenTelemetry",
@@ -41,7 +93,9 @@
         "url": "https://github.com/open-telemetry"
       }
     ],
-    "firstReleased": 2019
+    "firstReleased": 2019,
+    "logo": "/media/icons/standards-map/logos/opentelemetry.svg",
+    "umbrella": "CNCF"
   },
   "oors": {
     "name": "OORS",
@@ -59,7 +113,9 @@
         "url": "https://bitol.io"
       }
     ],
-    "firstReleased": 2025
+    "firstReleased": 2025,
+    "logo": "/media/icons/standards-map/logos/bitol.svg",
+    "umbrella": "BITOL @ LF"
   },
   "odcs": {
     "name": "ODCS",
@@ -90,7 +146,9 @@
         "url": "https://github.com/datacontract/datacontract-cli"
       }
     ],
-    "firstReleased": 2023
+    "firstReleased": 2023,
+    "logo": "/media/icons/standards-map/logos/bitol.svg",
+    "umbrella": "BITOL @ LF"
   },
   "openapi": {
     "name": "OpenAPI",
@@ -112,7 +170,9 @@
         "url": "https://github.com/OAI/OpenAPI-Specification"
       }
     ],
-    "firstReleased": 2011
+    "firstReleased": 2011,
+    "logo": "/media/icons/standards-map/logos/openapi.svg",
+    "umbrella": "LF"
   },
   "asyncapi": {
     "name": "AsyncAPI",
@@ -134,7 +194,9 @@
         "url": "https://github.com/asyncapi"
       }
     ],
-    "firstReleased": 2017
+    "firstReleased": 2017,
+    "logo": "/media/icons/standards-map/logos/asyncapi.svg",
+    "umbrella": "LF"
   },
   "graphql": {
     "name": "GraphQL",
@@ -156,7 +218,9 @@
         "url": "https://spec.graphql.org"
       }
     ],
-    "firstReleased": 2015
+    "firstReleased": 2015,
+    "logo": "/media/icons/standards-map/logos/graphql.svg",
+    "umbrella": "LF"
   },
   "grpc": {
     "name": "gRPC",
@@ -178,12 +242,14 @@
         "url": "https://github.com/grpc/grpc"
       }
     ],
-    "firstReleased": 2015
+    "firstReleased": 2015,
+    "logo": "/media/icons/standards-map/logos/grpc.png",
+    "umbrella": "CNCF"
   },
   "dbt": {
     "name": "dbt",
     "fullName": "data build tool",
-    "category": "Processing & Data Quality (vendor)",
+    "category": "Processing",
     "governance": "dbt Labs (vendor-driven open source)",
     "status": "De-facto standard for analytics engineering; vendor-governed format",
     "description": [
@@ -197,12 +263,16 @@
         "url": "https://www.getdbt.com"
       }
     ],
-    "firstReleased": 2016
+    "firstReleased": 2016,
+    "logo": "/media/icons/standards-map/logos/dbt.png",
+    "umbrella": "dbt Labs",
+    "umbrellaSearch": "dbt Labs vendor",
+    "vendor": true
   },
   "great-expectations": {
     "name": "Great Expectations",
     "fullName": "Great Expectations",
-    "category": "Data Quality (vendor)",
+    "category": "Data Quality",
     "governance": "GX Labs (vendor-driven open source)",
     "status": "Widely adopted; vendor-driven",
     "description": [
@@ -220,12 +290,16 @@
         "url": "https://github.com/great-expectations/great_expectations"
       }
     ],
-    "firstReleased": 2018
+    "firstReleased": 2018,
+    "logo": "/media/icons/standards-map/logos/great-expectations.png",
+    "umbrella": "GX Labs",
+    "umbrellaSearch": "GX Labs vendor",
+    "vendor": true
   },
   "sodacl": {
     "name": "SodaCL",
     "fullName": "Soda Checks Language",
-    "category": "Data Quality (vendor)",
+    "category": "Data Quality",
     "governance": "Soda (vendor-driven open source)",
     "status": "Widely adopted; vendor-driven",
     "description": [
@@ -243,7 +317,11 @@
         "url": "https://github.com/sodadata/soda-core"
       }
     ],
-    "firstReleased": 2022
+    "firstReleased": 2022,
+    "logo": "/media/icons/standards-map/logos/soda.png",
+    "umbrella": "Soda",
+    "umbrellaSearch": "Soda vendor",
+    "vendor": true
   },
   "odps": {
     "name": "ODPS",
@@ -267,7 +345,9 @@
         "url": "https://bitol.io"
       }
     ],
-    "firstReleased": 2024
+    "firstReleased": 2024,
+    "logo": "/media/icons/standards-map/logos/bitol.svg",
+    "umbrella": "BITOL @ LF"
   },
   "dpds": {
     "name": "DPDS",
@@ -289,7 +369,10 @@
         "url": "https://www.opendatamesh.org"
       }
     ],
-    "firstReleased": 2022
+    "firstReleased": 2022,
+    "logo": "/media/icons/standards-map/logos/dpds.png",
+    "umbrella": "ODM",
+    "umbrellaSearch": "OpenDataMesh"
   },
   "odpspec": {
     "name": "ODPSpec",
@@ -308,7 +391,10 @@
       }
     ],
     "firstReleased": 2022,
-    "tier": "emerging"
+    "tier": "emerging",
+    "logo": "/media/icons/standards-map/logos/odpspec.png",
+    "umbrella": "LF",
+    "umbrellaSearch": "LF opendataproducts"
   },
   "dprod": {
     "name": "DPROD",
@@ -326,7 +412,9 @@
         "url": "https://ekgf.github.io/dprod/"
       }
     ],
-    "firstReleased": 2024
+    "firstReleased": 2024,
+    "logo": "/media/icons/standards-map/logos/dprod.jpg",
+    "umbrella": "OMG"
   },
   "iceberg": {
     "name": "Iceberg",
@@ -345,7 +433,10 @@
         "url": "https://iceberg.apache.org"
       }
     ],
-    "firstReleased": 2017
+    "firstReleased": 2017,
+    "logo": "/media/icons/standards-map/logos/iceberg.svg",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "delta": {
     "name": "Delta",
@@ -364,7 +455,9 @@
         "url": "https://delta.io"
       }
     ],
-    "firstReleased": 2019
+    "firstReleased": 2019,
+    "logo": "/media/icons/standards-map/logos/delta.png",
+    "umbrella": "LF"
   },
   "hudi": {
     "name": "Hudi",
@@ -383,7 +476,10 @@
         "url": "https://hudi.apache.org"
       }
     ],
-    "firstReleased": 2017
+    "firstReleased": 2017,
+    "logo": "/media/icons/standards-map/logos/hudi.svg",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "ducklake": {
     "name": "DuckLake",
@@ -407,7 +503,11 @@
         "url": "https://duckdb.org"
       }
     ],
-    "firstReleased": 2025
+    "firstReleased": 2025,
+    "logo": "/media/icons/standards-map/logos/duckdb.svg",
+    "umbrella": "DuckDB Labs",
+    "umbrellaSearch": "DuckDB Labs vendor",
+    "vendor": true
   },
   "xml-schema": {
     "name": "XML Schema",
@@ -425,7 +525,9 @@
         "url": "https://www.w3.org/XML/Schema"
       }
     ],
-    "firstReleased": 2001
+    "firstReleased": 2001,
+    "logo": "/media/icons/standards-map/logos/w3c.svg",
+    "umbrella": "W3C"
   },
   "json-schema": {
     "name": "JSON Schema",
@@ -444,7 +546,9 @@
       }
     ],
     "firstReleased": 2009,
-    "tier": "stable"
+    "tier": "stable",
+    "logo": "/media/icons/standards-map/logos/json-schema.png",
+    "umbrella": "IETF"
   },
   "sql-ddl": {
     "name": "SQL DDL",
@@ -462,7 +566,9 @@
         "url": "https://www.iso.org/standard/76583.html"
       }
     ],
-    "firstReleased": 1986
+    "firstReleased": 1986,
+    "logo": "/media/icons/standards-map/logos/iso.png",
+    "umbrella": "ISO/IEC"
   },
   "avro-schema": {
     "name": "AVRO Schema",
@@ -480,7 +586,10 @@
         "url": "https://avro.apache.org"
       }
     ],
-    "firstReleased": 2009
+    "firstReleased": 2009,
+    "logo": "/media/icons/standards-map/logos/avro.svg",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "protobuf": {
     "name": "Protobuf",
@@ -503,7 +612,11 @@
         "url": "https://github.com/protocolbuffers/protobuf"
       }
     ],
-    "firstReleased": 2008
+    "firstReleased": 2008,
+    "logo": "/media/icons/standards-map/logos/google.svg",
+    "umbrella": "Google",
+    "umbrellaSearch": "Google vendor",
+    "vendor": true
   },
   "iceberg-catalog": {
     "name": "Iceberg Catalog",
@@ -521,7 +634,10 @@
         "url": "https://iceberg.apache.org/terms/#catalog"
       }
     ],
-    "firstReleased": 2022
+    "firstReleased": 2022,
+    "logo": "/media/icons/standards-map/logos/iceberg.svg",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "unity-catalog": {
     "name": "Unity Catalog",
@@ -544,7 +660,9 @@
         "url": "https://github.com/unitycatalog/unitycatalog"
       }
     ],
-    "firstReleased": 2024
+    "firstReleased": 2024,
+    "logo": "/media/icons/standards-map/logos/unity-catalog.svg",
+    "umbrella": "LF"
   },
   "hive-metastore": {
     "name": "Hive Metastore",
@@ -563,7 +681,10 @@
         "url": "https://hive.apache.org"
       }
     ],
-    "firstReleased": 2010
+    "firstReleased": 2010,
+    "logo": "/media/icons/standards-map/logos/hive-metastore.svg",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "schema-registry": {
     "name": "Schema Registry",
@@ -586,7 +707,11 @@
         "url": "https://www.apicur.io/registry/"
       }
     ],
-    "firstReleased": 2014
+    "firstReleased": 2014,
+    "logo": "/media/icons/standards-map/logos/confluent.svg",
+    "umbrella": "Confluent",
+    "umbrellaSearch": "Confluent vendor",
+    "vendor": true
   },
   "csv": {
     "name": "CSV",
@@ -604,7 +729,9 @@
         "url": "https://www.ietf.org/rfc/rfc4180.txt"
       }
     ],
-    "firstReleased": 2005
+    "firstReleased": 2005,
+    "logo": "/media/icons/standards-map/logos/ietf.svg",
+    "umbrella": "IETF"
   },
   "json": {
     "name": "JSON",
@@ -626,7 +753,9 @@
         "url": "https://www.rfc-editor.org/rfc/rfc8259"
       }
     ],
-    "firstReleased": 2001
+    "firstReleased": 2001,
+    "logo": "/media/icons/standards-map/logos/json.png",
+    "umbrella": "IETF"
   },
   "xml": {
     "name": "XML",
@@ -644,7 +773,9 @@
         "url": "https://www.w3.org/XML/"
       }
     ],
-    "firstReleased": 1998
+    "firstReleased": 1998,
+    "logo": "/media/icons/standards-map/logos/xml.svg",
+    "umbrella": "W3C"
   },
   "yaml": {
     "name": "YAML",
@@ -667,7 +798,10 @@
         "url": "https://yaml.org/spec/"
       }
     ],
-    "firstReleased": 2001
+    "firstReleased": 2001,
+    "logo": "/media/icons/standards-map/logos/yaml.svg",
+    "umbrella": "YAML.org",
+    "umbrellaSearch": "yaml.org"
   },
   "parquet": {
     "name": "PARQUET",
@@ -686,7 +820,10 @@
         "url": "https://parquet.apache.org"
       }
     ],
-    "firstReleased": 2013
+    "firstReleased": 2013,
+    "logo": "/media/icons/standards-map/logos/parquet.svg",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "avro": {
     "name": "AVRO",
@@ -705,7 +842,10 @@
         "url": "https://avro.apache.org"
       }
     ],
-    "firstReleased": 2009
+    "firstReleased": 2009,
+    "logo": "/media/icons/standards-map/logos/avro.svg",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "orc": {
     "name": "ORC",
@@ -724,7 +864,10 @@
         "url": "https://orc.apache.org"
       }
     ],
-    "firstReleased": 2013
+    "firstReleased": 2013,
+    "logo": "/media/icons/standards-map/logos/orc.png",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "openlineage": {
     "name": "OpenLineage",
@@ -742,7 +885,9 @@
         "url": "https://openlineage.io"
       }
     ],
-    "firstReleased": 2020
+    "firstReleased": 2020,
+    "logo": "/media/icons/standards-map/logos/openlineage.png",
+    "umbrella": "LF"
   },
   "opa": {
     "name": "OPA",
@@ -761,7 +906,9 @@
         "url": "https://www.openpolicyagent.org"
       }
     ],
-    "firstReleased": 2016
+    "firstReleased": 2016,
+    "logo": "/media/icons/standards-map/logos/opa.png",
+    "umbrella": "CNCF"
   },
   "mcp": {
     "name": "MCP",
@@ -783,7 +930,10 @@
         "url": "https://github.com/modelcontextprotocol"
       }
     ],
-    "firstReleased": 2024
+    "firstReleased": 2024,
+    "logo": "/media/icons/standards-map/logos/mcp.svg",
+    "umbrella": "LF",
+    "umbrellaSearch": "LF Anthropic"
   },
   "a2a": {
     "name": "A2A",
@@ -805,12 +955,15 @@
         "url": "https://github.com/a2aproject/A2A"
       }
     ],
-    "firstReleased": 2025
+    "firstReleased": 2025,
+    "logo": "/media/icons/standards-map/logos/a2a.svg",
+    "umbrella": "LF",
+    "umbrellaSearch": "LF Google"
   },
   "s3": {
     "name": "S3",
     "fullName": "Amazon S3 API",
-    "category": "Storage",
+    "category": "Storage Systems",
     "governance": "AWS (vendor-controlled, but de-facto standard)",
     "status": "De-facto standard; implemented by everyone",
     "description": [
@@ -824,7 +977,11 @@
         "url": "https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html"
       }
     ],
-    "firstReleased": 2006
+    "firstReleased": 2006,
+    "logo": "/media/icons/standards-map/logos/aws.svg",
+    "umbrella": "AWS",
+    "umbrellaSearch": "AWS vendor",
+    "vendor": true
   },
   "osi": {
     "name": "OSI",
@@ -852,7 +1009,9 @@
         "url": "https://editor.opensemantic.com"
       }
     ],
-    "firstReleased": 2025
+    "firstReleased": 2025,
+    "logo": "/media/icons/standards-map/logos/osi.svg",
+    "umbrella": "OSI Initiative"
   },
   "rdf-owl": {
     "name": "RDF/OWL",
@@ -874,7 +1033,9 @@
         "url": "https://www.w3.org/OWL/"
       }
     ],
-    "firstReleased": 1999
+    "firstReleased": 1999,
+    "logo": "/media/icons/standards-map/logos/w3c.svg",
+    "umbrella": "W3C"
   },
   "dcat": {
     "name": "DCAT",
@@ -892,7 +1053,9 @@
         "url": "https://www.w3.org/TR/vocab-dcat/"
       }
     ],
-    "firstReleased": 2014
+    "firstReleased": 2014,
+    "logo": "/media/icons/standards-map/logos/w3c.svg",
+    "umbrella": "W3C"
   },
   "skos": {
     "name": "SKOS",
@@ -910,7 +1073,9 @@
         "url": "https://www.w3.org/2004/02/skos/"
       }
     ],
-    "firstReleased": 2009
+    "firstReleased": 2009,
+    "logo": "/media/icons/standards-map/logos/w3c.svg",
+    "umbrella": "W3C"
   },
   "shacl": {
     "name": "SHACL",
@@ -928,7 +1093,9 @@
         "url": "https://www.w3.org/TR/shacl/"
       }
     ],
-    "firstReleased": 2017
+    "firstReleased": 2017,
+    "logo": "/media/icons/standards-map/logos/w3c.svg",
+    "umbrella": "W3C"
   },
   "json-ld": {
     "name": "JSON-LD",
@@ -950,7 +1117,9 @@
         "url": "https://json-ld.org"
       }
     ],
-    "firstReleased": 2014
+    "firstReleased": 2014,
+    "logo": "/media/icons/standards-map/logos/json-ld.png",
+    "umbrella": "W3C"
   },
   "sparql": {
     "name": "SPARQL",
@@ -968,7 +1137,9 @@
         "url": "https://www.w3.org/TR/sparql11-overview/"
       }
     ],
-    "firstReleased": 2008
+    "firstReleased": 2008,
+    "logo": "/media/icons/standards-map/logos/w3c.svg",
+    "umbrella": "W3C"
   },
   "hdfs": {
     "name": "HDFS",
@@ -987,7 +1158,9 @@
       }
     ],
     "firstReleased": 2006,
-    "tier": "legacy"
+    "logo": "/media/icons/standards-map/logos/hadoop.png",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "jdbc": {
     "name": "JDBC",
@@ -1005,7 +1178,9 @@
         "url": "https://docs.oracle.com/javase/tutorial/jdbc/"
       }
     ],
-    "firstReleased": 1997
+    "firstReleased": 1997,
+    "logo": "/media/icons/standards-map/logos/jdbc.svg",
+    "umbrella": "JCP"
   },
   "odbc": {
     "name": "ODBC",
@@ -1027,7 +1202,34 @@
         "url": "https://learn.microsoft.com/en-us/sql/odbc/reference/odbc-overview"
       }
     ],
-    "firstReleased": 1992
+    "firstReleased": 1992,
+    "logo": "/media/icons/standards-map/logos/iso.png",
+    "umbrella": "ISO/IEC"
+  },
+  "xmla": {
+    "name": "XMLA",
+    "fullName": "XML for Analysis",
+    "category": "Database Connectivity",
+    "governance": "XMLA Council (Microsoft, Hyperion, SAS); de-facto industry spec",
+    "status": "Legacy; still the standard wire protocol for OLAP/semantic-layer access",
+    "description": [
+      "SOAP-based protocol for querying multidimensional data sources — cubes, semantic layers, and tabular models. The transport that carries MDX (and DAX) queries between BI clients and analytical engines.",
+      "Implemented by Microsoft Analysis Services, Mondrian, SAP BW, AtScale, and consumed by Excel, Power BI, Tableau, and most enterprise BI tools. Greenfield analytics has moved on, but XMLA remains how a vast amount of cube-based reporting actually talks to its backend."
+    ],
+    "links": [
+      {
+        "label": "XMLA 1.1 specification",
+        "url": "https://learn.microsoft.com/en-us/openspecs/sql_server_protocols/ms-ssas/c0e5c5fc-fe93-4e58-a3b6-b1d95a47d22d"
+      },
+      {
+        "label": "Wikipedia: XML for Analysis",
+        "url": "https://en.wikipedia.org/wiki/XML_for_Analysis"
+      }
+    ],
+    "firstReleased": 2001,
+    "tier": "legacy",
+    "logo": "/media/icons/standards-map/logos/microsoft.svg",
+    "umbrella": "Microsoft"
   },
   "adbc": {
     "name": "ADBC",
@@ -1046,7 +1248,10 @@
         "url": "https://arrow.apache.org/adbc/"
       }
     ],
-    "firstReleased": 2023
+    "firstReleased": 2023,
+    "logo": "/media/icons/standards-map/logos/arrow.png",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "http": {
     "name": "HTTP",
@@ -1064,7 +1269,9 @@
         "url": "https://www.rfc-editor.org/rfc/rfc9110"
       }
     ],
-    "firstReleased": 1991
+    "firstReleased": 1991,
+    "logo": "/media/icons/standards-map/logos/ietf.svg",
+    "umbrella": "IETF"
   },
   "kafka": {
     "name": "Kafka",
@@ -1083,7 +1290,10 @@
         "url": "https://kafka.apache.org"
       }
     ],
-    "firstReleased": 2011
+    "firstReleased": 2011,
+    "logo": "/media/icons/standards-map/logos/kafka.svg",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "mqtt": {
     "name": "MQTT",
@@ -1105,7 +1315,9 @@
         "url": "https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html"
       }
     ],
-    "firstReleased": 1999
+    "firstReleased": 1999,
+    "logo": "/media/icons/standards-map/logos/mqtt.svg",
+    "umbrella": "OASIS"
   },
   "cloudevents": {
     "name": "CloudEvents",
@@ -1127,7 +1339,9 @@
         "url": "https://github.com/cloudevents/spec"
       }
     ],
-    "firstReleased": 2018
+    "firstReleased": 2018,
+    "logo": "/media/icons/standards-map/logos/cloudevents.svg",
+    "umbrella": "CNCF"
   },
   "amqp": {
     "name": "AMQP",
@@ -1149,7 +1363,34 @@
         "url": "https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-overview-v1.0-os.html"
       }
     ],
-    "firstReleased": 2003
+    "firstReleased": 2003,
+    "logo": "/media/icons/standards-map/logos/oasis.png",
+    "umbrella": "OASIS"
+  },
+  "jms": {
+    "name": "JMS",
+    "fullName": "Jakarta Messaging (formerly Java Message Service)",
+    "category": "Messaging",
+    "governance": "Eclipse Foundation (Jakarta EE); originally JCP",
+    "status": "Stable; Jakarta Messaging 3.1 is current",
+    "description": [
+      "Java API specification for producing, sending, and consuming messages between application components. Originally JSR 914 under the Java Community Process; now Jakarta Messaging under the Eclipse Foundation.",
+      "Implemented by ActiveMQ, Artemis, IBM MQ, Solace, and most enterprise message brokers. JMS sits one layer above wire protocols like AMQP — it standardises the application API rather than the on-the-wire bytes."
+    ],
+    "links": [
+      {
+        "label": "Jakarta Messaging spec",
+        "url": "https://jakarta.ee/specifications/messaging/"
+      },
+      {
+        "label": "JSR 914 (original JMS 1.1)",
+        "url": "https://jcp.org/en/jsr/detail?id=914"
+      }
+    ],
+    "firstReleased": 2001,
+    "logo": "/media/icons/standards-map/logos/jakarta-ee.svg",
+    "umbrella": "Jakarta EE",
+    "umbrellaSearch": "Eclipse Jakarta"
   },
   "ftp": {
     "name": "FTP / SFTP",
@@ -1171,7 +1412,34 @@
         "url": "https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-13"
       }
     ],
-    "firstReleased": 1971
+    "firstReleased": 1971,
+    "logo": "/media/icons/standards-map/logos/ietf.svg",
+    "umbrella": "IETF"
+  },
+  "deltasharing": {
+    "name": "Delta Sharing",
+    "fullName": "Delta Sharing Protocol",
+    "category": "Interconnection",
+    "governance": "Linux Foundation (donated by Databricks)",
+    "status": "Stable; multi-vendor adoption",
+    "description": [
+      "Open REST protocol for sharing tabular datasets across organisations and platforms without copying data. A recipient gets short-lived signed URLs to read Parquet/Delta files directly from the provider's object store.",
+      "Implemented by Databricks, plus open-source servers and clients in Python, Spark, Pandas, and Power BI. Sits next to FTP and HTTP as a modern, table-aware option for cross-organisation data exchange."
+    ],
+    "standardReason": "Delta Sharing is published as an open REST protocol specification under the Linux Foundation, with reference servers and clients across multiple languages and several independent implementations (Databricks, AWS, Azure, Power BI). The wire protocol is the standard surface — not the Databricks product.",
+    "links": [
+      {
+        "label": "delta.io/sharing",
+        "url": "https://delta.io/sharing/"
+      },
+      {
+        "label": "GitHub: delta-io/delta-sharing",
+        "url": "https://github.com/delta-io/delta-sharing"
+      }
+    ],
+    "firstReleased": 2021,
+    "logo": "/media/icons/standards-map/logos/delta-sharing.svg",
+    "umbrella": "LF"
   },
   "dataframe": {
     "name": "DataFrame API",
@@ -1194,7 +1462,9 @@
       }
     ],
     "firstReleased": 2021,
-    "tier": "stable"
+    "tier": "stable",
+    "logo": "/media/icons/standards-map/logos/dataframe.png",
+    "umbrella": "data-apis"
   },
   "arrow": {
     "name": "Apache Arrow",
@@ -1213,7 +1483,10 @@
         "url": "https://arrow.apache.org"
       }
     ],
-    "firstReleased": 2016
+    "firstReleased": 2016,
+    "logo": "/media/icons/standards-map/logos/arrow.png",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "spark": {
     "name": "Spark",
@@ -1233,7 +1506,10 @@
       }
     ],
     "firstReleased": 2014,
-    "tier": "stable"
+    "tier": "stable",
+    "logo": "/media/icons/standards-map/logos/spark.svg",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
   },
   "pandas": {
     "name": "Pandas",
@@ -1252,7 +1528,9 @@
         "url": "https://pandas.pydata.org"
       }
     ],
-    "firstReleased": 2008
+    "firstReleased": 2008,
+    "logo": "/media/icons/standards-map/logos/pandas.svg",
+    "umbrella": "NumFOCUS"
   },
   "ibis": {
     "name": "Ibis",
@@ -1271,6 +1549,9 @@
         "url": "https://ibis-project.org"
       }
     ],
-    "firstReleased": 2015
+    "firstReleased": 2015,
+    "logo": "/media/icons/standards-map/logos/ibis.png",
+    "umbrella": "Ibis",
+    "umbrellaSearch": "Ibis Project"
   }
 }
