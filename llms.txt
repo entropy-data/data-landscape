@@ -18,7 +18,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 
 ### Observability
 
-- [OpenTelemetry](https://www.data-landscape.com/?std=opentelemetry) — OpenTelemetry. Governance: CNCF (Cloud Native Computing Foundation), Linux Foundation.
+- [Open​Telemetry](https://www.data-landscape.com/?std=opentelemetry) — OpenTelemetry. Governance: CNCF (Cloud Native Computing Foundation), Linux Foundation.
 - [OORS](https://www.data-landscape.com/?std=oors) — Open Observability Results Standard. Governance: BITOL / Linux Foundation (draft).
 
 ### API Interfaces

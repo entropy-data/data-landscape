@@ -76,7 +76,7 @@
     "umbrella": "LF"
   },
   "opentelemetry": {
-    "name": "OpenTelemetry",
+    "name": "Open​Telemetry",
     "fullName": "OpenTelemetry",
     "category": "Observability",
     "governance": "CNCF (Cloud Native Computing Foundation), Linux Foundation",
