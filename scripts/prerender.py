@@ -63,6 +63,25 @@ def renderable(entry: dict) -> bool:
     return bool(entry.get("logo")) and bool(entry.get("umbrella"))
 
 
+_EMERGING_RE = re.compile(r"\b(emerging|experimental)\b|\bv?0\.\d")
+
+
+def tier_of(entry: dict) -> str:
+    """Mirror of the Alpine `tierOf` getter — used here so the prerender
+    script can apply tier-driven CSS classes (emerging, legacy, …) to the
+    static tile HTML."""
+    if entry.get("tier"):
+        return entry["tier"]
+    status = (entry.get("status") or "").lower()
+    if _EMERGING_RE.search(status):
+        return "emerging"
+    if entry.get("vendor"):
+        return "vendor"
+    if "legacy" in status:
+        return "legacy"
+    return "stable"
+
+
 def html_attr(value: str) -> str:
     """Escape a string for use inside double-quoted HTML attributes."""
     return (
@@ -93,8 +112,11 @@ def render_tile(
         classes.append("item-vendor")
     if entry.get("niche"):
         classes.append("item-niche")
-    if entry.get("tier") == "legacy":
+    tier = tier_of(entry)
+    if tier == "legacy":
         classes.append("item-legacy")
+    elif tier == "emerging":
+        classes.append("item-emerging")
     cls = " ".join(classes)
     umbrella_search = entry.get("umbrellaSearch") or entry.get("umbrella", "")
     id_attr = f' id="{slug}-summary"' if with_id else ""

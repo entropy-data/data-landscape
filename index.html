@@ -193,6 +193,17 @@
       border-style: dashed;
       border-color: #c7d2fe;
     }
+    /* Emerging tiles: soft yellow wash so they read as "in progress" without
+       competing with the dashed amber "niche" treatment. */
+    .item-emerging {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+    .item-emerging .item-umbrella { color: #b45309; }
+    .item-emerging:hover {
+      border-color: #f59e0b;
+      box-shadow: 0 4px 8px -2px rgb(245 158 11 / 0.25);
+    }
     .item-vendor {
       background: #f9fafb;
       border-color: #e5e7eb;
@@ -837,7 +848,7 @@
             </div>
             <div class="category-panel-body">
               <!-- prerender:tiles category="Semantics" -->
-              <button type="button" id="osi-summary" class="item item-highlight"
+              <button type="button" id="osi-summary" class="item item-highlight item-emerging"
                       data-umbrella="OSI Initiative"
                       @click="selectedId = 'osi'">
                 <img class="item-logo" src="/media/icons/standards-map/logos/osi.svg" alt="" loading="lazy">
@@ -1271,7 +1282,7 @@
                 <span class="item-name">Schema Registry</span>
                 <span class="item-umbrella">Confluent</span>
               </button>
-              <button type="button" id="ducklake-summary" class="item item-vendor item-niche"
+              <button type="button" id="ducklake-summary" class="item item-vendor item-niche item-emerging"
                       data-umbrella="DuckDB Labs vendor"
                       @click="selectedId = 'ducklake'">
                 <img class="item-logo" src="/media/icons/standards-map/logos/duckdb.svg" alt="" loading="lazy">
@@ -1411,7 +1422,7 @@
                 <span class="item-name">Open​Telemetry</span>
                 <span class="item-umbrella">CNCF</span>
               </button>
-              <button type="button" id="oors-summary" class="item"
+              <button type="button" id="oors-summary" class="item item-emerging"
                       data-umbrella="BITOL @ LF"
                       @click="selectedId = 'oors'">
                 <img class="item-logo" src="/media/icons/standards-map/logos/bitol.svg" alt="" loading="lazy">

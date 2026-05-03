@@ -396,7 +396,7 @@
       }
     ],
     "firstReleased": 2022,
-    "tier": "emerging",
+    "tier": "stable",
     "logo": "/media/icons/standards-map/logos/odpspec.png",
     "umbrella": "LF",
     "umbrellaSearch": "LF opendataproducts"
@@ -674,7 +674,7 @@
     "fullName": "Apache Hive Metastore",
     "category": "Catalog APIs",
     "governance": "Apache Software Foundation",
-    "status": "Legacy; still everywhere",
+    "status": "Stable; ubiquitous in lakehouse engines, slowly being replaced by Iceberg REST and Unity Catalog",
     "description": [
       "The metastore protocol of the Hadoop era. Long-standing de-facto standard for big-data catalogs — spoken by Spark, Trino, Presto, and most lakehouse engines.",
       "Slowly being superseded by Iceberg REST and Unity Catalog, but installed bases will keep it relevant for many years to come."
@@ -689,7 +689,8 @@
     "firstReleased": 2010,
     "logo": "/media/icons/standards-map/logos/hive-metastore.svg",
     "umbrella": "ASF",
-    "umbrellaSearch": "ASF Apache"
+    "umbrellaSearch": "ASF Apache",
+    "tier": "stable"
   },
   "schema-registry": {
     "name": "Schema Registry",
@@ -1419,7 +1420,8 @@
     ],
     "firstReleased": 1971,
     "logo": "/media/icons/standards-map/logos/ietf.svg",
-    "umbrella": "IETF"
+    "umbrella": "IETF",
+    "tier": "stable"
   },
   "deltasharing": {
     "name": "Delta Sharing",
