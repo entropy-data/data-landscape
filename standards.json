@@ -1631,5 +1631,91 @@
     "firstReleased": 2017,
     "logo": "/media/icons/standards-map/logos/shex.svg",
     "umbrella": "W3C"
+  },
+  "odrl": {
+    "name": "ODRL",
+    "fullName": "Open Digital Rights Language",
+    "category": "Policies",
+    "governance": "W3C",
+    "status": "W3C Recommendation; v2.2 current (since 2018)",
+    "niche": true,
+    "nicheReason": "Rights expression language designed for licensing, terms-of-use, and data-sharing agreements. Increasingly relevant for data contracts and data spaces (Gaia-X, IDSA, Eclipse Dataspace Components reference ODRL for usage policies), but adoption outside that frame is still limited compared to OPA for runtime authorisation.",
+    "description": [
+      "RDF/JSON-based language for expressing permissions, prohibitions, and obligations over digital assets. Born out of digital-rights management; W3C ratified the Information Model (v2.2) and Vocabulary in 2018.",
+      "Sees growing use in European data-spaces work where machine-readable usage policies are part of the contract surface — ODRL policies often ship alongside ODCS-style contracts to declare what consumers may and may not do with the data."
+    ],
+    "links": [
+      {
+        "label": "ODRL Information Model 2.2",
+        "url": "https://www.w3.org/TR/odrl-model/"
+      },
+      {
+        "label": "ODRL Vocabulary 2.2",
+        "url": "https://www.w3.org/TR/odrl-vocab/"
+      },
+      {
+        "label": "ODRL Community Group",
+        "url": "https://www.w3.org/community/odrl/"
+      }
+    ],
+    "firstReleased": 2018,
+    "logo": "/media/icons/standards-map/logos/w3c.svg",
+    "umbrella": "W3C"
+  },
+  "prov": {
+    "name": "PROV",
+    "fullName": "PROV — Provenance Family",
+    "category": "Lineage",
+    "governance": "W3C",
+    "status": "W3C Recommendation since 2013",
+    "niche": true,
+    "nicheReason": "RDF-based provenance model pre-dates OpenLineage by nearly a decade and is the canonical reference in research and digital-preservation contexts. Mainstream data engineering tooling has converged on OpenLineage instead — PROV stays the right choice when provenance has to live in a knowledge graph, not in a pipeline observability backend.",
+    "description": [
+      "Family of W3C documents (PROV-DM data model, PROV-O OWL ontology, PROV-N notation, PROV-XML serialisation) for describing entities, activities, and agents involved in producing a piece of data.",
+      "Common in scientific data, archival systems, and FAIR-data contexts. The conceptual model (Entity / Activity / Agent / wasDerivedFrom / wasGeneratedBy) heavily influenced later lineage standards including OpenLineage's job/run/dataset triples."
+    ],
+    "links": [
+      {
+        "label": "PROV Overview",
+        "url": "https://www.w3.org/TR/prov-overview/"
+      },
+      {
+        "label": "PROV-O ontology",
+        "url": "https://www.w3.org/TR/prov-o/"
+      },
+      {
+        "label": "PROV-DM model",
+        "url": "https://www.w3.org/TR/prov-dm/"
+      }
+    ],
+    "firstReleased": 2013,
+    "logo": "/media/icons/standards-map/logos/w3c.svg",
+    "umbrella": "W3C"
+  },
+  "gql": {
+    "name": "GQL",
+    "fullName": "Graph Query Language",
+    "category": "Query",
+    "governance": "ISO/IEC 39075:2024",
+    "status": "Stable; ISO/IEC 39075:2024 published",
+    "niche": true,
+    "nicheReason": "First international query-language standard since SQL — the property-graph counterpart to SQL — but adoption is still limited compared to Cypher (Neo4j) and Gremlin. Worth tracking because it gives graph databases the same kind of vendor-neutral baseline SQL gave relational, but it isn't yet the day-to-day surface for most data work.",
+    "description": [
+      "ISO/IEC 39075 standard query language for property graphs, ratified in 2024. The first new ISO data query language standard since SQL; designed to do for graph databases what SQL did for relational ones.",
+      "Implemented or in-progress at Neo4j (extending Cypher), TigerGraph, Oracle, Memgraph, AWS Neptune, and others. Heavily influenced by openCypher and ISO SQL/PGQ (the SQL extension for property-graph queries that shipped in SQL:2023)."
+    ],
+    "links": [
+      {
+        "label": "ISO/IEC 39075:2024",
+        "url": "https://www.iso.org/standard/76120.html"
+      },
+      {
+        "label": "GQL Standards (project site)",
+        "url": "https://www.gqlstandards.org/"
+      }
+    ],
+    "firstReleased": 2024,
+    "logo": "/media/icons/standards-map/logos/iso.png",
+    "umbrella": "ISO/IEC"
   }
 }
