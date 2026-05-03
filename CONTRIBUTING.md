@@ -40,12 +40,21 @@ Each entry is keyed by a slug (the same id referenced from the button's `@click=
 
 - `firstReleased` shows in the *Compare* table view.
 - `tier` is optional — when present it overrides the derivation from `status`. Valid values: `stable`, `emerging`, `legacy`, `vendor`.
+- `niche` (boolean, optional) — set to `true` for narrowly-used or specialised standards. Niche entries are hidden from the default landscape and from the PDF, and only appear when a visitor flips the **Niche** toggle in the toolbar (`?include=niche` in the URL). Use this to admit deliberate omissions without bloating the headline grid.
+- `nicheReason` (string, required when `niche: true`) — short explanation of *why* the entry is niche. Surfaced as a slate callout at the top of the drawer ("Why this is listed as niche") so curious readers see the editorial rationale before the description.
 
 ## Adding a new standard
 
 1. Add a new entry to `standards.json` keyed by a unique slug.
 2. Add a matching tile (button + logo) to the grid in `index.html`. The button's `@click` must reference the same slug.
 3. Drop the logo asset into `media/` and reference it from the new tile.
+
+For a niche standard (one you want available behind the toolbar toggle but not in the default landscape or the PDF), also:
+
+- Set `"niche": true` on the entry in `standards.json`.
+- Add `item-niche` to the tile's classes, e.g. `class="item item-niche"`.
+
+Category count badges update automatically — no need to hand-edit the `<span class="count">` in the panel header.
 
 ## Submitting changes
 

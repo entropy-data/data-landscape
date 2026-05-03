@@ -190,6 +190,7 @@
       "SQL-first transformation framework with built-in tests, documentation, and lineage. The de-facto standard for analytics engineering — used both to model warehouse data and to express the quality checks that ride alongside the transformations.",
       "Vendor-governed by dbt Labs rather than a foundation, so it isn't an open standard in the strict sense. Included here on the de-facto criterion: its YAML and Jinja-SQL conventions are what other tools (SQLMesh, Lightdash) interoperate with."
     ],
+    "standardReason": "The dbt project artefacts — the manifest.json, the model YAML, the schema.yml tests — have become the interchange format for analytics engineering. SQLMesh, Lightdash, Elementary, dbt-osmosis and many other tools read or emit dbt's project structure rather than inventing their own. Quality checks declared in dbt are part of that surface. That makes the format itself the standard, even though dbt Labs governs it.",
     "links": [
       {
         "label": "getdbt.com",
@@ -208,6 +209,7 @@
       "Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.",
       "Open source and useful, but the spec is governed by one company, so it sits in the same vendor-driven bucket as dbt and SodaCL."
     ],
+    "standardReason": "The expectations DSL and the JSON validation-result schema GX defines have become the reference vocabulary for declarative data quality in Python. Other tools embed or interoperate with Great Expectations rather than reinvent the same primitives. The standard part is the expectation language and its result format — not the company behind it.",
     "links": [
       {
         "label": "greatexpectations.io",
@@ -230,6 +232,7 @@
       "YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.",
       "Used under the hood by the Data Contract CLI to actually execute the quality checks declared in an ODCS contract."
     ],
+    "standardReason": "SodaCL is the YAML check language Soda publishes — and the part that other tools have standardised on. The Data Contract CLI delegates ODCS quality checks to SodaCL because expressing checks portably matters more than running them in Soda Cloud. The check syntax is the standard surface, even though Soda governs it.",
     "links": [
       {
         "label": "docs.soda.io/soda-cl",
@@ -335,6 +338,7 @@
       "Open table format for huge analytic datasets — schema evolution, hidden partitioning, time travel, ACID semantics on object storage.",
       "Originated at Netflix; now a default in Snowflake, Databricks, AWS, and most query engines. Increasingly the substrate that other layers (catalogs, lakehouses) build on."
     ],
+    "standardReason": "Iceberg's table-format specification — manifest files, metadata layout, snapshot semantics — is published openly and re-implemented by every major engine: Snowflake, Databricks, Trino, Spark, Dremio, DuckDB. The format itself is the standard; the original Netflix implementation is just one client of it.",
     "links": [
       {
         "label": "iceberg.apache.org",
@@ -353,6 +357,7 @@
       "Open-source storage layer that brings ACID transactions, schema enforcement, and time travel to data lakes. The original lakehouse format.",
       "Delta Universal Format (UniForm) now also writes Iceberg-compatible metadata, narrowing the gap between the two formats."
     ],
+    "standardReason": "The Delta transaction-log protocol is published as an open spec and implemented by readers and writers beyond Databricks — delta-rs, Trino, Flink, Spark. The standard surface is the protocol, not the Databricks runtime; that is what makes a Delta table portable across engines.",
     "links": [
       {
         "label": "delta.io",
@@ -371,6 +376,7 @@
       "Transactional data lake platform that pioneered incremental processing and upserts on data lakes.",
       "Less mainstream than Iceberg or Delta today, but still the table format of choice when streaming upserts and CDC are first-class requirements."
     ],
+    "standardReason": "Hudi publishes its on-disk table format and timeline protocol as an open spec, and engines beyond the Hudi runtime (Spark, Flink, Trino, Presto) read and write it directly. The format is the standard part; the platform tooling is one implementation of it.",
     "links": [
       {
         "label": "hudi.apache.org",
@@ -385,10 +391,12 @@
     "category": "Catalog APIs",
     "governance": "DuckDB Labs (vendor-driven open source)",
     "status": "New (2025); experimental",
+    "niche": true,
+    "nicheReason": "Brand new and vendor-driven, with adoption still concentrated inside the DuckDB ecosystem. Not yet a peer of Iceberg REST or Unity Catalog in production maturity — listed for completeness rather than as a headline pick.",
     "description": [
-      "Lakehouse catalog format from DuckDB Labs that puts the catalog inside a regular SQL database — no separate REST catalog, no manifest sprawl. Designed for simplicity and zero-infrastructure analytics.",
-      "Brand new and vendor-driven. Worth tracking, but not yet a peer of Iceberg REST or Unity Catalog in production maturity."
+      "Lakehouse catalog format from DuckDB Labs that puts the catalog inside a regular SQL database — no separate REST catalog, no manifest sprawl. Designed for simplicity and zero-infrastructure analytics."
     ],
+    "standardReason": "DuckLake's catalog schema is published as an open SQL specification — any database that speaks SQL can host a DuckLake catalog. Listed on the de-facto criterion: the schema is the standard surface, even though DuckDB Labs governs it and adoption is still early.",
     "links": [
       {
         "label": "ducklake.select",
@@ -484,6 +492,7 @@
       "Google's language-neutral, platform-neutral mechanism for serialising structured data. Compact binary encoding plus strong schema evolution rules.",
       "The schema language behind gRPC and many internal RPC stacks. Open source but governed by Google, so it sits in the same vendor-driven bucket as dbt."
     ],
+    "standardReason": "The .proto language and the wire format are publicly specified, with compilers and runtimes for every major language. gRPC, Schema Registry, and countless internal RPC stacks depend on the format definition rather than Google's implementation. That is the standard surface, even though Google governs it.",
     "links": [
       {
         "label": "protobuf.dev",
@@ -524,6 +533,7 @@
       "Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation.",
       "Now competing with Iceberg REST as a catalog protocol. The two camps overlap and influence each other; expect convergence over the next couple of years."
     ],
+    "standardReason": "Unity Catalog publishes a public REST API that other catalogs and engines can implement and consume. The API is the standard surface — that is what makes \"speaks Unity\" a portability claim rather than a Databricks lock-in. The reference implementation is open source under the Linux Foundation.",
     "links": [
       {
         "label": "unitycatalog.io",
@@ -546,6 +556,7 @@
       "The metastore protocol of the Hadoop era. Long-standing de-facto standard for big-data catalogs — spoken by Spark, Trino, Presto, and most lakehouse engines.",
       "Slowly being superseded by Iceberg REST and Unity Catalog, but installed bases will keep it relevant for many years to come."
     ],
+    "standardReason": "The Hive Metastore Thrift API is publicly defined and re-implemented by every major lakehouse engine. \"Speaks the Hive Metastore API\" became the portability test for a generation of big-data tools — the API is the standard, independent of the original Hive server.",
     "links": [
       {
         "label": "hive.apache.org",
@@ -564,6 +575,7 @@
       "A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, \"what shape is this Kafka topic?\" has no answer.",
       "The REST API was designed by Confluent but the protocol is widely re-implemented: Apicurio Registry (Red Hat), AWS Glue Schema Registry, Karapace (Aiven), and Redpanda Schema Registry all speak it. That makes it the de-facto schema catalog of the streaming world, even if it is not formally standardised."
     ],
+    "standardReason": "Confluent's Schema Registry REST API is publicly documented and re-implemented by Apicurio (Red Hat), AWS Glue, Karapace (Aiven), and Redpanda. Producers and consumers depend on the API contract, not on Confluent's server — which is what promotes it from a vendor product to a de-facto standard.",
     "links": [
       {
         "label": "Confluent Schema Registry",
@@ -634,6 +646,29 @@
     ],
     "firstReleased": 1998
   },
+  "yaml": {
+    "name": "YAML",
+    "fullName": "YAML Ain't Markup Language",
+    "category": "File Formats",
+    "governance": "yaml.org / community spec",
+    "status": "Stable; v1.2.2 (2021)",
+    "niche": true,
+    "nicheReason": "Strictly speaking a metadata and configuration format — rarely used to encode the data itself; its role is describing data, not carrying it. Listed because most schema and contract specs in this landscape (OpenAPI, AsyncAPI, ODCS, DPDS, dbt project files) are authored in YAML.",
+    "description": [
+      "Human-readable data serialisation format. The default surface for metadata, configuration, and contract specifications — Kubernetes manifests, CI/CD pipelines, OpenAPI / AsyncAPI / ODCS / DPDS / dbt project files all live in YAML."
+    ],
+    "links": [
+      {
+        "label": "yaml.org",
+        "url": "https://yaml.org"
+      },
+      {
+        "label": "YAML spec",
+        "url": "https://yaml.org/spec/"
+      }
+    ],
+    "firstReleased": 2001
+  },
   "parquet": {
     "name": "PARQUET",
     "fullName": "Apache Parquet",
@@ -644,6 +679,7 @@
       "Columnar storage format optimised for analytics: predicate pushdown, column pruning, efficient compression, and typed schemas.",
       "Effectively the default storage format underneath every modern table format (Iceberg, Delta, Hudi)."
     ],
+    "standardReason": "Parquet's on-disk format is published as an open spec with independent reader/writer implementations in C++, Java, Rust, Go, and Python. Every analytics engine and lakehouse format depends on the format spec, not on a particular library. That makes the file format itself the standard.",
     "links": [
       {
         "label": "parquet.apache.org",
@@ -662,6 +698,7 @@
       "Row-oriented binary format that ships its schema alongside the data. Excellent for streaming and event payloads where messages are written and read one at a time.",
       "The natural counterpart to Parquet: Avro for streams, Parquet for analytics."
     ],
+    "standardReason": "The Avro container format and binary encoding are open specifications with independent implementations across Java, Python, Go, C++, and Rust. Kafka, Schema Registry, and most stream processors depend on the format spec, not on a particular Avro library — which is what makes it portable.",
     "links": [
       {
         "label": "avro.apache.org",
@@ -680,6 +717,7 @@
       "Columnar file format created for the Hive ecosystem. Strong compression and ACID support inside Hive.",
       "Less common in greenfield projects today — Parquet has won most workloads — but still pervasive in big-data installations."
     ],
+    "standardReason": "ORC's on-disk format is an open Apache spec with independent readers in Java, C++, and Rust. Hive, Spark, Trino, Presto and others read and write the same files because they target the format, not a single library. The file format is the standard surface.",
     "links": [
       {
         "label": "orc.apache.org",
@@ -716,6 +754,7 @@
       "General-purpose policy engine that decouples policy decisions from your services. Policies are written in Rego and evaluated at request time.",
       "In a data mesh, OPA shows up wherever federated governance needs to enforce rules — access requests, contract gates in CI, infrastructure guard-rails — without putting the rules into application code."
     ],
+    "standardReason": "Rego — the policy language OPA defines — has become the portable way to express authorization rules across cloud-native systems. Kubernetes admission control, service meshes, CI gates, and data-mesh governance all consume the same Rego policies. The language and the OPA evaluation API are the standard, with multiple compatible runtimes.",
     "links": [
       {
         "label": "openpolicyagent.org",
@@ -778,6 +817,7 @@
       "AWS's object storage API has become the lingua franca of the data lake. Every cloud, every storage vendor, every minio-style appliance speaks some flavour of it.",
       "Strictly speaking it is not an open standard — AWS controls it — but the practical reality is that \"talks S3\" is treated as a portability guarantee."
     ],
+    "standardReason": "AWS publishes the S3 REST API, and MinIO, Cloudflare R2, Backblaze B2, Wasabi, Ceph RGW, GCS interop, and most on-prem object stores re-implement it. \"Speaks S3\" is treated as a portability guarantee precisely because the API surface — not AWS's server — is what tools depend on.",
     "links": [
       {
         "label": "AWS S3 API reference",
@@ -999,6 +1039,7 @@
       "Arrow-native database connectivity API. Where JDBC and ODBC marshal results row-by-row, ADBC moves data as Arrow record batches — zero-copy where possible, dramatically faster for analytical workloads.",
       "Designed to coexist with JDBC and ODBC: drivers can wrap them today, and engines can expose ADBC natively for the columnar fast path."
     ],
+    "standardReason": "ADBC is published as an open API specification under the Apache Arrow project, with drivers contributed by multiple vendors (Snowflake, BigQuery, DuckDB, Postgres, SQLite). The driver interface and the Arrow-batch result contract are the standard surface — like JDBC/ODBC, but columnar.",
     "links": [
       {
         "label": "arrow.apache.org/adbc",
@@ -1035,6 +1076,7 @@
       "Distributed log and streaming platform. Originally built at LinkedIn, donated to ASF; now the default backbone for event-driven data pipelines.",
       "The Kafka wire protocol is openly documented and re-implemented by Redpanda, WarpStream, and others, so it sits next to AMQP as a standard option for asynchronous data movement."
     ],
+    "standardReason": "The Kafka wire protocol is publicly documented and re-implemented by Redpanda, WarpStream, and AutoMQ — clients written for one server work against the others. The standard surface is the protocol, not the Apache Kafka broker; that is what lets producers and consumers stay portable across vendors.",
     "links": [
       {
         "label": "kafka.apache.org",
@@ -1164,6 +1206,7 @@
       "Language-agnostic columnar in-memory format for analytical data. Designed for zero-copy reads and efficient interchange between processes, languages, and engines.",
       "Foundation for ADBC, the basis of pandas 2.x, the wire format of Arrow Flight, and the in-memory layout of DuckDB, Polars, and many others. Arrow is the connective tissue of modern analytics."
     ],
+    "standardReason": "Arrow's columnar memory layout and IPC format are an open specification, not a library. DuckDB, Polars, pandas 2.x, Spark, and ADBC all align on the same in-memory representation, which is what enables zero-copy interchange across engines and languages. The format spec is the standard.",
     "links": [
       {
         "label": "arrow.apache.org",
@@ -1182,6 +1225,7 @@
       "Distributed analytics engine with a DataFrame API across Scala, Java, Python, and R. The classic large-scale processing engine for batch and streaming workloads.",
       "Spark Connect decouples client and engine, making the DataFrame API a portable client interface — which is why it shows up here as an interface, not just an engine."
     ],
+    "standardReason": "Spark's DataFrame API and the Spark Connect protocol are the standard parts. Spark Connect publishes a gRPC contract that any Spark-compatible engine can serve, and the DataFrame API is what other engines (e.g. Databricks Connect, Apache Sedona) target. The interface, not the JVM runtime, is what makes Spark a standard.",
     "links": [
       {
         "label": "spark.apache.org",
@@ -1201,6 +1245,7 @@
       "The original Python DataFrame library. Whatever else a Python data practitioner uses, they almost certainly know pandas — which makes its API a de-facto interface that other libraries (Polars, Modin, cuDF) deliberately mimic.",
       "Pandas 2.x added Arrow-backed columns, narrowing the gap with newer engines while preserving the familiar API."
     ],
+    "standardReason": "The pandas Python API is the de-facto DataFrame interface other libraries deliberately mimic — Modin, cuDF, Dask, and many wrappers expose pandas-compatible surfaces precisely because users already know it. The API shape, not the implementation, is what makes pandas a standard reference.",
     "links": [
       {
         "label": "pandas.pydata.org",
@@ -1219,6 +1264,7 @@
       "Portable Python DataFrame API that compiles expressions to a backend of choice — DuckDB, BigQuery, Snowflake, Postgres, Spark, and many others.",
       "Lets analytics code be written once and executed against whichever engine the data happens to live on, without rewriting in each backend's SQL dialect."
     ],
+    "standardReason": "Ibis defines a backend-neutral DataFrame expression API, with a published backend protocol that 20+ engines implement. The API and the backend contract are the standard surface — Ibis is the rare project where the standardised \"interface\" is its whole reason to exist.",
     "links": [
       {
         "label": "ibis-project.org",

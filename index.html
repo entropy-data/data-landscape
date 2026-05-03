@@ -216,6 +216,10 @@
       flex: 1;
     }
     .chip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
       background: white;
       border: 1px solid #e5e7eb;
       color: #4b5563;
@@ -226,8 +230,57 @@
       cursor: pointer;
       transition: all 100ms ease;
     }
+    .chip[data-tooltip]::after,
+    .chip[data-tooltip]::before {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 120ms ease 200ms;
+    }
+    .chip[data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111827;
+      color: white;
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.18);
+      z-index: 50;
+    }
+    .chip[data-tooltip]::before {
+      content: '';
+      position: absolute;
+      bottom: calc(100% + 2px);
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #111827;
+      z-index: 50;
+    }
+    .chip[data-tooltip]:hover::after,
+    .chip[data-tooltip]:hover::before,
+    .chip[data-tooltip]:focus-visible::after,
+    .chip[data-tooltip]:focus-visible::before {
+      opacity: 1;
+    }
     .chip:hover { border-color: #6366f1; color: #4338ca; }
     .chip.active { background: #4f46e5; border-color: #4f46e5; color: white; }
+    .chip-logo {
+      height: 14px;
+      width: auto;
+      max-width: 120px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .chip.active .chip-logo {
+      filter: brightness(0) invert(1);
+    }
     .chip .chip-count {
       display: inline-block;
       margin-left: 0.4rem;
@@ -310,6 +363,18 @@
       color: #111827;
     }
     .compare-table .row-name img { width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; }
+    .compare-table .reason-cell {
+      max-width: 28rem;
+      color: #4b5563;
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+    .compare-table .reason-cell span {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
     .tier-badge {
       display: inline-block;
       font-size: 0.7rem;
@@ -353,6 +418,57 @@
       opacity: 0.45;
     }
 
+    /* Niche tiles: hidden by default, revealed by the toolbar toggle */
+    .item-niche { display: none; }
+    .landscape.show-niche .item-niche {
+      display: flex;
+      border-style: dashed;
+      border-color: #94a3b8;
+      background: #f8fafc;
+    }
+    .landscape.show-niche .item-niche .item-name { color: #475569; }
+    .landscape.show-niche .item-niche .item-umbrella { color: #94a3b8; }
+    .landscape.show-niche .item-niche:hover {
+      border-color: #64748b;
+      box-shadow: 0 4px 8px -2px rgb(100 116 139 / 0.25);
+    }
+    .niche-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: white;
+      border: 1px dashed #c7d2fe;
+      color: #4b5563;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.3rem 0.7rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 100ms ease;
+      margin-left: 0.5rem;
+    }
+    .niche-toggle:hover { border-color: #6366f1; color: #4338ca; }
+    .niche-toggle.active {
+      background: #4f46e5;
+      border-color: #4f46e5;
+      color: white;
+      border-style: solid;
+    }
+    .niche-toggle .chip-count {
+      display: inline-block;
+      padding: 0 6px;
+      background: rgba(79, 70, 229, 0.1);
+      color: #4338ca;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .niche-toggle.active .chip-count {
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+    }
+
 
     .github-corner svg { fill: #4f46e5; color: #fff; position: absolute; top: 0; right: 0; border: 0; z-index: 20; }
     .github-corner:hover .octo-arm { animation: octocat-wave 560ms ease-in-out; }
@@ -382,12 +498,23 @@
                 history.replaceState({}, '', url);
               });
               $watch('activeFilter', () => applyFilter());
+              $watch('showNiche', v => {
+                computeCounts();
+                applyFilter();
+                updateCategoryCounts();
+                const url = new URL(window.location);
+                if (v) url.searchParams.set('include', 'niche'); else url.searchParams.delete('include');
+                history.replaceState({}, '', url);
+              });
               $nextTick(async () => {
+                const params = new URLSearchParams(window.location.search);
+                showNiche = params.get('include') === 'niche';
                 buildButtonMeta();
                 computeCounts();
                 applyFilter();
+                updateCategoryCounts();
                 await loadStandards();
-                const initial = new URLSearchParams(window.location.search).get('std');
+                const initial = params.get('std');
                 if (initial && standards[initial]) selectedId = initial;
               })"
       @keydown.escape.window="selectedId = null; activeFilter = null">
@@ -430,18 +557,27 @@
     <!-- Toolbar: filter + view toggle -->
     <div class="landscape-toolbar">
       <div class="filter-chips" role="group" aria-label="Filter by umbrella">
-        <button type="button" class="chip" :class="{ active: !activeFilter }" @click="activeFilter = null">All <span class="chip-count" x-text="counts.all"></span></button>
-        <button type="button" class="chip" :class="{ active: activeFilter === 'BITOL' }" @click="activeFilter = 'BITOL'">BITOL @ LF <span class="chip-count" x-text="counts.BITOL"></span></button>
-        <button type="button" class="chip" :class="{ active: activeFilter === 'LF' }" @click="activeFilter = 'LF'">LF <span class="chip-count" x-text="counts.LF"></span></button>
-        <button type="button" class="chip" :class="{ active: activeFilter === 'ASF' }" @click="activeFilter = 'ASF'">ASF <span class="chip-count" x-text="counts.ASF"></span></button>
-        <button type="button" class="chip" :class="{ active: activeFilter === 'CNCF' }" @click="activeFilter = 'CNCF'">CNCF <span class="chip-count" x-text="counts.CNCF"></span></button>
-        <button type="button" class="chip" :class="{ active: activeFilter === 'W3C' }" @click="activeFilter = 'W3C'">W3C <span class="chip-count" x-text="counts.W3C"></span></button>
-        <button type="button" class="chip" :class="{ active: activeFilter === 'IETF' }" @click="activeFilter = 'IETF'">IETF <span class="chip-count" x-text="counts.IETF"></span></button>
-        <button type="button" class="chip" :class="{ active: activeFilter === 'ISO' }" @click="activeFilter = 'ISO'">ISO/IEC <span class="chip-count" x-text="counts.ISO"></span></button>
-        <button type="button" class="chip" :class="{ active: activeFilter === 'OASIS' }" @click="activeFilter = 'OASIS'">OASIS <span class="chip-count" x-text="counts.OASIS"></span></button>
-        <button type="button" class="chip" :class="{ active: activeFilter === 'OMG' }" @click="activeFilter = 'OMG'">OMG <span class="chip-count" x-text="counts.OMG"></span></button>
-        <button type="button" class="chip" :class="{ active: activeFilter === 'OSI' }" @click="activeFilter = 'OSI'">OSI Initiative <span class="chip-count" x-text="counts.OSI"></span></button>
-        <button type="button" class="chip" :class="{ active: activeFilter === 'vendor' }" @click="activeFilter = 'vendor'">Vendor <span class="chip-count" x-text="counts.vendor"></span></button>
+        <button type="button" class="chip" :class="{ active: !activeFilter }" @click="activeFilter = null" data-tooltip="Show all standards">All <span class="chip-count" x-text="counts.all"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'BITOL' }" @click="activeFilter = activeFilter === 'BITOL' ? null : 'BITOL'" aria-label="Filter by BITOL" data-tooltip="BITOL — Open Standards for Product-Oriented Data Engineering & Management (hosted at the Linux Foundation)"><img class="chip-logo" src="/media/icons/standards-map/logos/bitol-horizontal.png" alt="BITOL"><span class="chip-count" x-text="counts.BITOL"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'LF' }" @click="activeFilter = activeFilter === 'LF' ? null : 'LF'" aria-label="Filter by Linux Foundation" data-tooltip="The Linux Foundation"><img class="chip-logo" src="/media/icons/standards-map/logos/lf.svg" alt="Linux Foundation"><span class="chip-count" x-text="counts.LF"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'ASF' }" @click="activeFilter = activeFilter === 'ASF' ? null : 'ASF'" aria-label="Filter by Apache Software Foundation" data-tooltip="Apache Software Foundation"><img class="chip-logo" src="/media/icons/standards-map/logos/asf-horizontal.svg" alt="Apache Software Foundation"><span class="chip-count" x-text="counts.ASF"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'CNCF' }" @click="activeFilter = activeFilter === 'CNCF' ? null : 'CNCF'" aria-label="Filter by CNCF" data-tooltip="Cloud Native Computing Foundation"><img class="chip-logo" src="/media/icons/standards-map/logos/cncf-horizontal.png" alt="CNCF"><span class="chip-count" x-text="counts.CNCF"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'W3C' }" @click="activeFilter = activeFilter === 'W3C' ? null : 'W3C'" aria-label="Filter by W3C" data-tooltip="World Wide Web Consortium (W3C)"><img class="chip-logo" src="/media/icons/standards-map/logos/w3c.svg" alt="W3C"><span class="chip-count" x-text="counts.W3C"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'IETF' }" @click="activeFilter = activeFilter === 'IETF' ? null : 'IETF'" aria-label="Filter by IETF" data-tooltip="Internet Engineering Task Force (IETF)"><img class="chip-logo" src="/media/icons/standards-map/logos/ietf.svg" alt="IETF"><span class="chip-count" x-text="counts.IETF"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'ISO' }" @click="activeFilter = activeFilter === 'ISO' ? null : 'ISO'" aria-label="Filter by ISO/IEC" data-tooltip="International Organization for Standardization / IEC"><img class="chip-logo" src="/media/icons/standards-map/logos/iso.png" alt="ISO/IEC"><span class="chip-count" x-text="counts.ISO"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'OASIS' }" @click="activeFilter = activeFilter === 'OASIS' ? null : 'OASIS'" aria-label="Filter by OASIS" data-tooltip="OASIS — Organization for the Advancement of Structured Information Standards"><img class="chip-logo" src="/media/icons/standards-map/logos/oasis-open.svg" alt="OASIS"><span class="chip-count" x-text="counts.OASIS"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'OMG' }" @click="activeFilter = activeFilter === 'OMG' ? null : 'OMG'" aria-label="Filter by OMG" data-tooltip="Object Management Group (OMG)"><img class="chip-logo" src="/media/icons/standards-map/logos/omg.svg" alt="OMG"><span class="chip-count" x-text="counts.OMG"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'OSI' }" @click="activeFilter = activeFilter === 'OSI' ? null : 'OSI'" aria-label="Filter by OSI" data-tooltip="Open Semantic Interchange (OSI)"><img class="chip-logo" src="/media/icons/standards-map/logos/osi-horizontal.svg" alt="OSI"><span class="chip-count" x-text="counts.OSI"></span></button>
+        <button type="button" class="chip" :class="{ active: activeFilter === 'vendor' }" @click="activeFilter = activeFilter === 'vendor' ? null : 'vendor'" data-tooltip="Single-vendor specifications">Vendor <span class="chip-count" x-text="counts.vendor"></span></button>
+        <button type="button"
+                class="niche-toggle"
+                :class="{ active: showNiche }"
+                @click="showNiche = !showNiche"
+                aria-pressed="showNiche"
+                title="Niche or specialised standards, hidden by default to keep the landscape focused.">
+          <span x-text="showNiche ? '✓ Niche' : '+ Niche'"></span>
+          <span class="chip-count" x-text="counts.niche"></span>
+        </button>
       </div>
       <div class="view-toggle" role="group" aria-label="View mode">
         <button type="button" :class="{ active: viewMode === 'landscape' }" @click="viewMode = 'landscape'" aria-pressed="viewMode === 'landscape'">Landscape</button>
@@ -449,7 +585,7 @@
       </div>
     </div>
 
-    <div class="landscape" :data-filter="activeFilter" x-show="viewMode === 'landscape'">
+    <div class="landscape" :data-filter="activeFilter" :class="{ 'show-niche': showNiche }" x-show="viewMode === 'landscape'">
 
       <!-- Section: Definition -->
       <section class="landscape-section">
@@ -625,6 +761,11 @@
                 <img class="item-logo" src="/media/icons/standards-map/logos/xml.svg" alt="" loading="lazy">
                 <span class="item-name">XML</span>
                 <span class="item-umbrella">W3C</span>
+              </button>
+              <button type="button" class="item item-niche" data-umbrella="yaml.org" @click="selectedId = 'yaml'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/yaml.svg" alt="" loading="lazy">
+                <span class="item-name">YAML</span>
+                <span class="item-umbrella">YAML.org</span>
               </button>
               <button type="button" class="item" data-umbrella="ASF Apache" @click="selectedId = 'parquet'">
                 <img class="item-logo" src="/media/icons/standards-map/logos/parquet.svg" alt="" loading="lazy">
@@ -860,7 +1001,7 @@
                 <span class="item-name">Hive Metastore</span>
                 <span class="item-umbrella">ASF</span>
               </button>
-              <button type="button" class="item item-vendor" data-umbrella="DuckDB Labs vendor" @click="selectedId = 'ducklake'">
+              <button type="button" class="item item-vendor item-niche" data-umbrella="DuckDB Labs vendor" @click="selectedId = 'ducklake'">
                 <img class="item-logo" src="/media/icons/standards-map/logos/duckdb.svg" alt="" loading="lazy">
                 <span class="item-name">DuckLake</span>
                 <span class="item-umbrella">DuckDB Labs</span>
@@ -1032,6 +1173,10 @@
                 </td>
                 <td x-text="row.governance"></td>
                 <td x-text="row.firstReleased ?? '—'"></td>
+                <td class="reason-cell">
+                  <span x-text="row.standardReason || '—'" :title="row.standardReason || ''"
+                        :class="row.standardReason ? 'text-gray-700' : 'text-gray-400'"></span>
+                </td>
               </tr>
             </template>
           </tbody>
@@ -1110,7 +1255,10 @@
       <p class="mt-3 text-sm leading-6 text-gray-700">
         This landscape is curated by <a href="https://www.entropy-data.com" class="text-indigo-600 hover:text-indigo-500">Entropy Data</a>, with grateful thanks to everyone who helped shape it:
         <a href="https://www.linkedin.com/in/da115/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">Denis Arnaud</a>,
+        <a href="https://www.linkedin.com/in/jon-axon/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">Jon Axon</a>,
         <a href="https://www.linkedin.com/in/benjamin-ditel/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">Benjamin Ditel</a>,
+        <a href="https://www.linkedin.com/in/peterhutzli/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">Peter Hutzli</a>,
+        <a href="https://www.linkedin.com/in/mark001/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">Mark M</a>,
         <a href="https://www.linkedin.com/in/stefan-negele-573153112/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">Stefan Negele</a>,
         and <a href="https://www.linkedin.com/in/erikwilde/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">Erik Wilde</a>.
       </p>
@@ -1157,7 +1305,7 @@
          x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
          x-transition:leave="transform transition ease-in duration-200"
          x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
-         class="fixed top-0 right-0 z-40 w-full sm:w-[480px] h-full bg-white shadow-2xl overflow-y-auto"
+         class="fixed top-0 right-0 z-40 w-full sm:w-[640px] lg:w-[720px] h-full bg-white shadow-2xl overflow-x-hidden overflow-y-auto"
          role="dialog" aria-modal="true"
          style="display: none;">
     <template x-if="selected">
@@ -1222,11 +1370,35 @@
           </template>
         </dl>
 
-        <div class="mt-6 prose prose-sm max-w-none text-gray-700">
+        <template x-if="selected?.nicheReason">
+          <div class="mt-6 border-l-4 border-slate-400 bg-slate-50 p-4 rounded-r text-sm text-slate-800 break-words">
+            <p class="font-semibold mb-1 flex items-center gap-1.5">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 7.5l16.5-4.125M12 6.75c-2.708 0-5.363.224-7.948.655C2.999 7.58 2.25 8.507 2.25 9.574v9.176A2.25 2.25 0 004.5 21h15a2.25 2.25 0 002.25-2.25V9.574c0-1.067-.75-1.994-1.802-2.169A48.329 48.329 0 0012 6.75zm-1.683 6.443l-.005.005-.006-.005.006-.005.005.005zm-.005 2.127l-.005-.006.005-.005.005.005-.005.005zm2.219-2.127l-.005.005-.006-.005.005-.005.006.005zm-.005 2.127l-.005-.006.005-.005.005.005-.005.005z"/>
+              </svg>
+              Why this is listed as niche
+            </p>
+            <p x-text="selected.nicheReason"></p>
+          </div>
+        </template>
+
+        <div class="mt-6 text-sm text-gray-700 space-y-3 break-words">
           <template x-for="(para, i) in selected.description" :key="i">
             <p x-text="para"></p>
           </template>
         </div>
+
+        <template x-if="selected?.standardReason">
+          <div class="mt-6 border-l-4 border-indigo-500 bg-indigo-50 p-4 rounded-r text-sm text-indigo-900 break-words">
+            <p class="font-semibold mb-1 flex items-center gap-1.5">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/>
+              </svg>
+              Why it counts as a standard
+            </p>
+            <p x-text="selected.standardReason"></p>
+          </div>
+        </template>
 
         <template x-if="selected?.note">
           <div class="mt-5 border-l-4 border-amber-400 bg-amber-50 p-4 rounded-r text-sm text-amber-900">
@@ -1331,13 +1503,15 @@
       sortColumn: 'category',
       sortDir: 1,
       tableColumns: [
-        { key: 'name',          label: 'Name' },
-        { key: 'category',      label: 'Category' },
-        { key: 'tier',          label: 'Tier' },
-        { key: 'governance',    label: 'Governance' },
-        { key: 'firstReleased', label: 'First release' },
+        { key: 'name',           label: 'Name' },
+        { key: 'category',       label: 'Category' },
+        { key: 'tier',           label: 'Tier' },
+        { key: 'governance',     label: 'Governance' },
+        { key: 'firstReleased',  label: 'First release' },
+        { key: 'standardReason', label: 'Why a standard' },
       ],
-      counts: { all: 0, BITOL: 0, LF: 0, ASF: 0, CNCF: 0, W3C: 0, IETF: 0, ISO: 0, OASIS: 0, OMG: 0, OSI: 0, vendor: 0 },
+      counts: { all: 0, BITOL: 0, LF: 0, ASF: 0, CNCF: 0, W3C: 0, IETF: 0, ISO: 0, OASIS: 0, OMG: 0, OSI: 0, vendor: 0, niche: 0 },
+      showNiche: false,
       buttonMeta: {},
       get selected() {
         return this.selectedId ? this.standards[this.selectedId] : null;
@@ -1356,15 +1530,19 @@
       get sortedTableRows() {
         const col = this.sortColumn;
         const dir = this.sortDir;
-        const rows = Object.entries(this.standards).map(([id, std]) => ({
-          id,
-          name: std.name || id,
-          category: std.category || '',
-          tier: this.tierOf(id, std),
-          governance: std.governance || '',
-          firstReleased: std.firstReleased ?? null,
-          logo: this.buttonMeta[id]?.logo || null,
-        }));
+        const showNiche = this.showNiche;
+        const rows = Object.entries(this.standards)
+          .filter(([id]) => showNiche || !this.buttonMeta[id]?.niche)
+          .map(([id, std]) => ({
+            id,
+            name: std.name || id,
+            category: std.category || '',
+            tier: this.tierOf(id, std),
+            governance: std.governance || '',
+            firstReleased: std.firstReleased ?? null,
+            standardReason: std.standardReason || '',
+            logo: this.buttonMeta[id]?.logo || null,
+          }));
         const cmp = (a, b) => {
           let va = a[col], vb = b[col];
           if (va == null && vb == null) return 0;
@@ -1417,13 +1595,16 @@
             logo: img?.getAttribute('src') || null,
             umbrella: el.dataset.umbrella || '',
             vendor: el.classList.contains('item-vendor'),
+            niche: el.classList.contains('item-niche'),
           };
         });
         this.buttonMeta = map;
       },
       computeCounts() {
         const norm = s => (s || '').toLowerCase();
-        const items = Array.from(document.querySelectorAll('.item[data-umbrella]'));
+        const showNiche = this.showNiche;
+        const items = Array.from(document.querySelectorAll('.item[data-umbrella]'))
+          .filter(el => showNiche || !el.classList.contains('item-niche'));
         const seen = new Set();
         const unique = items.filter(el => {
           const name = el.querySelector('.item-name')?.textContent?.trim();
@@ -1435,7 +1616,24 @@
         ['BITOL', 'LF', 'ASF', 'CNCF', 'W3C', 'IETF', 'ISO', 'OASIS', 'OMG', 'OSI', 'vendor'].forEach(f => {
           counts[f] = unique.filter(el => norm(el.dataset.umbrella).includes(norm(f))).length;
         });
+        const allItems = Array.from(document.querySelectorAll('.item[data-umbrella]'));
+        const allSeen = new Set();
+        counts.niche = allItems.filter(el => {
+          const name = el.querySelector('.item-name')?.textContent?.trim();
+          if (allSeen.has(name)) return false;
+          allSeen.add(name);
+          return el.classList.contains('item-niche');
+        }).length;
         this.counts = counts;
+      },
+      updateCategoryCounts() {
+        const showNiche = this.showNiche;
+        document.querySelectorAll('.category-panel').forEach(panel => {
+          const sel = showNiche ? '.item' : '.item:not(.item-niche)';
+          const n = panel.querySelectorAll(sel).length;
+          const badge = panel.querySelector('.category-panel-header .count');
+          if (badge) badge.textContent = String(n);
+        });
       },
       applyFilter() {
         const f = this.activeFilter;
@@ -1447,7 +1645,9 @@
           el.classList.toggle('item-dim', !match);
         });
         document.querySelectorAll('.category-panel').forEach(panel => {
-          const allDim = !panel.querySelector('.item:not(.item-dim)');
+          const visibleSel = this.showNiche ? '.item' : '.item:not(.item-niche)';
+          const visible = panel.querySelectorAll(visibleSel);
+          const allDim = visible.length > 0 && ![...visible].some(el => !el.classList.contains('item-dim'));
           panel.classList.toggle('panel-dim', !!f && allDim);
         });
       }

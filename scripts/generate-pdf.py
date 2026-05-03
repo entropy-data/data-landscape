@@ -41,6 +41,10 @@ main > div.mx-auto.max-w-7xl.px-6.lg\\:px-8.mt-10.mb-8,
 .contribute-cta,
 footer { display: none !important; }
 
+/* Niche tiles are deliberately excluded from the PDF, regardless of the
+   live page's toggle state. The toggle is for the interactive site only. */
+.item-niche { display: none !important; }
+
 main { margin: 0 !important; padding: 0 !important; }
 main .mx-auto { max-width: none !important; padding-left: 0 !important; padding-right: 0 !important; }
 .landscape { background: white !important; border: 0 !important; padding: 0 !important; }
@@ -90,6 +94,13 @@ HIDE_SCRIPT = r"""
   document
     .querySelector('div.rounded-lg.border.border-indigo-200.bg-indigo-50')
     ?.classList.add('contribute-cta');
+
+  // Force the niche toggle off in the PDF so category counts and tiles agree,
+  // even if the page was visited with ?include=niche.
+  const data = main._x_dataStack?.[0];
+  if (data && data.showNiche) {
+    data.showNiche = false;
+  }
 }
 """
 
