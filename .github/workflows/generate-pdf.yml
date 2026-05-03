@@ -1,19 +1,24 @@
-name: Generate PDF
+name: Build artefacts
 
-# Re-renders data-landscape.pdf whenever the page's content or
-# generation pipeline changes, then commits the PDF back to main.
-# The PDF itself is excluded from the trigger paths to avoid loops.
+# Re-runs the prerender step (which keeps the static tile HTML, JSON-LD,
+# sitemap.xml, llms.txt, and the footer "Updated" date in sync with
+# standards.json) and regenerates data-landscape.pdf whenever the page
+# content or generation pipeline changes, then commits any changes back
+# to main. The PDF itself is excluded from the trigger paths to avoid
+# loops; the regenerated index.html and friends are also self-managed so
+# the bot push doesn't re-trigger the workflow on its own commit.
 on:
   push:
     branches: [main]
     paths:
       - 'index.html'
+      - 'standards.json'
       - 'src/**'
       - 'dist/**'
       - 'media/**'
       - 'fonts/**'
       - 'js/**'
-      - 'scripts/generate-pdf.py'
+      - 'scripts/**'
       - '.github/workflows/generate-pdf.yml'
   workflow_dispatch:
 
@@ -21,15 +26,18 @@ permissions:
   contents: write
 
 concurrency:
-  group: generate-pdf
+  group: build-artefacts
   cancel-in-progress: false
 
 jobs:
-  generate:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          # Need full history so the prerender script can pick up the latest
+          # commit date for the footer.
+          fetch-depth: 0
           # Use a token with write access so the auto-commit pushes back to main.
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -38,6 +46,9 @@ jobs:
 
       - name: Install Chromium for Playwright
         run: uv run --with playwright python -m playwright install --with-deps chromium
+
+      - name: Prerender static HTML, JSON-LD, sitemap, llms.txt
+        run: uv run scripts/prerender.py
 
       - name: Serve the site
         run: |
@@ -50,14 +61,14 @@ jobs:
       - name: Generate PDF
         run: uv run scripts/generate-pdf.py http://127.0.0.1:8000/
 
-      - name: Commit PDF if changed
+      - name: Commit changes if any
         run: |
-          if git diff --quiet -- data-landscape.pdf; then
-            echo "PDF unchanged; nothing to commit."
+          if git diff --quiet -- index.html sitemap.xml llms.txt data-landscape.pdf; then
+            echo "No artefact changes; nothing to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data-landscape.pdf
-          git commit -m "Regenerate data-landscape.pdf"
+          git add index.html sitemap.xml llms.txt data-landscape.pdf
+          git commit -m "Regenerate prerendered artefacts and PDF"
           git push

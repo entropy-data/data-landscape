@@ -4,7 +4,8 @@
   "description": "Source for data-landscape.com — interactive landscape of open standards for modern data architecture.",
   "scripts": {
     "dev": "concurrently \"npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css --watch\" \"serve -l 3000\"",
-    "build": "npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css --minify"
+    "prerender": "uv run scripts/prerender.py",
+    "build": "uv run scripts/prerender.py && npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css --minify"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.2.1",

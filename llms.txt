@@ -1,0 +1,142 @@
+# Data Landscape — Open Standards for Modern Data Architecture
+
+An opinionated, interactive map of the open standards that power a modern data architecture. Curated by Entropy Data. Source of truth: https://www.data-landscape.com/standards.json (JSON, machine-readable, freely fetchable).
+
+- Site: https://www.data-landscape.com/
+- Data: https://www.data-landscape.com/standards.json
+- Sitemap: https://www.data-landscape.com/sitemap.xml
+
+## Standards by category
+
+### Query
+
+- [SQL](https://www.data-landscape.com/?std=sql) — Structured Query Language. Governance: ANSI / ISO/IEC 9075.
+- [MDX](https://www.data-landscape.com/?std=mdx) — Multidimensional Expressions. Governance: Originally Microsoft (1997); referenced by the XMLA specification. _legacy_
+- [Substrait](https://www.data-landscape.com/?std=substrait) — Substrait. Governance: Linux Foundation (Substrait Project).
+- [SPARQL](https://www.data-landscape.com/?std=sparql) — SPARQL Protocol and RDF Query Language. Governance: W3C.
+- [GQL](https://www.data-landscape.com/?std=gql) — Graph Query Language. Governance: ISO/IEC 39075:2024. _niche_
+
+### Observability
+
+- [OpenTelemetry](https://www.data-landscape.com/?std=opentelemetry) — OpenTelemetry. Governance: CNCF (Cloud Native Computing Foundation), Linux Foundation.
+- [OORS](https://www.data-landscape.com/?std=oors) — Open Observability Results Standard. Governance: BITOL / Linux Foundation (draft).
+
+### API Interfaces
+
+- [ODCS](https://www.data-landscape.com/?std=odcs) — Open Data Contract Standard. Governance: BITOL / Linux Foundation. _highlighted_
+- [OpenAPI](https://www.data-landscape.com/?std=openapi) — OpenAPI Specification. Governance: OpenAPI Initiative, Linux Foundation.
+- [AsyncAPI](https://www.data-landscape.com/?std=asyncapi) — AsyncAPI Specification. Governance: AsyncAPI Initiative, Linux Foundation.
+- [GraphQL](https://www.data-landscape.com/?std=graphql) — GraphQL. Governance: GraphQL Foundation, Linux Foundation.
+- [gRPC](https://www.data-landscape.com/?std=grpc) — gRPC Remote Procedure Call. Governance: CNCF (Incubating), Linux Foundation.
+- [OData](https://www.data-landscape.com/?std=odata) — Open Data Protocol (v4). Governance: OASIS (originally Microsoft).
+
+### Processing
+
+- [dbt](https://www.data-landscape.com/?std=dbt) — data build tool. Governance: dbt Labs (vendor-driven open source). _vendor_
+- [Spark](https://www.data-landscape.com/?std=spark) — Apache Spark. Governance: Apache Software Foundation.
+- [Pandas](https://www.data-landscape.com/?std=pandas) — pandas. Governance: NumFOCUS (open source).
+- [Ibis](https://www.data-landscape.com/?std=ibis) — Ibis. Governance: Ibis Project (open source).
+
+### Data Quality
+
+- [dbt](https://www.data-landscape.com/?std=dbt) — data build tool. Governance: dbt Labs (vendor-driven open source). _vendor_
+- [Great Expectations](https://www.data-landscape.com/?std=great-expectations) — Great Expectations. Governance: GX Labs (vendor-driven open source). _vendor_
+- [SodaCL](https://www.data-landscape.com/?std=sodacl) — Soda Checks Language. Governance: Soda (vendor-driven open source). _vendor_
+
+### Data Products
+
+- [ODPS](https://www.data-landscape.com/?std=odps) — Open Data Product Standard. Governance: BITOL / Linux Foundation. _highlighted_
+- [DPDS](https://www.data-landscape.com/?std=dpds) — Data Product Descriptor Specification. Governance: OpenDataMesh community.
+- [ODPSpec](https://www.data-landscape.com/?std=odpspec) — Open Data Product Specification. Governance: opendataproducts.org / Linux Foundation.
+- [DPROD](https://www.data-landscape.com/?std=dprod) — Data Product Vocabulary (DPROD). Governance: EKGF / Object Management Group (OMG) — RDF/OWL vocabulary.
+
+### Open Table Formats
+
+- [Iceberg](https://www.data-landscape.com/?std=iceberg) — Apache Iceberg. Governance: Apache Software Foundation.
+- [Delta](https://www.data-landscape.com/?std=delta) — Delta Lake. Governance: Linux Foundation (originally Databricks).
+- [Hudi](https://www.data-landscape.com/?std=hudi) — Apache Hudi. Governance: Apache Software Foundation.
+
+### Catalog APIs
+
+- [DuckLake](https://www.data-landscape.com/?std=ducklake) — DuckLake. Governance: DuckDB Labs (vendor-driven open source). _niche, vendor_
+- [Iceberg Catalog](https://www.data-landscape.com/?std=iceberg-catalog) — Iceberg REST Catalog. Governance: Apache Software Foundation.
+- [Unity Catalog](https://www.data-landscape.com/?std=unity-catalog) — Unity Catalog. Governance: Linux Foundation (originally Databricks).
+- [Hive Metastore](https://www.data-landscape.com/?std=hive-metastore) — Apache Hive Metastore. Governance: Apache Software Foundation.
+- [Schema Registry](https://www.data-landscape.com/?std=schema-registry) — Confluent Schema Registry. Governance: Confluent (open API; multiple compatible implementations). _vendor_
+
+### Schema
+
+- [XML Schema](https://www.data-landscape.com/?std=xml-schema) — XML Schema Definition (XSD). Governance: W3C.
+- [JSON Schema](https://www.data-landscape.com/?std=json-schema) — JSON Schema. Governance: JSON Schema community / IETF.
+- [SQL DDL](https://www.data-landscape.com/?std=sql-ddl) — SQL Data Definition Language. Governance: ANSI / ISO/IEC 9075.
+- [AVRO Schema](https://www.data-landscape.com/?std=avro-schema) — Apache Avro Schema. Governance: Apache Software Foundation.
+- [Protobuf](https://www.data-landscape.com/?std=protobuf) — Protocol Buffers. Governance: Google (open source, vendor-driven). _vendor_
+- [LinkML](https://www.data-landscape.com/?std=linkml) — Linked data Modeling Language. Governance: LinkML community / Monarch Initiative. _niche_
+- [Table Schema](https://www.data-landscape.com/?std=frictionless-table-schema) — Frictionless Table Schema. Governance: Frictionless Data / Open Knowledge Foundation. _niche_
+
+### File Formats
+
+- [CSV](https://www.data-landscape.com/?std=csv) — Comma-Separated Values (RFC 4180). Governance: IETF (RFC 4180).
+- [JSON](https://www.data-landscape.com/?std=json) — JavaScript Object Notation. Governance: IETF RFC 8259 / ECMA-404.
+- [XML](https://www.data-landscape.com/?std=xml) — Extensible Markup Language. Governance: W3C.
+- [YAML](https://www.data-landscape.com/?std=yaml) — YAML Ain't Markup Language. Governance: yaml.org / community spec. _niche_
+- [PARQUET](https://www.data-landscape.com/?std=parquet) — Apache Parquet. Governance: Apache Software Foundation.
+- [AVRO](https://www.data-landscape.com/?std=avro) — Apache Avro. Governance: Apache Software Foundation.
+- [ORC](https://www.data-landscape.com/?std=orc) — Apache ORC (Optimized Row Columnar). Governance: Apache Software Foundation.
+
+### Lineage
+
+- [OpenLineage](https://www.data-landscape.com/?std=openlineage) — OpenLineage. Governance: Linux Foundation.
+- [PROV](https://www.data-landscape.com/?std=prov) — PROV — Provenance Family. Governance: W3C. _niche_
+
+### Policies
+
+- [OPA](https://www.data-landscape.com/?std=opa) — Open Policy Agent. Governance: CNCF (Graduated).
+- [ODRL](https://www.data-landscape.com/?std=odrl) — Open Digital Rights Language. Governance: W3C. _niche_
+
+### AI Interfaces
+
+- [MCP](https://www.data-landscape.com/?std=mcp) — Model Context Protocol. Governance: Linux Foundation (created by Anthropic; multi-vendor steering).
+- [A2A](https://www.data-landscape.com/?std=a2a) — Agent2Agent Protocol. Governance: Linux Foundation (created by Google; multi-vendor steering).
+
+### Storage Systems
+
+- [S3](https://www.data-landscape.com/?std=s3) — Amazon S3 API. Governance: AWS (vendor-controlled, but de-facto standard). _vendor_
+- [HDFS](https://www.data-landscape.com/?std=hdfs) — Hadoop Distributed File System. Governance: Apache Software Foundation.
+
+### Semantics
+
+- [OSI](https://www.data-landscape.com/?std=osi) — Open Semantic Interchange. Governance: OSI Initiative — Snowflake, Databricks, Tableau, MicroStrategy, and many more. _highlighted_
+- [RDF/OWL](https://www.data-landscape.com/?std=rdf-owl) — Resource Description Framework / Web Ontology Language. Governance: W3C.
+- [DCAT](https://www.data-landscape.com/?std=dcat) — Data Catalog Vocabulary. Governance: W3C.
+- [SKOS](https://www.data-landscape.com/?std=skos) — Simple Knowledge Organization System. Governance: W3C.
+- [SHACL](https://www.data-landscape.com/?std=shacl) — Shapes Constraint Language. Governance: W3C.
+- [JSON-LD](https://www.data-landscape.com/?std=json-ld) — JSON for Linking Data. Governance: W3C.
+- [schema.org](https://www.data-landscape.com/?std=schemaorg) — schema.org vocabulary. Governance: schema.org Community Group / W3C. _niche_
+- [ShEx](https://www.data-landscape.com/?std=shex) — Shape Expressions Language. Governance: W3C Shape Expressions Community Group. _niche_
+
+### Database Connectivity
+
+- [JDBC](https://www.data-landscape.com/?std=jdbc) — Java Database Connectivity. Governance: Java Community Process (JCP).
+- [ODBC](https://www.data-landscape.com/?std=odbc) — Open Database Connectivity. Governance: ISO/IEC 9075-3 (originally Microsoft / SQL Access Group).
+- [XMLA](https://www.data-landscape.com/?std=xmla) — XML for Analysis. Governance: XMLA Council (Microsoft, Hyperion, SAS); de-facto industry spec. _legacy_
+- [ADBC](https://www.data-landscape.com/?std=adbc) — Arrow Database Connectivity. Governance: Apache Software Foundation (Arrow project).
+
+### Interconnection
+
+- [HTTP](https://www.data-landscape.com/?std=http) — Hypertext Transfer Protocol. Governance: IETF.
+- [FTP / SFTP](https://www.data-landscape.com/?std=ftp) — File Transfer Protocol / SSH File Transfer Protocol. Governance: IETF.
+- [Delta Sharing](https://www.data-landscape.com/?std=deltasharing) — Delta Sharing Protocol. Governance: Linux Foundation (donated by Databricks).
+
+### Messaging
+
+- [Kafka](https://www.data-landscape.com/?std=kafka) — Apache Kafka. Governance: Apache Software Foundation.
+- [MQTT](https://www.data-landscape.com/?std=mqtt) — Message Queuing Telemetry Transport. Governance: OASIS.
+- [CloudEvents](https://www.data-landscape.com/?std=cloudevents) — CloudEvents. Governance: CNCF (Graduated).
+- [AMQP](https://www.data-landscape.com/?std=amqp) — Advanced Message Queuing Protocol. Governance: OASIS.
+- [JMS](https://www.data-landscape.com/?std=jms) — Jakarta Messaging (formerly Java Message Service). Governance: Eclipse Foundation (Jakarta EE); originally JCP.
+
+### In-Memory Format
+
+- [DataFrame API](https://www.data-landscape.com/?std=dataframe) — Python Dataframe API Standard. Governance: Consortium for Python Data API Standards (data-apis.org).
+- [Apache Arrow](https://www.data-landscape.com/?std=arrow) — Apache Arrow. Governance: Apache Software Foundation.

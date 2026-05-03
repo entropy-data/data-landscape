@@ -249,7 +249,10 @@
   "dbt": {
     "name": "dbt",
     "fullName": "data build tool",
-    "category": "Processing",
+    "category": [
+      "Processing",
+      "Data Quality"
+    ],
     "governance": "dbt Labs (vendor-driven open source)",
     "status": "De-facto standard for analytics engineering; vendor-governed format",
     "description": [
