@@ -1717,5 +1717,34 @@
     "firstReleased": 2024,
     "logo": "/media/icons/standards-map/logos/iso.png",
     "umbrella": "ISO/IEC"
+  },
+  "odata": {
+    "name": "OData",
+    "fullName": "Open Data Protocol (v4)",
+    "category": "API Interfaces",
+    "governance": "OASIS (originally Microsoft)",
+    "status": "Stable; v4.01 current (OASIS Standard since 2014)",
+    "description": [
+      "Standardised protocol for building and consuming RESTful data APIs. Defines URL conventions, query syntax (filter, select, expand, orderby, pagination), and a metadata model (CSDL) so clients can discover schema and capabilities programmatically.",
+      "Heavily used inside Microsoft (Dynamics 365, Power BI, Microsoft Graph), SAP (S/4HANA, OData services), Salesforce, and Oracle Fusion. Where OpenAPI describes any REST surface, OData prescribes a uniform shape so consumers don't have to learn each API individually."
+    ],
+    "standardReason": "OData is an OASIS Standard with a publicly-defined wire protocol and metadata format (CSDL). Multiple independent implementations exist across Microsoft, SAP, Salesforce, Oracle, and the OData4j / Olingo open-source stacks, so \"speaks OData\" is a portability claim rather than a vendor-lock-in label.",
+    "links": [
+      {
+        "label": "odata.org",
+        "url": "https://www.odata.org/"
+      },
+      {
+        "label": "OASIS OData TC",
+        "url": "https://www.oasis-open.org/committees/odata/"
+      },
+      {
+        "label": "OData v4.01 spec",
+        "url": "https://docs.oasis-open.org/odata/odata/v4.01/"
+      }
+    ],
+    "firstReleased": 2014,
+    "logo": "/media/icons/standards-map/logos/odata.png",
+    "umbrella": "OASIS"
   }
 }
