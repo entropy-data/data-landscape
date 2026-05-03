@@ -73,8 +73,19 @@ def html_attr(value: str) -> str:
     )
 
 
-def render_tile(slug: str, entry: dict, indent: str = "              ") -> str:
-    """Produce the static HTML for one tile button."""
+def render_tile(
+    slug: str,
+    entry: dict,
+    indent: str = "              ",
+    *,
+    with_id: bool = True,
+) -> str:
+    """Produce the static HTML for one tile button.
+
+    `with_id=False` suppresses the `id="<slug>-summary"` attribute — used for
+    repeat renderings of the same entry (e.g. dbt appearing in two panels) so
+    the id stays unique across the document.
+    """
     classes = ["item"]
     if entry.get("highlight"):
         classes.append("item-highlight")
@@ -86,8 +97,9 @@ def render_tile(slug: str, entry: dict, indent: str = "              ") -> str:
         classes.append("item-legacy")
     cls = " ".join(classes)
     umbrella_search = entry.get("umbrellaSearch") or entry.get("umbrella", "")
+    id_attr = f' id="{slug}-summary"' if with_id else ""
     return (
-        f'{indent}<button type="button" class="{html_attr(cls)}"\n'
+        f'{indent}<button type="button"{id_attr} class="{html_attr(cls)}"\n'
         f'{indent}        data-umbrella="{html_attr(umbrella_search)}"\n'
         f'{indent}        @click="selectedId = \'{slug}\'">\n'
         f'{indent}  <img class="item-logo" src="{html_attr(entry["logo"])}" alt="" loading="lazy">\n'
@@ -95,6 +107,27 @@ def render_tile(slug: str, entry: dict, indent: str = "              ") -> str:
         f'{indent}  <span class="item-umbrella">{html_attr(entry["umbrella"])}</span>\n'
         f'{indent}</button>'
     )
+
+
+def short_description(entry: dict, max_chars: int = 280) -> str:
+    """First paragraph of `description`, trimmed to a sentence near max_chars.
+
+    Used for per-DefinedTerm descriptions in JSON-LD — gives LLMs a one-line
+    summary without dumping the full prose.
+    """
+    paragraphs = entry.get("description") or []
+    if not paragraphs:
+        return entry.get("fullName") or entry.get("name", "")
+    text = paragraphs[0].strip()
+    if len(text) <= max_chars:
+        return text
+    cut = text[:max_chars]
+    # Prefer ending on a sentence boundary; fall back to a word boundary.
+    last_stop = max(cut.rfind(". "), cut.rfind("? "), cut.rfind("! "))
+    if last_stop >= max_chars - 80:
+        return cut[: last_stop + 1].strip()
+    last_space = cut.rfind(" ")
+    return cut[:last_space].rstrip(",;:") + "…"
 
 
 def replace_panel_bodies(html: str, standards: "OrderedDict[str, dict]") -> str:
@@ -123,6 +156,11 @@ def replace_panel_bodies(html: str, standards: "OrderedDict[str, dict]") -> str:
             return 1
         return 0
 
+    # Track which slugs have already been emitted with their id="<slug>-summary"
+    # attribute. Multi-category entries (e.g. dbt) appear in more than one panel;
+    # only the first occurrence carries the id so the document stays valid.
+    seen_ids: set[str] = set()
+
     def replace(match: re.Match) -> str:
         category = match.group("category")
         indent = match.group("indent")
@@ -133,7 +171,11 @@ def replace_panel_bodies(html: str, standards: "OrderedDict[str, dict]") -> str:
         ]
         # Preserve JSON insertion order within each tier bucket.
         candidates.sort(key=lambda pair: tile_order(pair[1]))
-        tiles = [render_tile(slug, entry, indent=indent) for slug, entry in candidates]
+        tiles = []
+        for slug, entry in candidates:
+            with_id = slug not in seen_ids
+            seen_ids.add(slug)
+            tiles.append(render_tile(slug, entry, indent=indent, with_id=with_id))
         body = "\n".join(tiles)
         marker_open = f'{indent}<!-- prerender:tiles category="{category}" -->'
         marker_close = f'{indent}<!-- /prerender:tiles -->'
@@ -161,6 +203,7 @@ def replace_jsonld(html: str, standards: "OrderedDict[str, dict]") -> str:
                 "item": {
                     "@type": "DefinedTerm",
                     "name": entry["name"],
+                    "description": short_description(entry),
                     "url": f"{SITE}/?std={slug}",
                 },
             }
@@ -284,8 +327,10 @@ def write_sitemap(standards: "OrderedDict[str, dict]") -> None:
     for slug, entry in standards.items():
         if not renderable(entry):
             continue
+        # Anchored URL — Google de-duplicates fragment URLs against the canonical
+        # root, so these enrich the per-tile signal without competing for ranking.
         lines.append("  <url>")
-        lines.append(f"    <loc>{SITE}/?std={slug}</loc>")
+        lines.append(f"    <loc>{SITE}/#{slug}-summary</loc>")
         lines.append(f"    <lastmod>{today}</lastmod>")
         lines.append("    <changefreq>monthly</changefreq>")
         lines.append("    <priority>0.7</priority>")

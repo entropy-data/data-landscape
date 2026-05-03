@@ -12,7 +12,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 
 - [SQL](https://www.data-landscape.com/?std=sql) — Structured Query Language. Governance: ANSI / ISO/IEC 9075.
 - [MDX](https://www.data-landscape.com/?std=mdx) — Multidimensional Expressions. Governance: Originally Microsoft (1997); referenced by the XMLA specification. _legacy_
-- [Substrait](https://www.data-landscape.com/?std=substrait) — Substrait. Governance: Linux Foundation (Substrait Project).
+- [Substrait](https://www.data-landscape.com/?std=substrait) — Substrait. Governance: Linux Foundation (Substrait Project). _niche_
 - [SPARQL](https://www.data-landscape.com/?std=sparql) — SPARQL Protocol and RDF Query Language. Governance: W3C.
 - [GQL](https://www.data-landscape.com/?std=gql) — Graph Query Language. Governance: ISO/IEC 39075:2024. _niche_
 

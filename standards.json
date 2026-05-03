@@ -54,6 +54,8 @@
     "category": "Query",
     "governance": "Linux Foundation (Substrait Project)",
     "status": "Stable; growing adoption across query engines",
+    "niche": true,
+    "nicheReason": "Cross-engine query-plan IR that engines exchange — not a surface that users or analysts ever write. Adoption is concentrated inside engine internals (DuckDB, DataFusion, Velox, Ibis); most data teams will never touch it directly. Listed for the engine-builders and Ibis-style frontends.",
     "description": [
       "Cross-language, cross-engine specification for representing relational query plans. Where SQL is the query language for humans, Substrait is the serialised intermediate representation engines exchange.",
       "Adopted by DuckDB, Apache DataFusion, Velox, and Ibis (which compiles its DataFrame expressions to Substrait). Aims to be the portable IR between query frontends and execution engines, similar to LLVM IR for compilers."

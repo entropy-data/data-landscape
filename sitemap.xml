@@ -7,451 +7,451 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=sql</loc>
+    <loc>https://www.data-landscape.com/#sql-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=mdx</loc>
+    <loc>https://www.data-landscape.com/#mdx-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=substrait</loc>
+    <loc>https://www.data-landscape.com/#substrait-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=opentelemetry</loc>
+    <loc>https://www.data-landscape.com/#opentelemetry-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=oors</loc>
+    <loc>https://www.data-landscape.com/#oors-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=odcs</loc>
+    <loc>https://www.data-landscape.com/#odcs-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=openapi</loc>
+    <loc>https://www.data-landscape.com/#openapi-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=asyncapi</loc>
+    <loc>https://www.data-landscape.com/#asyncapi-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=graphql</loc>
+    <loc>https://www.data-landscape.com/#graphql-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=grpc</loc>
+    <loc>https://www.data-landscape.com/#grpc-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=dbt</loc>
+    <loc>https://www.data-landscape.com/#dbt-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=great-expectations</loc>
+    <loc>https://www.data-landscape.com/#great-expectations-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=sodacl</loc>
+    <loc>https://www.data-landscape.com/#sodacl-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=odps</loc>
+    <loc>https://www.data-landscape.com/#odps-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=dpds</loc>
+    <loc>https://www.data-landscape.com/#dpds-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=odpspec</loc>
+    <loc>https://www.data-landscape.com/#odpspec-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=dprod</loc>
+    <loc>https://www.data-landscape.com/#dprod-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=iceberg</loc>
+    <loc>https://www.data-landscape.com/#iceberg-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=delta</loc>
+    <loc>https://www.data-landscape.com/#delta-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=hudi</loc>
+    <loc>https://www.data-landscape.com/#hudi-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=ducklake</loc>
+    <loc>https://www.data-landscape.com/#ducklake-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=xml-schema</loc>
+    <loc>https://www.data-landscape.com/#xml-schema-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=json-schema</loc>
+    <loc>https://www.data-landscape.com/#json-schema-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=sql-ddl</loc>
+    <loc>https://www.data-landscape.com/#sql-ddl-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=avro-schema</loc>
+    <loc>https://www.data-landscape.com/#avro-schema-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=protobuf</loc>
+    <loc>https://www.data-landscape.com/#protobuf-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=iceberg-catalog</loc>
+    <loc>https://www.data-landscape.com/#iceberg-catalog-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=unity-catalog</loc>
+    <loc>https://www.data-landscape.com/#unity-catalog-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=hive-metastore</loc>
+    <loc>https://www.data-landscape.com/#hive-metastore-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=schema-registry</loc>
+    <loc>https://www.data-landscape.com/#schema-registry-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=csv</loc>
+    <loc>https://www.data-landscape.com/#csv-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=json</loc>
+    <loc>https://www.data-landscape.com/#json-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=xml</loc>
+    <loc>https://www.data-landscape.com/#xml-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=yaml</loc>
+    <loc>https://www.data-landscape.com/#yaml-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=parquet</loc>
+    <loc>https://www.data-landscape.com/#parquet-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=avro</loc>
+    <loc>https://www.data-landscape.com/#avro-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=orc</loc>
+    <loc>https://www.data-landscape.com/#orc-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=openlineage</loc>
+    <loc>https://www.data-landscape.com/#openlineage-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=opa</loc>
+    <loc>https://www.data-landscape.com/#opa-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=mcp</loc>
+    <loc>https://www.data-landscape.com/#mcp-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=a2a</loc>
+    <loc>https://www.data-landscape.com/#a2a-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=s3</loc>
+    <loc>https://www.data-landscape.com/#s3-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=osi</loc>
+    <loc>https://www.data-landscape.com/#osi-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=rdf-owl</loc>
+    <loc>https://www.data-landscape.com/#rdf-owl-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=dcat</loc>
+    <loc>https://www.data-landscape.com/#dcat-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=skos</loc>
+    <loc>https://www.data-landscape.com/#skos-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=shacl</loc>
+    <loc>https://www.data-landscape.com/#shacl-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=json-ld</loc>
+    <loc>https://www.data-landscape.com/#json-ld-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=sparql</loc>
+    <loc>https://www.data-landscape.com/#sparql-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=hdfs</loc>
+    <loc>https://www.data-landscape.com/#hdfs-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=jdbc</loc>
+    <loc>https://www.data-landscape.com/#jdbc-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=odbc</loc>
+    <loc>https://www.data-landscape.com/#odbc-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=xmla</loc>
+    <loc>https://www.data-landscape.com/#xmla-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=adbc</loc>
+    <loc>https://www.data-landscape.com/#adbc-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=http</loc>
+    <loc>https://www.data-landscape.com/#http-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=kafka</loc>
+    <loc>https://www.data-landscape.com/#kafka-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=mqtt</loc>
+    <loc>https://www.data-landscape.com/#mqtt-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=cloudevents</loc>
+    <loc>https://www.data-landscape.com/#cloudevents-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=amqp</loc>
+    <loc>https://www.data-landscape.com/#amqp-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=jms</loc>
+    <loc>https://www.data-landscape.com/#jms-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=ftp</loc>
+    <loc>https://www.data-landscape.com/#ftp-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=deltasharing</loc>
+    <loc>https://www.data-landscape.com/#deltasharing-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=dataframe</loc>
+    <loc>https://www.data-landscape.com/#dataframe-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=arrow</loc>
+    <loc>https://www.data-landscape.com/#arrow-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=spark</loc>
+    <loc>https://www.data-landscape.com/#spark-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=pandas</loc>
+    <loc>https://www.data-landscape.com/#pandas-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=ibis</loc>
+    <loc>https://www.data-landscape.com/#ibis-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=linkml</loc>
+    <loc>https://www.data-landscape.com/#linkml-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=schemaorg</loc>
+    <loc>https://www.data-landscape.com/#schemaorg-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=shex</loc>
+    <loc>https://www.data-landscape.com/#shex-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=odrl</loc>
+    <loc>https://www.data-landscape.com/#odrl-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=prov</loc>
+    <loc>https://www.data-landscape.com/#prov-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=gql</loc>
+    <loc>https://www.data-landscape.com/#gql-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=odata</loc>
+    <loc>https://www.data-landscape.com/#odata-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.data-landscape.com/?std=frictionless-table-schema</loc>
+    <loc>https://www.data-landscape.com/#frictionless-table-schema-summary</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
