@@ -1746,5 +1746,32 @@
     "firstReleased": 2014,
     "logo": "/media/icons/standards-map/logos/odata.png",
     "umbrella": "OASIS"
+  },
+  "frictionless-table-schema": {
+    "name": "Table Schema",
+    "fullName": "Frictionless Table Schema",
+    "category": "Schema",
+    "governance": "Frictionless Data / Open Knowledge Foundation",
+    "status": "Stable; v1.0 (2017), continually maintained",
+    "niche": true,
+    "nicheReason": "JSON-based schema spec for tabular data, part of the Frictionless Data toolkit. Adoption is concentrated in open-data publishing (government portals, research data) where it pairs with Data Package and DCAT — outside that scene most teams reach for JSON Schema, AVRO Schema, or SQL DDL instead.",
+    "description": [
+      "Lightweight JSON spec for describing the columns of a tabular dataset — name, type, format, constraints, primary key, foreign keys. Rendered alongside the actual CSV/JSON data inside a Data Package so consumers can validate and type-cast without out-of-band documentation.",
+      "Common in open-data ecosystems: data.gov, the EU Open Data Portal, and many research-data publishers ship Frictionless Data Packages containing one Table Schema per resource."
+    ],
+    "links": [
+      {
+        "label": "Table Schema spec",
+        "url": "https://specs.frictionlessdata.io/table-schema/"
+      },
+      {
+        "label": "frictionlessdata.io",
+        "url": "https://frictionlessdata.io/"
+      }
+    ],
+    "firstReleased": 2017,
+    "logo": "/media/icons/standards-map/logos/frictionless.svg",
+    "umbrella": "Frictionless",
+    "umbrellaSearch": "Frictionless OKF Open Knowledge"
   }
 }
