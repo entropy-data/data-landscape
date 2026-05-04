@@ -1548,6 +1548,28 @@
     "umbrella": "ASF",
     "umbrellaSearch": "ASF Apache"
   },
+  "beam": {
+    "name": "Beam",
+    "fullName": "Apache Beam",
+    "category": "Processing",
+    "governance": "Apache Software Foundation",
+    "status": "Stable; multi-runner model spec",
+    "description": [
+      "Unified programming model for batch and streaming data processing. Pipelines written once in Beam can run on Flink, Spark, Google Cloud Dataflow, Samza, or the direct local runner.",
+      "Originated as Google's Dataflow SDK, donated to ASF in 2016. Stronger claim to “standard” than most processing frameworks: the model itself — PCollections, transforms, windowing, triggers — is the spec, with runners as competing implementations."
+    ],
+    "standardReason": "Beam's value is the model, not the runner. The Beam programming model and the portability framework (Fn API, Runner API) are an open specification that multiple runners implement. Pipelines move between Flink, Spark, and Dataflow without code changes precisely because all three implement the same Beam contract — making the model the standard surface tools and teams target.",
+    "links": [
+      {
+        "label": "beam.apache.org",
+        "url": "https://beam.apache.org"
+      }
+    ],
+    "firstReleased": 2016,
+    "logo": "/media/icons/standards-map/logos/beam.svg",
+    "umbrella": "ASF",
+    "umbrellaSearch": "ASF Apache"
+  },
   "pandas": {
     "name": "Pandas",
     "fullName": "pandas",

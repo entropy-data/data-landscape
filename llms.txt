@@ -34,6 +34,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 
 - [dbt](https://www.data-landscape.com/?std=dbt) — data build tool. Governance: dbt Labs (vendor-driven open source). _vendor_
 - [Spark](https://www.data-landscape.com/?std=spark) — Apache Spark. Governance: Apache Software Foundation.
+- [Beam](https://www.data-landscape.com/?std=beam) — Apache Beam. Governance: Apache Software Foundation.
 - [Pandas](https://www.data-landscape.com/?std=pandas) — pandas. Governance: NumFOCUS (open source).
 - [Ibis](https://www.data-landscape.com/?std=ibis) — Ibis. Governance: Ibis Project (open source).
 - [SQL DML](https://www.data-landscape.com/?std=sql-dml) — SQL Data Manipulation Language. Governance: ANSI / ISO/IEC 9075.
