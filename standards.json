@@ -875,6 +875,35 @@
     "umbrella": "ASF",
     "umbrellaSearch": "ASF Apache"
   },
+  "lance": {
+    "name": "Lance",
+    "fullName": "Lance",
+    "category": "File Formats",
+    "governance": "LanceDB Inc. (vendor-driven open source)",
+    "status": "Emerging; production use concentrated in AI/ML stacks",
+    "niche": true,
+    "nicheReason": "Vendor-driven and AI/ML-focused — adoption is concentrated around LanceDB and multimodal/vector workloads, not general analytics. Parquet remains the default columnar format; Lance is listed for completeness as the format optimised for random access, embeddings, and multimodal data.",
+    "description": [
+      "Modern columnar file format optimised for AI/ML workloads: 100x faster random access than Parquet, native support for embeddings and multimodal data (images, video, audio), and zero-copy schema evolution without rewriting files.",
+      "Pairs with the Lance table format and catalog spec to form a lakehouse stack purpose-built for vector search and feature engineering alongside SQL analytics."
+    ],
+    "standardReason": "Lance's on-disk format is published as an open spec with independent Rust and Python implementations. LanceDB, DataFusion, DuckDB integrations, and downstream tools target the format itself rather than a single library — putting it on the de-facto standard track even though LanceDB Inc. governs it.",
+    "links": [
+      {
+        "label": "lance.org",
+        "url": "https://lance.org"
+      },
+      {
+        "label": "GitHub: lance",
+        "url": "https://github.com/lancedb/lance"
+      }
+    ],
+    "firstReleased": 2022,
+    "logo": "/media/icons/standards-map/logos/lance.png",
+    "umbrella": "LanceDB",
+    "umbrellaSearch": "LanceDB vendor",
+    "vendor": true
+  },
   "openlineage": {
     "name": "OpenLineage",
     "fullName": "OpenLineage",
@@ -1396,7 +1425,8 @@
     "firstReleased": 2001,
     "logo": "/media/icons/standards-map/logos/jakarta-ee.svg",
     "umbrella": "Jakarta EE",
-    "umbrellaSearch": "Eclipse Jakarta"
+    "umbrellaSearch": "Eclipse Jakarta",
+    "tier": "legacy"
   },
   "ftp": {
     "name": "FTP / SFTP",
@@ -1560,6 +1590,31 @@
     "logo": "/media/icons/standards-map/logos/ibis.png",
     "umbrella": "Ibis",
     "umbrellaSearch": "Ibis Project"
+  },
+  "sql-dml": {
+    "name": "SQL DML",
+    "fullName": "SQL Data Manipulation Language",
+    "category": "Processing",
+    "governance": "ANSI / ISO/IEC 9075",
+    "status": "Stable since 1986; revised regularly (latest SQL:2023)",
+    "description": [
+      "The processing side of SQL: CTEs and window functions for transformation logic, INSERT / UPDATE / DELETE / MERGE for state changes, and CREATE OR REPLACE TABLE / VIEW for materialising results. The portable way to express batch transformations against any relational or lakehouse engine.",
+      "Tools like dbt, SQLMesh, and dataform are essentially orchestrators around this surface — the transformations themselves are SQL DML."
+    ],
+    "standardReason": "ISO/IEC 9075 specifies a portable DML core — CTEs (SQL:1999), window functions (SQL:2003), and MERGE (SQL:2003) — that every serious analytical engine implements. Transformations written against this core run on Snowflake, BigQuery, Databricks, DuckDB, Postgres, and Trino with minimal change. The standard surface, not any vendor's dialect, is what makes SQL the default processing language.",
+    "links": [
+      {
+        "label": "ISO/IEC 9075 standard",
+        "url": "https://www.iso.org/standard/76583.html"
+      },
+      {
+        "label": "Wikipedia: SQL",
+        "url": "https://en.wikipedia.org/wiki/SQL"
+      }
+    ],
+    "firstReleased": 1986,
+    "logo": "/media/icons/standards-map/logos/iso.png",
+    "umbrella": "ISO/IEC"
   },
   "linkml": {
     "name": "LinkML",
