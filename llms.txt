@@ -36,6 +36,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 - [Spark](https://www.data-landscape.com/?std=spark) — Apache Spark. Governance: Apache Software Foundation.
 - [Pandas](https://www.data-landscape.com/?std=pandas) — pandas. Governance: NumFOCUS (open source).
 - [Ibis](https://www.data-landscape.com/?std=ibis) — Ibis. Governance: Ibis Project (open source).
+- [SQL DML](https://www.data-landscape.com/?std=sql-dml) — SQL Data Manipulation Language. Governance: ANSI / ISO/IEC 9075.
 
 ### Data Quality
 
@@ -83,6 +84,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 - [PARQUET](https://www.data-landscape.com/?std=parquet) — Apache Parquet. Governance: Apache Software Foundation.
 - [AVRO](https://www.data-landscape.com/?std=avro) — Apache Avro. Governance: Apache Software Foundation.
 - [ORC](https://www.data-landscape.com/?std=orc) — Apache ORC (Optimized Row Columnar). Governance: Apache Software Foundation.
+- [Lance](https://www.data-landscape.com/?std=lance) — Lance. Governance: LanceDB Inc. (vendor-driven open source). _niche, vendor_
 
 ### Lineage
 
@@ -134,7 +136,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 - [MQTT](https://www.data-landscape.com/?std=mqtt) — Message Queuing Telemetry Transport. Governance: OASIS.
 - [CloudEvents](https://www.data-landscape.com/?std=cloudevents) — CloudEvents. Governance: CNCF (Graduated).
 - [AMQP](https://www.data-landscape.com/?std=amqp) — Advanced Message Queuing Protocol. Governance: OASIS.
-- [JMS](https://www.data-landscape.com/?std=jms) — Jakarta Messaging (formerly Java Message Service). Governance: Eclipse Foundation (Jakarta EE); originally JCP.
+- [JMS](https://www.data-landscape.com/?std=jms) — Jakarta Messaging (formerly Java Message Service). Governance: Eclipse Foundation (Jakarta EE); originally JCP. _legacy_
 
 ### In-Memory Format
 
