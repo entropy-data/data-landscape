@@ -52,7 +52,7 @@
     "name": "Substrait",
     "fullName": "Substrait",
     "category": "Query",
-    "governance": "Linux Foundation (Substrait Project)",
+    "governance": "Substrait Project (independent; ASF-inspired PMC)",
     "status": "Stable; growing adoption across query engines",
     "niche": true,
     "nicheReason": "Cross-engine query-plan IR that engines exchange — not a surface that users or analysts ever write. Adoption is concentrated inside engine internals (DuckDB, DataFusion, Velox, Ibis); most data teams will never touch it directly. Listed for the engine-builders and Ibis-style frontends.",
@@ -60,7 +60,7 @@
       "Cross-language, cross-engine specification for representing relational query plans. Where SQL is the query language for humans, Substrait is the serialised intermediate representation engines exchange.",
       "Adopted by DuckDB, Apache DataFusion, Velox, and Ibis (which compiles its DataFrame expressions to Substrait). Aims to be the portable IR between query frontends and execution engines, similar to LLVM IR for compilers."
     ],
-    "standardReason": "Substrait is published as an open specification with protobuf-defined plan types, governed by the Linux Foundation. Multiple independent engines consume and produce Substrait plans, which is exactly the cross-vendor interchange contract that makes it a standard rather than a project.",
+    "standardReason": "Substrait is published as an open specification with protobuf-defined plan types, governed by an independent, ASF-inspired PMC. Multiple independent engines consume and produce Substrait plans, which is exactly the cross-vendor interchange contract that makes it a standard rather than a project.",
     "links": [
       {
         "label": "substrait.io",
@@ -350,7 +350,7 @@
         "url": "https://bitol.io"
       }
     ],
-    "firstReleased": 2024,
+    "firstReleased": 2025,
     "logo": "/media/icons/standards-map/logos/bitol.svg",
     "umbrella": "BITOL @ LF"
   },
@@ -491,9 +491,9 @@
     "fullName": "DuckLake",
     "category": "Catalog APIs",
     "governance": "DuckDB Labs (vendor-driven open source)",
-    "status": "New (2025); experimental",
+    "status": "v1.0 production-ready (April 2026); adoption concentrated in the DuckDB ecosystem",
     "niche": true,
-    "nicheReason": "Brand new and vendor-driven, with adoption still concentrated inside the DuckDB ecosystem. Not yet a peer of Iceberg REST or Unity Catalog in production maturity — listed for completeness rather than as a headline pick.",
+    "nicheReason": "Newer and vendor-driven, with adoption still concentrated inside the DuckDB ecosystem. v1.0 (April 2026) made it production-ready, but its installed base is still smaller than Iceberg REST or Unity Catalog — listed for completeness rather than as a headline pick.",
     "description": [
       "Lakehouse catalog format from DuckDB Labs that puts the catalog inside a regular SQL database — no separate REST catalog, no manifest sprawl. Designed for simplicity and zero-infrastructure analytics."
     ],
@@ -539,7 +539,7 @@
     "fullName": "JSON Schema",
     "category": "Schema",
     "governance": "JSON Schema community / IETF",
-    "status": "Latest draft 2020-12; on track for IETF standardisation",
+    "status": "Latest draft 2020-12; published independently after leaving the IETF Internet-Draft track",
     "description": [
       "Vocabulary for validating, annotating, and documenting JSON. The schema language of choice for modern HTTP APIs and event payloads.",
       "ODCS uses JSON Schema concepts for typing complex column structures, and the OpenAPI / AsyncAPI specs are themselves anchored in JSON Schema."
@@ -768,7 +768,7 @@
     "fullName": "Extensible Markup Language",
     "category": "File Formats",
     "governance": "W3C",
-    "status": "Stable since 1998; XML 1.1 current",
+    "status": "Stable since 1998; XML 1.0 (Fifth Edition, 2008) is the de-facto current spec",
     "description": [
       "Tag-based markup format for structured documents and data. Verbose by modern standards, but unmatched tooling around schemas, transformations, and validation (XSD, XSLT, XPath, XQuery).",
       "Still the format of record in many enterprise integration scenarios — banking, healthcare, government, and SOAP-based B2B exchange."
@@ -1023,7 +1023,7 @@
     "fullName": "Open Semantic Interchange",
     "category": "Semantics",
     "highlight": true,
-    "governance": "OSI Initiative — Snowflake, Databricks, Tableau, MicroStrategy, and many more",
+    "governance": "OSI Initiative — Snowflake, Salesforce, dbt Labs, BlackRock, Databricks, Strategy (formerly MicroStrategy), and many more",
     "status": "v0.1.1; explicitly early, working groups very active",
     "description": [
       "Vendor-agnostic open-source standard for exchanging semantic models — datasets, relationships, metrics, and AI context — between BI platforms, AI agents, and analytics tools.",
@@ -1117,7 +1117,7 @@
     "fullName": "Shapes Constraint Language",
     "category": "Semantics",
     "governance": "W3C",
-    "status": "Stable; SHACL 1.1 in progress",
+    "status": "Stable since 2017 (1.0); SHACL 1.2 in progress (FPWDs published 2025)",
     "description": [
       "W3C language for validating RDF graphs against a set of conditions — the JSON Schema of the RDF world.",
       "Used heavily where the semantic stack actually has to enforce rules, not just describe them."
@@ -1530,7 +1530,7 @@
     "fullName": "Apache Spark",
     "category": "Processing",
     "governance": "Apache Software Foundation",
-    "status": "Stable; Spark 3.x mainstream, 4.x emerging",
+    "status": "Stable; Spark 4.x current, 3.x widely deployed",
     "description": [
       "Distributed analytics engine with a DataFrame API across Scala, Java, Python, and R. The classic large-scale processing engine for batch and streaming workloads.",
       "Spark Connect decouples client and engine, making the DataFrame API a portable client interface — which is why it shows up here as an interface, not just an engine."
@@ -1555,7 +1555,7 @@
     "governance": "Apache Software Foundation",
     "status": "Stable; multi-runner model spec",
     "description": [
-      "Unified programming model for batch and streaming data processing. Pipelines written once in Beam can run on Flink, Spark, Google Cloud Dataflow, Samza, or the direct local runner.",
+      "Unified programming model for batch and streaming data processing. Pipelines written once in Beam can run on Flink, Spark, Google Cloud Dataflow, or the direct local runner.",
       "Originated as Google's Dataflow SDK, donated to ASF in 2016. Stronger claim to “standard” than most processing frameworks: the model itself — PCollections, transforms, windowing, triggers — is the spec, with runners as competing implementations."
     ],
     "standardReason": "Beam's value is the model, not the runner. The Beam programming model and the portability framework (Fn API, Runner API) are an open specification that multiple runners implement. Pipelines move between Flink, Spark, and Dataflow without code changes precisely because all three implement the same Beam contract — making the model the standard surface tools and teams target.",

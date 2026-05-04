@@ -12,7 +12,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 
 - [SQL](https://www.data-landscape.com/?std=sql) — Structured Query Language. Governance: ANSI / ISO/IEC 9075.
 - [MDX](https://www.data-landscape.com/?std=mdx) — Multidimensional Expressions. Governance: Originally Microsoft (1997); referenced by the XMLA specification. _legacy_
-- [Substrait](https://www.data-landscape.com/?std=substrait) — Substrait. Governance: Linux Foundation (Substrait Project). _niche_
+- [Substrait](https://www.data-landscape.com/?std=substrait) — Substrait. Governance: Substrait Project (independent; ASF-inspired PMC). _niche_
 - [SPARQL](https://www.data-landscape.com/?std=sparql) — SPARQL Protocol and RDF Query Language. Governance: W3C.
 - [GQL](https://www.data-landscape.com/?std=gql) — Graph Query Language. Governance: ISO/IEC 39075:2024. _niche_
 
@@ -109,7 +109,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 
 ### Semantics
 
-- [OSI](https://www.data-landscape.com/?std=osi) — Open Semantic Interchange. Governance: OSI Initiative — Snowflake, Databricks, Tableau, MicroStrategy, and many more. _highlighted_
+- [OSI](https://www.data-landscape.com/?std=osi) — Open Semantic Interchange. Governance: OSI Initiative — Snowflake, Salesforce, dbt Labs, BlackRock, Databricks, Strategy (formerly MicroStrategy), and many more. _highlighted_
 - [RDF/OWL](https://www.data-landscape.com/?std=rdf-owl) — Resource Description Framework / Web Ontology Language. Governance: W3C.
 - [DCAT](https://www.data-landscape.com/?std=dcat) — Data Catalog Vocabulary. Governance: W3C.
 - [SKOS](https://www.data-landscape.com/?std=skos) — Simple Knowledge Organization System. Governance: W3C.
