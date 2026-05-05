@@ -38,6 +38,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 - [Pandas](https://www.data-landscape.com/?std=pandas) — pandas. Governance: NumFOCUS (open source).
 - [Ibis](https://www.data-landscape.com/?std=ibis) — Ibis. Governance: Ibis Project (open source).
 - [SQL DML](https://www.data-landscape.com/?std=sql-dml) — SQL Data Manipulation Language. Governance: ANSI / ISO/IEC 9075.
+- [XSLT](https://www.data-landscape.com/?std=xslt) — Extensible Stylesheet Language Transformations. Governance: W3C. _legacy_
 
 ### Data Quality
 
