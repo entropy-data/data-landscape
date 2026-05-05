@@ -1638,6 +1638,31 @@
     "logo": "/media/icons/standards-map/logos/iso.png",
     "umbrella": "ISO/IEC"
   },
+  "xslt": {
+    "name": "XSLT",
+    "fullName": "Extensible Stylesheet Language Transformations",
+    "category": "Processing",
+    "governance": "W3C",
+    "status": "Legacy; XSLT 3.0 (2017) is current, but new adoption is rare",
+    "description": [
+      "Declarative, template-based language for transforming XML documents into other XML, HTML, or text. The processing counterpart to XML Schema — where XSD describes structure, XSLT rewrites it.",
+      "Implemented by Saxon, libxslt, and every major XML toolchain. Still load-bearing in publishing, government, banking, and healthcare integrations where XML pipelines never went away."
+    ],
+    "links": [
+      {
+        "label": "W3C: XSL Transformations (XSLT) 3.0",
+        "url": "https://www.w3.org/TR/xslt-30/"
+      },
+      {
+        "label": "Wikipedia: XSLT",
+        "url": "https://en.wikipedia.org/wiki/XSLT"
+      }
+    ],
+    "firstReleased": 1999,
+    "tier": "legacy",
+    "logo": "/media/icons/standards-map/logos/w3c.svg",
+    "umbrella": "W3C"
+  },
   "linkml": {
     "name": "LinkML",
     "fullName": "Linked data Modeling Language",
