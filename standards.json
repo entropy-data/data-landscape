@@ -122,7 +122,7 @@
   "odcs": {
     "name": "ODCS",
     "fullName": "Open Data Contract Standard",
-    "category": "API Interfaces",
+    "category": "Contracts",
     "highlight": true,
     "governance": "BITOL / Linux Foundation",
     "status": "v3.1 stable; v3.2 in progress",
@@ -155,7 +155,7 @@
   "openapi": {
     "name": "OpenAPI",
     "fullName": "OpenAPI Specification",
-    "category": "API Interfaces",
+    "category": "Contracts",
     "governance": "OpenAPI Initiative, Linux Foundation",
     "status": "Stable; OAS 3.1 current",
     "description": [
@@ -179,7 +179,7 @@
   "asyncapi": {
     "name": "AsyncAPI",
     "fullName": "AsyncAPI Specification",
-    "category": "API Interfaces",
+    "category": "Contracts",
     "governance": "AsyncAPI Initiative, Linux Foundation",
     "status": "Stable; v3 current",
     "description": [
@@ -203,7 +203,7 @@
   "graphql": {
     "name": "GraphQL",
     "fullName": "GraphQL",
-    "category": "API Interfaces",
+    "category": "Contracts",
     "governance": "GraphQL Foundation, Linux Foundation",
     "status": "Stable; widely adopted",
     "description": [
@@ -227,7 +227,7 @@
   "grpc": {
     "name": "gRPC",
     "fullName": "gRPC Remote Procedure Call",
-    "category": "API Interfaces",
+    "category": "Contracts",
     "governance": "CNCF (Incubating), Linux Foundation",
     "status": "Stable; ubiquitous in cloud-native stacks",
     "description": [
@@ -1830,7 +1830,7 @@
   "odata": {
     "name": "OData",
     "fullName": "Open Data Protocol (v4)",
-    "category": "API Interfaces",
+    "category": "Contracts",
     "governance": "OASIS (originally Microsoft)",
     "status": "Stable; v4.01 current (OASIS Standard since 2014)",
     "description": [

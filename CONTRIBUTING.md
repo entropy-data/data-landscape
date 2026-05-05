@@ -21,7 +21,7 @@ Each entry is keyed by a slug and has the shape:
 {
   "name": "ODCS",
   "fullName": "Open Data Contract Standard",
-  "category": "API Interfaces",
+  "category": "Contracts",
   "logo": "/media/icons/standards-map/logos/bitol.svg",
   "umbrella": "BITOL @ LF",
   "highlight": true,
@@ -40,7 +40,7 @@ Each entry is keyed by a slug and has the shape:
 }
 ```
 
-- `category` must match one of the panel headers in `index.html` (e.g. *API Interfaces*, *File Formats*, *Catalog APIs*). Mismatched categories silently drop the tile.
+- `category` must match one of the panel headers in `index.html` (e.g. *Contracts*, *File Formats*, *Catalog APIs*). Mismatched categories silently drop the tile.
 - `logo` is the path to the tile's logo asset under `/media/icons/standards-map/logos/`. Without it the entry won't render as a tile (useful when adding a draft entry).
 - `umbrella` is the short label shown beneath the name on the tile (e.g. `LF`, `BITOL @ LF`, `OASIS`). It also drives the org filter chips — clicking *LF* keeps every tile whose `umbrella` (or `umbrellaSearch`) contains "LF".
 - `umbrellaSearch` (optional) — separate string used only for filter matching when the visible label differs from the search keywords. Example: tile shows `ODM` but `umbrellaSearch` is `OpenDataMesh` so the *LF* filter still picks it up.
