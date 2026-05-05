@@ -604,7 +604,7 @@
           Data Landscape
         </h1>
         <p class="mt-3 max-w-3xl text-lg leading-8 text-gray-600 italic">
-          An opinionated, interactive map of the open standards.
+          An opinionated, interactive map of the <a href="#faq-open-standards" class="not-italic text-indigo-600 hover:text-indigo-500">open standards</a>.
         </p>
         <p class="mt-4 max-w-3xl text-base leading-7 text-gray-700">
           The open standards that power a modern data architecture, organised by what they describe.
@@ -1576,6 +1576,23 @@
       <h2 class="text-2xl font-bold tracking-tight text-gray-900">FAQ</h2>
       <dl class="mt-6 space-y-4">
 
+        <details id="faq-open-standards" class="group rounded-lg border border-gray-200 bg-white px-5 py-4 open:bg-gray-50">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-gray-900">
+            <span>What do you mean by <em>open standards</em>?</span>
+            <svg class="h-5 w-5 flex-none text-gray-500 transition group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+          </summary>
+          <div class="mt-3 text-sm leading-6 text-gray-700 space-y-3">
+            <p>An <em>open standard</em>, as used on this page, is a specification that anyone can read, implement, and build on — without paying a vendor for the privilege. Concretely, a spec qualifies if:</p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>the specification text is published under an <strong>open license</strong> (Apache, CC-BY, MIT, or a recognised standards-body licence);</li>
+              <li>governance is <strong>preferably independently controlled</strong> — a foundation, working group, or community — and not in the hands of a single vendor;</li>
+              <li>there are <strong>multiple independent implementations</strong>, or a credible path to them — one repo controlled by one company is not enough;</li>
+              <li>it is the <strong>de-facto standard</strong> for its slot in a modern data architecture, not a niche curiosity.</li>
+            </ul>
+            <p>Origin doesn't matter — many of the entries here started as vendor specs (Iceberg at Netflix, Delta Lake at Databricks, gRPC at Google, OpenLineage at Datakin). What matters is whether the spec is openly governed and openly implementable <em>today</em>. The <em>Status</em> field in each entry's drawer makes the governance situation explicit (foundation-hosted, vendor-led, draft, etc.), so you can judge for yourself.</p>
+          </div>
+        </details>
+
         <details class="group rounded-lg border border-gray-200 bg-white px-5 py-4 open:bg-gray-50">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-gray-900">
             <span>Why did we build this — and what's the origin story?</span>
@@ -1607,9 +1624,7 @@
             <svg class="h-5 w-5 flex-none text-gray-500 transition group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
           </summary>
           <div class="mt-3 text-sm leading-6 text-gray-700 space-y-3">
-            <p>Most "open standards" started as vendor specs. Iceberg came out of Netflix, Delta Lake out of Databricks, gRPC and Protobuf out of Google, OpenLineage was spun out of Datakin (now Astronomer) and incubated at LF AI &amp; Data. What matters is whether the spec is <em>openly governed and openly implementable</em> today, not who wrote the first commit.</p>
-            <p>We include a spec when (a) the specification is published under an open license, (b) there are multiple independent implementations or a credible path to them, and (c) it's the de-facto standard for its slot in a modern data architecture. A spec that's effectively a single-vendor lock-in dressed as a standard doesn't make the cut, even if its repo is on GitHub.</p>
-            <p>The <em>Status</em> field in the drawer makes the governance situation explicit for each entry (foundation-hosted, vendor-led, draft, etc.), so you can judge for yourself.</p>
+            <p>Most "open standards" started as vendor specs. Iceberg came out of Netflix, Delta Lake out of Databricks, gRPC and Protobuf out of Google, OpenLineage was spun out of Datakin (now Astronomer) and incubated at LF AI &amp; Data. What matters is whether the spec is <em>openly governed and openly implementable</em> today, not who wrote the first commit. See <a href="#faq-open-standards" class="text-indigo-600 hover:text-indigo-500">What do you mean by <em>open standards</em>?</a> for the criteria we apply.</p>
           </div>
         </details>
 
@@ -1619,13 +1634,13 @@
             <svg class="h-5 w-5 flex-none text-gray-500 transition group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
           </summary>
           <div class="mt-3 text-sm leading-6 text-gray-700 space-y-3">
-            <p><strong>Why is X listed?</strong> Because it meets the three criteria above &mdash; openly licensed, multiple implementations (or a credible path to them), and de-facto for its slot. Each entry's drawer shows the <em>Governance</em> and <em>Status</em> we relied on; the same fields are in <a href="/standards.json" class="text-indigo-600 hover:text-indigo-500"><code>standards.json</code></a> if you want to audit the whole set at once.</p>
+            <p><strong>Why is X listed?</strong> Because it meets the <a href="#faq-open-standards" class="text-indigo-600 hover:text-indigo-500">four criteria above</a> &mdash; openly licensed, independently governed (or noted as <em>vendor</em>), multiple implementations, and de-facto for its slot. Each entry's drawer shows the <em>Governance</em> and <em>Status</em> we relied on; the same fields are in <a href="/standards.json" class="text-indigo-600 hover:text-indigo-500"><code>standards.json</code></a> if you want to audit the whole set at once.</p>
             <p><strong>Why isn't X listed?</strong> Most likely we haven't gotten to it yet, or we judged it a vendor product rather than an open spec. The bar is the spec, not the popularity of any one implementation. If you think we're wrong, <a href="https://github.com/entropy-data/data-landscape/issues/new" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">open an issue</a> &mdash; the data is a single JSON file, PRs welcome.</p>
             <p><strong>Why is X marked <em>legacy</em>, <em>niche</em>, or <em>vendor</em>?</strong> The tier tag is our editorial call, made from the same governance data:</p>
             <ul class="list-disc pl-5 space-y-1">
               <li><em>legacy</em> &mdash; still deployed, but new architectures shouldn't start here (e.g. XMLA, JMS, MDX).</li>
               <li><em>niche</em> &mdash; healthy in its corner, but not a default choice across the wider data stack (e.g. ShEx, LinkML).</li>
-              <li><em>vendor</em> &mdash; openly published, but governance is effectively controlled by one company. Use with eyes open (e.g. dbt, Protobuf, Schema Registry).</li>
+              <li><em>vendor</em> &mdash; openly published and de-facto, but governance is effectively controlled by one company — i.e. it meets every criterion <em>except</em> independent governance. We still list these because they matter; the tag is the caveat. Use with eyes open (e.g. dbt, Protobuf, Schema Registry).</li>
             </ul>
             <p>None of these are insults &mdash; we list them because they matter. The tag exists so you can decide quickly whether to bet on a spec for a new project. Disagree with a specific call? That's the most useful kind of issue you can file.</p>
           </div>
