@@ -878,16 +878,17 @@
   "lance": {
     "name": "Lance",
     "fullName": "Lance",
-    "category": "File Formats",
-    "governance": "LanceDB Inc. (vendor-driven open source)",
+    "category": [
+      "File Formats",
+      "Open Table Formats"
+    ],
+    "governance": "Lance community (independent open source, LF-inspired governance)",
     "status": "Emerging; production use concentrated in AI/ML stacks",
-    "niche": true,
-    "nicheReason": "Vendor-driven and AI/ML-focused — adoption is concentrated around LanceDB and multimodal/vector workloads, not general analytics. Parquet remains the default columnar format; Lance is listed for completeness as the format optimised for random access, embeddings, and multimodal data.",
     "description": [
       "Modern columnar file format optimised for AI/ML workloads: 100x faster random access than Parquet, native support for embeddings and multimodal data (images, video, audio), and zero-copy schema evolution without rewriting files.",
       "Pairs with the Lance table format and catalog spec to form a lakehouse stack purpose-built for vector search and feature engineering alongside SQL analytics."
     ],
-    "standardReason": "Lance's on-disk format is published as an open spec with independent Rust and Python implementations. LanceDB, DataFusion, DuckDB integrations, and downstream tools target the format itself rather than a single library — putting it on the de-facto standard track even though LanceDB Inc. governs it.",
+    "standardReason": "Lance's on-disk format is published as an open spec with independent Rust and Python implementations. LanceDB, DataFusion, DuckDB integrations, and downstream tools target the format itself rather than a single library — putting it on the de-facto standard track under an open, LF-style community governance model.",
     "links": [
       {
         "label": "lance.org",
@@ -900,9 +901,8 @@
     ],
     "firstReleased": 2022,
     "logo": "/media/icons/standards-map/logos/lance.png",
-    "umbrella": "LanceDB",
-    "umbrellaSearch": "LanceDB vendor",
-    "vendor": true
+    "umbrella": "Lance",
+    "umbrellaSearch": "Lance"
   },
   "openlineage": {
     "name": "OpenLineage",
