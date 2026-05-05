@@ -966,19 +966,19 @@
                 <span class="item-name">ORC</span>
                 <span class="item-umbrella">ASF</span>
               </button>
+              <button type="button" id="lance-summary" class="item item-emerging"
+                      data-umbrella="Lance"
+                      @click="selectedId = 'lance'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/lance.png" alt="" loading="lazy">
+                <span class="item-name">Lance</span>
+                <span class="item-umbrella">Lance</span>
+              </button>
               <button type="button" id="yaml-summary" class="item item-niche"
                       data-umbrella="yaml.org"
                       @click="selectedId = 'yaml'">
                 <img class="item-logo" src="/media/icons/standards-map/logos/yaml.svg" alt="" loading="lazy">
                 <span class="item-name">YAML</span>
                 <span class="item-umbrella">YAML.org</span>
-              </button>
-              <button type="button" id="lance-summary" class="item item-vendor item-niche item-emerging"
-                      data-umbrella="LanceDB vendor"
-                      @click="selectedId = 'lance'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/lance.png" alt="" loading="lazy">
-                <span class="item-name">Lance</span>
-                <span class="item-umbrella">LanceDB</span>
               </button>
               <!-- /prerender:tiles -->
             </div>
@@ -1012,6 +1012,13 @@
                 <img class="item-logo" src="/media/icons/standards-map/logos/hudi.svg" alt="" loading="lazy">
                 <span class="item-name">Hudi</span>
                 <span class="item-umbrella">ASF</span>
+              </button>
+              <button type="button" class="item item-emerging"
+                      data-umbrella="Lance"
+                      @click="selectedId = 'lance'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/lance.png" alt="" loading="lazy">
+                <span class="item-name">Lance</span>
+                <span class="item-umbrella">Lance</span>
               </button>
               <!-- /prerender:tiles -->
             </div>

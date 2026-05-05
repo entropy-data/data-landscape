@@ -58,6 +58,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 - [Iceberg](https://www.data-landscape.com/?std=iceberg) — Apache Iceberg. Governance: Apache Software Foundation.
 - [Delta](https://www.data-landscape.com/?std=delta) — Delta Lake. Governance: Linux Foundation (originally Databricks).
 - [Hudi](https://www.data-landscape.com/?std=hudi) — Apache Hudi. Governance: Apache Software Foundation.
+- [Lance](https://www.data-landscape.com/?std=lance) — Lance. Governance: Lance community (independent open source, LF-inspired governance).
 
 ### Catalog APIs
 
@@ -86,7 +87,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 - [PARQUET](https://www.data-landscape.com/?std=parquet) — Apache Parquet. Governance: Apache Software Foundation.
 - [AVRO](https://www.data-landscape.com/?std=avro) — Apache Avro. Governance: Apache Software Foundation.
 - [ORC](https://www.data-landscape.com/?std=orc) — Apache ORC (Optimized Row Columnar). Governance: Apache Software Foundation.
-- [Lance](https://www.data-landscape.com/?std=lance) — Lance. Governance: LanceDB Inc. (vendor-driven open source). _niche, vendor_
+- [Lance](https://www.data-landscape.com/?std=lance) — Lance. Governance: Lance community (independent open source, LF-inspired governance).
 
 ### Lineage
 
