@@ -39,6 +39,7 @@ main > div.mx-auto.max-w-7xl.px-6.lg\\:px-8.mt-10.mb-8,
 .faq-section,
 .thank-you-section,
 .contribute-cta,
+#cite,
 footer { display: none !important; }
 
 /* Niche and legacy tiles are deliberately excluded from the PDF, regardless
