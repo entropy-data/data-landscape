@@ -9,30 +9,36 @@
 
 Run standalone with uv (no pre-install needed):
 
-    ./scripts/generate-pdf.py [BASE_URL]
+    ./scripts/generate-pdf.py [BASE_URL] [--variant default|full]
     # or:
-    uv run scripts/generate-pdf.py [BASE_URL]
+    uv run scripts/generate-pdf.py [BASE_URL] [--variant default|full]
 
 BASE_URL defaults to http://127.0.0.1:8000/. In CI we serve the repo with
 `python -m http.server 8000` and point the script at that, so the PDF
 reflects exactly the version about to be deployed.
 
+The default variant produces data-landscape.pdf and excludes niche/legacy
+tiles. The `full` variant produces data-landscape-full.pdf and includes
+them, matching what the live site shows when both toggles are on.
+
 The script bootstraps a Chromium build via `playwright install chromium`
 on first run, so it works on a fresh machine with no manual setup.
 """
+import argparse
 import asyncio
 import subprocess
 import sys
-from datetime import date
+from datetime import datetime, timezone
 from pathlib import Path
 
 from playwright.async_api import async_playwright, Error as PlaywrightError
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "data-landscape.pdf"
+OUT_DEFAULT = ROOT / "data-landscape.pdf"
+OUT_FULL = ROOT / "data-landscape-full.pdf"
 DEFAULT_URL = "http://127.0.0.1:8000/"
 
-PDF_STYLE = """
+PDF_STYLE_COMMON = """
 .github-corner,
 .landscape-toolbar,
 main > div.mx-auto.max-w-7xl.px-6.lg\\:px-8.mt-10.mb-8,
@@ -41,11 +47,6 @@ main > div.mx-auto.max-w-7xl.px-6.lg\\:px-8.mt-10.mb-8,
 .contribute-cta,
 #cite,
 footer { display: none !important; }
-
-/* Niche and legacy tiles are deliberately excluded from the PDF, regardless
-   of the live page's toggle state. The toggles are for the interactive site only. */
-.item-niche,
-.item-legacy { display: none !important; }
 
 main { margin: 0 !important; padding: 0 !important; }
 main .mx-auto { max-width: none !important; padding-left: 0 !important; padding-right: 0 !important; }
@@ -81,8 +82,15 @@ main .mx-auto { max-width: none !important; padding-left: 0 !important; padding-
 body { margin: 0; padding: 12mm; box-sizing: border-box; }
 """
 
+# In the default variant, niche and legacy tiles are deliberately excluded.
+# The toggles are interactive-only, and the default PDF shows the curated core.
+PDF_STYLE_DEFAULT_EXTRA = """
+.item-niche,
+.item-legacy { display: none !important; }
+"""
+
 HIDE_SCRIPT = r"""
-() => {
+({ includeExtras }) => {
   const main = document.querySelector('main');
   if (!main) return;
   const matchByHeading = (heading) => {
@@ -97,18 +105,18 @@ HIDE_SCRIPT = r"""
     .querySelector('div.rounded-lg.border.border-indigo-200.bg-indigo-50')
     ?.classList.add('contribute-cta');
 
-  // Force the niche and legacy toggles off in the PDF so category counts and
-  // tiles agree, even if the page was visited with ?include=niche,legacy.
+  // Sync the niche/legacy toggles with the requested variant so category
+  // counts and tile visibility agree, regardless of how the page was visited.
   const data = main._x_dataStack?.[0];
   if (data) {
-    if (data.showNiche)  data.showNiche  = false;
-    if (data.showLegacy) data.showLegacy = false;
+    data.showNiche  = !!includeExtras;
+    data.showLegacy = !!includeExtras;
   }
 }
 """
 
 INJECT_HEADER_FOOTER = r"""
-({ generatedDate }) => {
+({ dataUpdatedDate, titleSuffix, subtitleSuffix }) => {
   const landscape = document.querySelector('.landscape');
   if (!landscape) return;
 
@@ -117,8 +125,8 @@ INJECT_HEADER_FOOTER = r"""
   header.innerHTML = `
     <img src="/media/logo_fuchsia_v2.svg" alt="Entropy Data">
     <div class="titles">
-      <h1>Data Landscape — Open Standards for Modern Data Architecture</h1>
-      <p>Curated by Entropy Data · www.data-landscape.com</p>
+      <h1>Data Landscape — Open Standards for Modern Data Architecture${titleSuffix}</h1>
+      <p>Curated by Entropy Data · www.data-landscape.com${subtitleSuffix}</p>
     </div>
   `;
   landscape.parentNode.insertBefore(header, landscape);
@@ -126,12 +134,25 @@ INJECT_HEADER_FOOTER = r"""
   const footer = document.createElement('div');
   footer.id = 'pdf-footer';
   footer.innerHTML = `
-    <span>Generated ${generatedDate}</span>
+    <span>Data last updated ${dataUpdatedDate}</span>
     <a href="https://www.data-landscape.com/">www.data-landscape.com</a>
   `;
   landscape.parentNode.appendChild(footer);
 }
 """
+
+
+def data_last_updated() -> str:
+    """Friendly 'Month Year' from the latest commit touching standards.json."""
+    try:
+        out = subprocess.check_output(
+            ["git", "log", "-1", "--format=%cI", "--", "standards.json"],
+            cwd=ROOT, text=True,
+        ).strip()
+        dt = datetime.fromisoformat(out)
+    except Exception:
+        dt = datetime.now(tz=timezone.utc)
+    return dt.strftime("%B %Y")
 
 
 def ensure_chromium() -> None:
@@ -143,11 +164,17 @@ def ensure_chromium() -> None:
     )
 
 
-async def render(base_url: str) -> None:
+async def render(base_url: str, variant: str) -> Path:
     # Render onto a single A3 landscape page. Scale the rendered content
     # down just enough to fit, so the result fills the full A3 area.
     PAGE_WIDTH_PX = 1587   # 420 mm @ 96 dpi
     PAGE_HEIGHT_PX = 1123  # 297 mm @ 96 dpi
+    include_extras = variant == "full"
+    out_path = OUT_FULL if include_extras else OUT_DEFAULT
+    style = PDF_STYLE_COMMON if include_extras else PDF_STYLE_COMMON + PDF_STYLE_DEFAULT_EXTRA
+    title_suffix = " — Complete Edition" if include_extras else ""
+    subtitle_suffix = " · Includes niche & legacy standards" if include_extras else ""
+
     async with async_playwright() as p:
         try:
             browser = await p.chromium.launch()
@@ -161,12 +188,16 @@ async def render(base_url: str) -> None:
         page = await context.new_page()
         await page.goto(base_url, wait_until="networkidle")
 
-        await page.evaluate(HIDE_SCRIPT)
+        await page.evaluate(HIDE_SCRIPT, {"includeExtras": include_extras})
         await page.evaluate(
             INJECT_HEADER_FOOTER,
-            {"generatedDate": date.today().isoformat()},
+            {
+                "dataUpdatedDate": data_last_updated(),
+                "titleSuffix": title_suffix,
+                "subtitleSuffix": subtitle_suffix,
+            },
         )
-        await page.add_style_tag(content=PDF_STYLE)
+        await page.add_style_tag(content=style)
         await page.wait_for_timeout(300)
         await page.emulate_media(media="print")
 
@@ -179,7 +210,7 @@ async def render(base_url: str) -> None:
         scale = max(0.1, min(scale - 0.005, 2.0))
 
         await page.pdf(
-            path=str(OUT),
+            path=str(out_path),
             format="A3",
             landscape=True,
             scale=scale,
@@ -188,13 +219,20 @@ async def render(base_url: str) -> None:
         )
         print(f"  content height: {content_height_px}px  scale: {scale:.3f}")
         await browser.close()
+        return out_path
 
 
 def main() -> int:
-    base = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_URL
-    asyncio.run(render(base))
-    size = OUT.stat().st_size
-    print(f"Wrote {OUT.relative_to(ROOT)} ({size:,} bytes) from {base}")
+    parser = argparse.ArgumentParser(description="Generate the data-landscape PDF.")
+    parser.add_argument("base_url", nargs="?", default=DEFAULT_URL,
+                        help=f"Base URL to render (default: {DEFAULT_URL})")
+    parser.add_argument("--variant", choices=("default", "full"), default="default",
+                        help="default: curated core; full: includes niche & legacy standards")
+    args = parser.parse_args()
+
+    out_path = asyncio.run(render(args.base_url, args.variant))
+    size = out_path.stat().st_size
+    print(f"Wrote {out_path.relative_to(ROOT)} ({size:,} bytes) from {args.base_url}")
     return 0
 
 

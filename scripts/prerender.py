@@ -289,10 +289,15 @@ def replace_jsonld(html: str, standards: "OrderedDict[str, dict]") -> str:
 
 
 def last_commit_date() -> tuple[str, str]:
-    """Returns (iso_yyyy_mm_dd, friendly 'Month Year') for the latest commit."""
+    """Returns (iso_yyyy_mm_dd, friendly 'Month Year') for the last data update.
+
+    Tracks standards.json so the footer reflects when the curated data
+    actually changed, not unrelated repo edits.
+    """
     try:
         out = subprocess.check_output(
-            ["git", "log", "-1", "--format=%cI", "--", "."], cwd=ROOT, text=True
+            ["git", "log", "-1", "--format=%cI", "--", "standards.json"],
+            cwd=ROOT, text=True,
         ).strip()
         dt = datetime.fromisoformat(out)
     except Exception:
@@ -312,7 +317,7 @@ def replace_last_updated(html: str) -> str:
     )
     span_replacement = (
         f'<span id="last-updated" class="text-gray-400">'
-        f'Updated <time datetime="{iso}">{friendly}</time>'
+        f'Data last updated <time datetime="{iso}">{friendly}</time>'
         f'</span>'
     )
     html, n1 = span_pattern.subn(span_replacement, html, count=1)
