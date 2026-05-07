@@ -491,9 +491,8 @@
     "fullName": "DuckLake",
     "category": "Catalog APIs",
     "governance": "DuckDB Labs (vendor-driven open source)",
-    "status": "v1.0 production-ready (April 2026); adoption concentrated in the DuckDB ecosystem",
-    "niche": true,
-    "nicheReason": "Newer and vendor-driven, with adoption still concentrated inside the DuckDB ecosystem. v1.0 (April 2026) made it production-ready, but its installed base is still smaller than Iceberg REST or Unity Catalog — listed for completeness rather than as a headline pick.",
+    "status": "Emerging; v1.0 production-ready (April 2026), adoption concentrated in the DuckDB ecosystem",
+    "tier": "emerging",
     "description": [
       "Lakehouse catalog format from DuckDB Labs that puts the catalog inside a regular SQL database — no separate REST catalog, no manifest sprawl. Designed for simplicity and zero-infrastructure analytics."
     ],

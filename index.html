@@ -193,14 +193,6 @@
       border-style: dashed;
       border-color: #c7d2fe;
     }
-    .item-emerging {
-      border-color: #fde68a;
-    }
-    .item-emerging .item-umbrella { color: #b45309; }
-    .item-emerging:hover {
-      border-color: #f59e0b;
-      box-shadow: 0 4px 8px -2px rgb(245 158 11 / 0.25);
-    }
     .item-vendor {
       background: #f9fafb;
       border-color: #e5e7eb;
@@ -1294,6 +1286,13 @@
             </div>
             <div class="category-panel-body">
               <!-- prerender:tiles category="Catalog APIs" -->
+              <button type="button" id="ducklake-summary" class="item item-vendor item-emerging"
+                      data-umbrella="DuckDB Labs vendor"
+                      @click="selectedId = 'ducklake'">
+                <img class="item-logo" src="/media/icons/standards-map/logos/duckdb.svg" alt="" loading="lazy">
+                <span class="item-name">DuckLake</span>
+                <span class="item-umbrella">DuckDB Labs</span>
+              </button>
               <button type="button" id="iceberg-catalog-summary" class="item"
                       data-umbrella="ASF Apache"
                       @click="selectedId = 'iceberg-catalog'">
@@ -1321,13 +1320,6 @@
                 <img class="item-logo" src="/media/icons/standards-map/logos/confluent.svg" alt="" loading="lazy">
                 <span class="item-name">Schema Registry</span>
                 <span class="item-umbrella">Confluent</span>
-              </button>
-              <button type="button" id="ducklake-summary" class="item item-vendor item-niche"
-                      data-umbrella="DuckDB Labs vendor"
-                      @click="selectedId = 'ducklake'">
-                <img class="item-logo" src="/media/icons/standards-map/logos/duckdb.svg" alt="" loading="lazy">
-                <span class="item-name">DuckLake</span>
-                <span class="item-umbrella">DuckDB Labs</span>
               </button>
               <!-- /prerender:tiles -->
             </div>

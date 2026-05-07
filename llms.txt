@@ -62,7 +62,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 
 ### Catalog APIs
 
-- [DuckLake](https://www.data-landscape.com/?std=ducklake) — DuckLake. Governance: DuckDB Labs (vendor-driven open source). _niche, vendor_
+- [DuckLake](https://www.data-landscape.com/?std=ducklake) — DuckLake. Governance: DuckDB Labs (vendor-driven open source). _vendor_
 - [Iceberg Catalog](https://www.data-landscape.com/?std=iceberg-catalog) — Iceberg REST Catalog. Governance: Apache Software Foundation.
 - [Unity Catalog](https://www.data-landscape.com/?std=unity-catalog) — Unity Catalog. Governance: Linux Foundation (originally Databricks).
 - [Hive Metastore](https://www.data-landscape.com/?std=hive-metastore) — Apache Hive Metastore. Governance: Apache Software Foundation.
