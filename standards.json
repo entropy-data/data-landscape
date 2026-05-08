@@ -5,7 +5,7 @@
     "category": "Query",
     "governance": "ANSI / ISO/IEC 9075",
     "status": "Stable since 1986; revised regularly (latest SQL:2023)",
-    "judgement": "Foundations",
+    "judgement": "Adopt",
     "judgementReason": "The universal data query language; not a decision.",
     "description": [
       "SQL is the standard query language for relational databases. It is the oldest and most universal de-facto standard in the data world.",
@@ -58,8 +58,8 @@
     "category": "Query",
     "governance": "Substrait Project (independent; ASF-inspired PMC)",
     "status": "Stable; growing adoption across query engines",
-    "judgement": "Watch",
-    "judgementReason": "Query-plan IR engines exchange; promising substrate, end users rarely touch it.",
+    "judgement": "Situational",
+    "judgementReason": "Cross-engine query-plan IR — pick when you're building or integrating engines that need a portable plan format; end users rarely touch it.",
     "niche": true,
     "nicheReason": "Cross-engine query-plan IR that engines exchange — not a surface that users or analysts ever write. Adoption is concentrated inside engine internals (DuckDB, DataFusion, Velox, Ibis); most data teams will never touch it directly. Listed for the engine-builders and Ibis-style frontends.",
     "description": [
@@ -87,7 +87,7 @@
     "category": "Observability",
     "governance": "CNCF (Cloud Native Computing Foundation), Linux Foundation",
     "status": "Stable; widely adopted across cloud-native stacks",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Vendor-neutral observability standard.",
     "description": [
       "Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.",
@@ -113,7 +113,7 @@
     "category": "Observability",
     "governance": "BITOL / Linux Foundation (draft)",
     "status": "Emerging — auxiliary BITOL standard, not yet released",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "BITOL observability/quality-result standard; new and under-adopted.",
     "description": [
       "Auxiliary BITOL standard answering: what does an observability or quality-check result look like? Designed to sit alongside ODCS and ODPS so any tool can publish and consume verifiable check results.",
@@ -136,7 +136,7 @@
     "highlight": true,
     "governance": "BITOL / Linux Foundation",
     "status": "v3.1 stable; v3.2 in progress",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Winning data-contract spec; YAML, multi-vendor.",
     "description": [
       "YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.",
@@ -170,7 +170,7 @@
     "category": "Contracts",
     "governance": "OpenAPI Initiative, Linux Foundation",
     "status": "Stable; OAS 3.1 current",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "De-facto REST description with tooling for almost every language.",
     "description": [
       "Originally Swagger (2011), now the de-facto standard for describing REST APIs. Tooling exists for almost every language and platform.",
@@ -196,7 +196,7 @@
     "category": "Contracts",
     "governance": "AsyncAPI Initiative, Linux Foundation",
     "status": "Stable; v3 current",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "The OpenAPI-equivalent for event APIs once you commit to documenting them.",
     "description": [
       "Open-source standard for defining event-driven and message-based APIs across protocols like Kafka, AMQP, MQTT, WebSocket, and NATS.",
@@ -222,8 +222,8 @@
     "category": "Contracts",
     "governance": "GraphQL Foundation, Linux Foundation",
     "status": "Stable; widely adopted",
-    "judgement": "Situational",
-    "judgementReason": "Right for client-driven aggregation; overkill for plain CRUD.",
+    "judgement": "Adopt",
+    "judgementReason": "Default for client-driven aggregation; mature spec, multi-language tooling, well-established at scale.",
     "description": [
       "Query language and runtime for APIs originally created at Facebook. Lets clients ask for exactly the data they need from a typed schema.",
       "In a data mesh, GraphQL appears mostly on the consumption side — an output-port style for application teams that prefer typed graph queries over SQL."
@@ -271,13 +271,10 @@
   "dbt": {
     "name": "dbt",
     "fullName": "data build tool",
-    "category": [
-      "Processing",
-      "Data Quality"
-    ],
+    "category": "Processing",
     "governance": "dbt Labs (vendor-driven open source)",
     "status": "De-facto standard for analytics engineering; vendor-governed format",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Analytics-engineering default: SQL-first models, tests, lineage.",
     "description": [
       "SQL-first transformation framework with built-in tests, documentation, and lineage. The de-facto standard for analytics engineering — used both to model warehouse data and to express the quality checks that ride alongside the transformations.",
@@ -325,6 +322,31 @@
     "umbrellaSearch": "GX Labs vendor",
     "vendor": true
   },
+  "dbt-tests": {
+    "name": "dbt tests",
+    "fullName": "dbt schema and data tests",
+    "category": "Data Quality",
+    "governance": "dbt Labs (vendor-driven open source)",
+    "status": "De-facto for analytics teams already on dbt",
+    "judgement": "Situational",
+    "judgementReason": "Right when your transformations already live in dbt; otherwise reach for a standalone DQ tool.",
+    "description": [
+      "The schema-test and data-test surface inside a dbt project — `tests:` blocks in schema.yml, generic and singular tests, and the test results that downstream tools (Elementary, dbt-osmosis, dbt artifacts) consume.",
+      "Treated as a separate entry from dbt itself because the test surface is the part of dbt that data-quality tooling interoperates with. Adopt-grade if your transformations live in dbt; situational elsewhere because the tests can't easily be lifted out of a dbt project."
+    ],
+    "standardReason": "dbt's test definitions and the manifest entries they produce are what other DQ tools (Elementary, re_data, dbt-osmosis) read. The format is the standard surface even though dbt Labs governs it.",
+    "links": [
+      {
+        "label": "docs.getdbt.com — Tests",
+        "url": "https://docs.getdbt.com/docs/build/data-tests"
+      }
+    ],
+    "firstReleased": 2016,
+    "logo": "/media/icons/standards-map/logos/dbt.png",
+    "umbrella": "dbt Labs",
+    "umbrellaSearch": "dbt Labs vendor",
+    "vendor": true
+  },
   "sodacl": {
     "name": "SodaCL",
     "fullName": "Soda Checks Language",
@@ -361,7 +383,7 @@
     "highlight": true,
     "governance": "BITOL / Linux Foundation",
     "status": "v1.0",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Winning data-product spec; ODCS-aligned.",
     "description": [
       "YAML standard for describing data products. Mirrors ODCS on fundamentals, ownership, and terms, and adds input ports, output ports, and management ports.",
@@ -388,7 +410,7 @@
     "category": "Data Products",
     "governance": "OpenDataMesh community",
     "status": "Active; community-driven specification",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "Coexists with ODPS but with smaller community.",
     "description": [
       "YAML-based specification for describing data products with input ports, output ports, control ports, and discovery ports. Maintained by the OpenDataMesh initiative.",
@@ -415,7 +437,7 @@
     "category": "Data Products",
     "governance": "opendataproducts.org / Linux Foundation",
     "status": "Active; mature pricing & i18n features",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "LF-governed data-product spec; strong on commercial terms, modest adoption.",
     "description": [
       "Standalone open specification for describing data products, governed under the Linux Foundation umbrella. Strong on pricing plans and internationalisation, making it a natural fit for external data marketplaces with complex commercial terms.",
@@ -439,7 +461,7 @@
     "category": "Data Products",
     "governance": "EKGF / Object Management Group (OMG) — RDF/OWL vocabulary",
     "status": "Active in semantic-web circles",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "RDF/OWL data-product vocabulary; right only when your stack already lives in linked data.",
     "description": [
       "RDF/OWL vocabulary for describing data products. Composes naturally with other semantic-web vocabularies (DCAT, SKOS, FIBO, etc.) when your stack already lives in the linked-data world.",
@@ -461,7 +483,7 @@
     "category": "Open Table Formats",
     "governance": "Apache Software Foundation",
     "status": "Stable; effectively the winner of the table-format race",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Default open table format for new lakes; multi-vendor catalog support and ASF governance.",
     "description": [
       "Open table format for huge analytic datasets — schema evolution, hidden partitioning, time travel, ACID semantics on object storage.",
@@ -508,7 +530,7 @@
     "category": "Open Table Formats",
     "governance": "Apache Software Foundation",
     "status": "Stable; strong streaming/upsert focus",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "Third-place table format; legitimate CDC-upsert use cases but lost the default slot.",
     "description": [
       "Transactional data lake platform that pioneered incremental processing and upserts on data lakes.",
@@ -532,7 +554,7 @@
     "category": "Catalog APIs",
     "governance": "DuckDB Labs (vendor-driven open source)",
     "status": "Emerging; v1.0 production-ready (April 2026), adoption concentrated in the DuckDB ecosystem",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "DuckDB-Labs catalog; v1.0 production-ready, ecosystem still small.",
     "tier": "emerging",
     "description": [
@@ -561,8 +583,8 @@
     "category": "Schema",
     "governance": "W3C",
     "status": "Stable since 2001",
-    "judgement": "Watch",
-    "judgementReason": "Load-bearing in enterprise integration but not chosen for new work.",
+    "judgement": "Adopt",
+    "judgementReason": "The schema language for XML — load-bearing in enterprise integration, finance, healthcare, and government with mature tooling.",
     "description": [
       "W3C standard for describing the structure, content, and constraints of XML documents.",
       "Still the schema language of record in many enterprise integration scenarios — SOAP, banking, healthcare, and government."
@@ -583,7 +605,7 @@
     "category": "Schema",
     "governance": "JSON Schema community / IETF",
     "status": "Latest draft 2020-12; published independently after leaving the IETF Internet-Draft track",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Default API-payload validation; behind OpenAPI/AsyncAPI.",
     "description": [
       "Vocabulary for validating, annotating, and documenting JSON. The schema language of choice for modern HTTP APIs and event payloads.",
@@ -606,7 +628,7 @@
     "category": "Schema",
     "governance": "ANSI / ISO/IEC 9075",
     "status": "Stable; per-vendor extensions are everywhere",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Universal way to describe a relational schema; portable across engines.",
     "description": [
       "The CREATE / ALTER / DROP subset of SQL — the most universal way to describe a relational schema.",
@@ -628,7 +650,7 @@
     "category": "Schema",
     "governance": "Apache Software Foundation",
     "status": "Stable; ubiquitous in streaming",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Schema language for Kafka payloads; pairs with Schema Registry.",
     "description": [
       "JSON-based schema language used to describe Avro-encoded records. Standard in Kafka via Confluent Schema Registry.",
@@ -651,7 +673,7 @@
     "category": "Schema",
     "governance": "Google (open source, vendor-driven)",
     "status": "Stable; de-facto schema for binary RPC",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Strong schema-evolution rules; default for gRPC.",
     "description": [
       "Google's language-neutral, platform-neutral mechanism for serialising structured data. Compact binary encoding plus strong schema evolution rules.",
@@ -680,7 +702,7 @@
     "category": "Catalog APIs",
     "governance": "Apache Software Foundation",
     "status": "Stable; rapidly becoming the default catalog protocol",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Canonical catalog API for Iceberg; multi-vendor implementations.",
     "description": [
       "Open REST API specification for Iceberg metadata catalogs. Decouples engines (Spark, Trino, Snowflake, Dremio, ...) from the catalog backend.",
@@ -755,7 +777,7 @@
     "category": "Catalog APIs",
     "governance": "Confluent (open API; multiple compatible implementations)",
     "status": "De-facto standard for streaming schemas",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "The default Kafka schema-management surface.",
     "description": [
       "A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, \"what shape is this Kafka topic?\" has no answer.",
@@ -784,7 +806,7 @@
     "category": "File Formats",
     "governance": "IETF (RFC 4180)",
     "status": "Stable; the lowest common denominator for tabular data",
-    "judgement": "Foundations",
+    "judgement": "Adopt",
     "judgementReason": "Universal flat file; ugly but ubiquitous.",
     "description": [
       "Plain-text tabular format. RFC 4180 specifies a baseline; in practice every tool has its own dialect for quoting, escaping, and line endings.",
@@ -806,7 +828,7 @@
     "category": "File Formats",
     "governance": "IETF RFC 8259 / ECMA-404",
     "status": "Stable; ubiquitous",
-    "judgement": "Foundations",
+    "judgement": "Adopt",
     "judgementReason": "Universal payload format; not a choice.",
     "description": [
       "Standard text-based format for structured data. Pairs naturally with JSON Schema, OpenAPI, and AsyncAPI.",
@@ -832,8 +854,8 @@
     "category": "File Formats",
     "governance": "W3C",
     "status": "Stable since 1998; XML 1.0 (Fifth Edition, 2008) is the de-facto current spec",
-    "judgement": "Watch",
-    "judgementReason": "Load-bearing in finance/healthcare/government; not for new payloads.",
+    "judgement": "Adopt",
+    "judgementReason": "Load-bearing in finance, healthcare, and government; mature tooling around XSD, XSLT, XPath, XQuery.",
     "description": [
       "Tag-based markup format for structured documents and data. Verbose by modern standards, but unmatched tooling around schemas, transformations, and validation (XSD, XSLT, XPath, XQuery).",
       "Still the format of record in many enterprise integration scenarios — banking, healthcare, government, and SOAP-based B2B exchange."
@@ -854,7 +876,7 @@
     "category": "File Formats",
     "governance": "yaml.org / community spec",
     "status": "Stable; v1.2.2 (2021)",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Default surface for config and contract specs.",
     "niche": true,
     "nicheReason": "Strictly speaking a metadata and configuration format — rarely used to encode the data itself; its role is describing data, not carrying it. Listed because most schema and contract specs in this landscape (OpenAPI, AsyncAPI, ODCS, DPDS, dbt project files) are authored in YAML.",
@@ -882,7 +904,7 @@
     "category": "File Formats",
     "governance": "Apache Software Foundation",
     "status": "Stable; the columnar default",
-    "judgement": "Foundations",
+    "judgement": "Adopt",
     "judgementReason": "De-facto columnar storage; baseline for analytics.",
     "description": [
       "Columnar storage format optimised for analytics: predicate pushdown, column pruning, efficient compression, and typed schemas.",
@@ -906,7 +928,7 @@
     "category": "File Formats",
     "governance": "Apache Software Foundation",
     "status": "Stable; standard in Kafka",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Kafka's binary payload of choice; first-class with Schema Registry.",
     "description": [
       "Row-oriented binary format that ships its schema alongside the data. Excellent for streaming and event payloads where messages are written and read one at a time.",
@@ -957,7 +979,7 @@
     ],
     "governance": "Lance community (independent open source, LF-inspired governance)",
     "status": "Emerging; production use concentrated in AI/ML stacks",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "AI/ML-optimised columnar format; trajectory good, adoption concentrated.",
     "description": [
       "Modern columnar file format optimised for AI/ML workloads: 100x faster random access than Parquet, native support for embeddings and multimodal data (images, video, audio), and zero-copy schema evolution without rewriting files.",
@@ -985,7 +1007,7 @@
     "category": "Lineage",
     "governance": "Linux Foundation",
     "status": "Stable; growing integration list",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "The lineage-emission standard, with column-level support.",
     "description": [
       "Open standard for collecting lineage metadata from data pipelines, including column-level lineage. Producers emit OpenLineage events; consumers (Marquez, catalogs, custom UIs) ingest them.",
@@ -1007,7 +1029,7 @@
     "category": "Policies",
     "governance": "CNCF (Graduated)",
     "status": "Stable; de-facto policy engine for cloud-native",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "General-purpose policy engine; mature Rego ecosystem.",
     "description": [
       "General-purpose policy engine that decouples policy decisions from your services. Policies are written in Rego and evaluated at request time.",
@@ -1030,7 +1052,7 @@
     "category": "AI Interfaces",
     "governance": "Linux Foundation (created by Anthropic; multi-vendor steering)",
     "status": "Active; rapid adoption since late 2024",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Became the AI tool-integration default in 2024–2025.",
     "description": [
       "Open protocol for connecting AI applications and agents to external systems: data sources, tools, and workflows. The \"USB-C for AI\": one spec, many servers and clients.",
@@ -1057,8 +1079,8 @@
     "category": "AI Interfaces",
     "governance": "Linux Foundation (created by Google; multi-vendor steering)",
     "status": "Active; donated to LF in 2025",
-    "judgement": "Watch",
-    "judgementReason": "Agent-to-agent protocol; newer and less proven than MCP.",
+    "judgement": "Situational",
+    "judgementReason": "Agent-to-agent protocol; right when you have multi-agent orchestration, otherwise overkill.",
     "description": [
       "Open protocol for AI agents to discover, communicate, and collaborate with each other across vendors and frameworks. Where MCP is agent-to-tools, A2A is agent-to-agent: capability discovery, task delegation, and multi-turn dialogue between independently developed agents.",
       "Created by Google and donated to the Linux Foundation. Increasingly paired with MCP in production stacks: A2A for agent-to-agent orchestration, MCP for the tools and data each agent reaches into."
@@ -1084,7 +1106,7 @@
     "category": "Storage Systems",
     "governance": "AWS (vendor-controlled, but de-facto standard)",
     "status": "De-facto standard; implemented by everyone",
-    "judgement": "Foundations",
+    "judgement": "Adopt",
     "judgementReason": "The object-storage API everyone implements.",
     "description": [
       "AWS's object storage API has become the lingua franca of the data lake. Every cloud, every storage vendor, every minio-style appliance speaks some flavour of it.",
@@ -1110,7 +1132,7 @@
     "highlight": true,
     "governance": "OSI Initiative — Snowflake, Salesforce, dbt Labs, BlackRock, Databricks, Strategy (formerly MicroStrategy), and many more",
     "status": "v0.1.1; explicitly early, working groups very active",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "Emerging vendor-neutral semantic exchange; promising, adoption early.",
     "description": [
       "Vendor-agnostic open-source standard for exchanging semantic models — datasets, relationships, metrics, and AI context — between BI platforms, AI agents, and analytics tools.",
@@ -1304,7 +1326,7 @@
     "category": "Database Connectivity",
     "governance": "Java Community Process (JCP)",
     "status": "Stable; ubiquitous in JVM ecosystems",
-    "judgement": "Foundations",
+    "judgement": "Adopt",
     "judgementReason": "Every JVM data tool speaks it; default for 25 years.",
     "description": [
       "Standard Java API for connecting to relational databases. Every serious analytical engine, BI tool, and JVM-based data pipeline speaks JDBC.",
@@ -1326,7 +1348,7 @@
     "category": "Database Connectivity",
     "governance": "ISO/IEC 9075-3 (originally Microsoft / SQL Access Group)",
     "status": "Stable since 1992; cross-language standard",
-    "judgement": "Foundations",
+    "judgement": "Adopt",
     "judgementReason": "Cross-language equivalent of JDBC; sits behind every BI tool.",
     "description": [
       "C-based, language-neutral API for accessing relational databases. The cross-platform sibling of JDBC, and the connectivity layer behind most BI tools and Excel-style integrations.",
@@ -1379,7 +1401,7 @@
     "category": "Database Connectivity",
     "governance": "Apache Software Foundation (Arrow project)",
     "status": "Stable; growing driver ecosystem",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Arrow-native DB connectivity; the modern replacement for JDBC/ODBC on analytical workloads.",
     "description": [
       "Arrow-native database connectivity API. Where JDBC and ODBC marshal results row-by-row, ADBC moves data as Arrow record batches — zero-copy where possible, dramatically faster for analytical workloads.",
@@ -1403,7 +1425,7 @@
     "category": "Interconnection",
     "governance": "IETF",
     "status": "Stable; HTTP/3 (RFC 9114) is current",
-    "judgement": "Foundations",
+    "judgement": "Adopt",
     "judgementReason": "Universal application transport; nobody decides to use it.",
     "description": [
       "The application protocol of the web, and the universal transport beneath REST APIs, OpenAPI, GraphQL, gRPC (HTTP/2), Iceberg REST catalogs, and OpenLineage events.",
@@ -1425,7 +1447,7 @@
     "category": "Messaging",
     "governance": "Apache Software Foundation",
     "status": "Stable; the de-facto streaming platform",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "The streaming backbone; competitors challenge the implementation, not the category.",
     "description": [
       "Distributed log and streaming platform. Originally built at LinkedIn, donated to ASF; now the default backbone for event-driven data pipelines.",
@@ -1475,7 +1497,7 @@
     "category": "Messaging",
     "governance": "CNCF (Graduated)",
     "status": "Stable; CloudEvents 1.0 graduated at CNCF",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Default event envelope; HTTP/Kafka/AMQP/MQTT bindings all standardised.",
     "description": [
       "Specification for describing event data in a common way. Defines a vendor-neutral envelope (id, source, type, time, data) plus protocol bindings for HTTP, Kafka, AMQP, MQTT, NATS, and others.",
@@ -1555,8 +1577,8 @@
     "category": "Interconnection",
     "governance": "IETF",
     "status": "Stable; legacy but pervasive in B2B data exchange",
-    "judgement": "Situational",
-    "judgementReason": "B2B file drops; still common when partners can't speak HTTP APIs.",
+    "judgement": "Caution",
+    "judgementReason": "Unencrypted FTP is unsafe for new work; SFTP-only as a last resort when partners can't speak HTTP APIs.",
     "description": [
       "FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.",
       "Unsexy but unavoidable: many regulated industries — banking, insurance, public sector — still hand off bulk data between organisations as nightly (S)FTP drops."
@@ -1609,8 +1631,8 @@
     "category": "In-Memory Format",
     "governance": "Consortium for Python Data API Standards (data-apis.org)",
     "status": "Draft RFC; multi-vendor adoption underway",
-    "judgement": "Watch",
-    "judgementReason": "Portable Python DataFrame spec; standard exists, adoption uneven.",
+    "judgement": "Adopt",
+    "judgementReason": "Portable Python DataFrame spec; the way to write library code that runs on pandas, Polars, Modin, and cuDF.",
     "description": [
       "Open standard for a portable DataFrame API across Python implementations. The aim: write code once, run on pandas, Polars, Modin, cuDF, or any compliant library.",
       "Sister specification to the Array API Standard. Sponsored by data-apis.org with backing from Quansight, NVIDIA, Microsoft, Intel, and the major DataFrame projects. The standard everyone reaches for when \"which DataFrame API?\" needs to stop being a portability question."
@@ -1636,7 +1658,7 @@
     "category": "In-Memory Format",
     "governance": "Apache Software Foundation",
     "status": "Stable; broadly adopted across the analytics stack",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "In-memory columnar standard powering Flight, ADBC, DataFusion, Polars.",
     "description": [
       "Language-agnostic columnar in-memory format for analytical data. Designed for zero-copy reads and efficient interchange between processes, languages, and engines.",
@@ -1660,7 +1682,7 @@
     "category": "Processing",
     "governance": "Apache Software Foundation",
     "status": "Stable; Spark 4.x current, 3.x widely deployed",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Default distributed batch+streaming engine.",
     "description": [
       "Distributed analytics engine with a DataFrame API across Scala, Java, Python, and R. The classic large-scale processing engine for batch and streaming workloads.",
@@ -1709,7 +1731,7 @@
     "category": "Processing",
     "governance": "NumFOCUS (open source)",
     "status": "Stable; the de-facto Python DataFrame API",
-    "judgement": "Foundations",
+    "judgement": "Adopt",
     "judgementReason": "Universal Python DataFrame; you don't choose it, you encounter it.",
     "description": [
       "The original Python DataFrame library. Whatever else a Python data practitioner uses, they almost certainly know pandas — which makes its API a de-facto interface that other libraries (Polars, Modin, cuDF) deliberately mimic.",
@@ -1732,7 +1754,7 @@
     "category": "Processing",
     "governance": "Ibis Project (open source)",
     "status": "Stable; multi-backend",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "Portable Python DataFrame compiling to many backends; trajectory strong, footprint small.",
     "description": [
       "Portable Python DataFrame API that compiles expressions to a backend of choice — DuckDB, BigQuery, Snowflake, Postgres, Spark, and many others.",
@@ -1756,7 +1778,7 @@
     "category": "Processing",
     "governance": "ANSI / ISO/IEC 9075",
     "status": "Stable since 1986; revised regularly (latest SQL:2023)",
-    "judgement": "Reach-For",
+    "judgement": "Adopt",
     "judgementReason": "Portable transformation language across relational/lakehouse engines.",
     "description": [
       "The processing side of SQL: CTEs and window functions for transformation logic, INSERT / UPDATE / DELETE / MERGE for state changes, and CREATE OR REPLACE TABLE / VIEW for materialising results. The portable way to express batch transformations against any relational or lakehouse engine.",
@@ -1810,7 +1832,7 @@
     "category": "Schema",
     "governance": "LinkML community / Monarch Initiative",
     "status": "Stable; widely used in biomedical and life-sciences data modelling",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "Multi-output schema language; strong in biomedical, niche elsewhere.",
     "niche": true,
     "nicheReason": "Specialised modelling language with deepest adoption in biomedical and research data communities (Monarch, NIH Bridge2AI, INCLUDE). Powerful for cross-format schemas — generates JSON Schema, SHACL, RDF, Pydantic, Java, etc. from one source — but outside life-sciences its mindshare is still small.",
@@ -1838,7 +1860,7 @@
     "category": "Semantics",
     "governance": "schema.org Community Group / W3C",
     "status": "Stable; mainstream for web structured data, niche in data-architecture contexts",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "Web SEO/structured-data vocabulary; different audience from data-platform work.",
     "niche": true,
     "nicheReason": "Mainstream on the public web — Google rich results, Bing, Yandex, and email actions all consume schema.org markup — but inside data-architecture and data-mesh contexts it rarely surfaces. Listed because anyone modelling cross-domain semantics will eventually meet it, and because it's the largest open-vocabulary effort by far.",
@@ -1866,7 +1888,7 @@
     "category": "Semantics",
     "governance": "W3C Shape Expressions Community Group",
     "status": "Stable; ShEx 2.1 current",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "RDF shape validation parallel to SHACL; smaller community.",
     "niche": true,
     "nicheReason": "RDF shape-validation language that pre-dates and parallels SHACL. Adoption is concentrated in linked-data communities (Wikidata, biomedical knowledge graphs); SHACL — being a W3C Recommendation rather than a Community Group spec — is the more common pick in mainstream contexts.",
@@ -1894,7 +1916,7 @@
     "category": "Policies",
     "governance": "W3C",
     "status": "W3C Recommendation; v2.2 current (since 2018)",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "Rights-expression language; relevant where data licensing matters.",
     "niche": true,
     "nicheReason": "Rights expression language designed for licensing, terms-of-use, and data-sharing agreements. Increasingly relevant for data contracts and data spaces (Gaia-X, IDSA, Eclipse Dataspace Components reference ODRL for usage policies), but adoption outside that frame is still limited compared to OPA for runtime authorisation.",
@@ -1926,7 +1948,7 @@
     "category": "Lineage",
     "governance": "W3C",
     "status": "W3C Recommendation since 2013",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "W3C provenance vocabulary; predates OpenLineage by a decade, fading.",
     "niche": true,
     "nicheReason": "RDF-based provenance model pre-dates OpenLineage by nearly a decade and is the canonical reference in research and digital-preservation contexts. Mainstream data engineering tooling has converged on OpenLineage instead — PROV stays the right choice when provenance has to live in a knowledge graph, not in a pipeline observability backend.",
@@ -1958,8 +1980,8 @@
     "category": "Query",
     "governance": "ISO/IEC 39075:2024",
     "status": "Stable; ISO/IEC 39075:2024 published",
-    "judgement": "Watch",
-    "judgementReason": "ISO property-graph query language; ratified 2024, adoption nascent.",
+    "judgement": "Situational",
+    "judgementReason": "Vendor-neutral property-graph query language — pick when your stack is already on graph databases.",
     "niche": true,
     "nicheReason": "First international query-language standard since SQL — the property-graph counterpart to SQL — but adoption is still limited compared to Cypher (Neo4j) and Gremlin. Worth tracking because it gives graph databases the same kind of vendor-neutral baseline SQL gave relational, but it isn't yet the day-to-day surface for most data work.",
     "description": [
@@ -2017,7 +2039,7 @@
     "category": "Schema",
     "governance": "Frictionless Data / Open Knowledge Foundation",
     "status": "Stable; v1.0 (2017), continually maintained",
-    "judgement": "Watch",
+    "judgement": "Assess",
     "judgementReason": "Lightweight Frictionless tabular spec; small ecosystem.",
     "niche": true,
     "nicheReason": "JSON-based schema spec for tabular data, part of the Frictionless Data toolkit. Adoption is concentrated in open-data publishing (government portals, research data) where it pairs with Data Package and DCAT — outside that scene most teams reach for JSON Schema, AVRO Schema, or SQL DDL instead.",

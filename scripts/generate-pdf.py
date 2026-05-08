@@ -9,17 +9,13 @@
 
 Run standalone with uv (no pre-install needed):
 
-    ./scripts/generate-pdf.py [BASE_URL] [--variant default|full]
+    ./scripts/generate-pdf.py [BASE_URL]
     # or:
-    uv run scripts/generate-pdf.py [BASE_URL] [--variant default|full]
+    uv run scripts/generate-pdf.py [BASE_URL]
 
 BASE_URL defaults to http://127.0.0.1:8000/. In CI we serve the repo with
 `python -m http.server 8000` and point the script at that, so the PDF
 reflects exactly the version about to be deployed.
-
-The default variant produces data-landscape.pdf and excludes niche/legacy
-tiles. The `full` variant produces data-landscape-full.pdf and includes
-them, matching what the live site shows when both toggles are on.
 
 The script bootstraps a Chromium build via `playwright install chromium`
 on first run, so it works on a fresh machine with no manual setup.
@@ -34,8 +30,7 @@ from pathlib import Path
 from playwright.async_api import async_playwright, Error as PlaywrightError
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT_DEFAULT = ROOT / "data-landscape.pdf"
-OUT_FULL = ROOT / "data-landscape-full.pdf"
+OUT_PATH = ROOT / "data-landscape.pdf"
 DEFAULT_URL = "http://127.0.0.1:8000/"
 
 PDF_STYLE_COMMON = """
@@ -53,6 +48,10 @@ main .mx-auto { max-width: none !important; padding-left: 0 !important; padding-
 .landscape { background: white !important; border: 0 !important; padding: 0 !important; }
 .landscape-section + .landscape-section { margin-top: 1.25rem; }
 .landscape-section { break-inside: avoid; page-break-inside: avoid; }
+
+/* Data Products only ever has a handful of tiles; narrow it in print so
+   the wider categories on the same row get the breathing room. */
+.panel-data-products { grid-column: span 2 !important; }
 
 #pdf-header {
   display: flex;
@@ -82,15 +81,8 @@ main .mx-auto { max-width: none !important; padding-left: 0 !important; padding-
 body { margin: 0; padding: 12mm; box-sizing: border-box; }
 """
 
-# In the default variant, niche and legacy tiles are deliberately excluded.
-# The toggles are interactive-only, and the default PDF shows the curated core.
-PDF_STYLE_DEFAULT_EXTRA = """
-.item-niche,
-.item-legacy { display: none !important; }
-"""
-
 HIDE_SCRIPT = r"""
-({ includeExtras }) => {
+() => {
   const main = document.querySelector('main');
   if (!main) return;
   const matchByHeading = (heading) => {
@@ -104,19 +96,11 @@ HIDE_SCRIPT = r"""
   document
     .querySelector('div.rounded-lg.border.border-indigo-200.bg-indigo-50')
     ?.classList.add('contribute-cta');
-
-  // Sync the niche/legacy toggles with the requested variant so category
-  // counts and tile visibility agree, regardless of how the page was visited.
-  const data = main._x_dataStack?.[0];
-  if (data) {
-    data.showNiche  = !!includeExtras;
-    data.showLegacy = !!includeExtras;
-  }
 }
 """
 
 INJECT_HEADER_FOOTER = r"""
-({ dataUpdatedDate, titleSuffix, subtitleSuffix }) => {
+({ dataUpdatedDate }) => {
   const landscape = document.querySelector('.landscape');
   if (!landscape) return;
 
@@ -125,8 +109,8 @@ INJECT_HEADER_FOOTER = r"""
   header.innerHTML = `
     <img src="/media/logo_fuchsia_v2.svg" alt="Entropy Data">
     <div class="titles">
-      <h1>Data Landscape — Open Standards for Modern Data Architecture${titleSuffix}</h1>
-      <p>Curated by Entropy Data · www.data-landscape.com${subtitleSuffix}</p>
+      <h1>Data Landscape — Open Standards for Modern Data Architecture</h1>
+      <p>Curated by Entropy Data · www.data-landscape.com</p>
     </div>
   `;
   landscape.parentNode.insertBefore(header, landscape);
@@ -164,16 +148,11 @@ def ensure_chromium() -> None:
     )
 
 
-async def render(base_url: str, variant: str) -> Path:
+async def render(base_url: str) -> Path:
     # Render onto a single A3 landscape page. Scale the rendered content
     # down just enough to fit, so the result fills the full A3 area.
     PAGE_WIDTH_PX = 1587   # 420 mm @ 96 dpi
     PAGE_HEIGHT_PX = 1123  # 297 mm @ 96 dpi
-    include_extras = variant == "full"
-    out_path = OUT_FULL if include_extras else OUT_DEFAULT
-    style = PDF_STYLE_COMMON if include_extras else PDF_STYLE_COMMON + PDF_STYLE_DEFAULT_EXTRA
-    title_suffix = " — Complete Edition" if include_extras else ""
-    subtitle_suffix = " · Includes niche & legacy standards" if include_extras else ""
 
     async with async_playwright() as p:
         try:
@@ -188,16 +167,12 @@ async def render(base_url: str, variant: str) -> Path:
         page = await context.new_page()
         await page.goto(base_url, wait_until="networkidle")
 
-        await page.evaluate(HIDE_SCRIPT, {"includeExtras": include_extras})
+        await page.evaluate(HIDE_SCRIPT)
         await page.evaluate(
             INJECT_HEADER_FOOTER,
-            {
-                "dataUpdatedDate": data_last_updated(),
-                "titleSuffix": title_suffix,
-                "subtitleSuffix": subtitle_suffix,
-            },
+            {"dataUpdatedDate": data_last_updated()},
         )
-        await page.add_style_tag(content=style)
+        await page.add_style_tag(content=PDF_STYLE_COMMON)
         await page.wait_for_timeout(300)
         await page.emulate_media(media="print")
 
@@ -210,7 +185,7 @@ async def render(base_url: str, variant: str) -> Path:
         scale = max(0.1, min(scale - 0.005, 2.0))
 
         await page.pdf(
-            path=str(out_path),
+            path=str(OUT_PATH),
             format="A3",
             landscape=True,
             scale=scale,
@@ -219,18 +194,16 @@ async def render(base_url: str, variant: str) -> Path:
         )
         print(f"  content height: {content_height_px}px  scale: {scale:.3f}")
         await browser.close()
-        return out_path
+        return OUT_PATH
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Generate the data-landscape PDF.")
     parser.add_argument("base_url", nargs="?", default=DEFAULT_URL,
                         help=f"Base URL to render (default: {DEFAULT_URL})")
-    parser.add_argument("--variant", choices=("default", "full"), default="default",
-                        help="default: curated core; full: includes niche & legacy standards")
     args = parser.parse_args()
 
-    out_path = asyncio.run(render(args.base_url, args.variant))
+    out_path = asyncio.run(render(args.base_url))
     size = out_path.stat().st_size
     print(f"Wrote {out_path.relative_to(ROOT)} ({size:,} bytes) from {args.base_url}")
     return 0

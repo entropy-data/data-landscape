@@ -92,6 +92,25 @@ def html_attr(value: str) -> str:
     )
 
 
+JUDGEMENT_RANK = {
+    "Adopt": 0,
+    "Situational": 1,
+    "Assess": 2,
+    "Caution": 3,
+}
+
+JUDGEMENT_CLASS = {
+    "Adopt": "j-adopt",
+    "Situational": "j-situational",
+    "Assess": "j-assess",
+    "Caution": "j-caution",
+}
+
+
+def judgement_rank(entry: dict) -> int:
+    return JUDGEMENT_RANK.get(entry.get("judgement"), len(JUDGEMENT_RANK))
+
+
 def render_tile(
     slug: str,
     entry: dict,
@@ -106,24 +125,43 @@ def render_tile(
     the id stays unique across the document.
     """
     classes = ["item"]
-    if entry.get("highlight"):
-        classes.append("item-highlight")
     if entry.get("vendor"):
         classes.append("item-vendor")
-    if entry.get("niche"):
-        classes.append("item-niche")
-    tier = tier_of(entry)
-    if tier == "legacy":
-        classes.append("item-legacy")
-    elif tier == "emerging":
-        classes.append("item-emerging")
+    if entry.get("highlight"):
+        classes.append("item-highlighted")
+    judgement = entry.get("judgement")
+    j_class = JUDGEMENT_CLASS.get(judgement)
+    if j_class:
+        classes.append(j_class)
     cls = " ".join(classes)
     umbrella_search = entry.get("umbrellaSearch") or entry.get("umbrella", "")
     id_attr = f' id="{slug}-summary"' if with_id else ""
+    # Searchable text: name + fullName + umbrella, lowercased. The toolbar
+    # search box does substring matching against this attribute, so the
+    # data lives on the tile to keep DOM filtering O(N) and JS-light.
+    search_text = " ".join(filter(None, [
+        slug,
+        entry.get("name", ""),
+        entry.get("fullName", ""),
+        entry.get("umbrella", ""),
+        umbrella_search,
+    ])).lower()
+    judgement_header = (
+        f'{indent}  <span class="item-judgement">{html_attr(judgement)}</span>\n'
+        if judgement else ""
+    )
+    pick_ribbon = (
+        f'{indent}  <span class="item-pick" role="img" aria-label="Highlighted by Entropy Data" '
+        f'data-tooltip="Entropy Data pick">🏅</span>\n'
+        if entry.get("highlight") else ""
+    )
     return (
         f'{indent}<button type="button"{id_attr} class="{html_attr(cls)}"\n'
         f'{indent}        data-umbrella="{html_attr(umbrella_search)}"\n'
+        f'{indent}        data-search="{html_attr(search_text)}"\n'
         f'{indent}        @click="selectedId = \'{slug}\'">\n'
+        f'{judgement_header}'
+        f'{pick_ribbon}'
         f'{indent}  <img class="item-logo" src="{html_attr(entry["logo"])}" alt="" loading="lazy">\n'
         f'{indent}  <span class="item-name">{html_attr(entry["name"])}</span>\n'
         f'{indent}  <span class="item-umbrella">{html_attr(entry["umbrella"])}</span>\n'
@@ -170,13 +208,11 @@ def replace_panel_bodies(html: str, standards: "OrderedDict[str, dict]") -> str:
         re.DOTALL,
     )
 
-    def tile_order(entry: dict) -> int:
-        """Stable tiles first, then niche, then legacy at the bottom of each panel."""
-        if entry.get("tier") == "legacy":
-            return 2
-        if entry.get("niche"):
-            return 1
-        return 0
+    def tile_order(entry: dict) -> tuple[int, int]:
+        """Order tiles within a panel by judgement (Adopt → Caution); vendor
+        specs sink to the bottom of their judgement bucket so the
+        independently-governed picks lead each colour band."""
+        return (judgement_rank(entry), 1 if entry.get("vendor") else 0)
 
     # Track which slugs have already been emitted with their id="<slug>-summary"
     # attribute. Multi-category entries (e.g. dbt) appear in more than one panel;
@@ -191,7 +227,7 @@ def replace_panel_bodies(html: str, standards: "OrderedDict[str, dict]") -> str:
             for slug, entry in standards.items()
             if renderable(entry) and category in categories_of(entry)
         ]
-        # Preserve JSON insertion order within each tier bucket.
+        # Preserve JSON insertion order within each judgement bucket.
         candidates.sort(key=lambda pair: tile_order(pair[1]))
         tiles = []
         for slug, entry in candidates:
@@ -399,6 +435,9 @@ def write_llms_txt(standards: "OrderedDict[str, dict]") -> None:
             tier = entry.get("tier")
             niche = entry.get("niche")
             tags = []
+            judgement = entry.get("judgement")
+            if judgement:
+                tags.append(judgement.lower())
             if entry.get("highlight"):
                 tags.append("highlighted")
             if niche:
