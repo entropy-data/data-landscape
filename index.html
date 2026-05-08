@@ -419,6 +419,11 @@
     .tier-legacy   { background: #f3f4f6; color: #111827; border: 1px dashed #111827; }
     .tier-vendor   { background: #fafafa; color: #6b7280; border: 1px dashed #d1d5db; }
     .tier-niche    { background: #fffbeb; color: #92400e; border: 1px dashed #fbbf24; }
+    .judgement-foundations { background: #eef2ff; color: #3730a3; border: 1px solid #c7d2fe; }
+    .judgement-reach-for   { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .judgement-situational { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+    .judgement-watch       { background: #f3f4f6; color: #374151; border: 1px solid #d1d5db; }
+    .judgement-caution     { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
 
     /* Filter dimming */
     .item.item-dim {
@@ -1776,6 +1781,9 @@
           <template x-if="selectedTier">
             <span class="tier-badge" :class="'tier-' + selectedTier" x-text="selectedTier"></span>
           </template>
+          <template x-if="selected?.judgement">
+            <span class="tier-badge" :class="'judgement-' + selected.judgement.toLowerCase()" x-text="selected.judgement"></span>
+          </template>
           <template x-if="selected?.governance">
             <span class="fact-badge" x-text="selected.governance"></span>
           </template>
@@ -1807,6 +1815,25 @@
             </div>
           </template>
         </dl>
+
+        <template x-if="selected?.judgementReason">
+          <div class="mt-6 border-l-4 p-4 rounded-r text-sm break-words"
+               :class="{
+                 'border-indigo-500 bg-indigo-50 text-indigo-900': selected.judgement === 'Foundations',
+                 'border-emerald-500 bg-emerald-50 text-emerald-900': selected.judgement === 'Reach-For',
+                 'border-amber-500 bg-amber-50 text-amber-900': selected.judgement === 'Situational',
+                 'border-slate-400 bg-slate-50 text-slate-800': selected.judgement === 'Watch',
+                 'border-red-500 bg-red-50 text-red-900': selected.judgement === 'Caution'
+               }">
+            <p class="font-semibold mb-1 flex items-center gap-1.5">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zm0 5a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75zm0 5a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"/>
+              </svg>
+              <span>Judgement: <span x-text="selected.judgement"></span></span>
+            </p>
+            <p x-text="selected.judgementReason"></p>
+          </div>
+        </template>
 
         <template x-if="selected?.nicheReason">
           <div class="mt-6 border-l-4 border-slate-400 bg-slate-50 p-4 rounded-r text-sm text-slate-800 break-words">
