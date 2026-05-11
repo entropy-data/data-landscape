@@ -23,7 +23,8 @@
     ],
     "firstReleased": 1986,
     "logo": "/media/icons/standards-map/logos/iso.png",
-    "umbrella": "ISO/IEC"
+    "umbrella": "ISO/IEC",
+    "standardization": "institution"
   },
   "mdx": {
     "name": "MDX",
@@ -50,7 +51,8 @@
     "firstReleased": 1997,
     "tier": "legacy",
     "logo": "/media/icons/standards-map/logos/microsoft.svg",
-    "umbrella": "Microsoft"
+    "umbrella": "Microsoft",
+    "standardization": "institution"
   },
   "substrait": {
     "name": "Substrait",
@@ -79,7 +81,8 @@
     ],
     "firstReleased": 2021,
     "logo": "/media/icons/standards-map/logos/substrait.svg",
-    "umbrella": "LF"
+    "umbrella": "LF",
+    "standardization": "institution"
   },
   "opentelemetry": {
     "name": "Open​Telemetry",
@@ -105,7 +108,8 @@
     ],
     "firstReleased": 2019,
     "logo": "/media/icons/standards-map/logos/opentelemetry.svg",
-    "umbrella": "CNCF"
+    "umbrella": "CNCF",
+    "standardization": "institution"
   },
   "oors": {
     "name": "OORS",
@@ -127,7 +131,8 @@
     ],
     "firstReleased": 2025,
     "logo": "/media/icons/standards-map/logos/bitol.svg",
-    "umbrella": "BITOL @ LF"
+    "umbrella": "BITOL @ LF",
+    "standardization": "institution"
   },
   "odcs": {
     "name": "ODCS",
@@ -162,7 +167,8 @@
     ],
     "firstReleased": 2023,
     "logo": "/media/icons/standards-map/logos/bitol.svg",
-    "umbrella": "BITOL @ LF"
+    "umbrella": "BITOL @ LF",
+    "standardization": "institution"
   },
   "openapi": {
     "name": "OpenAPI",
@@ -188,7 +194,8 @@
     ],
     "firstReleased": 2011,
     "logo": "/media/icons/standards-map/logos/openapi.svg",
-    "umbrella": "LF"
+    "umbrella": "LF",
+    "standardization": "institution"
   },
   "asyncapi": {
     "name": "AsyncAPI",
@@ -214,7 +221,8 @@
     ],
     "firstReleased": 2017,
     "logo": "/media/icons/standards-map/logos/asyncapi.svg",
-    "umbrella": "LF"
+    "umbrella": "LF",
+    "standardization": "institution"
   },
   "graphql": {
     "name": "GraphQL",
@@ -240,7 +248,8 @@
     ],
     "firstReleased": 2015,
     "logo": "/media/icons/standards-map/logos/graphql.svg",
-    "umbrella": "LF"
+    "umbrella": "LF",
+    "standardization": "institution"
   },
   "grpc": {
     "name": "gRPC",
@@ -266,7 +275,8 @@
     ],
     "firstReleased": 2015,
     "logo": "/media/icons/standards-map/logos/grpc.png",
-    "umbrella": "CNCF"
+    "umbrella": "CNCF",
+    "standardization": "institution"
   },
   "dbt": {
     "name": "dbt",
@@ -291,7 +301,8 @@
     "logo": "/media/icons/standards-map/logos/dbt.png",
     "umbrella": "dbt Labs",
     "umbrellaSearch": "dbt Labs vendor",
-    "vendor": true
+    "vendor": true,
+    "standardization": "vendor-led"
   },
   "great-expectations": {
     "name": "Great Expectations",
@@ -320,7 +331,8 @@
     "logo": "/media/icons/standards-map/logos/great-expectations.png",
     "umbrella": "GX Labs",
     "umbrellaSearch": "GX Labs vendor",
-    "vendor": true
+    "vendor": true,
+    "standardization": "vendor-led"
   },
   "dbt-tests": {
     "name": "dbt tests",
@@ -345,7 +357,8 @@
     "logo": "/media/icons/standards-map/logos/dbt.png",
     "umbrella": "dbt Labs",
     "umbrellaSearch": "dbt Labs vendor",
-    "vendor": true
+    "vendor": true,
+    "standardization": "vendor-led"
   },
   "sodacl": {
     "name": "SodaCL",
@@ -374,7 +387,8 @@
     "logo": "/media/icons/standards-map/logos/soda.png",
     "umbrella": "Soda",
     "umbrellaSearch": "Soda vendor",
-    "vendor": true
+    "vendor": true,
+    "standardization": "vendor-led"
   },
   "odps": {
     "name": "ODPS",
@@ -402,7 +416,8 @@
     ],
     "firstReleased": 2025,
     "logo": "/media/icons/standards-map/logos/bitol.svg",
-    "umbrella": "BITOL @ LF"
+    "umbrella": "BITOL @ LF",
+    "standardization": "institution"
   },
   "dpds": {
     "name": "DPDS",
@@ -429,6 +444,7 @@
     "firstReleased": 2022,
     "logo": "/media/icons/standards-map/logos/dpds.png",
     "umbrella": "ODM",
+    "standardization": "institution",
     "umbrellaSearch": "OpenDataMesh"
   },
   "odpspec": {
@@ -453,6 +469,7 @@
     "tier": "stable",
     "logo": "/media/icons/standards-map/logos/odpspec.png",
     "umbrella": "LF",
+    "standardization": "institution",
     "umbrellaSearch": "LF opendataproducts"
   },
   "dprod": {
@@ -475,7 +492,8 @@
     ],
     "firstReleased": 2024,
     "logo": "/media/icons/standards-map/logos/dprod.jpg",
-    "umbrella": "OMG"
+    "umbrella": "OMG",
+    "standardization": "institution"
   },
   "iceberg": {
     "name": "Iceberg",
@@ -499,6 +517,7 @@
     "firstReleased": 2017,
     "logo": "/media/icons/standards-map/logos/iceberg.svg",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "delta": {
@@ -522,7 +541,8 @@
     ],
     "firstReleased": 2019,
     "logo": "/media/icons/standards-map/logos/delta.png",
-    "umbrella": "LF"
+    "umbrella": "LF",
+    "standardization": "institution"
   },
   "hudi": {
     "name": "Hudi",
@@ -546,6 +566,7 @@
     "firstReleased": 2017,
     "logo": "/media/icons/standards-map/logos/hudi.svg",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "ducklake": {
@@ -575,7 +596,8 @@
     "logo": "/media/icons/standards-map/logos/duckdb.svg",
     "umbrella": "DuckDB Labs",
     "umbrellaSearch": "DuckDB Labs vendor",
-    "vendor": true
+    "vendor": true,
+    "standardization": "vendor-led"
   },
   "xml-schema": {
     "name": "XML Schema",
@@ -597,7 +619,8 @@
     ],
     "firstReleased": 2001,
     "logo": "/media/icons/standards-map/logos/w3c.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "json-schema": {
     "name": "JSON Schema",
@@ -620,7 +643,8 @@
     "firstReleased": 2009,
     "tier": "stable",
     "logo": "/media/icons/standards-map/logos/json-schema.png",
-    "umbrella": "IETF"
+    "umbrella": "IETF",
+    "standardization": "institution"
   },
   "sql-ddl": {
     "name": "SQL DDL",
@@ -642,7 +666,8 @@
     ],
     "firstReleased": 1986,
     "logo": "/media/icons/standards-map/logos/iso.png",
-    "umbrella": "ISO/IEC"
+    "umbrella": "ISO/IEC",
+    "standardization": "institution"
   },
   "avro-schema": {
     "name": "AVRO Schema",
@@ -665,6 +690,7 @@
     "firstReleased": 2009,
     "logo": "/media/icons/standards-map/logos/avro.svg",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "protobuf": {
@@ -694,7 +720,8 @@
     "logo": "/media/icons/standards-map/logos/google.svg",
     "umbrella": "Google",
     "umbrellaSearch": "Google vendor",
-    "vendor": true
+    "vendor": true,
+    "standardization": "vendor-led"
   },
   "iceberg-catalog": {
     "name": "Iceberg Catalog",
@@ -717,6 +744,7 @@
     "firstReleased": 2022,
     "logo": "/media/icons/standards-map/logos/iceberg.svg",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "unity-catalog": {
@@ -744,7 +772,8 @@
     ],
     "firstReleased": 2024,
     "logo": "/media/icons/standards-map/logos/unity-catalog.svg",
-    "umbrella": "LF"
+    "umbrella": "LF",
+    "standardization": "institution"
   },
   "hive-metastore": {
     "name": "Hive Metastore",
@@ -768,6 +797,7 @@
     "firstReleased": 2010,
     "logo": "/media/icons/standards-map/logos/hive-metastore.svg",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache",
     "tier": "stable"
   },
@@ -798,7 +828,8 @@
     "logo": "/media/icons/standards-map/logos/confluent.svg",
     "umbrella": "Confluent",
     "umbrellaSearch": "Confluent vendor",
-    "vendor": true
+    "vendor": true,
+    "standardization": "vendor-led"
   },
   "csv": {
     "name": "CSV",
@@ -820,7 +851,8 @@
     ],
     "firstReleased": 2005,
     "logo": "/media/icons/standards-map/logos/ietf.svg",
-    "umbrella": "IETF"
+    "umbrella": "IETF",
+    "standardization": "institution"
   },
   "json": {
     "name": "JSON",
@@ -846,7 +878,8 @@
     ],
     "firstReleased": 2001,
     "logo": "/media/icons/standards-map/logos/json.png",
-    "umbrella": "IETF"
+    "umbrella": "IETF",
+    "standardization": "institution"
   },
   "xml": {
     "name": "XML",
@@ -868,7 +901,8 @@
     ],
     "firstReleased": 1998,
     "logo": "/media/icons/standards-map/logos/xml.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "yaml": {
     "name": "YAML",
@@ -896,6 +930,7 @@
     "firstReleased": 2001,
     "logo": "/media/icons/standards-map/logos/yaml.svg",
     "umbrella": "YAML.org",
+    "standardization": "institution",
     "umbrellaSearch": "yaml.org"
   },
   "parquet": {
@@ -920,6 +955,7 @@
     "firstReleased": 2013,
     "logo": "/media/icons/standards-map/logos/parquet.svg",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "avro": {
@@ -944,6 +980,7 @@
     "firstReleased": 2009,
     "logo": "/media/icons/standards-map/logos/avro.svg",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "orc": {
@@ -968,6 +1005,7 @@
     "firstReleased": 2013,
     "logo": "/media/icons/standards-map/logos/orc.png",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "lance": {
@@ -999,6 +1037,7 @@
     "firstReleased": 2022,
     "logo": "/media/icons/standards-map/logos/lance.png",
     "umbrella": "Lance",
+    "standardization": "institution",
     "umbrellaSearch": "Lance"
   },
   "openlineage": {
@@ -1021,7 +1060,8 @@
     ],
     "firstReleased": 2020,
     "logo": "/media/icons/standards-map/logos/openlineage.png",
-    "umbrella": "LF"
+    "umbrella": "LF",
+    "standardization": "institution"
   },
   "opa": {
     "name": "OPA",
@@ -1044,7 +1084,8 @@
     ],
     "firstReleased": 2016,
     "logo": "/media/icons/standards-map/logos/opa.png",
-    "umbrella": "CNCF"
+    "umbrella": "CNCF",
+    "standardization": "institution"
   },
   "mcp": {
     "name": "MCP",
@@ -1071,6 +1112,7 @@
     "firstReleased": 2024,
     "logo": "/media/icons/standards-map/logos/mcp.svg",
     "umbrella": "LF",
+    "standardization": "institution",
     "umbrellaSearch": "LF Anthropic"
   },
   "a2a": {
@@ -1098,6 +1140,7 @@
     "firstReleased": 2025,
     "logo": "/media/icons/standards-map/logos/a2a.svg",
     "umbrella": "LF",
+    "standardization": "institution",
     "umbrellaSearch": "LF Google"
   },
   "s3": {
@@ -1123,7 +1166,8 @@
     "logo": "/media/icons/standards-map/logos/aws.svg",
     "umbrella": "AWS",
     "umbrellaSearch": "AWS vendor",
-    "vendor": true
+    "vendor": true,
+    "standardization": "vendor-led"
   },
   "osi": {
     "name": "OSI",
@@ -1155,7 +1199,8 @@
     ],
     "firstReleased": 2025,
     "logo": "/media/icons/standards-map/logos/osi.svg",
-    "umbrella": "OSI Initiative"
+    "umbrella": "OSI Initiative",
+    "standardization": "institution"
   },
   "rdf-owl": {
     "name": "RDF/OWL",
@@ -1181,7 +1226,8 @@
     ],
     "firstReleased": 1999,
     "logo": "/media/icons/standards-map/logos/w3c.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "dcat": {
     "name": "DCAT",
@@ -1203,7 +1249,8 @@
     ],
     "firstReleased": 2014,
     "logo": "/media/icons/standards-map/logos/w3c.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "skos": {
     "name": "SKOS",
@@ -1225,7 +1272,8 @@
     ],
     "firstReleased": 2009,
     "logo": "/media/icons/standards-map/logos/w3c.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "shacl": {
     "name": "SHACL",
@@ -1247,7 +1295,8 @@
     ],
     "firstReleased": 2017,
     "logo": "/media/icons/standards-map/logos/w3c.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "json-ld": {
     "name": "JSON-LD",
@@ -1273,7 +1322,8 @@
     ],
     "firstReleased": 2014,
     "logo": "/media/icons/standards-map/logos/json-ld.png",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "sparql": {
     "name": "SPARQL",
@@ -1295,7 +1345,8 @@
     ],
     "firstReleased": 2008,
     "logo": "/media/icons/standards-map/logos/w3c.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "hdfs": {
     "name": "HDFS",
@@ -1318,6 +1369,7 @@
     "firstReleased": 2006,
     "logo": "/media/icons/standards-map/logos/hadoop.png",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "jdbc": {
@@ -1340,7 +1392,8 @@
     ],
     "firstReleased": 1997,
     "logo": "/media/icons/standards-map/logos/jdbc.svg",
-    "umbrella": "JCP"
+    "umbrella": "JCP",
+    "standardization": "institution"
   },
   "odbc": {
     "name": "ODBC",
@@ -1366,7 +1419,8 @@
     ],
     "firstReleased": 1992,
     "logo": "/media/icons/standards-map/logos/iso.png",
-    "umbrella": "ISO/IEC"
+    "umbrella": "ISO/IEC",
+    "standardization": "institution"
   },
   "xmla": {
     "name": "XMLA",
@@ -1393,7 +1447,8 @@
     "firstReleased": 2001,
     "tier": "legacy",
     "logo": "/media/icons/standards-map/logos/microsoft.svg",
-    "umbrella": "Microsoft"
+    "umbrella": "Microsoft",
+    "standardization": "institution"
   },
   "adbc": {
     "name": "ADBC",
@@ -1417,6 +1472,7 @@
     "firstReleased": 2023,
     "logo": "/media/icons/standards-map/logos/arrow.png",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "http": {
@@ -1439,7 +1495,8 @@
     ],
     "firstReleased": 1991,
     "logo": "/media/icons/standards-map/logos/ietf.svg",
-    "umbrella": "IETF"
+    "umbrella": "IETF",
+    "standardization": "institution"
   },
   "kafka": {
     "name": "Kafka",
@@ -1463,6 +1520,7 @@
     "firstReleased": 2011,
     "logo": "/media/icons/standards-map/logos/kafka.svg",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "mqtt": {
@@ -1489,7 +1547,8 @@
     ],
     "firstReleased": 1999,
     "logo": "/media/icons/standards-map/logos/mqtt.svg",
-    "umbrella": "OASIS"
+    "umbrella": "OASIS",
+    "standardization": "institution"
   },
   "cloudevents": {
     "name": "CloudEvents",
@@ -1515,7 +1574,8 @@
     ],
     "firstReleased": 2018,
     "logo": "/media/icons/standards-map/logos/cloudevents.svg",
-    "umbrella": "CNCF"
+    "umbrella": "CNCF",
+    "standardization": "institution"
   },
   "amqp": {
     "name": "AMQP",
@@ -1541,7 +1601,8 @@
     ],
     "firstReleased": 2003,
     "logo": "/media/icons/standards-map/logos/oasis.png",
-    "umbrella": "OASIS"
+    "umbrella": "OASIS",
+    "standardization": "institution"
   },
   "jms": {
     "name": "JMS",
@@ -1568,6 +1629,7 @@
     "firstReleased": 2001,
     "logo": "/media/icons/standards-map/logos/jakarta-ee.svg",
     "umbrella": "Jakarta EE",
+    "standardization": "institution",
     "umbrellaSearch": "Eclipse Jakarta",
     "tier": "legacy"
   },
@@ -1596,6 +1658,7 @@
     "firstReleased": 1971,
     "logo": "/media/icons/standards-map/logos/ietf.svg",
     "umbrella": "IETF",
+    "standardization": "institution",
     "tier": "stable"
   },
   "deltasharing": {
@@ -1623,7 +1686,8 @@
     ],
     "firstReleased": 2021,
     "logo": "/media/icons/standards-map/logos/delta-sharing.svg",
-    "umbrella": "LF"
+    "umbrella": "LF",
+    "standardization": "institution"
   },
   "dataframe": {
     "name": "DataFrame API",
@@ -1650,7 +1714,8 @@
     "firstReleased": 2021,
     "tier": "stable",
     "logo": "/media/icons/standards-map/logos/dataframe.png",
-    "umbrella": "data-apis"
+    "umbrella": "data-apis",
+    "standardization": "institution"
   },
   "arrow": {
     "name": "Apache Arrow",
@@ -1674,6 +1739,7 @@
     "firstReleased": 2016,
     "logo": "/media/icons/standards-map/logos/arrow.png",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "spark": {
@@ -1699,6 +1765,7 @@
     "tier": "stable",
     "logo": "/media/icons/standards-map/logos/spark.svg",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "beam": {
@@ -1723,6 +1790,7 @@
     "firstReleased": 2016,
     "logo": "/media/icons/standards-map/logos/beam.svg",
     "umbrella": "ASF",
+    "standardization": "institution",
     "umbrellaSearch": "ASF Apache"
   },
   "pandas": {
@@ -1746,7 +1814,8 @@
     ],
     "firstReleased": 2008,
     "logo": "/media/icons/standards-map/logos/pandas.svg",
-    "umbrella": "NumFOCUS"
+    "umbrella": "NumFOCUS",
+    "standardization": "institution"
   },
   "ibis": {
     "name": "Ibis",
@@ -1770,6 +1839,7 @@
     "firstReleased": 2015,
     "logo": "/media/icons/standards-map/logos/ibis.png",
     "umbrella": "Ibis",
+    "standardization": "institution",
     "umbrellaSearch": "Ibis Project"
   },
   "sql-dml": {
@@ -1797,7 +1867,8 @@
     ],
     "firstReleased": 1986,
     "logo": "/media/icons/standards-map/logos/iso.png",
-    "umbrella": "ISO/IEC"
+    "umbrella": "ISO/IEC",
+    "standardization": "institution"
   },
   "xslt": {
     "name": "XSLT",
@@ -1824,7 +1895,8 @@
     "firstReleased": 1999,
     "tier": "legacy",
     "logo": "/media/icons/standards-map/logos/w3c.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "linkml": {
     "name": "LinkML",
@@ -1852,7 +1924,8 @@
     ],
     "firstReleased": 2019,
     "logo": "/media/icons/standards-map/logos/linkml.png",
-    "umbrella": "LinkML"
+    "umbrella": "LinkML",
+    "standardization": "institution"
   },
   "schemaorg": {
     "name": "schema.org",
@@ -1880,7 +1953,8 @@
     ],
     "firstReleased": 2011,
     "logo": "/media/icons/standards-map/logos/schemaorg.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "shex": {
     "name": "ShEx",
@@ -1908,7 +1982,8 @@
     ],
     "firstReleased": 2017,
     "logo": "/media/icons/standards-map/logos/shex.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "odrl": {
     "name": "ODRL",
@@ -1940,7 +2015,8 @@
     ],
     "firstReleased": 2018,
     "logo": "/media/icons/standards-map/logos/w3c.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "prov": {
     "name": "PROV",
@@ -1972,7 +2048,8 @@
     ],
     "firstReleased": 2013,
     "logo": "/media/icons/standards-map/logos/w3c.svg",
-    "umbrella": "W3C"
+    "umbrella": "W3C",
+    "standardization": "institution"
   },
   "gql": {
     "name": "GQL",
@@ -2000,7 +2077,8 @@
     ],
     "firstReleased": 2024,
     "logo": "/media/icons/standards-map/logos/iso.png",
-    "umbrella": "ISO/IEC"
+    "umbrella": "ISO/IEC",
+    "standardization": "institution"
   },
   "odata": {
     "name": "OData",
@@ -2031,7 +2109,8 @@
     ],
     "firstReleased": 2014,
     "logo": "/media/icons/standards-map/logos/odata.png",
-    "umbrella": "OASIS"
+    "umbrella": "OASIS",
+    "standardization": "institution"
   },
   "frictionless-table-schema": {
     "name": "Table Schema",
@@ -2060,6 +2139,7 @@
     "firstReleased": 2017,
     "logo": "/media/icons/standards-map/logos/frictionless.svg",
     "umbrella": "Frictionless",
+    "standardization": "institution",
     "umbrellaSearch": "Frictionless OKF Open Knowledge"
   }
 }
