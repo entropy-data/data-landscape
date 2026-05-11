@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" font-family="ui-sans-serif, system-ui, sans-serif">
+  <style>
+    .title { font-size: 22px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-size: 13px; fill: #475569; }
+    .line-label { font-size: 12px; font-weight: 700; }
+    .station-label { font-size: 9px; fill: #0f172a; }
+    .year-tick { font-size: 10px; fill: #64748b; }
+    .legend-text { font-size: 12px; fill: #334155; }
+    .note { font-size: 11px; fill: #64748b; font-style: italic; }
+    .line { fill: none; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+    .station { stroke: #fff; stroke-width: 2; }
+    .pick { stroke: #f59e0b; stroke-width: 3; }
+  </style>
+  <rect width="1200" height="820" fill="#fff"/>
+  <text x="40" y="40" class="title">6 — Standards “Subway Map” (governance lines × time)</text>
+  <text x="40" y="60" class="subtitle">X = year. Each line = umbrella org (LF, CNCF, W3C, ISO, ASF, BITOL, etc.). Stations = standards. Colour ring on station = judgement.</text>
+
+  <!-- Time axis -->
+  <g>
+    <line x1="120" y1="700" x2="1140" y2="700" stroke="#0f172a" stroke-width="1.5"/>
+    <g class="year-tick" text-anchor="middle">
+      <text x="120"  y="720">1970</text>
+      <text x="240"  y="720">1980</text>
+      <text x="360"  y="720">1990</text>
+      <text x="480"  y="720">2000</text>
+      <text x="600"  y="720">2005</text>
+      <text x="720"  y="720">2010</text>
+      <text x="840"  y="720">2015</text>
+      <text x="960"  y="720">2020</text>
+      <text x="1080" y="720">2025</text>
+    </g>
+    <g stroke="#e2e8f0">
+      <line x1="120" y1="100" x2="120" y2="700"/>
+      <line x1="240" y1="100" x2="240" y2="700"/>
+      <line x1="360" y1="100" x2="360" y2="700"/>
+      <line x1="480" y1="100" x2="480" y2="700"/>
+      <line x1="600" y1="100" x2="600" y2="700"/>
+      <line x1="720" y1="100" x2="720" y2="700"/>
+      <line x1="840" y1="100" x2="840" y2="700"/>
+      <line x1="960" y1="100" x2="960" y2="700"/>
+      <line x1="1080" y1="100" x2="1080" y2="700"/>
+    </g>
+  </g>
+
+  <!-- Lines (umbrella orgs). Curves with kinks at "stations". -->
+  <!-- ISO/IEC (deep blue) -->
+  <path class="line" stroke="#1d4ed8" d="M 120 130 L 360 130 L 600 170 L 1080 170"/>
+  <text x="100" y="134" class="line-label" fill="#1d4ed8" text-anchor="end">ISO/IEC</text>
+  <!-- stations: SQL 1986, ODBC 1992, JDBC 1997, MDX 1997, GQL 2024 -->
+  <g>
+    <circle cx="190" cy="130" r="8" fill="#fff" stroke="#1d4ed8" stroke-width="3"/>
+    <circle cx="190" cy="130" r="4" fill="#047857" class="station"/>
+    <text x="190" y="115" class="station-label" text-anchor="middle">SQL</text>
+
+    <circle cx="290" cy="130" r="8" fill="#fff" stroke="#1d4ed8" stroke-width="3"/>
+    <circle cx="290" cy="130" r="4" fill="#b91c1c" class="station"/>
+    <text x="290" y="115" class="station-label" text-anchor="middle">ODBC</text>
+
+    <circle cx="350" cy="130" r="8" fill="#fff" stroke="#1d4ed8" stroke-width="3"/>
+    <circle cx="350" cy="130" r="4" fill="#b45309" class="station"/>
+    <text x="350" y="115" class="station-label" text-anchor="middle">JDBC</text>
+
+    <circle cx="1058" cy="170" r="8" fill="#fff" stroke="#1d4ed8" stroke-width="3"/>
+    <circle cx="1058" cy="170" r="4" fill="#475569" class="station"/>
+    <text x="1058" y="190" class="station-label" text-anchor="middle">GQL</text>
+  </g>
+
+  <!-- W3C (purple) -->
+  <path class="line" stroke="#7c3aed" d="M 120 230 L 480 230 L 720 250 L 1080 250"/>
+  <text x="100" y="234" class="line-label" fill="#7c3aed" text-anchor="end">W3C</text>
+  <g>
+    <circle cx="280" cy="230" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+    <circle cx="280" cy="230" r="4" fill="#b91c1c" class="station"/>
+    <text x="280" y="215" class="station-label" text-anchor="middle">XML</text>
+
+    <circle cx="380" cy="230" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+    <circle cx="380" cy="230" r="4" fill="#b91c1c" class="station"/>
+    <text x="380" y="215" class="station-label" text-anchor="middle">XSLT</text>
+
+    <circle cx="450" cy="230" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+    <circle cx="450" cy="230" r="4" fill="#b91c1c" class="station"/>
+    <text x="450" y="215" class="station-label" text-anchor="middle">XML-Sch</text>
+
+    <circle cx="520" cy="230" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+    <circle cx="520" cy="230" r="4" fill="#047857" class="station"/>
+    <text x="520" y="215" class="station-label" text-anchor="middle">RDF/OWL</text>
+
+    <circle cx="700" cy="245" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+    <circle cx="700" cy="245" r="4" fill="#b45309" class="station"/>
+    <text x="700" y="265" class="station-label" text-anchor="middle">SKOS</text>
+
+    <circle cx="820" cy="250" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+    <circle cx="820" cy="250" r="4" fill="#047857" class="station"/>
+    <text x="820" y="265" class="station-label" text-anchor="middle">DCAT</text>
+
+    <circle cx="900" cy="250" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+    <circle cx="900" cy="250" r="4" fill="#047857" class="station"/>
+    <text x="900" y="235" class="station-label" text-anchor="middle">SHACL</text>
+
+    <circle cx="980" cy="250" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+    <circle cx="980" cy="250" r="4" fill="#b45309" class="station"/>
+    <text x="980" y="265" class="station-label" text-anchor="middle">JSON-LD</text>
+  </g>
+
+  <!-- Apache Software Foundation (red) -->
+  <path class="line" stroke="#dc2626" d="M 120 340 L 600 340 L 840 320 L 1080 320"/>
+  <text x="100" y="344" class="line-label" fill="#dc2626" text-anchor="end">ASF</text>
+  <g>
+    <circle cx="540" cy="340" r="8" fill="#fff" stroke="#dc2626" stroke-width="3"/>
+    <circle cx="540" cy="340" r="4" fill="#b91c1c" class="station"/>
+    <text x="540" y="325" class="station-label" text-anchor="middle">HDFS</text>
+
+    <circle cx="700" cy="335" r="8" fill="#fff" stroke="#dc2626" stroke-width="3"/>
+    <circle cx="700" cy="335" r="4" fill="#047857" class="station"/>
+    <text x="700" y="320" class="station-label" text-anchor="middle">Parquet</text>
+
+    <circle cx="740" cy="332" r="8" fill="#fff" stroke="#dc2626" stroke-width="3"/>
+    <circle cx="740" cy="332" r="4" fill="#b45309" class="station"/>
+    <text x="740" y="357" class="station-label" text-anchor="middle">ORC</text>
+
+    <circle cx="780" cy="328" r="8" fill="#fff" stroke="#dc2626" stroke-width="3"/>
+    <circle cx="780" cy="328" r="4" fill="#b45309" class="station"/>
+    <text x="780" y="313" class="station-label" text-anchor="middle">Spark</text>
+
+    <circle cx="820" cy="324" r="9" fill="#fff" stroke="#dc2626" stroke-width="3" class="pick"/>
+    <circle cx="820" cy="324" r="4" fill="#047857" class="station"/>
+    <text x="820" y="309" class="station-label" text-anchor="middle">Kafka 🏅</text>
+
+    <circle cx="900" cy="320" r="8" fill="#fff" stroke="#dc2626" stroke-width="3"/>
+    <circle cx="900" cy="320" r="4" fill="#047857" class="station"/>
+    <text x="900" y="305" class="station-label" text-anchor="middle">Arrow</text>
+
+    <circle cx="940" cy="320" r="9" fill="#fff" stroke="#dc2626" stroke-width="3" class="pick"/>
+    <circle cx="940" cy="320" r="4" fill="#047857" class="station"/>
+    <text x="940" y="305" class="station-label" text-anchor="middle">Iceberg 🏅</text>
+
+    <circle cx="980" cy="320" r="8" fill="#fff" stroke="#dc2626" stroke-width="3"/>
+    <circle cx="980" cy="320" r="4" fill="#b45309" class="station"/>
+    <text x="980" y="345" class="station-label" text-anchor="middle">Hudi</text>
+  </g>
+
+  <!-- Linux Foundation (orange) -->
+  <path class="line" stroke="#ea580c" d="M 120 430 L 740 430 L 900 420 L 1080 420"/>
+  <text x="100" y="434" class="line-label" fill="#ea580c" text-anchor="end">LF</text>
+  <g>
+    <circle cx="780" cy="428" r="8" fill="#fff" stroke="#ea580c" stroke-width="3"/>
+    <circle cx="780" cy="428" r="4" fill="#047857" class="station"/>
+    <text x="780" y="448" class="station-label" text-anchor="middle">OpenAPI</text>
+
+    <circle cx="860" cy="424" r="8" fill="#fff" stroke="#ea580c" stroke-width="3"/>
+    <circle cx="860" cy="424" r="4" fill="#b45309" class="station"/>
+    <text x="860" y="409" class="station-label" text-anchor="middle">AsyncAPI</text>
+
+    <circle cx="940" cy="420" r="8" fill="#fff" stroke="#ea580c" stroke-width="3"/>
+    <circle cx="940" cy="420" r="4" fill="#b45309" class="station"/>
+    <text x="940" y="405" class="station-label" text-anchor="middle">Delta</text>
+
+    <circle cx="980" cy="420" r="8" fill="#fff" stroke="#ea580c" stroke-width="3"/>
+    <circle cx="980" cy="420" r="4" fill="#b45309" class="station"/>
+    <text x="980" y="445" class="station-label" text-anchor="middle">UnityCat</text>
+
+    <circle cx="1020" cy="420" r="8" fill="#fff" stroke="#ea580c" stroke-width="3"/>
+    <circle cx="1020" cy="420" r="4" fill="#475569" class="station"/>
+    <text x="1020" y="405" class="station-label" text-anchor="middle">Substrait</text>
+  </g>
+
+  <!-- CNCF (cyan) -->
+  <path class="line" stroke="#0891b2" d="M 120 520 L 820 520 L 1080 510"/>
+  <text x="100" y="524" class="line-label" fill="#0891b2" text-anchor="end">CNCF</text>
+  <g>
+    <circle cx="900" cy="518" r="8" fill="#fff" stroke="#0891b2" stroke-width="3"/>
+    <circle cx="900" cy="518" r="4" fill="#047857" class="station"/>
+    <text x="900" y="503" class="station-label" text-anchor="middle">OpenTel.</text>
+
+    <circle cx="940" cy="514" r="8" fill="#fff" stroke="#0891b2" stroke-width="3"/>
+    <circle cx="940" cy="514" r="4" fill="#b45309" class="station"/>
+    <text x="940" y="535" class="station-label" text-anchor="middle">CloudEv.</text>
+
+    <circle cx="980" cy="513" r="8" fill="#fff" stroke="#0891b2" stroke-width="3"/>
+    <circle cx="980" cy="513" r="4" fill="#047857" class="station"/>
+    <text x="980" y="498" class="station-label" text-anchor="middle">gRPC</text>
+
+    <circle cx="1020" cy="511" r="9" fill="#fff" stroke="#0891b2" stroke-width="3" class="pick"/>
+    <circle cx="1020" cy="511" r="4" fill="#047857" class="station"/>
+    <text x="1020" y="535" class="station-label" text-anchor="middle">OpLineage 🏅</text>
+  </g>
+
+  <!-- BITOL (pink) -->
+  <path class="line" stroke="#db2777" d="M 120 600 L 960 600 L 1080 595"/>
+  <text x="100" y="604" class="line-label" fill="#db2777" text-anchor="end">BITOL</text>
+  <g>
+    <circle cx="990" cy="598" r="10" fill="#fff" stroke="#db2777" stroke-width="3" class="pick"/>
+    <circle cx="990" cy="598" r="4" fill="#047857" class="station"/>
+    <text x="990" y="582" class="station-label" text-anchor="middle">ODCS 🏅</text>
+
+    <circle cx="1030" cy="596" r="9" fill="#fff" stroke="#db2777" stroke-width="3" class="pick"/>
+    <circle cx="1030" cy="596" r="4" fill="#475569" class="station"/>
+    <text x="1030" y="615" class="station-label" text-anchor="middle">ODPS 🏅</text>
+
+    <circle cx="1070" cy="595" r="8" fill="#fff" stroke="#db2777" stroke-width="3"/>
+    <circle cx="1070" cy="595" r="4" fill="#475569" class="station"/>
+    <text x="1070" y="580" class="station-label" text-anchor="middle">OORS</text>
+  </g>
+
+  <!-- Interchange notes (annotations) -->
+  <g>
+    <text x="820" y="660" class="note" text-anchor="middle">↑ Kafka, Arrow, Iceberg cluster: the “lakehouse opening”.</text>
+    <line x1="820" y1="650" x2="940" y2="335" stroke="#94a3b8" stroke-dasharray="3 3"/>
+    <text x="1020" y="660" class="note" text-anchor="middle">↑ AI/contract wave 2020s</text>
+    <line x1="1020" y1="650" x2="1020" y2="540" stroke="#94a3b8" stroke-dasharray="3 3"/>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(40 750)">
+    <text x="0" y="0" class="title" style="font-size:14px">Station fill = judgement</text>
+    <g transform="translate(0 10)">
+      <circle cx="10" cy="10" r="5" fill="#047857" class="station"/><text x="22" y="14" class="legend-text">Adopt</text>
+      <circle cx="100" cy="10" r="5" fill="#b45309" class="station"/><text x="112" y="14" class="legend-text">Situational</text>
+      <circle cx="220" cy="10" r="5" fill="#475569" class="station"/><text x="232" y="14" class="legend-text">Assess</text>
+      <circle cx="310" cy="10" r="5" fill="#b91c1c" class="station"/><text x="322" y="14" class="legend-text">Caution</text>
+      <circle cx="410" cy="10" r="7" fill="#047857" class="station pick"/><text x="425" y="14" class="legend-text">Highlight pick</text>
+    </g>
+  </g>
+
+  <g transform="translate(700 750)">
+    <text x="0" y="0" class="title" style="font-size:14px">Why this view</text>
+    <text x="0" y="18" class="legend-text">• Tells the governance story — who steward what.</text>
+    <text x="0" y="36" class="legend-text">• Reveals where modern standards converge (LF/CNCF/BITOL at the right edge).</text>
+  </g>
+</svg>

@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" font-family="ui-sans-serif, system-ui, sans-serif">
+  <style>
+    .title { font-size: 22px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-size: 13px; fill: #475569; }
+    .axis-label { font-size: 11px; fill: #475569; }
+    .axis-tick { font-size: 10px; fill: #64748b; }
+    .lane-label { font-size: 12px; font-weight: 700; fill: #0f172a; }
+    .dot-label { font-size: 9px; fill: #0f172a; }
+    .legend-text { font-size: 12px; fill: #334155; }
+    .note { font-size: 11px; fill: #64748b; font-style: italic; }
+    .grid { stroke: #e2e8f0; stroke-width: 1; }
+    .lane-bg-even { fill: #f8fafc; }
+    .lane-bg-odd { fill: #f1f5f9; }
+    .dot { stroke: #fff; stroke-width: 1.2; }
+    .pick { stroke: #f59e0b; stroke-width: 2; }
+  </style>
+  <rect width="1200" height="820" fill="#ffffff"/>
+  <text x="40" y="40" class="title">3 — Chronological Lanes (Marey-style)</text>
+  <text x="40" y="60" class="subtitle">X = first-release year. Lane = category. Colour = judgement. Highlights the “new wave” of 2020–25 standards vs. legacy.</text>
+
+  <!-- Chart area: x = 80..1140, y = 100..680 ; 6 lanes of 80px each, +60 axis -->
+  <g transform="translate(0 0)">
+    <!-- lane backgrounds -->
+    <rect x="120" y="100" width="1000" height="80" class="lane-bg-even"/>
+    <rect x="120" y="180" width="1000" height="80" class="lane-bg-odd"/>
+    <rect x="120" y="260" width="1000" height="80" class="lane-bg-even"/>
+    <rect x="120" y="340" width="1000" height="80" class="lane-bg-odd"/>
+    <rect x="120" y="420" width="1000" height="80" class="lane-bg-even"/>
+    <rect x="120" y="500" width="1000" height="80" class="lane-bg-odd"/>
+
+    <!-- lane labels -->
+    <text x="112" y="145" class="lane-label" text-anchor="end">Definition</text>
+    <text x="112" y="225" class="lane-label" text-anchor="end">Storage</text>
+    <text x="112" y="305" class="lane-label" text-anchor="end">Movement</text>
+    <text x="112" y="385" class="lane-label" text-anchor="end">Transformation</text>
+    <text x="112" y="465" class="lane-label" text-anchor="end">Discovery</text>
+    <text x="112" y="545" class="lane-label" text-anchor="end">Operations</text>
+
+    <!-- vertical grid every decade -->
+    <g class="grid">
+      <line x1="120"  y1="100" x2="120"  y2="600"/>
+      <line x1="280"  y1="100" x2="280"  y2="600"/>
+      <line x1="440"  y1="100" x2="440"  y2="600"/>
+      <line x1="600"  y1="100" x2="600"  y2="600"/>
+      <line x1="760"  y1="100" x2="760"  y2="600"/>
+      <line x1="920"  y1="100" x2="920"  y2="600"/>
+      <line x1="1080" y1="100" x2="1080" y2="600"/>
+    </g>
+
+    <!-- axis -->
+    <line x1="120" y1="600" x2="1120" y2="600" stroke="#0f172a" stroke-width="1"/>
+    <text x="120"  y="620" class="axis-tick" text-anchor="middle">1970</text>
+    <text x="280"  y="620" class="axis-tick" text-anchor="middle">1980</text>
+    <text x="440"  y="620" class="axis-tick" text-anchor="middle">1990</text>
+    <text x="600"  y="620" class="axis-tick" text-anchor="middle">2000</text>
+    <text x="760"  y="620" class="axis-tick" text-anchor="middle">2010</text>
+    <text x="920"  y="620" class="axis-tick" text-anchor="middle">2020</text>
+    <text x="1080" y="620" class="axis-tick" text-anchor="middle">2026</text>
+    <text x="620" y="650" class="axis-label" text-anchor="middle">year first released →</text>
+
+    <!-- highlighted region: 2020-now (AI wave) -->
+    <rect x="920" y="100" width="200" height="500" fill="#fef3c7" opacity=".35"/>
+    <text x="1020" y="92" class="axis-tick" fill="#92400e" text-anchor="middle">⚡ new-wave standards</text>
+
+    <!-- DEFINITION lane (y ~140) -->
+    <g>
+      <circle cx="160" cy="135" r="5" fill="#b91c1c" class="dot"/><text x="160" y="125" class="dot-label" text-anchor="middle">XML</text>
+      <circle cx="612" cy="145" r="5" fill="#b91c1c" class="dot"/><text x="612" y="135" class="dot-label" text-anchor="middle">XML-Sch</text>
+      <circle cx="772" cy="140" r="5" fill="#047857" class="dot"/><text x="772" y="130" class="dot-label" text-anchor="middle">OpenAPI</text>
+      <circle cx="930" cy="160" r="5" fill="#047857" class="dot"/><text x="930" y="172" class="dot-label" text-anchor="middle">JSON-Sch</text>
+      <circle cx="978" cy="135" r="6" fill="#047857" class="dot pick"/><text x="978" y="125" class="dot-label" text-anchor="middle">ODCS</text>
+      <circle cx="1010" cy="160" r="5" fill="#b45309" class="dot"/><text x="1010" y="172" class="dot-label" text-anchor="middle">AsyncAPI</text>
+      <circle cx="1042" cy="140" r="5" fill="#475569" class="dot"/><text x="1042" y="130" class="dot-label" text-anchor="middle">LinkML</text>
+    </g>
+
+    <!-- STORAGE lane (y ~220) -->
+    <g>
+      <circle cx="370" cy="220" r="5" fill="#b91c1c" class="dot"/><text x="370" y="210" class="dot-label" text-anchor="middle">HDFS</text>
+      <circle cx="725" cy="225" r="5" fill="#047857" class="dot"/><text x="725" y="215" class="dot-label" text-anchor="middle">Parquet</text>
+      <circle cx="745" cy="245" r="5" fill="#b45309" class="dot"/><text x="745" y="258" class="dot-label" text-anchor="middle">ORC</text>
+      <circle cx="900" cy="220" r="6" fill="#047857" class="dot pick"/><text x="900" y="210" class="dot-label" text-anchor="middle">Iceberg</text>
+      <circle cx="920" cy="245" r="5" fill="#b45309" class="dot"/><text x="920" y="258" class="dot-label" text-anchor="middle">Delta</text>
+      <circle cx="1050" cy="220" r="5" fill="#475569" class="dot"/><text x="1050" y="210" class="dot-label" text-anchor="middle">DuckLake</text>
+      <circle cx="1080" cy="245" r="5" fill="#475569" class="dot"/><text x="1080" y="258" class="dot-label" text-anchor="middle">Lance</text>
+    </g>
+
+    <!-- MOVEMENT lane (y ~300) -->
+    <g>
+      <circle cx="140" cy="305" r="5" fill="#b91c1c" class="dot"/><text x="140" y="295" class="dot-label" text-anchor="middle">FTP</text>
+      <circle cx="375" cy="300" r="5" fill="#047857" class="dot"/><text x="375" y="290" class="dot-label" text-anchor="middle">HTTP</text>
+      <circle cx="640" cy="320" r="5" fill="#b45309" class="dot"/><text x="640" y="333" class="dot-label" text-anchor="middle">AMQP</text>
+      <circle cx="720" cy="300" r="6" fill="#047857" class="dot"/><text x="720" y="290" class="dot-label" text-anchor="middle">MQTT</text>
+      <circle cx="852" cy="305" r="6" fill="#047857" class="dot"/><text x="852" y="295" class="dot-label" text-anchor="middle">Kafka</text>
+      <circle cx="990" cy="320" r="5" fill="#b45309" class="dot"/><text x="990" y="333" class="dot-label" text-anchor="middle">CloudEv.</text>
+      <circle cx="1080" cy="300" r="6" fill="#475569" class="dot"/><text x="1080" y="290" class="dot-label" text-anchor="middle">MCP/A2A</text>
+    </g>
+
+    <!-- TRANSFORMATION lane (y ~380) -->
+    <g>
+      <circle cx="585" cy="385" r="5" fill="#b91c1c" class="dot"/><text x="585" y="375" class="dot-label" text-anchor="middle">XSLT</text>
+      <circle cx="820" cy="385" r="5" fill="#b45309" class="dot"/><text x="820" y="375" class="dot-label" text-anchor="middle">Spark</text>
+      <circle cx="868" cy="400" r="5" fill="#047857" class="dot"/><text x="868" y="413" class="dot-label" text-anchor="middle">pandas</text>
+      <circle cx="900" cy="385" r="6" fill="#047857" class="dot pick"/><text x="900" y="375" class="dot-label" text-anchor="middle">dbt</text>
+      <circle cx="935" cy="400" r="5" fill="#047857" class="dot"/><text x="935" y="413" class="dot-label" text-anchor="middle">Arrow</text>
+      <circle cx="1020" cy="385" r="5" fill="#475569" class="dot"/><text x="1020" y="375" class="dot-label" text-anchor="middle">Substrait</text>
+    </g>
+
+    <!-- DISCOVERY lane (y ~460) -->
+    <g>
+      <circle cx="612" cy="465" r="5" fill="#b91c1c" class="dot"/><text x="612" y="455" class="dot-label" text-anchor="middle">RDF/OWL</text>
+      <circle cx="700" cy="480" r="5" fill="#b45309" class="dot"/><text x="700" y="493" class="dot-label" text-anchor="middle">SKOS</text>
+      <circle cx="745" cy="465" r="5" fill="#b91c1c" class="dot"/><text x="745" y="455" class="dot-label" text-anchor="middle">Hive MS</text>
+      <circle cx="945" cy="465" r="5" fill="#047857" class="dot"/><text x="945" y="455" class="dot-label" text-anchor="middle">OpenLineage</text>
+      <circle cx="980" cy="480" r="5" fill="#b45309" class="dot"/><text x="980" y="493" class="dot-label" text-anchor="middle">Unity Cat.</text>
+      <circle cx="1015" cy="465" r="5" fill="#475569" class="dot"/><text x="1015" y="455" class="dot-label" text-anchor="middle">DPROD</text>
+      <circle cx="1060" cy="480" r="6" fill="#475569" class="dot pick"/><text x="1060" y="493" class="dot-label" text-anchor="middle">OSI</text>
+    </g>
+
+    <!-- OPERATIONS lane (y ~540) -->
+    <g>
+      <circle cx="370" cy="545" r="6" fill="#047857" class="dot"/><text x="370" y="535" class="dot-label" text-anchor="middle">SQL</text>
+      <circle cx="430" cy="560" r="5" fill="#b91c1c" class="dot"/><text x="430" y="573" class="dot-label" text-anchor="middle">ODBC</text>
+      <circle cx="465" cy="545" r="5" fill="#b45309" class="dot"/><text x="465" y="535" class="dot-label" text-anchor="middle">JDBC</text>
+      <circle cx="555" cy="560" r="5" fill="#b91c1c" class="dot"/><text x="555" y="573" class="dot-label" text-anchor="middle">MDX</text>
+      <circle cx="922" cy="545" r="5" fill="#047857" class="dot"/><text x="922" y="535" class="dot-label" text-anchor="middle">OpenTel.</text>
+      <circle cx="1060" cy="545" r="5" fill="#475569" class="dot"/><text x="1060" y="535" class="dot-label" text-anchor="middle">GQL</text>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(40 685)">
+    <text x="0" y="0" class="title" style="font-size:14px">Judgement</text>
+    <g transform="translate(0 12)">
+      <circle cx="10" cy="10" r="6" fill="#047857" class="dot"/><text x="22" y="14" class="legend-text">Adopt</text>
+      <circle cx="100" cy="10" r="6" fill="#b45309" class="dot"/><text x="112" y="14" class="legend-text">Situational</text>
+      <circle cx="220" cy="10" r="6" fill="#475569" class="dot"/><text x="232" y="14" class="legend-text">Assess</text>
+      <circle cx="310" cy="10" r="6" fill="#b91c1c" class="dot"/><text x="322" y="14" class="legend-text">Caution</text>
+      <circle cx="400" cy="10" r="7" fill="#047857" class="dot pick"/><text x="412" y="14" class="legend-text">Highlight pick (gold halo)</text>
+    </g>
+  </g>
+
+  <g transform="translate(700 685)">
+    <text x="0" y="0" class="title" style="font-size:14px">Why this view</text>
+    <text x="0" y="18" class="legend-text">• Tells the story: legacy → modern → AI-era (left → right).</text>
+    <text x="0" y="36" class="legend-text">• Adopt/Caution stripes appear naturally — old red, new green.</text>
+    <text x="0" y="54" class="legend-text">• Works on mobile (vertical scroll of 6 lanes). No labels collide if jittered above/below.</text>
+  </g>
+
+  <text x="40" y="790" class="note">Sketch — illustrative. Real chart uses force-directed Y-jitter inside each lane to avoid overlapping dots, with click-to-zoom on decades.</text>
+</svg>

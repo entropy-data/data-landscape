@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" font-family="ui-sans-serif, system-ui, sans-serif">
+  <style>
+    .title { font-size: 22px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-size: 13px; fill: #475569; }
+    .col-header { font-size: 13px; font-weight: 700; fill: #fff; }
+    .row-header { font-size: 13px; font-weight: 700; fill: #0f172a; }
+    .row-blurb  { font-size: 10px; fill: #64748b; }
+    .chip-label { font-size: 9px; font-weight: 600; fill: #0f172a; }
+    .legend-text { font-size: 12px; fill: #334155; }
+    .note { font-size: 11px; fill: #64748b; font-style: italic; }
+    .chip { stroke: #fff; stroke-width: 1.2; rx: 4; ry: 4; }
+    .pick { stroke: #f59e0b; stroke-width: 2; }
+  </style>
+  <rect width="1200" height="820" fill="#ffffff"/>
+  <text x="40" y="40" class="title">5 — Category × Judgement Matrix</text>
+  <text x="40" y="60" class="subtitle">6 rows (category) × 4 columns (judgement). Cell shows logos/chips. Density tells the maturity story per row.</text>
+
+  <!-- Column headers -->
+  <g transform="translate(220 90)">
+    <rect x="0"   y="0" width="220" height="36" fill="#047857"/>
+    <text x="110" y="23" class="col-header" text-anchor="middle">ADOPT</text>
+    <rect x="225" y="0" width="220" height="36" fill="#b45309"/>
+    <text x="335" y="23" class="col-header" text-anchor="middle">SITUATIONAL</text>
+    <rect x="450" y="0" width="220" height="36" fill="#64748b"/>
+    <text x="560" y="23" class="col-header" text-anchor="middle">ASSESS</text>
+    <rect x="675" y="0" width="220" height="36" fill="#b91c1c"/>
+    <text x="785" y="23" class="col-header" text-anchor="middle">CAUTION</text>
+  </g>
+
+  <!-- 6 rows -->
+  <!-- row template at y = 140, 240, 340, 440, 540, 640 -->
+  <g font-family="ui-sans-serif, system-ui, sans-serif">
+
+    <!-- DEFINITION -->
+    <rect x="40" y="140" width="170" height="90" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="56" y="170" class="row-header">Definition</text>
+    <text x="56" y="188" class="row-blurb">how data is described</text>
+    <text x="56" y="208" class="row-blurb">10 standards</text>
+
+    <g transform="translate(225 150)">
+      <!-- adopt cell -->
+      <rect width="215" height="70" fill="#ecfdf5"/>
+      <rect class="chip pick" x="8"  y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="40" y="25" text-anchor="middle">ODCS 🏅</text>
+      <rect class="chip"      x="76" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="108" y="25" text-anchor="middle">OpenAPI</text>
+      <rect class="chip"      x="144" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="176" y="25" text-anchor="middle">JSON-Sch</text>
+      <rect class="chip"      x="8"  y="38" width="64" height="22" fill="#fff"/><text class="chip-label" x="40" y="53" text-anchor="middle">YAML</text>
+      <!-- situational -->
+      <rect x="225" width="215" height="70" fill="#fffbeb"/>
+      <rect class="chip" x="233" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="265" y="25" text-anchor="middle">AsyncAPI</text>
+      <rect class="chip" x="301" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="333" y="25" text-anchor="middle">GraphQL</text>
+      <rect class="chip" x="369" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="401" y="25" text-anchor="middle">SQL-DDL</text>
+      <!-- assess -->
+      <rect x="450" width="215" height="70" fill="#f8fafc"/>
+      <rect class="chip" x="458" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="490" y="25" text-anchor="middle">LinkML</text>
+      <rect class="chip" x="526" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="558" y="25" text-anchor="middle">Protobuf</text>
+      <!-- caution -->
+      <rect x="675" width="215" height="70" fill="#fef2f2"/>
+      <rect class="chip" x="683" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="715" y="25" text-anchor="middle">XML-Sch</text>
+      <rect class="chip" x="751" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="783" y="25" text-anchor="middle">AVRO-Sch</text>
+    </g>
+
+    <!-- STORAGE -->
+    <rect x="40" y="240" width="170" height="90" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="56" y="270" class="row-header">Storage</text>
+    <text x="56" y="288" class="row-blurb">where data lives</text>
+    <text x="56" y="308" class="row-blurb">12 standards</text>
+
+    <g transform="translate(225 250)">
+      <rect width="215" height="70" fill="#ecfdf5"/>
+      <rect class="chip pick" x="8" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="40" y="25" text-anchor="middle">Iceberg 🏅</text>
+      <rect class="chip"      x="76" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="108" y="25" text-anchor="middle">Parquet</text>
+      <rect class="chip"      x="144" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="176" y="25" text-anchor="middle">S3</text>
+      <rect class="chip"      x="8" y="38" width="64" height="22" fill="#fff"/><text class="chip-label" x="40" y="53" text-anchor="middle">JDBC</text>
+      <rect x="225" width="215" height="70" fill="#fffbeb"/>
+      <rect class="chip" x="233" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="265" y="25" text-anchor="middle">Delta</text>
+      <rect class="chip" x="301" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="333" y="25" text-anchor="middle">Hudi</text>
+      <rect class="chip" x="369" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="401" y="25" text-anchor="middle">ORC</text>
+      <rect x="450" width="215" height="70" fill="#f8fafc"/>
+      <rect class="chip" x="458" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="490" y="25" text-anchor="middle">DuckLake</text>
+      <rect class="chip" x="526" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="558" y="25" text-anchor="middle">Lance</text>
+      <rect x="675" width="215" height="70" fill="#fef2f2"/>
+      <rect class="chip" x="683" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="715" y="25" text-anchor="middle">HDFS</text>
+    </g>
+
+    <!-- MOVEMENT -->
+    <rect x="40" y="340" width="170" height="90" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="56" y="370" class="row-header">Movement</text>
+    <text x="56" y="388" class="row-blurb">how data flows</text>
+    <text x="56" y="408" class="row-blurb">14 standards</text>
+
+    <g transform="translate(225 350)">
+      <rect width="215" height="70" fill="#ecfdf5"/>
+      <rect class="chip" x="8" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="40" y="25" text-anchor="middle">HTTP</text>
+      <rect class="chip" x="76" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="108" y="25" text-anchor="middle">Kafka</text>
+      <rect class="chip" x="144" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="176" y="25" text-anchor="middle">MQTT</text>
+      <rect class="chip pick" x="8" y="38" width="64" height="22" fill="#fff"/><text class="chip-label" x="40" y="53" text-anchor="middle">gRPC 🏅</text>
+      <rect x="225" width="215" height="70" fill="#fffbeb"/>
+      <rect class="chip" x="233" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="265" y="25" text-anchor="middle">CloudEv</text>
+      <rect class="chip" x="301" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="333" y="25" text-anchor="middle">AMQP</text>
+      <rect class="chip" x="369" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="401" y="25" text-anchor="middle">DeltaShr</text>
+      <rect x="450" width="215" height="70" fill="#f8fafc"/>
+      <rect class="chip" x="458" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="490" y="25" text-anchor="middle">MCP</text>
+      <rect class="chip" x="526" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="558" y="25" text-anchor="middle">A2A</text>
+      <rect x="675" width="215" height="70" fill="#fef2f2"/>
+      <rect class="chip" x="683" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="715" y="25" text-anchor="middle">FTP/SFTP</text>
+      <rect class="chip" x="751" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="783" y="25" text-anchor="middle">JMS</text>
+    </g>
+
+    <!-- TRANSFORMATION -->
+    <rect x="40" y="440" width="170" height="90" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="56" y="470" class="row-header">Transformation</text>
+    <text x="56" y="488" class="row-blurb">how data is reshaped</text>
+    <text x="56" y="508" class="row-blurb">10 standards</text>
+
+    <g transform="translate(225 450)">
+      <rect width="215" height="70" fill="#ecfdf5"/>
+      <rect class="chip pick" x="8" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="40" y="25" text-anchor="middle">dbt 🏅</text>
+      <rect class="chip"      x="76" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="108" y="25" text-anchor="middle">Arrow</text>
+      <rect class="chip"      x="144" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="176" y="25" text-anchor="middle">pandas</text>
+      <rect x="225" width="215" height="70" fill="#fffbeb"/>
+      <rect class="chip" x="233" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="265" y="25" text-anchor="middle">Spark</text>
+      <rect class="chip" x="301" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="333" y="25" text-anchor="middle">Ibis</text>
+      <rect class="chip" x="369" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="401" y="25" text-anchor="middle">Beam</text>
+      <rect x="450" width="215" height="70" fill="#f8fafc"/>
+      <rect class="chip" x="458" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="490" y="25" text-anchor="middle">Substrait</text>
+      <rect class="chip" x="526" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="558" y="25" text-anchor="middle">DF-API</text>
+      <rect x="675" width="215" height="70" fill="#fef2f2"/>
+      <rect class="chip" x="683" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="715" y="25" text-anchor="middle">XSLT</text>
+    </g>
+
+    <!-- DISCOVERY -->
+    <rect x="40" y="540" width="170" height="90" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="56" y="570" class="row-header">Discovery</text>
+    <text x="56" y="588" class="row-blurb">how data is found</text>
+    <text x="56" y="608" class="row-blurb">16 standards</text>
+
+    <g transform="translate(225 550)">
+      <rect width="215" height="70" fill="#ecfdf5"/>
+      <rect class="chip pick" x="8" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="40" y="25" text-anchor="middle">OpLineage 🏅</text>
+      <rect class="chip"      x="76" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="108" y="25" text-anchor="middle">DCAT</text>
+      <rect class="chip"      x="144" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="176" y="25" text-anchor="middle">RDF/OWL</text>
+      <rect x="225" width="215" height="70" fill="#fffbeb"/>
+      <rect class="chip" x="233" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="265" y="25" text-anchor="middle">UnityCat</text>
+      <rect class="chip" x="301" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="333" y="25" text-anchor="middle">SchReg</text>
+      <rect class="chip" x="369" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="401" y="25" text-anchor="middle">SKOS</text>
+      <rect x="450" width="215" height="70" fill="#f8fafc"/>
+      <rect class="chip" x="458" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="490" y="25" text-anchor="middle">DPROD</text>
+      <rect class="chip" x="526" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="558" y="25" text-anchor="middle">OSI</text>
+      <rect class="chip" x="594" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="626" y="25" text-anchor="middle">ODPS</text>
+      <rect x="675" width="215" height="70" fill="#fef2f2"/>
+      <rect class="chip" x="683" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="715" y="25" text-anchor="middle">HiveMS</text>
+    </g>
+
+    <!-- OPERATIONS -->
+    <rect x="40" y="640" width="170" height="90" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="56" y="670" class="row-header">Operations</text>
+    <text x="56" y="688" class="row-blurb">query · observe · govern</text>
+    <text x="56" y="708" class="row-blurb">12 standards</text>
+
+    <g transform="translate(225 650)">
+      <rect width="215" height="70" fill="#ecfdf5"/>
+      <rect class="chip" x="8" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="40" y="25" text-anchor="middle">SQL</text>
+      <rect class="chip" x="76" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="108" y="25" text-anchor="middle">OpenTel</text>
+      <rect class="chip" x="144" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="176" y="25" text-anchor="middle">OPA</text>
+      <rect x="225" width="215" height="70" fill="#fffbeb"/>
+      <rect class="chip" x="233" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="265" y="25" text-anchor="middle">JDBC</text>
+      <rect class="chip" x="301" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="333" y="25" text-anchor="middle">SPARQL</text>
+      <rect class="chip" x="369" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="401" y="25" text-anchor="middle">OData</text>
+      <rect x="450" width="215" height="70" fill="#f8fafc"/>
+      <rect class="chip" x="458" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="490" y="25" text-anchor="middle">GQL</text>
+      <rect class="chip" x="526" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="558" y="25" text-anchor="middle">ADBC</text>
+      <rect class="chip" x="594" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="626" y="25" text-anchor="middle">OORS</text>
+      <rect x="675" width="215" height="70" fill="#fef2f2"/>
+      <rect class="chip" x="683" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="715" y="25" text-anchor="middle">MDX</text>
+      <rect class="chip" x="751" y="10" width="64" height="22" fill="#fff"/><text class="chip-label" x="783" y="25" text-anchor="middle">XMLA</text>
+      <rect class="chip" x="683" y="38" width="64" height="22" fill="#fff"/><text class="chip-label" x="715" y="53" text-anchor="middle">ODBC</text>
+    </g>
+  </g>
+
+  <!-- Right-side notes -->
+  <g transform="translate(950 90)">
+    <text x="0" y="0" class="title" style="font-size:14px">Why this view</text>
+    <text x="0" y="20" class="legend-text">• Most “matter-of-fact” &amp; printable.</text>
+    <text x="0" y="38" class="legend-text">• Easy to spot empty cells = gaps.</text>
+    <text x="0" y="56" class="legend-text">• Same axes as the toolbar filters →</text>
+    <text x="0" y="74" class="legend-text">  filtering is a sub-grid.</text>
+    <text x="0" y="100" class="title" style="font-size:14px">Trade-offs</text>
+    <text x="0" y="120" class="legend-text">• Boring relative to a radar.</text>
+    <text x="0" y="138" class="legend-text">• Wide categories (Discovery,</text>
+    <text x="0" y="156" class="legend-text">  Movement) overflow horizontally.</text>
+    <text x="0" y="184" class="title" style="font-size:14px">Variant</text>
+    <text x="0" y="204" class="legend-text">• Make each chip a logo tile;</text>
+    <text x="0" y="222" class="legend-text">  use the existing tile component.</text>
+    <text x="0" y="240" class="legend-text">• Effectively a re-pivot of the</text>
+    <text x="0" y="258" class="legend-text">  current Landscape view.</text>
+  </g>
+
+  <text x="40" y="790" class="note">Sketch — counts &amp; chip placement illustrative. Real version pivots `tilesByCategory` × `tilesByJudgement`.</text>
+</svg>

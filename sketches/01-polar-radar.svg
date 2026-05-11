@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" font-family="ui-sans-serif, system-ui, sans-serif">
+  <style>
+    .title { font-size: 22px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-size: 13px; fill: #475569; }
+    .ring-label { font-size: 11px; font-weight: 600; fill: #fff; letter-spacing: .08em; }
+    .sector-label { font-size: 13px; font-weight: 700; fill: #0f172a; }
+    .dot-label { font-size: 9px; fill: #0f172a; }
+    .legend-text { font-size: 12px; fill: #334155; }
+    .note { font-size: 11px; fill: #64748b; font-style: italic; }
+    .axis { stroke: #cbd5e1; stroke-width: 1; }
+    .dot { stroke: #fff; stroke-width: 1.2; }
+    .pick { stroke: #f59e0b; stroke-width: 2; }
+  </style>
+
+  <rect width="1200" height="820" fill="#f8fafc"/>
+  <text x="40" y="40" class="title">1 — Classic Polar Radar</text>
+  <text x="40" y="60" class="subtitle">Rings = judgement (Adopt at centre). Sectors = category. Dot = standard. Halo = Entropy pick.</text>
+
+  <!-- Radar -->
+  <g transform="translate(440 430)">
+    <!-- rings -->
+    <circle r="320" fill="#fef2f2"/>
+    <circle r="240" fill="#f1f5f9"/>
+    <circle r="160" fill="#fffbeb"/>
+    <circle r="80"  fill="#ecfdf5"/>
+
+    <!-- sector dividers (6 categories) -->
+    <g class="axis">
+      <line x1="0" y1="0" x2="320" y2="0"/>
+      <line x1="0" y1="0" x2="160" y2="277.13"/>
+      <line x1="0" y1="0" x2="-160" y2="277.13"/>
+      <line x1="0" y1="0" x2="-320" y2="0"/>
+      <line x1="0" y1="0" x2="-160" y2="-277.13"/>
+      <line x1="0" y1="0" x2="160" y2="-277.13"/>
+    </g>
+
+    <!-- ring labels -->
+    <text x="0" y="-72"  class="ring-label" text-anchor="middle" fill="#047857">ADOPT</text>
+    <text x="0" y="-152" class="ring-label" text-anchor="middle" fill="#b45309">SITUATIONAL</text>
+    <text x="0" y="-232" class="ring-label" text-anchor="middle" fill="#475569">ASSESS</text>
+    <text x="0" y="-312" class="ring-label" text-anchor="middle" fill="#b91c1c">CAUTION</text>
+
+    <!-- sector labels (rotated tangent) -->
+    <text x="230"   y="-150" class="sector-label" text-anchor="middle">Definition</text>
+    <text x="270"   y="160"  class="sector-label" text-anchor="middle">Storage</text>
+    <text x="0"     y="345"  class="sector-label" text-anchor="middle">Movement</text>
+    <text x="-270"  y="160"  class="sector-label" text-anchor="middle">Transformation</text>
+    <text x="-280"  y="-150" class="sector-label" text-anchor="middle">Discovery</text>
+    <text x="0"     y="-340" class="sector-label" text-anchor="middle">Operations</text>
+
+    <!-- sample dots -->
+    <!-- Definition (top-right sector) -->
+    <g>
+      <circle cx="55" cy="-35" r="6" fill="#047857" class="dot pick"/>
+      <text x="65" y="-32" class="dot-label">ODCS</text>
+      <circle cx="95" cy="-70" r="5" fill="#047857" class="dot"/>
+      <text x="105" y="-67" class="dot-label">OpenAPI</text>
+      <circle cx="130" cy="-100" r="5" fill="#b45309" class="dot"/>
+      <text x="138" y="-97" class="dot-label">AsyncAPI</text>
+      <circle cx="180" cy="-150" r="5" fill="#475569" class="dot"/>
+      <text x="188" y="-147" class="dot-label">LinkML</text>
+      <circle cx="240" cy="-50" r="5" fill="#b91c1c" class="dot"/>
+      <text x="248" y="-47" class="dot-label">XML Schema</text>
+    </g>
+
+    <!-- Storage (right-bottom sector) -->
+    <g>
+      <circle cx="60" cy="40" r="6" fill="#047857" class="dot pick"/>
+      <text x="68" y="43" class="dot-label">Iceberg</text>
+      <circle cx="100" cy="80" r="5" fill="#047857" class="dot"/>
+      <text x="108" y="83" class="dot-label">Parquet</text>
+      <circle cx="135" cy="130" r="5" fill="#b45309" class="dot"/>
+      <text x="143" y="133" class="dot-label">Delta</text>
+      <circle cx="190" cy="180" r="5" fill="#475569" class="dot"/>
+      <text x="198" y="183" class="dot-label">DuckLake</text>
+      <circle cx="240" cy="70"  r="5" fill="#b91c1c" class="dot"/>
+      <text x="248" y="73" class="dot-label">HDFS</text>
+    </g>
+
+    <!-- Movement (bottom sector) -->
+    <g>
+      <circle cx="-20" cy="65" r="6" fill="#047857" class="dot"/>
+      <text x="-50" y="80" class="dot-label">HTTP</text>
+      <circle cx="20"  cy="95" r="5" fill="#047857" class="dot"/>
+      <text x="28" y="98" class="dot-label">Kafka</text>
+      <circle cx="-30" cy="160" r="5" fill="#b45309" class="dot"/>
+      <text x="-90" y="163" class="dot-label">CloudEvents</text>
+      <circle cx="50"  cy="200" r="5" fill="#475569" class="dot"/>
+      <text x="58" y="203" class="dot-label">MCP</text>
+      <circle cx="-40" cy="265" r="5" fill="#b91c1c" class="dot"/>
+      <text x="-110" y="268" class="dot-label">FTP/SFTP</text>
+    </g>
+
+    <!-- Transformation (bottom-left sector) -->
+    <g>
+      <circle cx="-65" cy="40" r="6" fill="#047857" class="dot pick"/>
+      <text x="-105" y="43" class="dot-label">dbt</text>
+      <circle cx="-100" cy="85" r="5" fill="#047857" class="dot"/>
+      <text x="-145" y="88" class="dot-label">Arrow</text>
+      <circle cx="-140" cy="120" r="5" fill="#b45309" class="dot"/>
+      <text x="-185" y="123" class="dot-label">Spark</text>
+      <circle cx="-180" cy="170" r="5" fill="#475569" class="dot"/>
+      <text x="-220" y="173" class="dot-label">Substrait</text>
+      <circle cx="-240" cy="70" r="5" fill="#b91c1c" class="dot"/>
+      <text x="-300" y="73" class="dot-label">XSLT</text>
+    </g>
+
+    <!-- Discovery (top-left sector) -->
+    <g>
+      <circle cx="-55" cy="-40" r="6" fill="#047857" class="dot"/>
+      <text x="-115" y="-37" class="dot-label">OpenLineage</text>
+      <circle cx="-100" cy="-70" r="5" fill="#047857" class="dot"/>
+      <text x="-150" y="-67" class="dot-label">DCAT</text>
+      <circle cx="-130" cy="-110" r="5" fill="#b45309" class="dot"/>
+      <text x="-180" y="-107" class="dot-label">DPROD</text>
+      <circle cx="-190" cy="-150" r="5" fill="#475569" class="dot"/>
+      <text x="-240" y="-147" class="dot-label">OSI</text>
+      <circle cx="-260" cy="-60" r="5" fill="#b91c1c" class="dot"/>
+      <text x="-310" y="-57" class="dot-label">Hive MS</text>
+    </g>
+
+    <!-- Operations (top sector) -->
+    <g>
+      <circle cx="20"  cy="-65" r="6" fill="#047857" class="dot"/>
+      <text x="28" y="-62" class="dot-label">SQL</text>
+      <circle cx="-20" cy="-95" r="5" fill="#047857" class="dot"/>
+      <text x="-65" y="-92" class="dot-label">OpenTel.</text>
+      <circle cx="30"  cy="-145" r="5" fill="#b45309" class="dot"/>
+      <text x="38" y="-142" class="dot-label">JDBC</text>
+      <circle cx="-30" cy="-200" r="5" fill="#475569" class="dot"/>
+      <text x="-95" y="-197" class="dot-label">GQL</text>
+      <circle cx="40"  cy="-265" r="5" fill="#b91c1c" class="dot"/>
+      <text x="48" y="-262" class="dot-label">MDX</text>
+    </g>
+  </g>
+
+  <!-- Legend / notes -->
+  <g transform="translate(840 120)">
+    <text x="0" y="0" class="title" style="font-size:16px">Legend</text>
+    <g transform="translate(0 18)">
+      <circle cx="10" cy="10" r="7" fill="#047857" class="dot"/><text x="26" y="14" class="legend-text">Adopt</text>
+      <circle cx="10" cy="34" r="7" fill="#b45309" class="dot"/><text x="26" y="38" class="legend-text">Situational</text>
+      <circle cx="10" cy="58" r="7" fill="#475569" class="dot"/><text x="26" y="62" class="legend-text">Assess</text>
+      <circle cx="10" cy="82" r="7" fill="#b91c1c" class="dot"/><text x="26" y="86" class="legend-text">Caution</text>
+      <circle cx="10" cy="112" r="7" fill="#047857" class="dot pick"/><text x="26" y="116" class="legend-text">Highlighted pick (gold halo)</text>
+    </g>
+
+    <text x="0" y="170" class="title" style="font-size:16px">Strengths</text>
+    <text x="0" y="192" class="legend-text">• Familiar (ThoughtWorks-style) — instantly readable.</text>
+    <text x="0" y="210" class="legend-text">• Two dimensions at a glance: category + maturity.</text>
+    <text x="0" y="228" class="legend-text">• Halo / colour easily encode picks &amp; tier.</text>
+
+    <text x="0" y="262" class="title" style="font-size:16px">Trade-offs</text>
+    <text x="0" y="284" class="legend-text">• ~80 dots → crowded; needs jittering or zoom.</text>
+    <text x="0" y="302" class="legend-text">• Logos don’t fit at this scale — labels only.</text>
+    <text x="0" y="320" class="legend-text">• Sector size doesn’t reflect category density.</text>
+
+    <text x="0" y="360" class="title" style="font-size:16px">Interactions</text>
+    <text x="0" y="382" class="legend-text">• Hover sector → fade others.</text>
+    <text x="0" y="400" class="legend-text">• Click ring label → filter to that judgement.</text>
+    <text x="0" y="418" class="legend-text">• Click dot → open standard panel.</text>
+  </g>
+
+  <text x="40" y="790" class="note">Sketch — positions are illustrative; real layout would use force-directed jitter within each (ring, sector) cell to avoid overlap.</text>
+</svg>
