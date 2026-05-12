@@ -462,8 +462,10 @@
     .judgement-situational { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
     .judgement-assess      { background: #f3f4f6; color: #374151; border: 1px solid #d1d5db; }
     .judgement-caution     { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
-    .standardization-institution { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
-    .standardization-vendor-led  { background: #fafafa; color: #6b7280; border: 1px dashed #d1d5db; }
+    .standardization-formal-standard { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
+    .standardization-foundation      { background: #ecfeff; color: #155e75; border: 1px solid #a5f3fc; }
+    .standardization-community       { background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; }
+    .standardization-vendor-led      { background: #fafafa; color: #6b7280; border: 1px dashed #d1d5db; }
 
     /* Filter dimming */
     .item.item-dim {
@@ -2174,8 +2176,8 @@
           <template x-if="selected?.standardization">
             <span class="tier-badge"
                   :class="'standardization-' + selected.standardization"
-                  x-text="selected.standardization === 'vendor-led' ? 'Vendor-led' : 'Institution'"
-                  :title="selected.standardization === 'vendor-led' ? 'Governance is effectively controlled by a single vendor' : 'Governed by an independent institution, foundation, or working group'"></span>
+                  x-text="standardizationLabel(selected.standardization)"
+                  :title="standardizationTitle(selected.standardization)"></span>
           </template>
           <template x-if="selected?.governance">
             <span class="fact-badge" x-text="selected.governance"></span>
@@ -2521,6 +2523,22 @@
       },
       get orgIsVendor() {
         return this.selected?.vendor === true;
+      },
+      standardizationLabel(s) {
+        return ({
+          'formal-standard': 'Formal standard',
+          'foundation': 'Foundation',
+          'community': 'Community',
+          'vendor-led': 'Vendor-led',
+        })[s] || s;
+      },
+      standardizationTitle(s) {
+        return ({
+          'formal-standard': 'De-jure standard ratified by a formal standards body (ISO, W3C, IETF, OASIS, OMG, JCP)',
+          'foundation': 'Hosted by a neutral open-source foundation (LF, ASF, CNCF, BITOL)',
+          'community': 'Independent, multi-vendor community project — no single vendor or formal body',
+          'vendor-led': 'Governance is effectively controlled by a single vendor',
+        })[s] || '';
       },
     };
   }
