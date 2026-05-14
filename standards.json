@@ -403,7 +403,7 @@
       "YAML standard for describing data products. Mirrors ODCS on fundamentals, ownership, and terms, and adds input ports, output ports, and management ports.",
       "Each port references an ODCS contract. Combined, ODCS + ODPS yield the full data-mesh dependency graph — consumers, products, sources — derived directly from YAML."
     ],
-    "note": "Acronym collision: \"ODPS\" also names the Open Data Product Specification (ODPSpec), a separate project. Watch which one you read.",
+    "note": "Acronym collision: \"ODPS\" is also used for the Open Data Product Specification, a separate LF project. Both display as ODPS here — disambiguate by governance (BITOL vs opendataproducts.org).",
     "links": [
       {
         "label": "GitHub: open-data-product-standard",
@@ -426,7 +426,7 @@
     "governance": "OpenDataMesh community",
     "status": "Active; community-driven specification",
     "judgement": "Assess",
-    "judgementReason": "Coexists with ODPS but with smaller community.",
+    "judgementReason": "Coexists with BITOL's ODPS but with smaller community.",
     "description": [
       "YAML-based specification for describing data products with input ports, output ports, control ports, and discovery ports. Maintained by the OpenDataMesh initiative.",
       "Distinct from BITOL's ODPS: similar problem space, different community and slightly different mental model. Worth knowing both exist before you commit to one."
@@ -448,7 +448,7 @@
     "umbrellaSearch": "OpenDataMesh"
   },
   "odpspec": {
-    "name": "ODPSpec",
+    "name": "ODPS",
     "fullName": "Open Data Product Specification",
     "category": "Data Products",
     "governance": "opendataproducts.org / Linux Foundation",
@@ -482,7 +482,7 @@
     "judgementReason": "RDF/OWL data-product vocabulary; right only when your stack already lives in linked data.",
     "description": [
       "RDF/OWL vocabulary for describing data products. Composes naturally with other semantic-web vocabularies (DCAT, SKOS, FIBO, etc.) when your stack already lives in the linked-data world.",
-      "Where ODPS is YAML and strict, DPROD is RDF and graph-native. Both have their place; the format choice determines what else you can compose with."
+      "Where BITOL's ODPS is YAML and strict, DPROD is RDF and graph-native. Both have their place; the format choice determines what else you can compose with."
     ],
     "links": [
       {

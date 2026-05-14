@@ -40,3 +40,23 @@ links.forEach(function (link) {
   }
   link.href = url.toString();
 });
+
+// When the URL hash points at a <details> (e.g. #faq-judgement from the
+// hero "opinionated" link), expand it on arrival and on subsequent in-page
+// navigation. Otherwise the FAQ entry would just scroll into view collapsed
+// and the answer would still be one click away.
+function openHashDetails() {
+  const id = window.location.hash.slice(1);
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (el && el.tagName === 'DETAILS') {
+    el.open = true;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+window.addEventListener('hashchange', openHashDetails);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', openHashDetails);
+} else {
+  openHashDetails();
+}

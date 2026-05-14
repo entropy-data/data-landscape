@@ -48,9 +48,9 @@ An opinionated, interactive map of the open standards that power a modern data a
 
 ### Data Products
 
-- [ODPS](https://www.data-landscape.com/?std=odps) — Open Data Product Standard. Governance: BITOL / Linux Foundation. _adopt, highlighted_
+- [ODPS (BITOL @ LF)](https://www.data-landscape.com/?std=odps) — Open Data Product Standard. Governance: BITOL / Linux Foundation. _adopt, highlighted_
 - [DPDS](https://www.data-landscape.com/?std=dpds) — Data Product Descriptor Specification. Governance: OpenDataMesh community. _assess_
-- [ODPSpec](https://www.data-landscape.com/?std=odpspec) — Open Data Product Specification. Governance: opendataproducts.org / Linux Foundation. _assess_
+- [ODPS (LF)](https://www.data-landscape.com/?std=odpspec) — Open Data Product Specification. Governance: opendataproducts.org / Linux Foundation. _assess_
 - [DPROD](https://www.data-landscape.com/?std=dprod) — Data Product Vocabulary (DPROD). Governance: EKGF / Object Management Group (OMG) — RDF/OWL vocabulary. _assess_
 
 ### Open Table Formats
@@ -58,7 +58,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 - [Iceberg](https://www.data-landscape.com/?std=iceberg) — Apache Iceberg. Governance: Apache Software Foundation. _adopt_
 - [Delta](https://www.data-landscape.com/?std=delta) — Delta Lake. Governance: Linux Foundation (originally Databricks). _situational_
 - [Hudi](https://www.data-landscape.com/?std=hudi) — Apache Hudi. Governance: Apache Software Foundation. _assess_
-- [Lance](https://www.data-landscape.com/?std=lance) — Lance. Governance: Lance community (independent open source, LF-inspired governance). _assess_
+- [Lance (Lance)](https://www.data-landscape.com/?std=lance) — Lance. Governance: Lance community (independent open source, LF-inspired governance). _assess_
 
 ### Catalog APIs
 
@@ -87,7 +87,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 - [PARQUET](https://www.data-landscape.com/?std=parquet) — Apache Parquet. Governance: Apache Software Foundation. _adopt_
 - [AVRO](https://www.data-landscape.com/?std=avro) — Apache Avro. Governance: Apache Software Foundation. _adopt_
 - [ORC](https://www.data-landscape.com/?std=orc) — Apache ORC (Optimized Row Columnar). Governance: Apache Software Foundation. _situational_
-- [Lance](https://www.data-landscape.com/?std=lance) — Lance. Governance: Lance community (independent open source, LF-inspired governance). _assess_
+- [Lance (Lance)](https://www.data-landscape.com/?std=lance) — Lance. Governance: Lance community (independent open source, LF-inspired governance). _assess_
 
 ### Lineage
 

@@ -413,6 +413,11 @@ def write_llms_txt(standards: "OrderedDict[str, dict]") -> None:
         for cat in categories_of(entry):
             by_category.setdefault(cat, []).append((slug, entry))
 
+    name_counts: dict[str, int] = {}
+    for items in by_category.values():
+        for _, e in items:
+            name_counts[e["name"]] = name_counts.get(e["name"], 0) + 1
+
     out = []
     out.append("# Data Landscape — Open Standards for Modern Data Architecture")
     out.append("")
@@ -448,8 +453,11 @@ def write_llms_txt(standards: "OrderedDict[str, dict]") -> None:
                 tags.append("vendor")
             tag_str = f" _{', '.join(tags)}_" if tags else ""
             governance = entry.get("governance", "")
+            label = entry["name"]
+            if name_counts.get(label, 0) > 1 and entry.get("umbrella"):
+                label = f"{label} ({entry['umbrella']})"
             out.append(
-                f"- [{entry['name']}]({SITE}/?std={slug}) — "
+                f"- [{label}]({SITE}/?std={slug}) — "
                 f"{entry.get('fullName', entry['name'])}. "
                 f"Governance: {governance}.{tag_str}"
             )
