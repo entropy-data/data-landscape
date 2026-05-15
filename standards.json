@@ -1475,6 +1475,33 @@
     "standardization": "foundation",
     "umbrellaSearch": "ASF Apache"
   },
+  "quack": {
+    "name": "Quack",
+    "fullName": "Quack",
+    "category": "Database Connectivity",
+    "governance": "DuckDB Labs (vendor-driven open source)",
+    "status": "Emerging; new client-server protocol from the DuckDB ecosystem",
+    "judgement": "Assess",
+    "judgementReason": "DuckDB's new client-server protocol; promising but early — watch adoption beyond the DuckDB ecosystem.",
+    "tier": "emerging",
+    "description": [
+      "Client-server wire protocol from DuckDB Labs for talking to a DuckDB server. Where JDBC/ODBC/ADBC are client APIs that bind to drivers, Quack defines the protocol on the wire — so clients in any language can speak to a DuckDB server without an embedded engine.",
+      "Positions DuckDB beyond the embedded use case it grew up in, and complements ADBC: ADBC standardises the columnar result contract, Quack standardises the connection."
+    ],
+    "standardReason": "Quack is published as an open protocol specification by DuckDB Labs. Listed on the de-facto criterion: the wire format is the standard surface, even though governance sits with a single vendor and adoption is still concentrated in the DuckDB ecosystem.",
+    "links": [
+      {
+        "label": "duckdb.org",
+        "url": "https://duckdb.org"
+      }
+    ],
+    "firstReleased": 2025,
+    "logo": "/media/icons/standards-map/logos/duckdb.svg",
+    "umbrella": "DuckDB Labs",
+    "umbrellaSearch": "DuckDB Labs vendor",
+    "vendor": true,
+    "standardization": "vendor-led"
+  },
   "http": {
     "name": "HTTP",
     "fullName": "Hypertext Transfer Protocol",
