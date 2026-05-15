@@ -386,6 +386,12 @@ def write_sitemap(standards: "OrderedDict[str, dict]") -> None:
         "    <changefreq>weekly</changefreq>",
         "    <priority>1.0</priority>",
         "  </url>",
+        "  <url>",
+        f"    <loc>{SITE}/industry-ontologies.html</loc>",
+        f"    <lastmod>{today}</lastmod>",
+        "    <changefreq>monthly</changefreq>",
+        "    <priority>0.6</priority>",
+        "  </url>",
     ]
     for slug, entry in standards.items():
         if not renderable(entry):

@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Industry Ontology Standards — Data Landscape</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A curated reference of established industry ontology standards — FIBO, EBU Core Plus, CGMES, IDMP, EPCIS, IATA ONE Record, GoodRelations, TM Forum SID — and the domains they describe.">
+  <meta name="robots" content="index,follow">
+  <meta name="author" content="Dr. Simon Harrer">
+  <meta property="og:site_name" content="Data Landscape">
+  <meta property="og:title" content="Industry Ontology Standards — Data Landscape">
+  <meta property="og:description" content="Established industry ontology standards across finance, telecom, energy, pharma, supply chain, media, e-commerce, and air cargo.">
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://www.data-landscape.com/industry-ontologies.html"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="Industry Ontology Standards — Data Landscape"/>
+  <meta name="twitter:description" content="Established industry ontology standards across finance, telecom, energy, pharma, supply chain, media, e-commerce, and air cargo.">
+  <meta name="theme-color" content="#4f46e5"/>
+
+  <link rel="canonical" href="https://www.data-landscape.com/industry-ontologies.html"/>
+  <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
+  <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
+  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/dist/output.css">
+
+  <style>
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 9999px;
+      padding: 0.125rem 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1rem;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+    }
+    .badge-media     { background: #eff6ff; color: #1d4ed8; box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.2); }
+    .badge-energy    { background: #fffbeb; color: #b45309; box-shadow: inset 0 0 0 1px rgba(217, 119, 6, 0.2); }
+    .badge-pharma    { background: #f0fdf4; color: #15803d; box-shadow: inset 0 0 0 1px rgba(22, 163, 74, 0.2); }
+    .badge-supply    { background: #f0fdfa; color: #0f766e; box-shadow: inset 0 0 0 1px rgba(13, 148, 136, 0.2); }
+    .badge-aircargo  { background: #f0f9ff; color: #0369a1; box-shadow: inset 0 0 0 1px rgba(2, 132, 199, 0.2); }
+    .badge-commerce  { background: #fff1f2; color: #be123c; box-shadow: inset 0 0 0 1px rgba(225, 29, 72, 0.2); }
+    .badge-finance   { background: #faf5ff; color: #7e22ce; box-shadow: inset 0 0 0 1px rgba(147, 51, 234, 0.2); }
+    .badge-telco     { background: #f0f9ff; color: #0369a1; box-shadow: inset 0 0 0 1px rgba(2, 132, 199, 0.2); }
+
+    .ont-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1.25rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      background: white;
+      transition: border-color 120ms ease, box-shadow 120ms ease;
+    }
+    .ont-card:hover {
+      border-color: #c7d2fe;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+    }
+    .gh-ico {
+      display: inline-block;
+      width: 0.95em;
+      height: 0.95em;
+      vertical-align: -0.15em;
+      margin-right: 0.25em;
+      fill: currentColor;
+    }
+    .ont-modules {
+      font-size: 0.75rem;
+      line-height: 1.1rem;
+      color: #9ca3af;
+    }
+    .ont-files { margin-top: 0.125rem; }
+    .ont-files > summary {
+      cursor: pointer;
+      font-size: 0.8125rem;
+      color: #4f46e5;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      width: fit-content;
+    }
+    .ont-files > summary::-webkit-details-marker { display: none; }
+    .ont-files > summary::before {
+      content: "▸";
+      font-size: 0.7em;
+      transition: transform 120ms ease;
+    }
+    .ont-files[open] > summary::before { transform: rotate(90deg); }
+    .ont-files ul,
+    ul.ont-files-list {
+      margin: 0.5rem 0 0;
+      padding: 0 0 0 1.15rem;
+      list-style: disc;
+    }
+    ul.ont-files-list { margin-top: 0.375rem; }
+    .ont-files li,
+    ul.ont-files-list li {
+      font-size: 0.75rem;
+      line-height: 1.45rem;
+      color: #6b7280;
+    }
+    .ont-files li::marker,
+    ul.ont-files-list li::marker { color: #c7d2fe; }
+    .ont-files li a,
+    ul.ont-files-list li a { font-size: 0.75rem; color: #4f46e5; }
+    .ont-files li a:hover,
+    ul.ont-files-list li a:hover { color: #6366f1; text-decoration: underline; }
+    .fmt {
+      display: inline-block;
+      margin-left: 0.35em;
+      padding: 0 0.3em;
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      line-height: 1.1rem;
+      border-radius: 3px;
+      background: #eef2ff;
+      color: #6366f1;
+      vertical-align: middle;
+    }
+    .ont-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    @media (min-width: 768px) {
+      .ont-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body class="bg-white">
+
+<main class="mt-8 mb-20">
+
+  <!-- Hero -->
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 mt-10 mb-8">
+    <p class="text-base font-semibold leading-7 text-indigo-600">Industry Ontology Standards</p>
+    <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+      Ontologies for specific industries
+    </h1>
+    <p class="mt-3 max-w-3xl text-lg leading-8 text-gray-600 italic">
+      Established, industry-specific RDF/OWL ontologies and information models — the vocabularies that domain experts have already standardised.
+    </p>
+    <p class="mt-4 max-w-3xl text-base leading-7 text-gray-700">
+      The <a href="/" class="text-indigo-600 hover:text-indigo-500">Data Landscape</a> covers the cross-cutting standards a modern data architecture is built on. This page covers the other half: the ontologies your <em>domain</em> has already standardised. They define the concepts, relationships, and identifiers that data in a given industry tends to be shaped around, and they pair naturally with <a href="/?std=rdf-owl" class="text-indigo-600 hover:text-indigo-500">RDF/OWL</a>, <a href="/?std=dprod" class="text-indigo-600 hover:text-indigo-500">DPROD</a>, <a href="/?std=osi" class="text-indigo-600 hover:text-indigo-500">OSI</a>, and <a href="/?std=skos" class="text-indigo-600 hover:text-indigo-500">SKOS</a>.
+    </p>
+  </div>
+
+  <!-- Ontologies -->
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="ont-grid">
+
+      <article class="ont-card">
+        <div class="flex items-center gap-2 flex-wrap">
+          <h2 class="text-base font-semibold text-gray-900">FIBO</h2>
+          <span class="badge badge-finance">Finance</span>
+        </div>
+        <p class="text-xs text-gray-500">EDM Council</p>
+        <p class="text-sm leading-6 text-gray-700">
+          Financial Industry Business Ontology — concepts and relationships for banking, securities, derivatives, corporate actions, and regulatory reporting. The most mature business-domain ontology in production use, governed by the EDM Council under the Object Management Group.
+        </p>
+        <p class="text-sm">
+          <a href="https://spec.edmcouncil.org/fibo/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">spec.edmcouncil.org/fibo</a>
+          <span class="text-gray-300">·</span>
+          <a href="https://github.com/edmcouncil/fibo" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500"><svg class="gh-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>repository</a>
+        </p>
+        <ul class="ont-files-list">
+          <li><a href="https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/AllFND.rdf" target="_blank" rel="noopener">FND — Foundations</a><span class="fmt">RDF</span></li>
+          <li><a href="https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/AllBE.rdf" target="_blank" rel="noopener">BE — Business Entities</a><span class="fmt">RDF</span></li>
+          <li><a href="https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/AllFBC.rdf" target="_blank" rel="noopener">FBC — Financial Business &amp; Commerce</a><span class="fmt">RDF</span></li>
+        </ul>
+      </article>
+
+      <article class="ont-card">
+        <div class="flex items-center gap-2 flex-wrap">
+          <h2 class="text-base font-semibold text-gray-900">TM Forum SID</h2>
+          <span class="badge badge-telco">Telco</span>
+        </div>
+        <p class="text-xs text-gray-500">TM Forum</p>
+        <p class="text-sm leading-6 text-gray-700">
+          Shared Information/Data model — the canonical information model for the telecom industry. Defines core concepts (Party, Product, Service, Resource, Customer, Order) that underpin TM Forum's Open APIs and most operator BSS/OSS stacks.
+        </p>
+        <p class="text-sm">
+          <a href="https://www.tmforum.org/oda/information-systems/information-framework-sid/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">tmforum.org — Information Framework (SID)</a>
+          <span class="text-gray-300">·</span>
+          <a href="https://github.com/tmforum-apis" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500"><svg class="gh-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>repository</a>
+        </p>
+        <details class="ont-files">
+          <summary>4 Party &amp; Customer schemas</summary>
+          <ul>
+            <li><a href="https://raw.githubusercontent.com/tmforum-apis/TMF632_PartyManagement/main/TMF632-Party-v4.0.0.swagger.json" target="_blank" rel="noopener">TMF632 — Party</a><span class="fmt">JSON</span></li>
+            <li><a href="https://raw.githubusercontent.com/tmforum-apis/TMF669_PartyRole/main/TMF669-PartyRole-v4.0.0.swagger.json" target="_blank" rel="noopener">TMF669 — Party Role</a><span class="fmt">JSON</span></li>
+            <li><a href="https://raw.githubusercontent.com/tmforum-apis/TMF629_CustomerManagement/main/TMF629-Customer-v4.0.0.swagger.json" target="_blank" rel="noopener">TMF629 — Customer</a><span class="fmt">JSON</span></li>
+            <li><a href="https://raw.githubusercontent.com/tmforum-apis/TMF666_AccountManagement/main/TMF666-Account-v4.0.0.swagger.json" target="_blank" rel="noopener">TMF666 — Account</a><span class="fmt">JSON</span></li>
+          </ul>
+        </details>
+        <details class="ont-files">
+          <summary>3 Product schemas</summary>
+          <ul>
+            <li><a href="https://raw.githubusercontent.com/tmforum-apis/TMF620_ProductCatalog/main/TMF620-ProductCatalog-v4.0.0.swagger.json" target="_blank" rel="noopener">TMF620 — Product Catalog</a><span class="fmt">JSON</span></li>
+            <li><a href="https://raw.githubusercontent.com/tmforum-apis/TMF637_ProductInventory/main/TMF637-ProductInventory-v4.0.0.swagger.json" target="_blank" rel="noopener">TMF637 — Product Inventory</a><span class="fmt">JSON</span></li>
+            <li><a href="https://raw.githubusercontent.com/tmforum-apis/TMF622_ProductOrder/main/TMF622-ProductOrder-v4.0.0.swagger.json" target="_blank" rel="noopener">TMF622 — Product Order</a><span class="fmt">JSON</span></li>
+          </ul>
+        </details>
+      </article>
+
+      <article class="ont-card">
+        <div class="flex items-center gap-2 flex-wrap">
+          <h2 class="text-base font-semibold text-gray-900">CGMES</h2>
+          <span class="badge badge-energy">Energy</span>
+        </div>
+        <p class="text-xs text-gray-500">IEC / ENTSO-E</p>
+        <p class="text-sm leading-6 text-gray-700">
+          Common Grid Model Exchange Standard — the RDF profile of IEC 61970 (CIM) used by European transmission system operators to exchange grid topology, steady-state hypotheses, state variables, and dynamics. The reference model for cross-border energy data exchange.
+        </p>
+        <p class="text-sm">
+          <a href="https://www.entsoe.eu/data/cim/cim-conformity-and-interoperability/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">entsoe.eu — CIM &amp; CGMES</a>
+          <span class="text-gray-300">·</span>
+          <a href="https://github.com/entsoe/application-profiles-library" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500"><svg class="gh-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>repository</a>
+        </p>
+        <details class="ont-files">
+          <summary>11 RDFS profile files</summary>
+          <ul>
+            <li><a href="https://raw.githubusercontent.com/entsoe/application-profiles-library/main/CGMES/CurrentRelease/RDFS/61970-600-2_Equipment-AP-Voc-RDFS2020.rdf" target="_blank" rel="noopener">EQ — Equipment</a><span class="fmt">RDF</span></li>
+            <li><a href="https://raw.githubusercontent.com/entsoe/application-profiles-library/main/CGMES/CurrentRelease/RDFS/61970-600-2_SteadyStateHypothesis-AP-Voc-RDFS2020.rdf" target="_blank" rel="noopener">SSH — Steady State Hypothesis</a><span class="fmt">RDF</span></li>
+            <li><a href="https://raw.githubusercontent.com/entsoe/application-profiles-library/main/CGMES/CurrentRelease/RDFS/61970-600-2_StateVariables-AP-Voc-RDFS2020.rdf" target="_blank" rel="noopener">SV — State Variables</a><span class="fmt">RDF</span></li>
+            <li><a href="https://raw.githubusercontent.com/entsoe/application-profiles-library/main/CGMES/CurrentRelease/RDFS/61970-600-2_Topology-AP-Voc-RDFS2020.rdf" target="_blank" rel="noopener">TP — Topology</a><span class="fmt">RDF</span></li>
+            <li><a href="https://raw.githubusercontent.com/entsoe/application-profiles-library/main/CGMES/CurrentRelease/RDFS/61970-600-2_DiagramLayout-AP-Voc-RDFS2020.rdf" target="_blank" rel="noopener">DL — Diagram Layout</a><span class="fmt">RDF</span></li>
+            <li><a href="https://raw.githubusercontent.com/entsoe/application-profiles-library/main/CGMES/CurrentRelease/RDFS/61970-600-2_Dynamics-AP-Voc-RDFS2020.rdf" target="_blank" rel="noopener">DY — Dynamics</a><span class="fmt">RDF</span></li>
+            <li><a href="https://raw.githubusercontent.com/entsoe/application-profiles-library/main/CGMES/CurrentRelease/RDFS/61970-600-2_GeographicalLocation-AP-Voc-RDFS2020.rdf" target="_blank" rel="noopener">GL — Geographical Location</a><span class="fmt">RDF</span></li>
+            <li><a href="https://raw.githubusercontent.com/entsoe/application-profiles-library/main/CGMES/CurrentRelease/RDFS/61970-600-2_Operation-AP-Voc-RDFS2020.rdf" target="_blank" rel="noopener">OP — Operation</a><span class="fmt">RDF</span></li>
+            <li><a href="https://raw.githubusercontent.com/entsoe/application-profiles-library/main/CGMES/CurrentRelease/RDFS/61970-600-2_ShortCircuit-AP-Voc-RDFS2020.rdf" target="_blank" rel="noopener">SC — Short Circuit</a><span class="fmt">RDF</span></li>
+            <li><a href="https://raw.githubusercontent.com/entsoe/application-profiles-library/main/CGMES/CurrentRelease/RDFS/61970-600-2_EquipmentBoundary-AP-Voc-RDFS2020.rdf" target="_blank" rel="noopener">EQBD — Equipment Boundary</a><span class="fmt">RDF</span></li>
+            <li><a href="https://raw.githubusercontent.com/entsoe/application-profiles-library/main/CGMES/CurrentRelease/RDFS/61970-600-2_Header-AP-Voc-RDFS2019.rdf" target="_blank" rel="noopener">FileHeader</a><span class="fmt">RDF</span></li>
+          </ul>
+        </details>
+      </article>
+
+      <article class="ont-card">
+        <div class="flex items-center gap-2 flex-wrap">
+          <h2 class="text-base font-semibold text-gray-900">IDMP</h2>
+          <span class="badge badge-pharma">Pharma</span>
+        </div>
+        <p class="text-xs text-gray-500">ISO / Pistoia Alliance</p>
+        <p class="text-sm leading-6 text-gray-700">
+          Identification of Medicinal Products — the ISO 11238/11239/11240/11615/11616/21090 family rendered as RDF by the Pistoia Alliance. Defines substances, pharmaceutical products, dose forms, units, and the harmonised datatypes regulators expect in submissions.
+        </p>
+        <p class="text-sm">
+          <a href="https://www.pistoiaalliance.org/projects/current-projects/idmp-ontology/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">pistoiaalliance.org — IDMP Ontology</a>
+          <span class="text-gray-300">·</span>
+          <a href="https://spec.edmcouncil.org/idmp/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">spec.edmcouncil.org/idmp</a>
+        </p>
+        <details class="ont-files">
+          <summary>6 ISO modules</summary>
+          <ul>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/ISO/ISO11238-Substances.ttl" target="_blank" rel="noopener">ISO 11238 — Substances</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/ISO/ISO11615-MedicinalProducts.ttl" target="_blank" rel="noopener">ISO 11615 — Medicinal Products</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/ISO/ISO11239-PharmaceuticalDoseForms.ttl" target="_blank" rel="noopener">ISO 11239 — Pharmaceutical Dose Forms</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/ISO/ISO11240-UnitsOfMeasurement.ttl" target="_blank" rel="noopener">ISO 11240 — Units of Measurement</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/ISO/ISO11616-PharmaceuticalProducts.ttl" target="_blank" rel="noopener">ISO 11616 — Pharmaceutical Products</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/ISO/ISO21090-HarmonizedDatatypes.ttl" target="_blank" rel="noopener">ISO 21090 — Harmonized Datatypes</a><span class="fmt">TTL</span></li>
+          </ul>
+        </details>
+        <details class="ont-files">
+          <summary>21 EDM Council CMNS commons modules</summary>
+          <ul>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/QuantitiesAndUnits.ttl" target="_blank" rel="noopener">Quantities and Units</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/ProductsAndServices.ttl" target="_blank" rel="noopener">Products and Services</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/Organizations.ttl" target="_blank" rel="noopener">Organizations</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/PartiesAndSituations.ttl" target="_blank" rel="noopener">Parties and Situations</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/RegulatoryAgencies.ttl" target="_blank" rel="noopener">Regulatory Agencies</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/RegistrationAuthorities.ttl" target="_blank" rel="noopener">Registration Authorities</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/Classifiers.ttl" target="_blank" rel="noopener">Classifiers</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/Collections.ttl" target="_blank" rel="noopener">Collections</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/Designators.ttl" target="_blank" rel="noopener">Designators</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/DatesAndTimes.ttl" target="_blank" rel="noopener">Dates and Times</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/Locations.ttl" target="_blank" rel="noopener">Locations</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/GovernmentEntities.ttl" target="_blank" rel="noopener">Government Entities</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/Documents.ttl" target="_blank" rel="noopener">Documents</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/ContextualDesignators.ttl" target="_blank" rel="noopener">Contextual Designators</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/ContextualIdentifiers.ttl" target="_blank" rel="noopener">Contextual Identifiers</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/CodesAndCodeSets.ttl" target="_blank" rel="noopener">Codes and Code Sets</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/Identifiers.ttl" target="_blank" rel="noopener">Identifiers</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/RolesAndCompositions.ttl" target="_blank" rel="noopener">Roles and Compositions</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/AnnotationVocabulary.ttl" target="_blank" rel="noopener">Annotation Vocabulary</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/TextDatatype.ttl" target="_blank" rel="noopener">Text Datatype</a><span class="fmt">TTL</span></li>
+            <li><a href="https://spec.edmcouncil.org/idmp/ontology/CMNS/StatisticalMeasures.ttl" target="_blank" rel="noopener">Statistical Measures</a><span class="fmt">TTL</span></li>
+          </ul>
+        </details>
+      </article>
+
+      <article class="ont-card">
+        <div class="flex items-center gap-2 flex-wrap">
+          <h2 class="text-base font-semibold text-gray-900">EPCIS</h2>
+          <span class="badge badge-supply">Supply Chain</span>
+        </div>
+        <p class="text-xs text-gray-500">GS1</p>
+        <p class="text-sm leading-6 text-gray-700">
+          Electronic Product Code Information Services — GS1's vocabulary for supply chain event visibility and traceability. Answers the "what, where, when, why" of physical objects moving through a chain, anchored to GS1 identifiers (GTIN, SSCC, GLN) and bound to the GS1 Web Vocabulary.
+        </p>
+        <p class="text-sm">
+          <a href="https://www.gs1.org/standards/epcis" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">gs1.org — EPCIS</a>
+          <span class="text-gray-300">·</span>
+          <a href="https://ref.gs1.org/standards/epcis/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">standard</a><span class="fmt">PDF</span>
+        </p>
+        <ul class="ont-files-list">
+          <li><a href="https://ref.gs1.org/standards/epcis/2.0.0/epcis-ontology.ttl" target="_blank" rel="noopener">EPCIS 2.0 ontology</a><span class="fmt">TTL</span></li>
+          <li><a href="https://ref.gs1.org/voc/data/gs1Voc.ttl" target="_blank" rel="noopener">GS1 Web Vocabulary</a><span class="fmt">TTL</span></li>
+        </ul>
+      </article>
+
+      <article class="ont-card">
+        <div class="flex items-center gap-2 flex-wrap">
+          <h2 class="text-base font-semibold text-gray-900">IATA ONE Record</h2>
+          <span class="badge badge-aircargo">Air Cargo</span>
+        </div>
+        <p class="text-xs text-gray-500">IATA</p>
+        <p class="text-sm leading-6 text-gray-700">
+          Linked-data model for digital air cargo, replacing the legacy EDI-based messaging that has carried the industry for decades. Defines shipments, pieces, transport movements, and the parties involved as a single graph that participants exchange via REST APIs.
+        </p>
+        <p class="text-sm">
+          <a href="https://onerecord.iata.org/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">onerecord.iata.org</a>
+          <span class="text-gray-300">·</span>
+          <a href="https://github.com/IATA-Cargo/ONE-Record" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500"><svg class="gh-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>repository</a>
+        </p>
+        <ul class="ont-files-list">
+          <li><a href="https://raw.githubusercontent.com/IATA-Cargo/ONE-Record/master/2025-07-standard/Data-Model/IATA-1R-DM-Ontology.ttl" target="_blank" rel="noopener">IATA-1R-DM-Ontology</a><span class="fmt">TTL</span></li>
+        </ul>
+      </article>
+
+      <article class="ont-card">
+        <div class="flex items-center gap-2 flex-wrap">
+          <h2 class="text-base font-semibold text-gray-900">EBU Core Plus</h2>
+          <span class="badge badge-media">Media</span>
+        </div>
+        <p class="text-xs text-gray-500">EBU / SMPTE</p>
+        <p class="text-sm leading-6 text-gray-700">
+          Metadata ontology for audiovisual content in broadcasting and media production — programmes, episodes, rights, contributors, technical formats. Extends EBUCore with the structure broadcasters need for archive management and content exchange.
+        </p>
+        <p class="text-sm">
+          <a href="https://ebu.github.io/ebucoreplus/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">ebu.github.io — EBUCorePlus docs</a>
+          <span class="text-gray-300">·</span>
+          <a href="https://github.com/ebu/ebucoreplus" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500"><svg class="gh-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>repository</a>
+        </p>
+        <ul class="ont-files-list">
+          <li><a href="https://raw.githubusercontent.com/ebu/ebucoreplus/main/ontology/EBUCorePlus/ebucoreplus.owl" target="_blank" rel="noopener">ebucoreplus.owl</a><span class="fmt">OWL</span></li>
+        </ul>
+      </article>
+
+      <article class="ont-card">
+        <div class="flex items-center gap-2 flex-wrap">
+          <h2 class="text-base font-semibold text-gray-900">GoodRelations</h2>
+          <span class="badge badge-commerce">E-Commerce</span>
+        </div>
+        <p class="text-xs text-gray-500">Martin Hepp / schema.org</p>
+        <p class="text-sm leading-6 text-gray-700">
+          Vocabulary for product, price, store, and company data in e-commerce. Largely subsumed into schema.org's commerce vocabulary, but still the reference model when you need the full expressivity of the original (offerings, price specifications, business entities).
+        </p>
+        <p class="text-sm">
+          <a href="http://www.heppnetz.de/projects/goodrelations/" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-500">heppnetz.de — GoodRelations</a>
+        </p>
+        <ul class="ont-files-list">
+          <li><a href="http://purl.org/goodrelations/v1.owl" target="_blank" rel="noopener">goodrelations-v1.owl</a><span class="fmt">OWL</span></li>
+        </ul>
+      </article>
+
+    </div>
+
+    <!-- Note -->
+    <div class="mt-10 max-w-3xl">
+      <p class="text-sm leading-6 text-gray-600">
+        This list reflects the industry ontologies that the <a href="https://www.entropy-data.com" class="text-indigo-600 hover:text-indigo-500">Entropy Data</a> platform imports out of the box for semantic modelling. Each one is a real, governed, in-production specification — not aspirational.
+      </p>
+    </div>
+
+    <!-- Contribute CTA -->
+    <div class="mt-10 rounded-lg border border-indigo-200 bg-indigo-50 px-6 py-8 text-center">
+      <p class="font-semibold text-gray-900">Know an industry ontology we're missing?</p>
+      <p class="mt-1 text-sm text-gray-700">If your domain has a governed, in-production ontology that belongs here, let us know &mdash; suggestions welcome.</p>
+      <div class="mt-5 flex flex-wrap justify-center gap-3">
+        <a href="https://github.com/entropy-data/data-landscape/issues/new?title=Industry%20ontology%20suggestion%3A%20" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 rounded-md bg-gray-900 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800">
+          <svg class="h-4 w-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Open an issue
+        </a>
+        <a href="mailto:simon.harrer@entropy-data.com?subject=Industry%20ontology%20suggestion"
+           class="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z"/><path d="m19 8.839-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z"/></svg>
+          Email Simon
+        </a>
+        <a href="https://www.linkedin.com/in/simonharrer/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 rounded-md bg-white px-3.5 py-2 text-sm font-semibold text-indigo-700 ring-1 ring-inset ring-indigo-300 hover:bg-indigo-100">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          Message Simon
+        </a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+
+<footer class="bg-white border-t border-gray-200">
+  <div class="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+    <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-gray-500" aria-label="Footer">
+      <a href="https://www.entropy-data.com" class="flex items-center gap-1 hover:text-gray-900" aria-label="Entropy Data">
+        <img src="/media/logo_fuchsia_v2.svg" alt="" class="h-3 w-auto"/>
+        <span>Entropy Data</span>
+      </a>
+      <a href="/" class="hover:text-gray-900">Data Landscape</a>
+      <a href="https://www.entropy-data.com/legal-notice" class="hover:text-gray-900">Legal Notice</a>
+      <a href="https://www.entropy-data.com/privacy-policy" class="hover:text-gray-900">Privacy Policy</a>
+      <a href="https://github.com/entropy-data/data-landscape/blob/main/LICENSE" class="hover:text-gray-900" title="MIT License">MIT License</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
