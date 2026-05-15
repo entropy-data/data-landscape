@@ -126,6 +126,7 @@ An opinionated, interactive map of the open standards that power a modern data a
 - [ODBC](https://www.data-landscape.com/?std=odbc) — Open Database Connectivity. Governance: ISO/IEC 9075-3 (originally Microsoft / SQL Access Group). _adopt_
 - [XMLA](https://www.data-landscape.com/?std=xmla) — XML for Analysis. Governance: XMLA Council (Microsoft, Hyperion, SAS); de-facto industry spec. _caution, legacy_
 - [ADBC](https://www.data-landscape.com/?std=adbc) — Arrow Database Connectivity. Governance: Apache Software Foundation (Arrow project). _adopt_
+- [Quack](https://www.data-landscape.com/?std=quack) — Quack. Governance: DuckDB Labs (vendor-driven open source). _assess, vendor_
 
 ### Interconnection
 
