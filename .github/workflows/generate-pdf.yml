@@ -67,14 +67,17 @@ jobs:
       - name: Generate social preview image
         run: ./scripts/generate-social-preview.sh
 
+      - name: Generate industry-ontologies social preview image
+        run: uv run scripts/generate-industry-ontologies-preview.py http://127.0.0.1:8000/
+
       - name: Commit changes if any
         run: |
-          if git diff --quiet -- index.html sitemap.xml llms.txt data-landscape.pdf media/social/data-architecture-landscape.png; then
+          if git diff --quiet -- index.html sitemap.xml llms.txt data-landscape.pdf media/social/data-architecture-landscape.png media/social/industry-ontologies.png; then
             echo "No artefact changes; nothing to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html sitemap.xml llms.txt data-landscape.pdf media/social/data-architecture-landscape.png
+          git add index.html sitemap.xml llms.txt data-landscape.pdf media/social/data-architecture-landscape.png media/social/industry-ontologies.png
           git commit -m "Regenerate prerendered artefacts and PDF"
           git push
