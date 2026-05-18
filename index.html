@@ -569,8 +569,11 @@
          panel header sits ~30px up and clips via overflow:hidden), and the
          tile body has enough space to float the pill on hover. */
       top: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%);
+      /* Anchor to the medal's right edge so the nowrap pill grows leftward
+         into the tile. Centering it (left:50%) overflows the tile's right
+         edge — the medal sits ~4px from it — and the column's horizontal
+         scroll container then clips the pill. */
+      right: 0;
       background: #111827;
       color: white;
       padding: 0.35rem 0.6rem;
