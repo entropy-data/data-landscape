@@ -15,14 +15,23 @@ OUT="$ROOT/media/social/data-architecture-landscape.png"
 
 [ -f "$PDF" ] || { echo "Missing $PDF — run scripts/generate-pdf.py first." >&2; exit 1; }
 command -v pdftoppm >/dev/null || { echo "Need pdftoppm: brew install poppler" >&2; exit 1; }
-command -v magick   >/dev/null || { echo "Need magick: brew install imagemagick" >&2; exit 1; }
+# ImageMagick 7 ships `magick`; ImageMagick 6 (Ubuntu's apt package, used in
+# CI) only ships `convert`. Accept either — the arguments below are identical.
+if command -v magick >/dev/null; then
+  IM=magick
+elif command -v convert >/dev/null; then
+  IM=convert
+else
+  echo "Need ImageMagick: brew install imagemagick" >&2
+  exit 1
+fi
 
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
 # Rasterise page 1 at 200 DPI, then letterbox into 1200x630 (standard og:image).
 pdftoppm -png -r 200 -f 1 -l 1 "$PDF" "$TMP/page"
-magick "$TMP/page-1.png" \
+"$IM" "$TMP/page-1.png" \
   -resize 1200x630 \
   -background white -gravity center -extent 1200x630 \
   -strip \
