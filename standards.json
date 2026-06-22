@@ -85,7 +85,7 @@
     "standardization": "foundation"
   },
   "opentelemetry": {
-    "name": "Open​Telemetry",
+    "name": "OpenTelemetry",
     "fullName": "OpenTelemetry",
     "category": "Observability",
     "governance": "CNCF (Cloud Native Computing Foundation), Linux Foundation",

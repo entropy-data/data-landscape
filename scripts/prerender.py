@@ -23,8 +23,13 @@ Reads standards.json (the single source of truth) and writes:
 
 * `llms.txt`
    - Markdown summary keyed by category, listing every standard with its
-     governance + canonical URL. Convention emerging for LLM-targeted
-     summaries; cheap and additive.
+     governance, opinionated judgement, and canonical URL. Convention
+     emerging for LLM-targeted summaries; cheap and additive.
+
+* `llms-full.txt`
+   - The complete per-standard dump (full description prose, status,
+     first-release year, judgement + rationale, links) so answer engines can
+     ingest everything in a single fetch without executing JS.
 
 Run via `npm run prerender` or as part of `npm run build`. Idempotent —
 running it twice produces the same output as running it once.
@@ -43,6 +48,7 @@ INDEX = ROOT / "index.html"
 STANDARDS = ROOT / "standards.json"
 SITEMAP = ROOT / "sitemap.xml"
 LLMS_TXT = ROOT / "llms.txt"
+LLMS_FULL_TXT = ROOT / "llms-full.txt"
 SITE = "https://www.data-landscape.com"
 
 
@@ -109,6 +115,37 @@ JUDGEMENT_CLASS = {
 
 def judgement_rank(entry: dict) -> int:
     return JUDGEMENT_RANK.get(entry.get("judgement"), len(JUDGEMENT_RANK))
+
+
+def renderable_name_counts(standards: "OrderedDict[str, dict]") -> dict[str, int]:
+    """Count how many distinct renderable entries share each `name`.
+
+    Counts by entry (not by category) so a multi-category standard like Lance
+    isn't mistaken for a name collision. Used to disambiguate genuine clashes
+    (e.g. the two "ODPS" specs) wherever the name surfaces — JSON-LD, llms.txt.
+    """
+    counts: dict[str, int] = {}
+    for entry in standards.values():
+        if renderable(entry):
+            counts[entry["name"]] = counts.get(entry["name"], 0) + 1
+    return counts
+
+
+def display_label(entry: dict, name_counts: dict[str, int]) -> str:
+    """Entry name, suffixed with its umbrella when the bare name is ambiguous."""
+    label = entry["name"]
+    if name_counts.get(label, 0) > 1 and entry.get("umbrella"):
+        label = f"{label} ({entry['umbrella']})"
+    return label
+
+
+def judgement_line(entry: dict) -> str:
+    """`Judgement — reason` as a single citable string, or '' when absent."""
+    judgement = entry.get("judgement")
+    if not judgement:
+        return ""
+    reason = (entry.get("judgementReason") or "").strip()
+    return f"{judgement} — {reason}" if reason else judgement
 
 
 def render_tile(
@@ -250,6 +287,8 @@ def replace_panel_bodies(html: str, standards: "OrderedDict[str, dict]") -> str:
 
 def replace_jsonld(html: str, standards: "OrderedDict[str, dict]") -> str:
     """Rewrite the JSON-LD ItemList block so it lists every renderable entry."""
+    name_counts = renderable_name_counts(standards)
+    iso_modified, _ = last_commit_date()
     item_list_entries = []
     for i, (slug, entry) in enumerate(
         ((s, e) for s, e in standards.items() if renderable(e)), start=1
@@ -260,7 +299,9 @@ def replace_jsonld(html: str, standards: "OrderedDict[str, dict]") -> str:
                 "position": i,
                 "item": {
                     "@type": "DefinedTerm",
-                    "name": entry["name"],
+                    # Disambiguate genuine name clashes (e.g. the two "ODPS"
+                    # specs) so answer engines don't conflate them.
+                    "name": display_label(entry, name_counts),
                     "description": short_description(entry),
                     "url": f"{SITE}/?std={slug}",
                 },
@@ -278,6 +319,7 @@ def replace_jsonld(html: str, standards: "OrderedDict[str, dict]") -> str:
                 "OpenLineage, OpenTelemetry and more. Curated by Entropy Data."
             ),
             "datePublished": "2026-04-28",
+            "dateModified": iso_modified,
             "author": {
                 "@type": "Person",
                 "name": "Dr. Simon Harrer",
@@ -304,6 +346,40 @@ def replace_jsonld(html: str, standards: "OrderedDict[str, dict]") -> str:
             "name": "Open Standards for Modern Data Architecture",
             "numberOfItems": len(item_list_entries),
             "itemListElement": item_list_entries,
+        },
+        {
+            # The curated dataset behind the page — freely fetchable JSON.
+            # Advertising it as a Dataset gives LLM/agent crawlers a direct,
+            # machine-readable entry point to the full per-standard facts.
+            "@type": "Dataset",
+            "@id": f"{SITE}/#dataset",
+            "name": "Data Landscape — Open Standards Dataset",
+            "description": (
+                "Machine-readable catalogue of the open standards that power a "
+                "modern data architecture, with governance, status, and an "
+                "opinionated adopt/situational/assess/caution judgement per "
+                "standard. Curated by Entropy Data."
+            ),
+            "url": f"{SITE}/",
+            "dateModified": iso_modified,
+            "isAccessibleForFree": True,
+            "creator": {
+                "@type": "Organization",
+                "name": "Entropy Data",
+                "url": "https://www.entropy-data.com",
+            },
+            "distribution": [
+                {
+                    "@type": "DataDownload",
+                    "encodingFormat": "application/json",
+                    "contentUrl": f"{SITE}/standards.json",
+                },
+                {
+                    "@type": "DataDownload",
+                    "encodingFormat": "text/markdown",
+                    "contentUrl": f"{SITE}/llms-full.txt",
+                },
+            ],
         },
     ]
     payload = {"@context": "https://schema.org", "@graph": graph}
@@ -419,10 +495,7 @@ def write_llms_txt(standards: "OrderedDict[str, dict]") -> None:
         for cat in categories_of(entry):
             by_category.setdefault(cat, []).append((slug, entry))
 
-    name_counts: dict[str, int] = {}
-    for items in by_category.values():
-        for _, e in items:
-            name_counts[e["name"]] = name_counts.get(e["name"], 0) + 1
+    name_counts = renderable_name_counts(standards)
 
     out = []
     out.append("# Data Landscape — Open Standards for Modern Data Architecture")
@@ -433,8 +506,16 @@ def write_llms_txt(standards: "OrderedDict[str, dict]") -> None:
         f"{SITE}/standards.json (JSON, machine-readable, freely fetchable)."
     )
     out.append("")
+    out.append(
+        "Each standard carries a judgement — Adopt, Situational, Assess, or "
+        "Caution — with a one-line rationale. For the full per-standard prose, "
+        f"status, and links, see {SITE}/llms-full.txt."
+    )
+    out.append("")
     out.append(f"- Site: {SITE}/")
     out.append(f"- Data: {SITE}/standards.json")
+    out.append(f"- Full text: {SITE}/llms-full.txt")
+    out.append(f"- Industry ontologies: {SITE}/industry-ontologies.html")
     out.append(f"- Sitemap: {SITE}/sitemap.xml")
     out.append("")
     out.append("## Standards by category")
@@ -459,17 +540,83 @@ def write_llms_txt(standards: "OrderedDict[str, dict]") -> None:
                 tags.append("vendor")
             tag_str = f" _{', '.join(tags)}_" if tags else ""
             governance = entry.get("governance", "")
-            label = entry["name"]
-            if name_counts.get(label, 0) > 1 and entry.get("umbrella"):
-                label = f"{label} ({entry['umbrella']})"
+            label = display_label(entry, name_counts)
+            judgement_str = judgement_line(entry)
+            verdict = f" **{judgement_str}**" if judgement_str else ""
             out.append(
                 f"- [{label}]({SITE}/?std={slug}) — "
                 f"{entry.get('fullName', entry['name'])}. "
-                f"Governance: {governance}.{tag_str}"
+                f"Governance: {governance}.{verdict}{tag_str}"
             )
         out.append("")
     LLMS_TXT.write_text("\n".join(out))
     print(f"  llms.txt: {sum(len(v) for v in by_category.values())} entries (counted across categories)")
+
+
+def write_llms_full_txt(standards: "OrderedDict[str, dict]") -> None:
+    """Write llms-full.txt — the complete, citable per-standard dump.
+
+    Where llms.txt is a concise index, this carries everything an answer
+    engine needs without executing JS or parsing JSON: full description
+    prose, governance, status, first-release year, the opinionated judgement
+    with its rationale, and reference links. One fetch, plain markdown.
+    Each standard appears once (with all its categories listed) rather than
+    duplicated per category.
+    """
+    name_counts = renderable_name_counts(standards)
+
+    out = []
+    out.append("# Data Landscape — Open Standards (Full Reference)")
+    out.append("")
+    out.append(
+        "Complete reference for every open standard in the Data Landscape, "
+        "curated by Entropy Data. Each entry lists governance, status, an "
+        "opinionated judgement (Adopt / Situational / Assess / Caution) with "
+        "rationale, a full description, and links. The concise index lives at "
+        f"{SITE}/llms.txt; the machine-readable source is {SITE}/standards.json."
+    )
+    out.append("")
+    out.append(f"- Site: {SITE}/")
+    out.append(f"- Data: {SITE}/standards.json")
+    out.append(f"- Index: {SITE}/llms.txt")
+    out.append("")
+
+    for slug, entry in standards.items():
+        if not renderable(entry):
+            continue
+        label = display_label(entry, name_counts)
+        full_name = entry.get("fullName", entry["name"])
+        out.append(f"## {label} — {full_name}")
+        out.append("")
+        out.append(f"- URL: {SITE}/?std={slug}")
+        cats = categories_of(entry)
+        if cats:
+            out.append(f"- Category: {', '.join(cats)}")
+        if entry.get("governance"):
+            out.append(f"- Governance: {entry['governance']}")
+        if entry.get("status"):
+            out.append(f"- Status: {entry['status']}")
+        if entry.get("firstReleased"):
+            out.append(f"- First released: {entry['firstReleased']}")
+        judgement_str = judgement_line(entry)
+        if judgement_str:
+            out.append(f"- Judgement: {judgement_str}")
+        out.append("")
+        for paragraph in entry.get("description") or []:
+            out.append(paragraph.strip())
+            out.append("")
+        links = entry.get("links") or []
+        if links:
+            out.append("Links:")
+            for link in links:
+                lbl = link.get("label") or link.get("url", "")
+                url = link.get("url", "")
+                out.append(f"- {lbl}: {url}")
+            out.append("")
+
+    LLMS_FULL_TXT.write_text("\n".join(out))
+    rendered = sum(1 for e in standards.values() if renderable(e))
+    print(f"  llms-full.txt: {rendered} standards (full text)")
 
 
 def main() -> int:
@@ -484,6 +631,7 @@ def main() -> int:
 
     write_sitemap(standards)
     write_llms_txt(standards)
+    write_llms_full_txt(standards)
 
     print("prerender: done")
     return 0

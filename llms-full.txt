@@ -1,0 +1,1349 @@
+# Data Landscape — Open Standards (Full Reference)
+
+Complete reference for every open standard in the Data Landscape, curated by Entropy Data. Each entry lists governance, status, an opinionated judgement (Adopt / Situational / Assess / Caution) with rationale, a full description, and links. The concise index lives at https://www.data-landscape.com/llms.txt; the machine-readable source is https://www.data-landscape.com/standards.json.
+
+- Site: https://www.data-landscape.com/
+- Data: https://www.data-landscape.com/standards.json
+- Index: https://www.data-landscape.com/llms.txt
+
+## SQL — Structured Query Language
+
+- URL: https://www.data-landscape.com/?std=sql
+- Category: Query
+- Governance: ANSI / ISO/IEC 9075
+- Status: Stable since 1986; revised regularly (latest SQL:2023)
+- First released: 1986
+- Judgement: Adopt — The universal data query language; not a decision.
+
+SQL is the standard query language for relational databases. It is the oldest and most universal de-facto standard in the data world.
+
+Despite vendor-specific dialects, the ISO/IEC 9075 core defines a portable subset that every serious analytical engine implements.
+
+Links:
+- ISO/IEC 9075 standard: https://www.iso.org/standard/76583.html
+- Wikipedia: SQL: https://en.wikipedia.org/wiki/SQL
+
+## MDX — Multidimensional Expressions
+
+- URL: https://www.data-landscape.com/?std=mdx
+- Category: Query
+- Governance: Originally Microsoft (1997); referenced by the XMLA specification
+- Status: Legacy; ubiquitous in OLAP/cube tooling, no significant new adoption
+- First released: 1997
+- Judgement: Caution — Multidimensional query language; surviving only in MS Analysis Services.
+
+Query language for multidimensional databases — the OLAP-cube counterpart to SQL. Used to express slice, dice, and rollup operations against star/snowflake schemas exposed as cubes.
+
+Originated with Microsoft OLE DB for OLAP and adopted by Microsoft Analysis Services, Mondrian, SAP BW, AtScale, and Oracle Essbase. Still pervasive in enterprise BI estates even though greenfield analytics has largely moved to SQL plus semantic layers.
+
+Links:
+- Microsoft MDX reference: https://learn.microsoft.com/en-us/analysis-services/multidimensional-models/mdx/mdx-query-the-basic-query
+- Wikipedia: MultiDimensional eXpressions: https://en.wikipedia.org/wiki/MultiDimensional_eXpressions
+
+## Substrait — Substrait
+
+- URL: https://www.data-landscape.com/?std=substrait
+- Category: Query
+- Governance: Substrait Project (independent; ASF-inspired PMC)
+- Status: Stable; growing adoption across query engines
+- First released: 2021
+- Judgement: Situational — Cross-engine query-plan IR — pick when you're building or integrating engines that need a portable plan format; end users rarely touch it.
+
+Cross-language, cross-engine specification for representing relational query plans. Where SQL is the query language for humans, Substrait is the serialised intermediate representation engines exchange.
+
+Adopted by DuckDB, Apache DataFusion, Velox, and Ibis (which compiles its DataFrame expressions to Substrait). Aims to be the portable IR between query frontends and execution engines, similar to LLVM IR for compilers.
+
+Links:
+- substrait.io: https://substrait.io
+- GitHub: substrait-io/substrait: https://github.com/substrait-io/substrait
+
+## OpenTelemetry — OpenTelemetry
+
+- URL: https://www.data-landscape.com/?std=opentelemetry
+- Category: Observability
+- Governance: CNCF (Cloud Native Computing Foundation), Linux Foundation
+- Status: Stable; widely adopted across cloud-native stacks
+- First released: 2019
+- Judgement: Adopt — Vendor-neutral observability standard.
+
+Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.
+
+In a data mesh context, OpenTelemetry is the natural choice for instrumenting pipelines and platform services so a federated governance team can correlate behaviour across domains.
+
+Links:
+- opentelemetry.io: https://opentelemetry.io
+- GitHub: open-telemetry: https://github.com/open-telemetry
+
+## OORS — Open Observability Results Standard
+
+- URL: https://www.data-landscape.com/?std=oors
+- Category: Observability
+- Governance: BITOL / Linux Foundation (draft)
+- Status: Emerging — auxiliary BITOL standard, not yet released
+- First released: 2025
+- Judgement: Assess — BITOL observability/quality-result standard; new and under-adopted.
+
+Auxiliary BITOL standard answering: what does an observability or quality-check result look like? Designed to sit alongside ODCS and ODPS so any tool can publish and consume verifiable check results.
+
+Today every tool reports check outcomes in its own shape. OORS aims to give the marketplace, governance UI, and AI agents one consistent format to ingest.
+
+Links:
+- BITOL project: https://bitol.io
+
+## ODCS — Open Data Contract Standard
+
+- URL: https://www.data-landscape.com/?std=odcs
+- Category: Contracts
+- Governance: BITOL / Linux Foundation
+- Status: v3.1 stable; v3.2 in progress
+- First released: 2023
+- Judgement: Adopt — Winning data-contract spec; YAML, multi-vendor.
+
+YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.
+
+Originated as PayPal's internal Data Contract Template (donated as ODCS 2.x). Starting with v3.0 the standard was generalised for any enterprise.
+
+Links:
+- Official site: https://bitol.io
+- GitHub: open-data-contract-standard: https://github.com/bitol-io/open-data-contract-standard
+- Spec (latest): https://bitol-io.github.io/open-data-contract-standard/latest/
+- Data Contract CLI: https://github.com/datacontract/datacontract-cli
+
+## OpenAPI — OpenAPI Specification
+
+- URL: https://www.data-landscape.com/?std=openapi
+- Category: Contracts
+- Governance: OpenAPI Initiative, Linux Foundation
+- Status: Stable; OAS 3.1 current
+- First released: 2011
+- Judgement: Adopt — De-facto REST description with tooling for almost every language.
+
+Originally Swagger (2011), now the de-facto standard for describing REST APIs. Tooling exists for almost every language and platform.
+
+OpenAPI is the reference success story for what an open standard can become. ODCS is essentially trying to do for data what OpenAPI did for REST APIs.
+
+Links:
+- openapis.org: https://www.openapis.org
+- GitHub: OAI/OpenAPI-Specification: https://github.com/OAI/OpenAPI-Specification
+
+## AsyncAPI — AsyncAPI Specification
+
+- URL: https://www.data-landscape.com/?std=asyncapi
+- Category: Contracts
+- Governance: AsyncAPI Initiative, Linux Foundation
+- Status: Stable; v3 current
+- First released: 2017
+- Judgement: Adopt — The OpenAPI-equivalent for event APIs once you commit to documenting them.
+
+Open-source standard for defining event-driven and message-based APIs across protocols like Kafka, AMQP, MQTT, WebSocket, and NATS.
+
+Where OpenAPI describes synchronous request/response, AsyncAPI describes asynchronous channels. The two specifications are intentionally aligned in style.
+
+Links:
+- asyncapi.com: https://www.asyncapi.com
+- GitHub: asyncapi: https://github.com/asyncapi
+
+## GraphQL — GraphQL
+
+- URL: https://www.data-landscape.com/?std=graphql
+- Category: Contracts
+- Governance: GraphQL Foundation, Linux Foundation
+- Status: Stable; widely adopted
+- First released: 2015
+- Judgement: Adopt — Default for client-driven aggregation; mature spec, multi-language tooling, well-established at scale.
+
+Query language and runtime for APIs originally created at Facebook. Lets clients ask for exactly the data they need from a typed schema.
+
+In a data mesh, GraphQL appears mostly on the consumption side — an output-port style for application teams that prefer typed graph queries over SQL.
+
+Links:
+- graphql.org: https://graphql.org
+- Specification: https://spec.graphql.org
+
+## gRPC — gRPC Remote Procedure Call
+
+- URL: https://www.data-landscape.com/?std=grpc
+- Category: Contracts
+- Governance: CNCF (Incubating), Linux Foundation
+- Status: Stable; ubiquitous in cloud-native stacks
+- First released: 2015
+- Judgement: Situational — Right for service-to-service binary RPC; wrong for browser clients.
+
+High-performance, language-agnostic RPC framework built on HTTP/2 and Protocol Buffers. Originated at Google, donated to CNCF.
+
+In a data architecture, gRPC shows up wherever services need fast, strongly-typed binary communication — internal service mesh, streaming pipelines, ML model serving.
+
+Links:
+- grpc.io: https://grpc.io
+- GitHub: grpc: https://github.com/grpc/grpc
+
+## dbt — data build tool
+
+- URL: https://www.data-landscape.com/?std=dbt
+- Category: Processing
+- Governance: dbt Labs (vendor-driven open source)
+- Status: De-facto standard for analytics engineering; vendor-governed format
+- First released: 2016
+- Judgement: Adopt — Analytics-engineering default: SQL-first models, tests, lineage.
+
+SQL-first transformation framework with built-in tests, documentation, and lineage. The de-facto standard for analytics engineering — used both to model warehouse data and to express the quality checks that ride alongside the transformations.
+
+Vendor-governed by dbt Labs rather than a foundation, so it isn't an open standard in the strict sense. Included here on the de-facto criterion: its YAML and Jinja-SQL conventions are what other tools (SQLMesh, Lightdash) interoperate with.
+
+Links:
+- getdbt.com: https://www.getdbt.com
+
+## Great Expectations — Great Expectations
+
+- URL: https://www.data-landscape.com/?std=great-expectations
+- Category: Data Quality
+- Governance: GX Labs (vendor-driven open source)
+- Status: Widely adopted; vendor-driven
+- First released: 2018
+- Judgement: Situational — Python-first DQ; powerful but heavy.
+
+Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.
+
+Open source and useful, but the spec is governed by one company, so it sits in the same vendor-driven bucket as dbt and SodaCL.
+
+Links:
+- greatexpectations.io: https://greatexpectations.io
+- GitHub: great-expectations: https://github.com/great-expectations/great_expectations
+
+## dbt tests — dbt schema and data tests
+
+- URL: https://www.data-landscape.com/?std=dbt-tests
+- Category: Data Quality
+- Governance: dbt Labs (vendor-driven open source)
+- Status: De-facto for analytics teams already on dbt
+- First released: 2016
+- Judgement: Situational — Right when your transformations already live in dbt; otherwise reach for a standalone DQ tool.
+
+The schema-test and data-test surface inside a dbt project — `tests:` blocks in schema.yml, generic and singular tests, and the test results that downstream tools (Elementary, dbt-osmosis, dbt artifacts) consume.
+
+Treated as a separate entry from dbt itself because the test surface is the part of dbt that data-quality tooling interoperates with. Adopt-grade if your transformations live in dbt; situational elsewhere because the tests can't easily be lifted out of a dbt project.
+
+Links:
+- docs.getdbt.com — Tests: https://docs.getdbt.com/docs/build/data-tests
+
+## SodaCL — Soda Checks Language
+
+- URL: https://www.data-landscape.com/?std=sodacl
+- Category: Data Quality
+- Governance: Soda (vendor-driven open source)
+- Status: Widely adopted; vendor-driven
+- First released: 2022
+- Judgement: Situational — YAML-first DQ; lighter than Great Expectations, smaller ecosystem.
+
+YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.
+
+Used under the hood by the Data Contract CLI to actually execute the quality checks declared in an ODCS contract.
+
+Links:
+- docs.soda.io/soda-cl: https://docs.soda.io/soda-cl/soda-cl-overview.html
+- Soda Core (open source): https://github.com/sodadata/soda-core
+
+## ODPS (BITOL @ LF) — Open Data Product Standard
+
+- URL: https://www.data-landscape.com/?std=odps
+- Category: Data Products
+- Governance: BITOL / Linux Foundation
+- Status: v1.0
+- First released: 2025
+- Judgement: Adopt — Winning data-product spec; ODCS-aligned.
+
+YAML standard for describing data products. Mirrors ODCS on fundamentals, ownership, and terms, and adds input ports, output ports, and management ports.
+
+Each port references an ODCS contract. Combined, ODCS + ODPS yield the full data-mesh dependency graph — consumers, products, sources — derived directly from YAML.
+
+Links:
+- GitHub: open-data-product-standard: https://github.com/bitol-io/open-data-product-standard
+- BITOL: https://bitol.io
+
+## DPDS — Data Product Descriptor Specification
+
+- URL: https://www.data-landscape.com/?std=dpds
+- Category: Data Products
+- Governance: OpenDataMesh community
+- Status: Active; community-driven specification
+- First released: 2022
+- Judgement: Assess — Coexists with BITOL's ODPS but with smaller community.
+
+YAML-based specification for describing data products with input ports, output ports, control ports, and discovery ports. Maintained by the OpenDataMesh initiative.
+
+Distinct from BITOL's ODPS: similar problem space, different community and slightly different mental model. Worth knowing both exist before you commit to one.
+
+Links:
+- dpds.opendatamesh.org: https://dpds.opendatamesh.org/concepts/data-product-descriptor/
+- OpenDataMesh: https://www.opendatamesh.org
+
+## ODPS (LF) — Open Data Product Specification
+
+- URL: https://www.data-landscape.com/?std=odpspec
+- Category: Data Products
+- Governance: opendataproducts.org / Linux Foundation
+- Status: Active; mature pricing & i18n features
+- First released: 2022
+- Judgement: Assess — LF-governed data-product spec; strong on commercial terms, modest adoption.
+
+Standalone open specification for describing data products, governed under the Linux Foundation umbrella. Strong on pricing plans and internationalisation, making it a natural fit for external data marketplaces with complex commercial terms.
+
+Different mental model from BITOL's ODPS: no concept of input ports, at most one linked contract at the top level. Both are valid — they solve different problems.
+
+Links:
+- opendataproducts.org: https://opendataproducts.org
+
+## DPROD — Data Product Vocabulary (DPROD)
+
+- URL: https://www.data-landscape.com/?std=dprod
+- Category: Data Products
+- Governance: EKGF / Object Management Group (OMG) — RDF/OWL vocabulary
+- Status: Active in semantic-web circles
+- First released: 2024
+- Judgement: Assess — RDF/OWL data-product vocabulary; right only when your stack already lives in linked data.
+
+RDF/OWL vocabulary for describing data products. Composes naturally with other semantic-web vocabularies (DCAT, SKOS, FIBO, etc.) when your stack already lives in the linked-data world.
+
+Where BITOL's ODPS is YAML and strict, DPROD is RDF and graph-native. Both have their place; the format choice determines what else you can compose with.
+
+Links:
+- DPROD specification: https://ekgf.github.io/dprod/
+
+## Iceberg — Apache Iceberg
+
+- URL: https://www.data-landscape.com/?std=iceberg
+- Category: Open Table Formats
+- Governance: Apache Software Foundation
+- Status: Stable; effectively the winner of the table-format race
+- First released: 2017
+- Judgement: Adopt — Default open table format for new lakes; multi-vendor catalog support and ASF governance.
+
+Open table format for huge analytic datasets — schema evolution, hidden partitioning, time travel, ACID semantics on object storage.
+
+Originated at Netflix; now a default in Snowflake, Databricks, AWS, and most query engines. Increasingly the substrate that other layers (catalogs, lakehouses) build on.
+
+Links:
+- iceberg.apache.org: https://iceberg.apache.org
+
+## Delta — Delta Lake
+
+- URL: https://www.data-landscape.com/?std=delta
+- Category: Open Table Formats
+- Governance: Linux Foundation (originally Databricks)
+- Status: Stable; widely deployed
+- First released: 2019
+- Judgement: Situational — Reach-For if you're on Databricks; Situational elsewhere.
+
+Open-source storage layer that brings ACID transactions, schema enforcement, and time travel to data lakes. The original lakehouse format.
+
+Delta Universal Format (UniForm) now also writes Iceberg-compatible metadata, narrowing the gap between the two formats.
+
+Links:
+- delta.io: https://delta.io
+
+## Hudi — Apache Hudi
+
+- URL: https://www.data-landscape.com/?std=hudi
+- Category: Open Table Formats
+- Governance: Apache Software Foundation
+- Status: Stable; strong streaming/upsert focus
+- First released: 2017
+- Judgement: Assess — Third-place table format; legitimate CDC-upsert use cases but lost the default slot.
+
+Transactional data lake platform that pioneered incremental processing and upserts on data lakes.
+
+Less mainstream than Iceberg or Delta today, but still the table format of choice when streaming upserts and CDC are first-class requirements.
+
+Links:
+- hudi.apache.org: https://hudi.apache.org
+
+## DuckLake — DuckLake
+
+- URL: https://www.data-landscape.com/?std=ducklake
+- Category: Catalog APIs
+- Governance: DuckDB Labs (vendor-driven open source)
+- Status: Emerging; v1.0 production-ready (April 2026), adoption concentrated in the DuckDB ecosystem
+- First released: 2025
+- Judgement: Assess — DuckDB-Labs catalog; v1.0 production-ready, ecosystem still small.
+
+Lakehouse catalog format from DuckDB Labs that puts the catalog inside a regular SQL database — no separate REST catalog, no manifest sprawl. Designed for simplicity and zero-infrastructure analytics.
+
+Links:
+- ducklake.select: https://ducklake.select
+- duckdb.org: https://duckdb.org
+
+## XML Schema — XML Schema Definition (XSD)
+
+- URL: https://www.data-landscape.com/?std=xml-schema
+- Category: Schema
+- Governance: W3C
+- Status: Stable since 2001
+- First released: 2001
+- Judgement: Adopt — The schema language for XML — load-bearing in enterprise integration, finance, healthcare, and government with mature tooling.
+
+W3C standard for describing the structure, content, and constraints of XML documents.
+
+Still the schema language of record in many enterprise integration scenarios — SOAP, banking, healthcare, and government.
+
+Links:
+- W3C: XML Schema: https://www.w3.org/XML/Schema
+
+## JSON Schema — JSON Schema
+
+- URL: https://www.data-landscape.com/?std=json-schema
+- Category: Schema
+- Governance: JSON Schema community / IETF
+- Status: Latest draft 2020-12; published independently after leaving the IETF Internet-Draft track
+- First released: 2009
+- Judgement: Adopt — Default API-payload validation; behind OpenAPI/AsyncAPI.
+
+Vocabulary for validating, annotating, and documenting JSON. The schema language of choice for modern HTTP APIs and event payloads.
+
+ODCS uses JSON Schema concepts for typing complex column structures, and the OpenAPI / AsyncAPI specs are themselves anchored in JSON Schema.
+
+Links:
+- json-schema.org: https://json-schema.org
+
+## SQL DDL — SQL Data Definition Language
+
+- URL: https://www.data-landscape.com/?std=sql-ddl
+- Category: Schema
+- Governance: ANSI / ISO/IEC 9075
+- Status: Stable; per-vendor extensions are everywhere
+- First released: 1986
+- Judgement: Adopt — Universal way to describe a relational schema; portable across engines.
+
+The CREATE / ALTER / DROP subset of SQL — the most universal way to describe a relational schema.
+
+The Data Contract CLI imports SQL DDL into ODCS contracts and exports back to it, because every relational engine speaks at least a flavour of it.
+
+Links:
+- ISO/IEC 9075 standard: https://www.iso.org/standard/76583.html
+
+## AVRO Schema — Apache Avro Schema
+
+- URL: https://www.data-landscape.com/?std=avro-schema
+- Category: Schema
+- Governance: Apache Software Foundation
+- Status: Stable; ubiquitous in streaming
+- First released: 2009
+- Judgement: Adopt — Schema language for Kafka payloads; pairs with Schema Registry.
+
+JSON-based schema language used to describe Avro-encoded records. Standard in Kafka via Confluent Schema Registry.
+
+Strong support for schema evolution rules — a key reason it has stuck around as the default schema dialect for event streams.
+
+Links:
+- avro.apache.org: https://avro.apache.org
+
+## Protobuf — Protocol Buffers
+
+- URL: https://www.data-landscape.com/?std=protobuf
+- Category: Schema
+- Governance: Google (open source, vendor-driven)
+- Status: Stable; de-facto schema for binary RPC
+- First released: 2008
+- Judgement: Adopt — Strong schema-evolution rules; default for gRPC.
+
+Google's language-neutral, platform-neutral mechanism for serialising structured data. Compact binary encoding plus strong schema evolution rules.
+
+The schema language behind gRPC and many internal RPC stacks. Open source but governed by Google, so it sits in the same vendor-driven bucket as dbt.
+
+Links:
+- protobuf.dev: https://protobuf.dev
+- GitHub: protobuf: https://github.com/protocolbuffers/protobuf
+
+## Iceberg Catalog — Iceberg REST Catalog
+
+- URL: https://www.data-landscape.com/?std=iceberg-catalog
+- Category: Catalog APIs
+- Governance: Apache Software Foundation
+- Status: Stable; rapidly becoming the default catalog protocol
+- First released: 2022
+- Judgement: Adopt — Canonical catalog API for Iceberg; multi-vendor implementations.
+
+Open REST API specification for Iceberg metadata catalogs. Decouples engines (Spark, Trino, Snowflake, Dremio, ...) from the catalog backend.
+
+Together with Iceberg the table format, this is what is making "open lakehouse" something more than marketing.
+
+Links:
+- Iceberg REST catalog: https://iceberg.apache.org/terms/#catalog
+
+## Unity Catalog — Unity Catalog
+
+- URL: https://www.data-landscape.com/?std=unity-catalog
+- Category: Catalog APIs
+- Governance: Linux Foundation (originally Databricks)
+- Status: Open-sourced 2024; growing ecosystem
+- First released: 2024
+- Judgement: Situational — LF-open-sourced but still Databricks-tilted in practice.
+
+Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation.
+
+Now competing with Iceberg REST as a catalog protocol. The two camps overlap and influence each other; expect convergence over the next couple of years.
+
+Links:
+- unitycatalog.io: https://www.unitycatalog.io
+- GitHub: unitycatalog: https://github.com/unitycatalog/unitycatalog
+
+## Hive Metastore — Apache Hive Metastore
+
+- URL: https://www.data-landscape.com/?std=hive-metastore
+- Category: Catalog APIs
+- Governance: Apache Software Foundation
+- Status: Stable; ubiquitous in lakehouse engines, slowly being replaced by Iceberg REST and Unity Catalog
+- First released: 2010
+- Judgement: Caution — The catalog Iceberg REST is displacing; maintain only.
+
+The metastore protocol of the Hadoop era. Long-standing de-facto standard for big-data catalogs — spoken by Spark, Trino, Presto, and most lakehouse engines.
+
+Slowly being superseded by Iceberg REST and Unity Catalog, but installed bases will keep it relevant for many years to come.
+
+Links:
+- hive.apache.org: https://hive.apache.org
+
+## Schema Registry — Confluent Schema Registry
+
+- URL: https://www.data-landscape.com/?std=schema-registry
+- Category: Catalog APIs
+- Governance: Confluent (open API; multiple compatible implementations)
+- Status: De-facto standard for streaming schemas
+- First released: 2014
+- Judgement: Adopt — The default Kafka schema-management surface.
+
+A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, "what shape is this Kafka topic?" has no answer.
+
+The REST API was designed by Confluent but the protocol is widely re-implemented: Apicurio Registry (Red Hat), AWS Glue Schema Registry, Karapace (Aiven), and Redpanda Schema Registry all speak it. That makes it the de-facto schema catalog of the streaming world, even if it is not formally standardised.
+
+Links:
+- Confluent Schema Registry: https://docs.confluent.io/platform/current/schema-registry/index.html
+- Apicurio Registry: https://www.apicur.io/registry/
+
+## CSV — Comma-Separated Values (RFC 4180)
+
+- URL: https://www.data-landscape.com/?std=csv
+- Category: File Formats
+- Governance: IETF (RFC 4180)
+- Status: Stable; the lowest common denominator for tabular data
+- First released: 2005
+- Judgement: Adopt — Universal flat file; ugly but ubiquitous.
+
+Plain-text tabular format. RFC 4180 specifies a baseline; in practice every tool has its own dialect for quoting, escaping, and line endings.
+
+Loved and hated in equal measure: terrible for nested data, perfect for spreadsheets, mandatory in data lake on-ramps.
+
+Links:
+- RFC 4180: https://www.ietf.org/rfc/rfc4180.txt
+
+## JSON — JavaScript Object Notation
+
+- URL: https://www.data-landscape.com/?std=json
+- Category: File Formats
+- Governance: IETF RFC 8259 / ECMA-404
+- Status: Stable; ubiquitous
+- First released: 2001
+- Judgement: Adopt — Universal payload format; not a choice.
+
+Standard text-based format for structured data. Pairs naturally with JSON Schema, OpenAPI, and AsyncAPI.
+
+In a lake, line-delimited JSON (NDJSON / JSONL) is the typical landing format before transformation into columnar formats like Parquet.
+
+Links:
+- json.org: https://www.json.org
+- RFC 8259: https://www.rfc-editor.org/rfc/rfc8259
+
+## XML — Extensible Markup Language
+
+- URL: https://www.data-landscape.com/?std=xml
+- Category: File Formats
+- Governance: W3C
+- Status: Stable since 1998; XML 1.0 (Fifth Edition, 2008) is the de-facto current spec
+- First released: 1998
+- Judgement: Adopt — Load-bearing in finance, healthcare, and government; mature tooling around XSD, XSLT, XPath, XQuery.
+
+Tag-based markup format for structured documents and data. Verbose by modern standards, but unmatched tooling around schemas, transformations, and validation (XSD, XSLT, XPath, XQuery).
+
+Still the format of record in many enterprise integration scenarios — banking, healthcare, government, and SOAP-based B2B exchange.
+
+Links:
+- W3C: XML: https://www.w3.org/XML/
+
+## YAML — YAML Ain't Markup Language
+
+- URL: https://www.data-landscape.com/?std=yaml
+- Category: File Formats
+- Governance: yaml.org / community spec
+- Status: Stable; v1.2.2 (2021)
+- First released: 2001
+- Judgement: Adopt — Default surface for config and contract specs.
+
+Human-readable data serialisation format. The default surface for metadata, configuration, and contract specifications — Kubernetes manifests, CI/CD pipelines, OpenAPI / AsyncAPI / ODCS / DPDS / dbt project files all live in YAML.
+
+Links:
+- yaml.org: https://yaml.org
+- YAML spec: https://yaml.org/spec/
+
+## PARQUET — Apache Parquet
+
+- URL: https://www.data-landscape.com/?std=parquet
+- Category: File Formats
+- Governance: Apache Software Foundation
+- Status: Stable; the columnar default
+- First released: 2013
+- Judgement: Adopt — De-facto columnar storage; baseline for analytics.
+
+Columnar storage format optimised for analytics: predicate pushdown, column pruning, efficient compression, and typed schemas.
+
+Effectively the default storage format underneath every modern table format (Iceberg, Delta, Hudi).
+
+Links:
+- parquet.apache.org: https://parquet.apache.org
+
+## AVRO — Apache Avro
+
+- URL: https://www.data-landscape.com/?std=avro
+- Category: File Formats
+- Governance: Apache Software Foundation
+- Status: Stable; standard in Kafka
+- First released: 2009
+- Judgement: Adopt — Kafka's binary payload of choice; first-class with Schema Registry.
+
+Row-oriented binary format that ships its schema alongside the data. Excellent for streaming and event payloads where messages are written and read one at a time.
+
+The natural counterpart to Parquet: Avro for streams, Parquet for analytics.
+
+Links:
+- avro.apache.org: https://avro.apache.org
+
+## ORC — Apache ORC (Optimized Row Columnar)
+
+- URL: https://www.data-landscape.com/?std=orc
+- Category: File Formats
+- Governance: Apache Software Foundation
+- Status: Stable; mostly seen in Hive-era stacks
+- First released: 2013
+- Judgement: Situational — Pick if you're in Hive/Tez territory; otherwise Parquet wins.
+
+Columnar file format created for the Hive ecosystem. Strong compression and ACID support inside Hive.
+
+Less common in greenfield projects today — Parquet has won most workloads — but still pervasive in big-data installations.
+
+Links:
+- orc.apache.org: https://orc.apache.org
+
+## Lance — Lance
+
+- URL: https://www.data-landscape.com/?std=lance
+- Category: File Formats, Open Table Formats
+- Governance: Lance community (independent open source, LF-inspired governance)
+- Status: Emerging; production use concentrated in AI/ML stacks
+- First released: 2022
+- Judgement: Assess — AI/ML-optimised columnar format; trajectory good, adoption concentrated.
+
+Modern columnar file format optimised for AI/ML workloads: 100x faster random access than Parquet, native support for embeddings and multimodal data (images, video, audio), and zero-copy schema evolution without rewriting files.
+
+Pairs with the Lance table format and catalog spec to form a lakehouse stack purpose-built for vector search and feature engineering alongside SQL analytics.
+
+Links:
+- lance.org: https://lance.org
+- GitHub: lance: https://github.com/lancedb/lance
+
+## OpenLineage — OpenLineage
+
+- URL: https://www.data-landscape.com/?std=openlineage
+- Category: Lineage
+- Governance: Linux Foundation
+- Status: Stable; growing integration list
+- First released: 2020
+- Judgement: Adopt — The lineage-emission standard, with column-level support.
+
+Open standard for collecting lineage metadata from data pipelines, including column-level lineage. Producers emit OpenLineage events; consumers (Marquez, catalogs, custom UIs) ingest them.
+
+For runtime lineage details — how the pipeline actually works — OpenLineage traces are the answer, not the data contract. Use both: contracts for design, OpenLineage for execution.
+
+Links:
+- openlineage.io: https://openlineage.io
+
+## OPA — Open Policy Agent
+
+- URL: https://www.data-landscape.com/?std=opa
+- Category: Policies
+- Governance: CNCF (Graduated)
+- Status: Stable; de-facto policy engine for cloud-native
+- First released: 2016
+- Judgement: Adopt — General-purpose policy engine; mature Rego ecosystem.
+
+General-purpose policy engine that decouples policy decisions from your services. Policies are written in Rego and evaluated at request time.
+
+In a data mesh, OPA shows up wherever federated governance needs to enforce rules — access requests, contract gates in CI, infrastructure guard-rails — without putting the rules into application code.
+
+Links:
+- openpolicyagent.org: https://www.openpolicyagent.org
+
+## MCP — Model Context Protocol
+
+- URL: https://www.data-landscape.com/?std=mcp
+- Category: AI Interfaces
+- Governance: Linux Foundation (created by Anthropic; multi-vendor steering)
+- Status: Active; rapid adoption since late 2024
+- First released: 2024
+- Judgement: Adopt — Became the AI tool-integration default in 2024–2025.
+
+Open protocol for connecting AI applications and agents to external systems: data sources, tools, and workflows. The "USB-C for AI": one spec, many servers and clients.
+
+For data architectures, MCP is becoming the standard way LLMs discover and query data products, semantic models, and catalogs. Created by Anthropic and now hosted at the Linux Foundation; Claude, ChatGPT, Cursor, VS Code, and many others speak it.
+
+Links:
+- modelcontextprotocol.io: https://modelcontextprotocol.io
+- GitHub: modelcontextprotocol: https://github.com/modelcontextprotocol
+
+## A2A — Agent2Agent Protocol
+
+- URL: https://www.data-landscape.com/?std=a2a
+- Category: AI Interfaces
+- Governance: Linux Foundation (created by Google; multi-vendor steering)
+- Status: Active; donated to LF in 2025
+- First released: 2025
+- Judgement: Situational — Agent-to-agent protocol; right when you have multi-agent orchestration, otherwise overkill.
+
+Open protocol for AI agents to discover, communicate, and collaborate with each other across vendors and frameworks. Where MCP is agent-to-tools, A2A is agent-to-agent: capability discovery, task delegation, and multi-turn dialogue between independently developed agents.
+
+Created by Google and donated to the Linux Foundation. Increasingly paired with MCP in production stacks: A2A for agent-to-agent orchestration, MCP for the tools and data each agent reaches into.
+
+Links:
+- a2a-protocol.org: https://a2a-protocol.org
+- GitHub: a2aproject/A2A: https://github.com/a2aproject/A2A
+
+## S3 — Amazon S3 API
+
+- URL: https://www.data-landscape.com/?std=s3
+- Category: Storage Systems
+- Governance: AWS (vendor-controlled, but de-facto standard)
+- Status: De-facto standard; implemented by everyone
+- First released: 2006
+- Judgement: Adopt — The object-storage API everyone implements.
+
+AWS's object storage API has become the lingua franca of the data lake. Every cloud, every storage vendor, every minio-style appliance speaks some flavour of it.
+
+Strictly speaking it is not an open standard — AWS controls it — but the practical reality is that "talks S3" is treated as a portability guarantee.
+
+Links:
+- AWS S3 API reference: https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html
+
+## OSI — Open Semantic Interchange
+
+- URL: https://www.data-landscape.com/?std=osi
+- Category: Semantics
+- Governance: OSI Initiative — Snowflake, Salesforce, dbt Labs, BlackRock, Databricks, Strategy (formerly MicroStrategy), and many more
+- Status: v0.1.1; explicitly early, working groups very active
+- First released: 2025
+- Judgement: Assess — Emerging vendor-neutral semantic exchange; promising, adoption early.
+
+Vendor-agnostic open-source standard for exchanging semantic models — datasets, relationships, metrics, and AI context — between BI platforms, AI agents, and analytics tools.
+
+Overlaps with ODCS on datasets and relationships, and adds metrics (e.g. total_revenue = SUM(order_total)) and dynamic fields (e.g. full_name = first_name + " " + last_name). ODCS still owns terms of use, quality, and SLAs.
+
+Links:
+- opensemantic.com: https://opensemantic.com
+- GitHub: open-semantic-interchange: https://github.com/open-semantic-interchange/OSI
+- Open Semantic Editor: https://editor.opensemantic.com
+
+## RDF/OWL — Resource Description Framework / Web Ontology Language
+
+- URL: https://www.data-landscape.com/?std=rdf-owl
+- Category: Semantics
+- Governance: W3C
+- Status: Stable; foundation of the semantic web
+- First released: 1999
+- Judgement: Situational — Semantic-web foundation; right when reasoning/inference matter.
+
+RDF is the W3C model for representing graph data; OWL extends it for richer ontologies and reasoning. Together they are the foundation of the semantic web.
+
+YAML formats like ODCS and OSI buy simplicity at the cost of composability. RDF/OWL trade off the other way: harder to author, much easier to compose vocabularies that were never designed together.
+
+Links:
+- W3C: RDF: https://www.w3.org/RDF/
+- W3C: OWL: https://www.w3.org/OWL/
+
+## DCAT — Data Catalog Vocabulary
+
+- URL: https://www.data-landscape.com/?std=dcat
+- Category: Semantics
+- Governance: W3C
+- Status: Stable; v3 current
+- First released: 2014
+- Judgement: Situational — Mandatory in EU open-data and many regulatory contexts.
+
+RDF vocabulary designed to facilitate interoperability between data catalogs. Mandatory for many EU open-data portals.
+
+DCAT lives in the RDF / semantic-web world as a catalog vocabulary inspired by libraries and dataset offerings. Different mental model from contract-first standards like ODCS.
+
+Links:
+- W3C: DCAT: https://www.w3.org/TR/vocab-dcat/
+
+## SKOS — Simple Knowledge Organization System
+
+- URL: https://www.data-landscape.com/?std=skos
+- Category: Semantics
+- Governance: W3C
+- Status: Stable since 2009
+- First released: 2009
+- Judgement: Situational — Right when you actually have a taxonomy.
+
+W3C standard for representing thesauri, taxonomies, and controlled vocabularies in RDF.
+
+Useful for sharing classifications — PII categories, business glossaries, regulatory taxonomies — in a way that other tools can consume without bespoke mapping.
+
+Links:
+- W3C: SKOS: https://www.w3.org/2004/02/skos/
+
+## SHACL — Shapes Constraint Language
+
+- URL: https://www.data-landscape.com/?std=shacl
+- Category: Semantics
+- Governance: W3C
+- Status: Stable since 2017 (1.0); SHACL 1.2 in progress (FPWDs published 2025)
+- First released: 2017
+- Judgement: Situational — Validate RDF; only when you already speak RDF.
+
+W3C language for validating RDF graphs against a set of conditions — the JSON Schema of the RDF world.
+
+Used heavily where the semantic stack actually has to enforce rules, not just describe them.
+
+Links:
+- W3C: SHACL: https://www.w3.org/TR/shacl/
+
+## JSON-LD — JSON for Linking Data
+
+- URL: https://www.data-landscape.com/?std=json-ld
+- Category: Semantics
+- Governance: W3C
+- Status: Stable; JSON-LD 1.1 current
+- First released: 2014
+- Judgement: Situational — Pragmatic semantic-web on-ramp inside ordinary JSON.
+
+A JSON-based serialisation for linked data. Lets you embed semantic context (types, relationships, IRIs) into ordinary JSON without breaking JSON consumers that ignore it.
+
+The pragmatic on-ramp into the RDF world: how Schema.org rides on web pages, how decentralised identity (DID, Verifiable Credentials) ships its payloads, and how many APIs add semantics to existing JSON without forcing clients to learn RDF.
+
+Links:
+- W3C: JSON-LD 1.1: https://www.w3.org/TR/json-ld11/
+- json-ld.org: https://json-ld.org
+
+## SPARQL — SPARQL Protocol and RDF Query Language
+
+- URL: https://www.data-landscape.com/?std=sparql
+- Category: Query
+- Governance: W3C
+- Status: Stable; SPARQL 1.1 current, 1.2 in progress
+- First released: 2008
+- Judgement: Situational — Query RDF; right when your data lives in triples.
+
+The query language for RDF graphs. Pattern-matching syntax that walks graph triples, with federation across endpoints, updates, and a standardised HTTP protocol.
+
+Where SQL is to relational tables, SPARQL is to RDF: the standard way to ask questions of an OSI, DCAT, SKOS, or SHACL-validated graph. Without it, the rest of the W3C semantic stack cannot answer queries portably.
+
+Links:
+- W3C: SPARQL 1.1: https://www.w3.org/TR/sparql11-overview/
+
+## HDFS — Hadoop Distributed File System
+
+- URL: https://www.data-landscape.com/?std=hdfs
+- Category: Storage Systems
+- Governance: Apache Software Foundation
+- Status: Stable; mature, declining in greenfield projects
+- First released: 2006
+- Judgement: Caution — Hadoop-era distributed FS; object storage replaced it for nearly all new builds.
+
+Distributed file system designed to run on commodity hardware, originally inspired by Google File System. The storage substrate of the classic Hadoop stack.
+
+Object storage (S3 and friends) has displaced HDFS in most new architectures, but large existing deployments mean it remains an important interface to support.
+
+Links:
+- hadoop.apache.org: https://hadoop.apache.org
+
+## JDBC — Java Database Connectivity
+
+- URL: https://www.data-landscape.com/?std=jdbc
+- Category: Database Connectivity
+- Governance: Java Community Process (JCP)
+- Status: Stable; ubiquitous in JVM ecosystems
+- First released: 1997
+- Judgement: Adopt — Every JVM data tool speaks it; default for 25 years.
+
+Standard Java API for connecting to relational databases. Every serious analytical engine, BI tool, and JVM-based data pipeline speaks JDBC.
+
+Row-oriented by design — fine for transactional workloads, suboptimal for moving large analytical result sets where columnar transports like ADBC are faster.
+
+Links:
+- JDBC overview: https://docs.oracle.com/javase/tutorial/jdbc/
+
+## ODBC — Open Database Connectivity
+
+- URL: https://www.data-landscape.com/?std=odbc
+- Category: Database Connectivity
+- Governance: ISO/IEC 9075-3 (originally Microsoft / SQL Access Group)
+- Status: Stable since 1992; cross-language standard
+- First released: 1992
+- Judgement: Adopt — Cross-language equivalent of JDBC; sits behind every BI tool.
+
+C-based, language-neutral API for accessing relational databases. The cross-platform sibling of JDBC, and the connectivity layer behind most BI tools and Excel-style integrations.
+
+Like JDBC, ODBC is row-oriented — efficient for transactional access, less so for analytical column-heavy result sets.
+
+Links:
+- ISO/IEC 9075-3: https://www.iso.org/standard/76585.html
+- Microsoft ODBC reference: https://learn.microsoft.com/en-us/sql/odbc/reference/odbc-overview
+
+## XMLA — XML for Analysis
+
+- URL: https://www.data-landscape.com/?std=xmla
+- Category: Database Connectivity
+- Governance: XMLA Council (Microsoft, Hyperion, SAS); de-facto industry spec
+- Status: Legacy; still the standard wire protocol for OLAP/semantic-layer access
+- First released: 2001
+- Judgement: Caution — Legacy SOAP-based BI protocol; survives only inside MS Analysis Services.
+
+SOAP-based protocol for querying multidimensional data sources — cubes, semantic layers, and tabular models. The transport that carries MDX (and DAX) queries between BI clients and analytical engines.
+
+Implemented by Microsoft Analysis Services, Mondrian, SAP BW, AtScale, and consumed by Excel, Power BI, Tableau, and most enterprise BI tools. Greenfield analytics has moved on, but XMLA remains how a vast amount of cube-based reporting actually talks to its backend.
+
+Links:
+- XMLA 1.1 specification: https://learn.microsoft.com/en-us/openspecs/sql_server_protocols/ms-ssas/c0e5c5fc-fe93-4e58-a3b6-b1d95a47d22d
+- Wikipedia: XML for Analysis: https://en.wikipedia.org/wiki/XML_for_Analysis
+
+## ADBC — Arrow Database Connectivity
+
+- URL: https://www.data-landscape.com/?std=adbc
+- Category: Database Connectivity
+- Governance: Apache Software Foundation (Arrow project)
+- Status: Stable; growing driver ecosystem
+- First released: 2023
+- Judgement: Adopt — Arrow-native DB connectivity; the modern replacement for JDBC/ODBC on analytical workloads.
+
+Arrow-native database connectivity API. Where JDBC and ODBC marshal results row-by-row, ADBC moves data as Arrow record batches — zero-copy where possible, dramatically faster for analytical workloads.
+
+Designed to coexist with JDBC and ODBC: drivers can wrap them today, and engines can expose ADBC natively for the columnar fast path.
+
+Links:
+- arrow.apache.org/adbc: https://arrow.apache.org/adbc/
+
+## Quack — Quack
+
+- URL: https://www.data-landscape.com/?std=quack
+- Category: Database Connectivity
+- Governance: DuckDB Labs (vendor-driven open source)
+- Status: Emerging; new client-server protocol from the DuckDB ecosystem
+- First released: 2025
+- Judgement: Assess — DuckDB's new client-server protocol; promising but early — watch adoption beyond the DuckDB ecosystem.
+
+Client-server wire protocol from DuckDB Labs for talking to a DuckDB server. Where JDBC/ODBC/ADBC are client APIs that bind to drivers, Quack defines the protocol on the wire — so clients in any language can speak to a DuckDB server without an embedded engine.
+
+Positions DuckDB beyond the embedded use case it grew up in, and complements ADBC: ADBC standardises the columnar result contract, Quack standardises the connection.
+
+Links:
+- duckdb.org: https://duckdb.org
+
+## HTTP — Hypertext Transfer Protocol
+
+- URL: https://www.data-landscape.com/?std=http
+- Category: Interconnection
+- Governance: IETF
+- Status: Stable; HTTP/3 (RFC 9114) is current
+- First released: 1991
+- Judgement: Adopt — Universal application transport; nobody decides to use it.
+
+The application protocol of the web, and the universal transport beneath REST APIs, OpenAPI, GraphQL, gRPC (HTTP/2), Iceberg REST catalogs, and OpenLineage events.
+
+Most data interfaces today are some flavour of "HTTP plus a schema" — which is why HTTP is a load-bearing assumption in almost any modern data architecture.
+
+Links:
+- RFC 9110 (HTTP semantics): https://www.rfc-editor.org/rfc/rfc9110
+
+## Kafka — Apache Kafka
+
+- URL: https://www.data-landscape.com/?std=kafka
+- Category: Messaging
+- Governance: Apache Software Foundation
+- Status: Stable; the de-facto streaming platform
+- First released: 2011
+- Judgement: Adopt — The streaming backbone; competitors challenge the implementation, not the category.
+
+Distributed log and streaming platform. Originally built at LinkedIn, donated to ASF; now the default backbone for event-driven data pipelines.
+
+The Kafka wire protocol is openly documented and re-implemented by Redpanda, WarpStream, and others, so it sits next to AMQP as a standard option for asynchronous data movement.
+
+Links:
+- kafka.apache.org: https://kafka.apache.org
+
+## MQTT — Message Queuing Telemetry Transport
+
+- URL: https://www.data-landscape.com/?std=mqtt
+- Category: Messaging
+- Governance: OASIS
+- Status: Stable; MQTT 5.0 standardised
+- First released: 1999
+- Judgement: Situational — Excellent in IoT/edge, irrelevant outside it.
+
+Lightweight publish-subscribe messaging protocol designed for constrained devices and unreliable networks. The dominant wire protocol for IoT and edge data.
+
+Where AMQP and Kafka fit centralised broker patterns inside the data centre, MQTT is what shows up at the edge: sensors, vehicles, factory floors. Bridging MQTT into Kafka is a common ingest pattern for industrial data.
+
+Links:
+- mqtt.org: https://mqtt.org
+- OASIS MQTT 5.0: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html
+
+## CloudEvents — CloudEvents
+
+- URL: https://www.data-landscape.com/?std=cloudevents
+- Category: Messaging
+- Governance: CNCF (Graduated)
+- Status: Stable; CloudEvents 1.0 graduated at CNCF
+- First released: 2018
+- Judgement: Adopt — Default event envelope; HTTP/Kafka/AMQP/MQTT bindings all standardised.
+
+Specification for describing event data in a common way. Defines a vendor-neutral envelope (id, source, type, time, data) plus protocol bindings for HTTP, Kafka, AMQP, MQTT, NATS, and others.
+
+Where Kafka/AMQP/MQTT are transports, CloudEvents is the shape of what flows over them. Increasingly the default cross-system event format in cloud-native and serverless architectures.
+
+Links:
+- cloudevents.io: https://cloudevents.io
+- GitHub: cloudevents/spec: https://github.com/cloudevents/spec
+
+## AMQP — Advanced Message Queuing Protocol
+
+- URL: https://www.data-landscape.com/?std=amqp
+- Category: Messaging
+- Governance: OASIS
+- Status: Stable; AMQP 1.0 standardised
+- First released: 2003
+- Judgement: Situational — Pick when you want broker semantics (RabbitMQ-shaped problems).
+
+Open wire-level protocol for message-oriented middleware. Reliable, broker-mediated message exchange independent of any single vendor.
+
+Implemented by RabbitMQ, Azure Service Bus, ActiveMQ and others. Sits next to MQTT and the Kafka protocol as a standard option for asynchronous data movement.
+
+Links:
+- amqp.org: https://www.amqp.org
+- OASIS AMQP 1.0: https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-overview-v1.0-os.html
+
+## JMS — Jakarta Messaging (formerly Java Message Service)
+
+- URL: https://www.data-landscape.com/?std=jms
+- Category: Messaging
+- Governance: Eclipse Foundation (Jakarta EE); originally JCP
+- Status: Stable; Jakarta Messaging 3.1 is current
+- First released: 2001
+- Judgement: Caution — Java-only messaging API; maintain if you have it, don't pick it new.
+
+Java API specification for producing, sending, and consuming messages between application components. Originally JSR 914 under the Java Community Process; now Jakarta Messaging under the Eclipse Foundation.
+
+Implemented by ActiveMQ, Artemis, IBM MQ, Solace, and most enterprise message brokers. JMS sits one layer above wire protocols like AMQP — it standardises the application API rather than the on-the-wire bytes.
+
+Links:
+- Jakarta Messaging spec: https://jakarta.ee/specifications/messaging/
+- JSR 914 (original JMS 1.1): https://jcp.org/en/jsr/detail?id=914
+
+## FTP / SFTP — File Transfer Protocol / SSH File Transfer Protocol
+
+- URL: https://www.data-landscape.com/?std=ftp
+- Category: Interconnection
+- Governance: IETF
+- Status: Stable; legacy but pervasive in B2B data exchange
+- First released: 1971
+- Judgement: Caution — Unencrypted FTP is unsafe for new work; SFTP-only as a last resort when partners can't speak HTTP APIs.
+
+FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.
+
+Unsexy but unavoidable: many regulated industries — banking, insurance, public sector — still hand off bulk data between organisations as nightly (S)FTP drops.
+
+Links:
+- RFC 959 (FTP): https://www.rfc-editor.org/rfc/rfc959
+- SFTP draft: https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-13
+
+## Delta Sharing — Delta Sharing Protocol
+
+- URL: https://www.data-landscape.com/?std=deltasharing
+- Category: Interconnection
+- Governance: Linux Foundation (donated by Databricks)
+- Status: Stable; multi-vendor adoption
+- First released: 2021
+- Judgement: Situational — Cross-org sharing without copies; well-defined niche.
+
+Open REST protocol for sharing tabular datasets across organisations and platforms without copying data. A recipient gets short-lived signed URLs to read Parquet/Delta files directly from the provider's object store.
+
+Implemented by Databricks, plus open-source servers and clients in Python, Spark, Pandas, and Power BI. Sits next to FTP and HTTP as a modern, table-aware option for cross-organisation data exchange.
+
+Links:
+- delta.io/sharing: https://delta.io/sharing/
+- GitHub: delta-io/delta-sharing: https://github.com/delta-io/delta-sharing
+
+## DataFrame API — Python Dataframe API Standard
+
+- URL: https://www.data-landscape.com/?std=dataframe
+- Category: In-Memory Format
+- Governance: Consortium for Python Data API Standards (data-apis.org)
+- Status: Draft RFC; multi-vendor adoption underway
+- First released: 2021
+- Judgement: Adopt — Portable Python DataFrame spec; the way to write library code that runs on pandas, Polars, Modin, and cuDF.
+
+Open standard for a portable DataFrame API across Python implementations. The aim: write code once, run on pandas, Polars, Modin, cuDF, or any compliant library.
+
+Sister specification to the Array API Standard. Sponsored by data-apis.org with backing from Quansight, NVIDIA, Microsoft, Intel, and the major DataFrame projects. The standard everyone reaches for when "which DataFrame API?" needs to stop being a portability question.
+
+Links:
+- data-apis.org: https://data-apis.org
+- DataFrame API draft RFC: https://data-apis.org/dataframe-api/draft/
+
+## Apache Arrow — Apache Arrow
+
+- URL: https://www.data-landscape.com/?std=arrow
+- Category: In-Memory Format
+- Governance: Apache Software Foundation
+- Status: Stable; broadly adopted across the analytics stack
+- First released: 2016
+- Judgement: Adopt — In-memory columnar standard powering Flight, ADBC, DataFusion, Polars.
+
+Language-agnostic columnar in-memory format for analytical data. Designed for zero-copy reads and efficient interchange between processes, languages, and engines.
+
+Foundation for ADBC, the basis of pandas 2.x, the wire format of Arrow Flight, and the in-memory layout of DuckDB, Polars, and many others. Arrow is the connective tissue of modern analytics.
+
+Links:
+- arrow.apache.org: https://arrow.apache.org
+
+## Spark — Apache Spark
+
+- URL: https://www.data-landscape.com/?std=spark
+- Category: Processing
+- Governance: Apache Software Foundation
+- Status: Stable; Spark 4.x current, 3.x widely deployed
+- First released: 2014
+- Judgement: Adopt — Default distributed batch+streaming engine.
+
+Distributed analytics engine with a DataFrame API across Scala, Java, Python, and R. The classic large-scale processing engine for batch and streaming workloads.
+
+Spark Connect decouples client and engine, making the DataFrame API a portable client interface — which is why it shows up here as an interface, not just an engine.
+
+Links:
+- spark.apache.org: https://spark.apache.org
+
+## Beam — Apache Beam
+
+- URL: https://www.data-landscape.com/?std=beam
+- Category: Processing
+- Governance: Apache Software Foundation
+- Status: Stable; multi-runner model spec
+- First released: 2016
+- Judgement: Situational — Write once, run on Flink/Spark/Dataflow; right when runner portability matters.
+
+Unified programming model for batch and streaming data processing. Pipelines written once in Beam can run on Flink, Spark, Google Cloud Dataflow, or the direct local runner.
+
+Originated as Google's Dataflow SDK, donated to ASF in 2016. Stronger claim to “standard” than most processing frameworks: the model itself — PCollections, transforms, windowing, triggers — is the spec, with runners as competing implementations.
+
+Links:
+- beam.apache.org: https://beam.apache.org
+
+## Pandas — pandas
+
+- URL: https://www.data-landscape.com/?std=pandas
+- Category: Processing
+- Governance: NumFOCUS (open source)
+- Status: Stable; the de-facto Python DataFrame API
+- First released: 2008
+- Judgement: Adopt — Universal Python DataFrame; you don't choose it, you encounter it.
+
+The original Python DataFrame library. Whatever else a Python data practitioner uses, they almost certainly know pandas — which makes its API a de-facto interface that other libraries (Polars, Modin, cuDF) deliberately mimic.
+
+Pandas 2.x added Arrow-backed columns, narrowing the gap with newer engines while preserving the familiar API.
+
+Links:
+- pandas.pydata.org: https://pandas.pydata.org
+
+## Ibis — Ibis
+
+- URL: https://www.data-landscape.com/?std=ibis
+- Category: Processing
+- Governance: Ibis Project (open source)
+- Status: Stable; multi-backend
+- First released: 2015
+- Judgement: Assess — Portable Python DataFrame compiling to many backends; trajectory strong, footprint small.
+
+Portable Python DataFrame API that compiles expressions to a backend of choice — DuckDB, BigQuery, Snowflake, Postgres, Spark, and many others.
+
+Lets analytics code be written once and executed against whichever engine the data happens to live on, without rewriting in each backend's SQL dialect.
+
+Links:
+- ibis-project.org: https://ibis-project.org
+
+## SQL DML — SQL Data Manipulation Language
+
+- URL: https://www.data-landscape.com/?std=sql-dml
+- Category: Processing
+- Governance: ANSI / ISO/IEC 9075
+- Status: Stable since 1986; revised regularly (latest SQL:2023)
+- First released: 1986
+- Judgement: Adopt — Portable transformation language across relational/lakehouse engines.
+
+The processing side of SQL: CTEs and window functions for transformation logic, INSERT / UPDATE / DELETE / MERGE for state changes, and CREATE OR REPLACE TABLE / VIEW for materialising results. The portable way to express batch transformations against any relational or lakehouse engine.
+
+Tools like dbt, SQLMesh, and dataform are essentially orchestrators around this surface — the transformations themselves are SQL DML.
+
+Links:
+- ISO/IEC 9075 standard: https://www.iso.org/standard/76583.html
+- Wikipedia: SQL: https://en.wikipedia.org/wiki/SQL
+
+## XSLT — Extensible Stylesheet Language Transformations
+
+- URL: https://www.data-landscape.com/?std=xslt
+- Category: Processing
+- Governance: W3C
+- Status: Legacy; XSLT 3.0 (2017) is current, but new adoption is rare
+- First released: 1999
+- Judgement: Caution — XML transformation; maintain if you have it, don't pick it new.
+
+Declarative, template-based language for transforming XML documents into other XML, HTML, or text. The processing counterpart to XML Schema — where XSD describes structure, XSLT rewrites it.
+
+Implemented by Saxon, libxslt, and every major XML toolchain. Still load-bearing in publishing, government, banking, and healthcare integrations where XML pipelines never went away.
+
+Links:
+- W3C: XSL Transformations (XSLT) 3.0: https://www.w3.org/TR/xslt-30/
+- Wikipedia: XSLT: https://en.wikipedia.org/wiki/XSLT
+
+## LinkML — Linked data Modeling Language
+
+- URL: https://www.data-landscape.com/?std=linkml
+- Category: Schema
+- Governance: LinkML community / Monarch Initiative
+- Status: Stable; widely used in biomedical and life-sciences data modelling
+- First released: 2019
+- Judgement: Assess — Multi-output schema language; strong in biomedical, niche elsewhere.
+
+YAML-based schema language for modelling structured data and ontologies. One LinkML schema can be compiled to JSON Schema, SHACL, RDF/OWL, Pydantic classes, Protobuf, and SQL DDL — useful when the same domain model needs to power validation, semantics, and code generation simultaneously.
+
+Sits between schema languages (JSON Schema, AVRO Schema) and ontology languages (RDF/OWL, SHACL). Pragmatic, opinionated, and increasingly the default modelling vehicle in linked-data-friendly research consortia.
+
+Links:
+- linkml.io: https://linkml.io
+- GitHub: linkml/linkml: https://github.com/linkml/linkml
+
+## schema.org — schema.org vocabulary
+
+- URL: https://www.data-landscape.com/?std=schemaorg
+- Category: Semantics
+- Governance: schema.org Community Group / W3C
+- Status: Stable; mainstream for web structured data, niche in data-architecture contexts
+- First released: 2011
+- Judgement: Assess — Web SEO/structured-data vocabulary; different audience from data-platform work.
+
+Open vocabulary of types and properties for structured data on the web, originated by Google, Microsoft, Yahoo, and Yandex in 2011 and now stewarded by the schema.org Community Group at W3C. Provides ~800 types (Person, Organization, Product, Dataset, Article…) and thousands of properties.
+
+Most often serialised as JSON-LD inside HTML pages so search engines can read structured data. The Dataset and DataCatalog types overlap with DCAT — and many open-data portals publish both views of the same metadata.
+
+Links:
+- schema.org: https://schema.org
+- GitHub: schemaorg/schemaorg: https://github.com/schemaorg/schemaorg
+
+## ShEx — Shape Expressions Language
+
+- URL: https://www.data-landscape.com/?std=shex
+- Category: Semantics
+- Governance: W3C Shape Expressions Community Group
+- Status: Stable; ShEx 2.1 current
+- First released: 2017
+- Judgement: Assess — RDF shape validation parallel to SHACL; smaller community.
+
+Concise, human-friendly grammar for describing the expected shape of RDF graphs. Used to validate that linked data conforms to a target schema before publishing or ingesting it.
+
+Originated alongside SHACL during the W3C RDF Data Shapes Working Group. The two specs solve overlapping problems with different design choices: ShEx prioritises a compact ShExC syntax and recursive shape definitions; SHACL prioritises RDF-native rule expression.
+
+Links:
+- shex.io: https://shex.io/
+- ShEx 2.1 Primer: https://shex.io/shex-primer/
+
+## ODRL — Open Digital Rights Language
+
+- URL: https://www.data-landscape.com/?std=odrl
+- Category: Policies
+- Governance: W3C
+- Status: W3C Recommendation; v2.2 current (since 2018)
+- First released: 2018
+- Judgement: Assess — Rights-expression language; relevant where data licensing matters.
+
+RDF/JSON-based language for expressing permissions, prohibitions, and obligations over digital assets. Born out of digital-rights management; W3C ratified the Information Model (v2.2) and Vocabulary in 2018.
+
+Sees growing use in European data-spaces work where machine-readable usage policies are part of the contract surface — ODRL policies often ship alongside ODCS-style contracts to declare what consumers may and may not do with the data.
+
+Links:
+- ODRL Information Model 2.2: https://www.w3.org/TR/odrl-model/
+- ODRL Vocabulary 2.2: https://www.w3.org/TR/odrl-vocab/
+- ODRL Community Group: https://www.w3.org/community/odrl/
+
+## PROV — PROV — Provenance Family
+
+- URL: https://www.data-landscape.com/?std=prov
+- Category: Lineage
+- Governance: W3C
+- Status: W3C Recommendation since 2013
+- First released: 2013
+- Judgement: Assess — W3C provenance vocabulary; predates OpenLineage by a decade, fading.
+
+Family of W3C documents (PROV-DM data model, PROV-O OWL ontology, PROV-N notation, PROV-XML serialisation) for describing entities, activities, and agents involved in producing a piece of data.
+
+Common in scientific data, archival systems, and FAIR-data contexts. The conceptual model (Entity / Activity / Agent / wasDerivedFrom / wasGeneratedBy) heavily influenced later lineage standards including OpenLineage's job/run/dataset triples.
+
+Links:
+- PROV Overview: https://www.w3.org/TR/prov-overview/
+- PROV-O ontology: https://www.w3.org/TR/prov-o/
+- PROV-DM model: https://www.w3.org/TR/prov-dm/
+
+## GQL — Graph Query Language
+
+- URL: https://www.data-landscape.com/?std=gql
+- Category: Query
+- Governance: ISO/IEC 39075:2024
+- Status: Stable; ISO/IEC 39075:2024 published
+- First released: 2024
+- Judgement: Situational — Vendor-neutral property-graph query language — pick when your stack is already on graph databases.
+
+ISO/IEC 39075 standard query language for property graphs, ratified in 2024. The first new ISO data query language standard since SQL; designed to do for graph databases what SQL did for relational ones.
+
+Implemented or in-progress at Neo4j (extending Cypher), TigerGraph, Oracle, Memgraph, AWS Neptune, and others. Heavily influenced by openCypher and ISO SQL/PGQ (the SQL extension for property-graph queries that shipped in SQL:2023).
+
+Links:
+- ISO/IEC 39075:2024: https://www.iso.org/standard/76120.html
+- GQL Standards (project site): https://www.gqlstandards.org/
+
+## OData — Open Data Protocol (v4)
+
+- URL: https://www.data-landscape.com/?std=odata
+- Category: Contracts
+- Governance: OASIS (originally Microsoft)
+- Status: Stable; v4.01 current (OASIS Standard since 2014)
+- First released: 2014
+- Judgement: Situational — Pick when you live in the Microsoft BI/Dynamics world.
+
+Standardised protocol for building and consuming RESTful data APIs. Defines URL conventions, query syntax (filter, select, expand, orderby, pagination), and a metadata model (CSDL) so clients can discover schema and capabilities programmatically.
+
+Heavily used inside Microsoft (Dynamics 365, Power BI, Microsoft Graph), SAP (S/4HANA, OData services), Salesforce, and Oracle Fusion. Where OpenAPI describes any REST surface, OData prescribes a uniform shape so consumers don't have to learn each API individually.
+
+Links:
+- odata.org: https://www.odata.org/
+- OASIS OData TC: https://www.oasis-open.org/committees/odata/
+- OData v4.01 spec: https://docs.oasis-open.org/odata/odata/v4.01/
+
+## Table Schema — Frictionless Table Schema
+
+- URL: https://www.data-landscape.com/?std=frictionless-table-schema
+- Category: Schema
+- Governance: Frictionless Data / Open Knowledge Foundation
+- Status: Stable; v1.0 (2017), continually maintained
+- First released: 2017
+- Judgement: Assess — Lightweight Frictionless tabular spec; small ecosystem.
+
+Lightweight JSON spec for describing the columns of a tabular dataset — name, type, format, constraints, primary key, foreign keys. Rendered alongside the actual CSV/JSON data inside a Data Package so consumers can validate and type-cast without out-of-band documentation.
+
+Common in open-data ecosystems: data.gov, the EU Open Data Portal, and many research-data publishers ship Frictionless Data Packages containing one Table Schema per resource.
+
+Links:
+- Table Schema spec: https://specs.frictionlessdata.io/table-schema/
+- frictionlessdata.io: https://frictionlessdata.io/

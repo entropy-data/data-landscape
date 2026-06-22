@@ -2,3 +2,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.data-landscape.com/sitemap.xml
+
+# LLM-targeted summaries (https://llmstxt.org/):
+#   https://www.data-landscape.com/llms.txt      — concise index
+#   https://www.data-landscape.com/llms-full.txt — full per-standard reference
