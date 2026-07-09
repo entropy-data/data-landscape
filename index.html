@@ -140,6 +140,14 @@
       flex-shrink: 0;
       filter: brightness(0) invert(1);
     }
+    .category-panel-header .name a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .category-panel-header .name a:hover,
+    .category-panel-header .name a:focus-visible {
+      text-decoration: underline;
+    }
     .category-panel-header .name {
       margin: 0;
       font-weight: 700;
@@ -973,7 +981,7 @@
           <div class="category-panel col-3">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/api.svg" alt="">
-              <h3 class="name">Contracts</h3>
+              <h3 class="name"><a href="/categories/contracts/">Contracts</a></h3>
               <span class="count"><span x-text="tilesIn('Contracts').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1040,7 +1048,7 @@
           <div class="category-panel col-3 panel-data-products">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/products.svg" alt="">
-              <h3 class="name">Data Products</h3>
+              <h3 class="name"><a href="/categories/data-products/">Data Products</a></h3>
               <span class="count"><span x-text="tilesIn('Data Products').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1089,7 +1097,7 @@
           <div class="category-panel col-3">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/schema.svg" alt="">
-              <h3 class="name">Schema</h3>
+              <h3 class="name"><a href="/categories/schema/">Schema</a></h3>
               <span class="count"><span x-text="tilesIn('Schema').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1164,7 +1172,7 @@
           <div class="category-panel col-3">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/semantics.svg" alt="">
-              <h3 class="name">Semantics</h3>
+              <h3 class="name"><a href="/categories/semantics/">Semantics</a></h3>
               <span class="count"><span x-text="tilesIn('Semantics').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1257,7 +1265,7 @@
           <div class="category-panel col-5">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/files.svg" alt="">
-              <h3 class="name">File Formats</h3>
+              <h3 class="name"><a href="/categories/file-formats/">File Formats</a></h3>
               <span class="count"><span x-text="tilesIn('File Formats').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1341,7 +1349,7 @@
           <div class="category-panel col-4">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/tables.svg" alt="">
-              <h3 class="name">Open Table Formats</h3>
+              <h3 class="name"><a href="/categories/open-table-formats/">Open Table Formats</a></h3>
               <span class="count"><span x-text="tilesIn('Open Table Formats').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1389,7 +1397,7 @@
           <div class="category-panel col-3">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/storage.svg" alt="">
-              <h3 class="name">Storage Systems</h3>
+              <h3 class="name"><a href="/categories/storage-systems/">Storage Systems</a></h3>
               <span class="count"><span x-text="tilesIn('Storage Systems').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1427,7 +1435,7 @@
           <div class="category-panel col-4">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/api.svg" alt="">
-              <h3 class="name">Database Connectivity</h3>
+              <h3 class="name"><a href="/categories/database-connectivity/">Database Connectivity</a></h3>
               <span class="count"><span x-text="tilesIn('Database Connectivity').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1484,7 +1492,7 @@
           <div class="category-panel col-3">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/api.svg" alt="">
-              <h3 class="name">Interconnection</h3>
+              <h3 class="name"><a href="/categories/interconnection/">Interconnection</a></h3>
               <span class="count"><span x-text="tilesIn('Interconnection').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1523,7 +1531,7 @@
           <div class="category-panel col-5">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/api.svg" alt="">
-              <h3 class="name">Messaging</h3>
+              <h3 class="name"><a href="/categories/messaging/">Messaging</a></h3>
               <span class="count"><span x-text="tilesIn('Messaging').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1588,7 +1596,7 @@
           <div class="category-panel col-5">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/storage.svg" alt="">
-              <h3 class="name">In-Memory Format</h3>
+              <h3 class="name"><a href="/categories/in-memory-format/">In-Memory Format</a></h3>
               <span class="count"><span x-text="tilesIn('In-Memory Format').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1618,7 +1626,7 @@
           <div class="category-panel col-7">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/query.svg" alt="">
-              <h3 class="name">Processing</h3>
+              <h3 class="name"><a href="/categories/processing/">Processing</a></h3>
               <span class="count"><span x-text="tilesIn('Processing').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1701,7 +1709,7 @@
           <div class="category-panel col-7">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/catalog.svg" alt="">
-              <h3 class="name">Catalog APIs</h3>
+              <h3 class="name"><a href="/categories/catalog-apis/">Catalog APIs</a></h3>
               <span class="count"><span x-text="tilesIn('Catalog APIs').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1758,7 +1766,7 @@
           <div class="category-panel col-5">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/lineage.svg" alt="">
-              <h3 class="name">Lineage</h3>
+              <h3 class="name"><a href="/categories/lineage/">Lineage</a></h3>
               <span class="count"><span x-text="tilesIn('Lineage').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1796,7 +1804,7 @@
           <div class="category-panel col-3">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/query.svg" alt="">
-              <h3 class="name">Query</h3>
+              <h3 class="name"><a href="/categories/query/">Query</a></h3>
               <span class="count"><span x-text="tilesIn('Query').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1853,7 +1861,7 @@
           <div class="category-panel col-3">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/quality.svg" alt="">
-              <h3 class="name">Data Quality</h3>
+              <h3 class="name"><a href="/categories/data-quality/">Data Quality</a></h3>
               <span class="count"><span x-text="tilesIn('Data Quality').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1892,7 +1900,7 @@
           <div class="category-panel col-2">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/observability.svg" alt="">
-              <h3 class="name">Observability</h3>
+              <h3 class="name"><a href="/categories/observability/">Observability</a></h3>
               <span class="count"><span x-text="tilesIn('Observability').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1922,7 +1930,7 @@
           <div class="category-panel col-2">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/policies.svg" alt="">
-              <h3 class="name">Policies</h3>
+              <h3 class="name"><a href="/categories/policies/">Policies</a></h3>
               <span class="count"><span x-text="tilesIn('Policies').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">
@@ -1952,7 +1960,7 @@
           <div class="category-panel col-2">
             <div class="category-panel-header">
               <img src="/media/icons/standards-map/api.svg" alt="">
-              <h3 class="name">AI Interfaces</h3>
+              <h3 class="name"><a href="/categories/ai-interfaces/">AI Interfaces</a></h3>
               <span class="count"><span x-text="tilesIn('AI Interfaces').length"></span><span class="sr-only"> standards</span></span>
             </div>
             <div class="category-panel-body">

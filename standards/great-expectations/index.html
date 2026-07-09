@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>Great Expectations — Great Expectations | Data Landscape</title>
+  <title>Great Expectations — Data Quality | Data Landscape</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.">
@@ -10,7 +10,7 @@
   <meta name="author" content="Dr. Simon Harrer">
   <meta property="og:site_name" content="Data Landscape">
   <meta property="og:type" content="article"/>
-  <meta property="og:title" content="Great Expectations — Great Expectations"/>
+  <meta property="og:title" content="Great Expectations"/>
   <meta property="og:description" content="Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness."/>
   <meta property="og:url" content="https://www.data-landscape.com/standards/great-expectations/"/>
   <meta property="og:locale" content="en_US"/>
@@ -19,14 +19,14 @@
   <meta property="og:image:height" content="630"/>
   <meta property="article:modified_time" content="2026-06-22"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Great Expectations — Great Expectations"/>
+  <meta name="twitter:title" content="Great Expectations"/>
   <meta name="twitter:description" content="Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness."/>
   <meta name="twitter:image" content="https://www.data-landscape.com/media/social/data-architecture-landscape.png"/>
   <meta name="theme-color" content="#4f46e5"/>
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/great-expectations/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/great-expectations/","url":"https://www.data-landscape.com/standards/great-expectations/","name":"Great Expectations — Great Expectations | Data Landscape","description":"Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/great-expectations/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/great-expectations/#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/great-expectations/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Great Expectations"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/great-expectations/","name":"Great Expectations","alternateName":"Great Expectations","termCode":"great-expectations","description":"Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.","url":"https://www.data-landscape.com/standards/great-expectations/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Python-first DQ; powerful but heavy.","sameAs":["https://greatexpectations.io","https://github.com/great-expectations/great_expectations"]}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/great-expectations/","url":"https://www.data-landscape.com/standards/great-expectations/","name":"Great Expectations — Data Quality | Data Landscape","description":"Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/great-expectations/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/great-expectations/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt-tests/","https://www.data-landscape.com/standards/sodacl/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/great-expectations/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Data Quality","item":"https://www.data-landscape.com/categories/data-quality/"},{"@type":"ListItem","position":3,"name":"Great Expectations"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/great-expectations/","name":"Great Expectations","termCode":"great-expectations","description":"Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.","url":"https://www.data-landscape.com/standards/great-expectations/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Python-first DQ; powerful but heavy.","sameAs":["https://greatexpectations.io","https://github.com/great-expectations/great_expectations"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
   <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
@@ -86,18 +86,20 @@
       <ol class="flex flex-wrap items-center gap-2">
         <li><a href="/" class="hover:text-gray-900">Data Landscape</a></li>
         <li aria-hidden="true">/</li>
+        <li><a href="/categories/data-quality/" class="hover:text-gray-900">Data Quality</a></li>
+        <li aria-hidden="true">/</li>
         <li><span aria-current="page" class="text-gray-700">Great Expectations</span></li>
       </ol>
     </nav>
 
     <header class="mt-6">
-      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Data Quality</p>
+      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600"><a href="/categories/data-quality/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Data Quality</a></p>
       <div class="mt-2 flex items-start gap-4">
           <img src="/media/icons/standards-map/logos/great-expectations.png" alt="" width="56" height="56"
                class="h-14 w-14 flex-shrink-0 object-contain">
         <div>
           <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Great Expectations</h1>
-          <p class="mt-1 text-lg text-gray-600">Great Expectations</p>
+
         </div>
       </div>
       <div class="mt-5 flex flex-wrap items-center gap-2">
@@ -153,7 +155,7 @@
       </ul>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Related standards</h2>
-      <p class="mt-2 text-sm text-gray-600">Other standards in Data Quality.</p>
+      <p class="mt-2 text-sm text-gray-600">Other standards in <a href="/categories/data-quality/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Data Quality</a>.</p>
       <ul class="mt-4 space-y-2 text-sm list-disc pl-5">
           <li><a href="/standards/dbt-tests/" class="text-indigo-600 hover:text-indigo-500 hover:underline">dbt tests</a><span class="text-gray-500"> — dbt schema and data tests</span></li>
           <li><a href="/standards/sodacl/" class="text-indigo-600 hover:text-indigo-500 hover:underline">SodaCL</a><span class="text-gray-500"> — Soda Checks Language</span></li>

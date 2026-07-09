@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>Unity Catalog — Unity Catalog | Data Landscape</title>
+  <title>Unity Catalog — Catalog APIs | Data Landscape</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation.">
@@ -10,7 +10,7 @@
   <meta name="author" content="Dr. Simon Harrer">
   <meta property="og:site_name" content="Data Landscape">
   <meta property="og:type" content="article"/>
-  <meta property="og:title" content="Unity Catalog — Unity Catalog"/>
+  <meta property="og:title" content="Unity Catalog"/>
   <meta property="og:description" content="Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation."/>
   <meta property="og:url" content="https://www.data-landscape.com/standards/unity-catalog/"/>
   <meta property="og:locale" content="en_US"/>
@@ -19,14 +19,14 @@
   <meta property="og:image:height" content="630"/>
   <meta property="article:modified_time" content="2026-06-22"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Unity Catalog — Unity Catalog"/>
+  <meta name="twitter:title" content="Unity Catalog"/>
   <meta name="twitter:description" content="Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation."/>
   <meta name="twitter:image" content="https://www.data-landscape.com/media/social/data-architecture-landscape.png"/>
   <meta name="theme-color" content="#4f46e5"/>
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/unity-catalog/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/unity-catalog/","url":"https://www.data-landscape.com/standards/unity-catalog/","name":"Unity Catalog — Unity Catalog | Data Landscape","description":"Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/unity-catalog/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/unity-catalog/#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/unity-catalog/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Unity Catalog"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/unity-catalog/","name":"Unity Catalog","alternateName":"Unity Catalog","termCode":"unity-catalog","description":"Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation.","url":"https://www.data-landscape.com/standards/unity-catalog/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — LF-open-sourced but still Databricks-tilted in practice.","sameAs":["https://www.unitycatalog.io","https://github.com/unitycatalog/unitycatalog"]}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/unity-catalog/","url":"https://www.data-landscape.com/standards/unity-catalog/","name":"Unity Catalog — Catalog APIs | Data Landscape","description":"Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/unity-catalog/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/unity-catalog/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/iceberg-catalog/","https://www.data-landscape.com/standards/schema-registry/","https://www.data-landscape.com/standards/ducklake/","https://www.data-landscape.com/standards/hive-metastore/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/unity-catalog/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Catalog APIs","item":"https://www.data-landscape.com/categories/catalog-apis/"},{"@type":"ListItem","position":3,"name":"Unity Catalog"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/unity-catalog/","name":"Unity Catalog","termCode":"unity-catalog","description":"Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation.","url":"https://www.data-landscape.com/standards/unity-catalog/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — LF-open-sourced but still Databricks-tilted in practice.","sameAs":["https://www.unitycatalog.io","https://github.com/unitycatalog/unitycatalog"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
   <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
@@ -86,18 +86,20 @@
       <ol class="flex flex-wrap items-center gap-2">
         <li><a href="/" class="hover:text-gray-900">Data Landscape</a></li>
         <li aria-hidden="true">/</li>
+        <li><a href="/categories/catalog-apis/" class="hover:text-gray-900">Catalog APIs</a></li>
+        <li aria-hidden="true">/</li>
         <li><span aria-current="page" class="text-gray-700">Unity Catalog</span></li>
       </ol>
     </nav>
 
     <header class="mt-6">
-      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Catalog APIs</p>
+      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600"><a href="/categories/catalog-apis/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Catalog APIs</a></p>
       <div class="mt-2 flex items-start gap-4">
           <img src="/media/icons/standards-map/logos/unity-catalog.svg" alt="" width="56" height="56"
                class="h-14 w-14 flex-shrink-0 object-contain">
         <div>
           <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Unity Catalog</h1>
-          <p class="mt-1 text-lg text-gray-600">Unity Catalog</p>
+
         </div>
       </div>
       <div class="mt-5 flex flex-wrap items-center gap-2">
@@ -152,11 +154,11 @@
       </ul>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Related standards</h2>
-      <p class="mt-2 text-sm text-gray-600">Other standards in Catalog APIs.</p>
+      <p class="mt-2 text-sm text-gray-600">Other standards in <a href="/categories/catalog-apis/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Catalog APIs</a>.</p>
       <ul class="mt-4 space-y-2 text-sm list-disc pl-5">
           <li><a href="/standards/iceberg-catalog/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Iceberg Catalog</a><span class="text-gray-500"> — Iceberg REST Catalog</span></li>
           <li><a href="/standards/schema-registry/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Schema Registry</a><span class="text-gray-500"> — Confluent Schema Registry</span></li>
-          <li><a href="/standards/ducklake/" class="text-indigo-600 hover:text-indigo-500 hover:underline">DuckLake</a><span class="text-gray-500"> — DuckLake</span></li>
+          <li><a href="/standards/ducklake/" class="text-indigo-600 hover:text-indigo-500 hover:underline">DuckLake</a></li>
           <li><a href="/standards/hive-metastore/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Hive Metastore</a><span class="text-gray-500"> — Apache Hive Metastore</span></li>
       </ul>
 

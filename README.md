@@ -25,6 +25,7 @@ npm run build      # produces dist/output.css (minified)
 
 - the static tile markup, JSON-LD, and footer date inside `index.html`
 - one page per standard under `standards/<slug>/index.html`
+- one page per category under `categories/<slug>/index.html`
 - `sitemap.xml`, `llms.txt`, `llms-full.txt`
 
 All of it is checked in, so GitHub Pages serves the site without a build step. Edit `standards.json`, never the generated files.

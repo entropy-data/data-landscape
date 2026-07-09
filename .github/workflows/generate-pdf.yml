@@ -2,7 +2,8 @@ name: Build artefacts
 
 # Re-runs the prerender step (which keeps the static tile HTML, JSON-LD,
 # sitemap.xml, llms.txt, llms-full.txt, the per-standard pages under
-# standards/, and the footer "Updated" date in sync with
+# standards/, the per-category pages under categories/, and the footer
+# "Updated" date in sync with
 # standards.json) and regenerates data-landscape.pdf whenever the page
 # content or generation pipeline changes, then commits any changes back
 # to main. The PDF itself is excluded from the trigger paths to avoid
@@ -75,7 +76,8 @@ jobs:
         run: |
           # `git add` before diffing: the per-standard pages under standards/
           # can be brand new (untracked), which `git diff` alone never reports.
-          git add index.html sitemap.xml llms.txt llms-full.txt standards/ \
+          git add index.html sitemap.xml llms.txt llms-full.txt \
+                  standards/ categories/ \
                   data-landscape.pdf \
                   media/social/data-architecture-landscape.png \
                   media/social/industry-ontologies.png

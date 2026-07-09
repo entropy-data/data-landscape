@@ -47,7 +47,7 @@ Links:
 - Microsoft MDX reference: https://learn.microsoft.com/en-us/analysis-services/multidimensional-models/mdx/mdx-query-the-basic-query
 - Wikipedia: MultiDimensional eXpressions: https://en.wikipedia.org/wiki/MultiDimensional_eXpressions
 
-## Substrait — Substrait
+## Substrait
 
 - URL: https://www.data-landscape.com/standards/substrait/
 - Category: Query
@@ -64,7 +64,7 @@ Links:
 - substrait.io: https://substrait.io
 - GitHub: substrait-io/substrait: https://github.com/substrait-io/substrait
 
-## OpenTelemetry — OpenTelemetry
+## OpenTelemetry
 
 - URL: https://www.data-landscape.com/standards/opentelemetry/
 - Category: Observability
@@ -150,7 +150,7 @@ Links:
 - asyncapi.com: https://www.asyncapi.com
 - GitHub: asyncapi: https://github.com/asyncapi
 
-## GraphQL — GraphQL
+## GraphQL
 
 - URL: https://www.data-landscape.com/standards/graphql/
 - Category: Contracts
@@ -200,7 +200,7 @@ Vendor-governed by dbt Labs rather than a foundation, so it isn't an open standa
 Links:
 - getdbt.com: https://www.getdbt.com
 
-## Great Expectations — Great Expectations
+## Great Expectations
 
 - URL: https://www.data-landscape.com/standards/great-expectations/
 - Category: Data Quality
@@ -364,7 +364,7 @@ Less mainstream than Iceberg or Delta today, but still the table format of choic
 Links:
 - hudi.apache.org: https://hudi.apache.org
 
-## DuckLake — DuckLake
+## DuckLake
 
 - URL: https://www.data-landscape.com/standards/ducklake/
 - Category: Catalog APIs
@@ -395,7 +395,7 @@ Still the schema language of record in many enterprise integration scenarios —
 Links:
 - W3C: XML Schema: https://www.w3.org/XML/Schema
 
-## JSON Schema — JSON Schema
+## JSON Schema
 
 - URL: https://www.data-landscape.com/standards/json-schema/
 - Category: Schema
@@ -476,7 +476,7 @@ Together with Iceberg the table format, this is what is making "open lakehouse" 
 Links:
 - Iceberg REST catalog: https://iceberg.apache.org/terms/#catalog
 
-## Unity Catalog — Unity Catalog
+## Unity Catalog
 
 - URL: https://www.data-landscape.com/standards/unity-catalog/
 - Category: Catalog APIs
@@ -638,7 +638,7 @@ Less common in greenfield projects today — Parquet has won most workloads — 
 Links:
 - orc.apache.org: https://orc.apache.org
 
-## Lance — Lance
+## Lance
 
 - URL: https://www.data-landscape.com/standards/lance/
 - Category: File Formats, Open Table Formats
@@ -655,7 +655,7 @@ Links:
 - lance.org: https://lance.org
 - GitHub: lance: https://github.com/lancedb/lance
 
-## OpenLineage — OpenLineage
+## OpenLineage
 
 - URL: https://www.data-landscape.com/standards/openlineage/
 - Category: Lineage
@@ -935,7 +935,7 @@ Designed to coexist with JDBC and ODBC: drivers can wrap them today, and engines
 Links:
 - arrow.apache.org/adbc: https://arrow.apache.org/adbc/
 
-## Quack — Quack
+## Quack
 
 - URL: https://www.data-landscape.com/standards/quack/
 - Category: Database Connectivity
@@ -1000,7 +1000,7 @@ Links:
 - mqtt.org: https://mqtt.org
 - OASIS MQTT 5.0: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html
 
-## CloudEvents — CloudEvents
+## CloudEvents
 
 - URL: https://www.data-landscape.com/standards/cloudevents/
 - Category: Messaging
@@ -1102,7 +1102,7 @@ Links:
 - data-apis.org: https://data-apis.org
 - DataFrame API draft RFC: https://data-apis.org/dataframe-api/draft/
 
-## Apache Arrow — Apache Arrow
+## Apache Arrow
 
 - URL: https://www.data-landscape.com/standards/arrow/
 - Category: In-Memory Format
@@ -1166,7 +1166,7 @@ Pandas 2.x added Arrow-backed columns, narrowing the gap with newer engines whil
 Links:
 - pandas.pydata.org: https://pandas.pydata.org
 
-## Ibis — Ibis
+## Ibis
 
 - URL: https://www.data-landscape.com/standards/ibis/
 - Category: Processing

@@ -25,9 +25,16 @@ Reads standards.json (the single source of truth) and writes:
      single JS-driven page, so without these the per-standard prose is
      invisible to crawlers and unaddressable by a search result.
 
+* `categories/<slug>/index.html`
+   - One indexable page per category (Contracts, Lineage, Open Table Formats,
+     …), listing its standards grouped by judgement. These are the pages that
+     answer "which open standard should I use for X?" — the question the
+     landscape exists to settle — and they give the per-standard pages a
+     parent to sit under.
+
 * `sitemap.xml`
-   - Root URL plus one entry per standard (`?std=<slug>`) so search engines
-     can index the deep-linked drawer state.
+   - Every indexable URL: the two hand-written pages plus one entry per
+     category and per standard.
 
 * `llms.txt`
    - Markdown summary keyed by category, listing every standard with its
@@ -56,6 +63,7 @@ ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
 STANDARDS = ROOT / "standards.json"
 STANDARDS_DIR = ROOT / "standards"
+CATEGORIES_DIR = ROOT / "categories"
 SITEMAP = ROOT / "sitemap.xml"
 LLMS_TXT = ROOT / "llms.txt"
 LLMS_FULL_TXT = ROOT / "llms-full.txt"
@@ -70,6 +78,22 @@ def std_path(slug: str) -> str:
 def std_url(slug: str) -> str:
     """Absolute, canonical URL of a standard's own page."""
     return f"{SITE}{std_path(slug)}"
+
+
+def cat_slug(category: str) -> str:
+    """URL slug for a category name, e.g. 'Open Table Formats' -> 'open-table-formats'."""
+    slug = re.sub(r"[^a-z0-9]+", "-", category.lower()).strip("-")
+    if not slug:
+        raise SystemExit(f"prerender: category {category!r} produced an empty slug")
+    return slug
+
+
+def cat_path(category: str) -> str:
+    return f"/categories/{cat_slug(category)}/"
+
+
+def cat_url(category: str) -> str:
+    return f"{SITE}{cat_path(category)}"
 
 
 def load_standards() -> "OrderedDict[str, dict]":
@@ -212,6 +236,35 @@ def html_to_text(fragment: str) -> str:
     # one-item lists to a markdown parser.
     text = re.sub(r"\n{2,}(?=- )", "\n", text)
     return text.strip()
+
+
+_SECTION_RE = re.compile(
+    r'<h2 class="landscape-section-title">(?P<title>.*?)</h2>(?P<body>.*?)</section>',
+    re.DOTALL,
+)
+_CATEGORY_MARKER_RE = re.compile(r'<!-- prerender:tiles category="([^"]+)" -->')
+
+
+def parse_taxonomy(html: str) -> "OrderedDict[str, tuple[str, str]]":
+    """Map each category to the landscape section it sits in.
+
+    Derived from index.html rather than hardcoded here: the section headings
+    and the `prerender:tiles` markers are already the source of truth for how
+    the landscape is grouped, and a second copy of that grouping would drift.
+
+    Returns `{category: (section_name, section_blurb)}`, e.g.
+    `{"Contracts": ("Definition", "how data is described"), ...}`.
+    """
+    taxonomy: "OrderedDict[str, tuple[str, str]]" = OrderedDict()
+    for match in _SECTION_RE.finditer(html):
+        title = html_lib.unescape(_TAG_RE.sub("", match.group("title"))).strip()
+        # "Definition — how data is described" -> ("Definition", "how data is described")
+        name, _, blurb = title.partition("—")
+        for category in _CATEGORY_MARKER_RE.findall(match.group("body")):
+            taxonomy[category] = (name.strip(), blurb.strip())
+    if not taxonomy:
+        raise SystemExit("prerender: no landscape sections parsed — has the markup drifted?")
+    return taxonomy
 
 
 _FAQ_BLOCK_RE = re.compile(r"<!-- FAQ -->(.*?)<!-- Thank you -->", re.DOTALL)
@@ -648,7 +701,9 @@ def replace_last_updated(html: str) -> str:
     return html
 
 
-def write_sitemap(standards: "OrderedDict[str, dict]") -> None:
+def write_sitemap(
+    standards: "OrderedDict[str, dict]", taxonomy: "OrderedDict[str, tuple[str, str]]"
+) -> None:
     data_modified, _ = last_commit_date()
     ontologies_modified = file_commit_date("industry-ontologies.html")
     lines = [
@@ -667,6 +722,13 @@ def write_sitemap(standards: "OrderedDict[str, dict]") -> None:
         "    <priority>0.6</priority>",
         "  </url>",
     ]
+    for category in taxonomy:
+        lines.append("  <url>")
+        lines.append(f"    <loc>{xml_escape(cat_url(category))}</loc>")
+        lines.append(f"    <lastmod>{data_modified}</lastmod>")
+        lines.append("    <changefreq>monthly</changefreq>")
+        lines.append("    <priority>0.8</priority>")
+        lines.append("  </url>")
     for slug, entry in standards.items():
         if not renderable(entry):
             continue
@@ -682,7 +744,7 @@ def write_sitemap(standards: "OrderedDict[str, dict]") -> None:
     lines.append("</urlset>")
     SITEMAP.write_text("\n".join(lines) + "\n")
     rendered = sum(1 for e in standards.values() if renderable(e))
-    print(f"  sitemap.xml: 2 pages + {rendered} standards")
+    print(f"  sitemap.xml: 2 pages + {len(taxonomy)} categories + {rendered} standards")
 
 
 PAGE_HEAD_COMMON = """  <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
@@ -777,6 +839,336 @@ def esc(value) -> str:
     return html_lib.escape(str(value), quote=False)
 
 
+def subtitle(entry: dict, label: str) -> str:
+    """The entry's fullName, or '' when it just repeats the name.
+
+    13 entries (OpenLineage, GraphQL, Arrow, …) set `fullName` to the name
+    itself; rendering both gives "OpenLineage — OpenLineage".
+    """
+    full_name = entry.get("fullName", "")
+    if not full_name or full_name in (entry.get("name"), label):
+        return ""
+    return full_name
+
+
+def related_subtitle(entry: dict, name_counts: dict[str, int], cls: str = "text-gray-500") -> str:
+    """` — Full Name` span for list rows, omitted when it adds nothing."""
+    sub = subtitle(entry, display_label(entry, name_counts))
+    return f'<span class="{cls}"> — {esc(sub)}</span>' if sub else ""
+
+
+def meta_description(text: str, limit: int = 160) -> str:
+    """Trim to something a SERP snippet will show whole (~160 chars)."""
+    text = " ".join(text.split())
+    if len(text) <= limit:
+        return text
+    cut = text[:limit]
+    stop = max(cut.rfind(". "), cut.rfind("? "), cut.rfind("! "))
+    if stop >= limit - 60:
+        return cut[: stop + 1].strip()
+    return cut[: cut.rfind(" ")].rstrip(",;:") + "…"
+
+
+# A breadcrumb trail: [(name, site-relative href or None for the current page), …]
+Trail = "list[tuple[str, str | None]]"
+
+
+def breadcrumb_nodes(canonical: str, trail: "Trail") -> dict:
+    """A BreadcrumbList. Schema.org wants absolute `item` URLs."""
+    return {
+        "@type": "BreadcrumbList",
+        "@id": f"{canonical}#breadcrumb",
+        "itemListElement": [
+            {"@type": "ListItem", "position": i, "name": name,
+             **({"item": f"{SITE}{href}"} if href else {})}
+            for i, (name, href) in enumerate(trail, start=1)
+        ],
+    }
+
+
+def breadcrumb_html(trail: "Trail") -> str:
+    """Visible breadcrumb matching `breadcrumb_nodes`."""
+    crumbs = []
+    for name, href in trail:
+        if href:
+            crumbs.append(f'<li><a href="{html_attr(href)}" class="hover:text-gray-900">{esc(name)}</a></li>')
+            crumbs.append('<li aria-hidden="true">/</li>')
+        else:
+            crumbs.append(f'<li><span aria-current="page" class="text-gray-700">{esc(name)}</span></li>')
+    body = "\n        ".join(crumbs)
+    return (
+        '    <nav aria-label="Breadcrumb" class="text-xs text-gray-500">\n'
+        '      <ol class="flex flex-wrap items-center gap-2">\n'
+        f'        {body}\n'
+        '      </ol>\n'
+        '    </nav>'
+    )
+
+
+def by_judgement(
+    entries: list[tuple[str, dict]]
+) -> "OrderedDict[str, list[tuple[str, dict]]]":
+    """Group entries into Adopt/Situational/Assess/Caution buckets, in that order."""
+    buckets: "OrderedDict[str, list[tuple[str, dict]]]" = OrderedDict(
+        (name, []) for name, _ in JUDGEMENT_RUBRIC
+    )
+    for slug, entry in entries:
+        judgement = entry.get("judgement")
+        if judgement in buckets:
+            buckets[judgement].append((slug, entry))
+    return OrderedDict((k, v) for k, v in buckets.items() if v)
+
+
+def category_page_html(
+    category: str,
+    section: tuple[str, str],
+    entries: list[tuple[str, dict]],
+    siblings: list[str],
+    name_counts: dict[str, int],
+    iso_modified: str,
+) -> str:
+    """Render one category's page.
+
+    This is the page that answers "which open standard should I use for
+    lineage / table formats / data quality?" — a question people and answer
+    engines actually ask, and one the single-page landscape could never rank
+    for. It leads with the verdict, then the reasoning.
+    """
+    section_name, section_blurb = section
+    canonical = cat_url(category)
+    buckets = by_judgement(entries)
+    count = len(entries)
+    adopt = [display_label(e, name_counts) for _, e in buckets.get("Adopt", [])]
+
+    lead = (
+        f"{count} open standard{'s' if count != 1 else ''} for {category} in a modern "
+        f"data architecture, each with an opinionated judgement: Adopt, Situational, "
+        f"Assess, or Caution."
+    )
+    if adopt:
+        lead_adopt = (
+            f"Start with {', '.join(adopt[:-1]) + ' and ' + adopt[-1] if len(adopt) > 1 else adopt[0]}."
+        )
+    else:
+        lead_adopt = "Nothing here is a safe default yet."
+    description = meta_description(f"{lead} {lead_adopt}")
+
+    trail: "Trail" = [("Data Landscape", "/"), (category, None)]
+    graph = [
+        {
+            "@type": ["WebPage", "CollectionPage"],
+            "@id": canonical,
+            "url": canonical,
+            "name": f"{category} — Open Standards | Data Landscape",
+            "description": description,
+            "inLanguage": "en",
+            "isPartOf": {"@id": f"{SITE}/#website"},
+            "dateModified": iso_modified,
+            "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
+            "mainEntity": {"@id": f"{canonical}#standards"},
+        },
+        breadcrumb_nodes(canonical, trail),
+        {
+            "@type": "ItemList",
+            "@id": f"{canonical}#standards",
+            "name": f"Open standards for {category}",
+            "numberOfItems": count,
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": i,
+                    "item": {
+                        "@type": "DefinedTerm",
+                        "@id": std_url(slug),
+                        "name": display_label(entry, name_counts),
+                        "url": std_url(slug),
+                        **({"disambiguatingDescription": judgement_line(entry)}
+                           if judgement_line(entry) else {}),
+                    },
+                }
+                # Judgement order, so position 1 is the standard we'd actually pick.
+                for i, (slug, entry) in enumerate(
+                    [pair for bucket in buckets.values() for pair in bucket], start=1
+                )
+            ],
+        },
+    ]
+    jsonld = json.dumps(
+        {"@context": "https://schema.org", "@graph": graph},
+        separators=(",", ":"),
+        ensure_ascii=False,
+    )
+
+    sections = []
+    for judgement, pairs in buckets.items():
+        meaning = dict(JUDGEMENT_RUBRIC)[judgement]
+        j_slug = JUDGEMENT_SLUG[judgement]
+        rows = []
+        for slug, entry in pairs:
+            reason = (entry.get("judgementReason") or "").strip()
+            reason_html = f'<p class="mt-1 text-sm text-gray-700">{esc(reason)}</p>' if reason else ""
+            governance = entry.get("governance")
+            gov_html = (
+                f'<p class="mt-1 text-xs text-gray-500">{esc(governance)}</p>' if governance else ""
+            )
+            rows.append(
+                f'        <li class="border-t border-gray-100 py-4">\n'
+                f'          <a href="{html_attr(std_path(slug))}" class="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline">'
+                f'{esc(display_label(entry, name_counts))}</a>\n'
+                f'          {related_subtitle(entry, name_counts, "text-gray-600")}\n'
+                f'          {reason_html}\n'
+                f'          {gov_html}\n'
+                f'        </li>'
+            )
+        rows_html = "\n".join(rows)
+        sections.append(
+            f'      <section class="mt-10">\n'
+            f'        <h2 class="text-lg font-bold tracking-tight text-gray-900">\n'
+            f'          <span class="fact fact-{j_slug}">{esc(judgement)}</span>\n'
+            f'          <span class="ml-2">{len(pairs)} standard{"s" if len(pairs) != 1 else ""}</span>\n'
+            f'        </h2>\n'
+            f'        <p class="mt-2 text-sm text-gray-600">{esc(meaning)}</p>\n'
+            f'        <ul class="mt-2">\n{rows_html}\n        </ul>\n'
+            f'      </section>'
+        )
+    sections_html = "\n\n".join(sections)
+
+    siblings_html = ""
+    if siblings:
+        items = "\n".join(
+            f'          <li><a href="{html_attr(cat_path(other))}" '
+            f'class="text-indigo-600 hover:text-indigo-500 hover:underline">{esc(other)}</a></li>'
+            for other in siblings
+        )
+        siblings_html = (
+            f'      <h2 class="mt-12 text-lg font-bold tracking-tight text-gray-900">'
+            f'More in {esc(section_name)}</h2>\n'
+            f'      <p class="mt-2 text-sm text-gray-600">{esc(section_name)} covers {esc(section_blurb)}.</p>\n'
+            f'      <ul class="mt-4 space-y-2 text-sm list-disc pl-5">\n{items}\n      </ul>'
+        )
+
+    social_image = f"{SITE}/media/social/data-architecture-landscape.png"
+    title = f"{category} — Open Standards | Data Landscape"
+
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <title>{esc(title)}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{html_attr(description)}">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <meta name="color-scheme" content="light">
+  <meta name="author" content="Dr. Simon Harrer">
+  <meta property="og:site_name" content="Data Landscape">
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="{html_attr(category)} — Open Standards"/>
+  <meta property="og:description" content="{html_attr(description)}"/>
+  <meta property="og:url" content="{canonical}"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="{social_image}"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="{html_attr(category)} — Open Standards"/>
+  <meta name="twitter:description" content="{html_attr(description)}"/>
+  <meta name="twitter:image" content="{social_image}"/>
+  <meta name="theme-color" content="#4f46e5"/>
+
+  <link rel="canonical" href="{canonical}"/>
+  <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
+  <script type="application/ld+json">{jsonld}</script>
+{PAGE_HEAD_COMMON}</head>
+<body class="bg-white">
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<main id="main" tabindex="-1" class="mt-8 mb-20">
+  <div class="mx-auto max-w-3xl px-6 lg:px-8 mt-10">
+
+{breadcrumb_html(trail)}
+
+    <header class="mt-6">
+      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">{esc(section_name)} — {esc(section_blurb)}</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{esc(category)}</h1>
+      <p class="mt-3 text-lg leading-8 text-gray-600">{esc(lead)}</p>
+      <p class="mt-2 text-base leading-7 text-gray-700">{esc(lead_adopt)}</p>
+    </header>
+
+{sections_html}
+
+{siblings_html}
+
+    <div class="mt-12 rounded-lg border border-indigo-200 bg-indigo-50 px-6 py-6 text-sm">
+      <p class="font-semibold text-gray-900">See {esc(category)} in context</p>
+      <p class="mt-1 text-gray-700">
+        These standards are one panel of the interactive
+        <a href="/" class="text-indigo-600 hover:text-indigo-500">Data Landscape</a>,
+        which maps every open standard a modern data architecture is built on. The
+        underlying data is a single <a href="/standards.json" class="text-indigo-600 hover:text-indigo-500">JSON file</a>;
+        disagree with a judgement?
+        <a href="https://github.com/entropy-data/data-landscape/issues/new" target="_blank" rel="noopener"
+           class="text-indigo-600 hover:text-indigo-500">Open an issue</a>.
+      </p>
+    </div>
+
+  </div>
+</main>
+{PAGE_FOOTER}"""
+
+
+def write_category_pages(
+    standards: "OrderedDict[str, dict]", taxonomy: "OrderedDict[str, tuple[str, str]]"
+) -> None:
+    """Write `categories/<slug>/index.html` for every landscape category."""
+    name_counts = renderable_name_counts(standards)
+    iso_modified, _ = last_commit_date()
+    CATEGORIES_DIR.mkdir(exist_ok=True)
+
+    wanted = set()
+    for category, section in taxonomy.items():
+        entries = [
+            (slug, entry)
+            for slug, entry in standards.items()
+            if renderable(entry) and category in categories_of(entry)
+        ]
+        if not entries:
+            continue
+        siblings = [
+            other for other, other_section in taxonomy.items()
+            if other != category and other_section[0] == section[0]
+        ]
+        slug = cat_slug(category)
+        wanted.add(slug)
+        page_dir = CATEGORIES_DIR / slug
+        page_dir.mkdir(exist_ok=True)
+        (page_dir / "index.html").write_text(
+            category_page_html(category, section, entries, siblings, name_counts, iso_modified)
+        )
+
+    removed = prune_generated_pages(CATEGORIES_DIR, wanted)
+    suffix = f", {removed} stale removed" if removed else ""
+    print(f"  categories/: {len(wanted)} pages{suffix}")
+
+
+def prune_generated_pages(root: Path, wanted: set[str]) -> int:
+    """Delete generated `<root>/<slug>/index.html` dirs that are no longer wanted.
+
+    Only removes directories whose sole content is the index.html we wrote, so
+    a stray file someone parked there is never silently destroyed.
+    """
+    removed = 0
+    for page_dir in root.iterdir():
+        if not page_dir.is_dir() or page_dir.name in wanted:
+            continue
+        contents = list(page_dir.iterdir())
+        if contents and all(p.name == "index.html" for p in contents):
+            (page_dir / "index.html").unlink()
+            page_dir.rmdir()
+            removed += 1
+    return removed
+
+
 def related_standards(
     slug: str, entry: dict, standards: "OrderedDict[str, dict]", limit: int = 8
 ) -> list[tuple[str, dict]]:
@@ -799,6 +1191,7 @@ def standard_page_html(
     standards: "OrderedDict[str, dict]",
     name_counts: dict[str, int],
     iso_modified: str,
+    taxonomy: "OrderedDict[str, tuple[str, str]]",
 ) -> str:
     """Render one standard's standalone page.
 
@@ -809,22 +1202,32 @@ def standard_page_html(
     """
     label = display_label(entry, name_counts)
     name = entry["name"]
-    full_name = entry.get("fullName", name)
     cats = categories_of(entry)
     judgement = entry.get("judgement")
     j_slug = JUDGEMENT_SLUG.get(judgement, "assess")
     description = entry.get("description") or []
     summary = short_description(entry)
     canonical = std_url(slug)
-    title = f"{label} — {full_name} | Data Landscape"
-    meta_description = summary if len(summary) <= 300 else summary[:297] + "…"
+    sub = subtitle(entry, label)
+    # NB: `description` above is the list of prose paragraphs from
+    # standards.json — keep the meta string under its own name.
+    meta_desc = meta_description(summary)
+    # The first category the landscape lists this standard under becomes its
+    # parent in the breadcrumb; multi-category entries still link them all in
+    # the body.
+    primary_category = next((c for c in cats if c in taxonomy), None)
+    siblings = related_standards(slug, entry, standards)
+    # Without a distinct fullName, lean on the category so the title still
+    # says what kind of thing this is.
+    title = f"{label} — {sub or primary_category or 'Open Standard'} | Data Landscape"
+    social_title = f"{label} — {sub}" if sub else label
 
     # ---- structured data -------------------------------------------------
     term = {
         "@type": "DefinedTerm",
         "@id": canonical,
         "name": label,
-        "alternateName": full_name,
+        **({"alternateName": sub} if sub else {}),
         "termCode": slug,
         "description": summary,
         "url": canonical,
@@ -842,38 +1245,26 @@ def standard_page_html(
     if same_as:
         term["sameAs"] = same_as if len(same_as) > 1 else same_as[0]
 
-    graph = [
-        {
-            "@type": "WebPage",
-            "@id": canonical,
-            "url": canonical,
-            "name": title,
-            "description": meta_description,
-            "inLanguage": "en",
-            "isPartOf": {"@id": f"{SITE}/#website"},
-            "dateModified": iso_modified,
-            "mainEntity": {"@id": canonical},
-            "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
-        },
-        {
-            "@type": "BreadcrumbList",
-            "@id": f"{canonical}#breadcrumb",
-            "itemListElement": [
-                {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Data Landscape",
-                    "item": f"{SITE}/",
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": label,
-                },
-            ],
-        },
-        term,
-    ]
+    trail: "Trail" = [("Data Landscape", "/")]
+    if primary_category:
+        trail.append((primary_category, cat_path(primary_category)))
+    trail.append((label, None))
+
+    web_page = {
+        "@type": "WebPage",
+        "@id": canonical,
+        "url": canonical,
+        "name": title,
+        "description": meta_desc,
+        "inLanguage": "en",
+        "isPartOf": {"@id": f"{SITE}/#website"},
+        "dateModified": iso_modified,
+        "mainEntity": {"@id": canonical},
+        "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
+    }
+    if siblings:
+        web_page["relatedLink"] = [std_url(other) for other, _ in siblings]
+    graph = [web_page, breadcrumb_nodes(canonical, trail), term]
     jsonld = json.dumps(
         {"@context": "https://schema.org", "@graph": graph},
         separators=(",", ":"),
@@ -974,19 +1365,22 @@ def standard_page_html(
             f'      <ul class="mt-4 space-y-2 text-sm list-disc pl-5">\n{items}\n      </ul>'
         )
 
-    siblings = related_standards(slug, entry, standards)
     if siblings:
         items = "\n".join(
             f'          <li><a href="{html_attr(std_path(other_slug))}" '
             f'class="text-indigo-600 hover:text-indigo-500 hover:underline">'
             f'{esc(display_label(other, name_counts))}</a>'
-            f'<span class="text-gray-500"> — {esc(other.get("fullName", other["name"]))}</span></li>'
+            f'{related_subtitle(other, name_counts)}</li>'
             for other_slug, other in siblings
         )
-        cat_label = esc(" and ".join(cats)) if cats else "the landscape"
+        linked_cats = " and ".join(
+            f'<a href="{html_attr(cat_path(c))}" class="text-indigo-600 hover:text-indigo-500 hover:underline">{esc(c)}</a>'
+            if c in taxonomy else esc(c)
+            for c in cats
+        ) or "the landscape"
         parts.append(
             f'      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Related standards</h2>\n'
-            f'      <p class="mt-2 text-sm text-gray-600">Other standards in {cat_label}.</p>\n'
+            f'      <p class="mt-2 text-sm text-gray-600">Other standards in {linked_cats}.</p>\n'
             f'      <ul class="mt-4 space-y-2 text-sm list-disc pl-5">\n{items}\n      </ul>'
         )
 
@@ -1003,7 +1397,14 @@ def standard_page_html(
         + "\n      </div>"
         if badges else ""
     )
-    category_line = esc(" · ".join(cats)) if cats else "Open standard"
+    subtitle_html = (
+        f'          <p class="mt-1 text-lg text-gray-600">{esc(sub)}</p>' if sub else ""
+    )
+    category_line = " · ".join(
+        f'<a href="{html_attr(cat_path(c))}" class="text-indigo-600 hover:text-indigo-500 hover:underline">{esc(c)}</a>'
+        if c in taxonomy else esc(c)
+        for c in cats
+    ) or "Open standard"
     social_image = f"{SITE}/media/social/data-architecture-landscape.png"
 
     return f"""<!doctype html>
@@ -1012,14 +1413,14 @@ def standard_page_html(
   <title>{esc(title)}</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="{html_attr(meta_description)}">
+  <meta name="description" content="{html_attr(meta_desc)}">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
   <meta name="color-scheme" content="light">
   <meta name="author" content="Dr. Simon Harrer">
   <meta property="og:site_name" content="Data Landscape">
   <meta property="og:type" content="article"/>
-  <meta property="og:title" content="{html_attr(label)} — {html_attr(full_name)}"/>
-  <meta property="og:description" content="{html_attr(meta_description)}"/>
+  <meta property="og:title" content="{html_attr(social_title)}"/>
+  <meta property="og:description" content="{html_attr(meta_desc)}"/>
   <meta property="og:url" content="{canonical}"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:image" content="{social_image}"/>
@@ -1027,8 +1428,8 @@ def standard_page_html(
   <meta property="og:image:height" content="630"/>
   <meta property="article:modified_time" content="{iso_modified}"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="{html_attr(label)} — {html_attr(full_name)}"/>
-  <meta name="twitter:description" content="{html_attr(meta_description)}"/>
+  <meta name="twitter:title" content="{html_attr(social_title)}"/>
+  <meta name="twitter:description" content="{html_attr(meta_desc)}"/>
   <meta name="twitter:image" content="{social_image}"/>
   <meta name="theme-color" content="#4f46e5"/>
 
@@ -1043,20 +1444,14 @@ def standard_page_html(
 <main id="main" tabindex="-1" class="mt-8 mb-20">
   <div class="mx-auto max-w-3xl px-6 lg:px-8 mt-10">
 
-    <nav aria-label="Breadcrumb" class="text-xs text-gray-500">
-      <ol class="flex flex-wrap items-center gap-2">
-        <li><a href="/" class="hover:text-gray-900">Data Landscape</a></li>
-        <li aria-hidden="true">/</li>
-        <li><span aria-current="page" class="text-gray-700">{esc(label)}</span></li>
-      </ol>
-    </nav>
+{breadcrumb_html(trail)}
 
     <header class="mt-6">
       <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">{category_line}</p>
       <div class="mt-2 flex items-start gap-4">
 {logo_html}        <div>
           <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{esc(label)}</h1>
-          <p class="mt-1 text-lg text-gray-600">{esc(full_name)}</p>
+{subtitle_html}
         </div>
       </div>
 {badges_html}
@@ -1082,7 +1477,9 @@ def standard_page_html(
 {PAGE_FOOTER}"""
 
 
-def write_standard_pages(standards: "OrderedDict[str, dict]") -> None:
+def write_standard_pages(
+    standards: "OrderedDict[str, dict]", taxonomy: "OrderedDict[str, tuple[str, str]]"
+) -> None:
     """Write `standards/<slug>/index.html` for every renderable standard."""
     name_counts = renderable_name_counts(standards)
     iso_modified, _ = last_commit_date()
@@ -1093,19 +1490,13 @@ def write_standard_pages(standards: "OrderedDict[str, dict]") -> None:
         page_dir = STANDARDS_DIR / slug
         page_dir.mkdir(exist_ok=True)
         (page_dir / "index.html").write_text(
-            standard_page_html(slug, standards[slug], standards, name_counts, iso_modified)
+            standard_page_html(
+                slug, standards[slug], standards, name_counts, iso_modified, taxonomy
+            )
         )
 
     # Drop pages for standards that have since been removed from standards.json.
-    removed = 0
-    for page_dir in STANDARDS_DIR.iterdir():
-        if not page_dir.is_dir() or page_dir.name in wanted:
-            continue
-        contents = list(page_dir.iterdir())
-        if contents and all(p.name == "index.html" for p in contents):
-            (page_dir / "index.html").unlink()
-            page_dir.rmdir()
-            removed += 1
+    removed = prune_generated_pages(STANDARDS_DIR, wanted)
     suffix = f", {removed} stale removed" if removed else ""
     print(f"  standards/: {len(wanted)} pages{suffix}")
 
@@ -1184,6 +1575,8 @@ def write_llms_txt(standards: "OrderedDict[str, dict]", html: str) -> None:
     for cat, items in by_category.items():
         out.append(f"### {cat}")
         out.append("")
+        out.append(f"Category page: {cat_url(cat)}")
+        out.append("")
         for slug, entry in items:
             tier = entry.get("tier")
             niche = entry.get("niche")
@@ -1249,8 +1642,8 @@ def write_llms_full_txt(standards: "OrderedDict[str, dict]", html: str) -> None:
         if not renderable(entry):
             continue
         label = display_label(entry, name_counts)
-        full_name = entry.get("fullName", entry["name"])
-        out.append(f"## {label} — {full_name}")
+        sub = subtitle(entry, label)
+        out.append(f"## {label} — {sub}" if sub else f"## {label}")
         out.append("")
         out.append(f"- URL: {std_url(slug)}")
         cats = categories_of(entry)
@@ -1288,6 +1681,7 @@ def write_llms_full_txt(standards: "OrderedDict[str, dict]", html: str) -> None:
 def main() -> int:
     standards = load_standards()
     html = INDEX.read_text()
+    taxonomy = parse_taxonomy(html)
 
     html = replace_panel_bodies(html, standards)
     html = replace_jsonld(html, standards)
@@ -1295,8 +1689,9 @@ def main() -> int:
 
     INDEX.write_text(html)
 
-    write_standard_pages(standards)
-    write_sitemap(standards)
+    write_standard_pages(standards, taxonomy)
+    write_category_pages(standards, taxonomy)
+    write_sitemap(standards, taxonomy)
     write_llms_txt(standards, html)
     write_llms_full_txt(standards, html)
 

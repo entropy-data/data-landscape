@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>OpenTelemetry — OpenTelemetry | Data Landscape</title>
+  <title>OpenTelemetry — Observability | Data Landscape</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.">
@@ -10,7 +10,7 @@
   <meta name="author" content="Dr. Simon Harrer">
   <meta property="og:site_name" content="Data Landscape">
   <meta property="og:type" content="article"/>
-  <meta property="og:title" content="OpenTelemetry — OpenTelemetry"/>
+  <meta property="og:title" content="OpenTelemetry"/>
   <meta property="og:description" content="Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus."/>
   <meta property="og:url" content="https://www.data-landscape.com/standards/opentelemetry/"/>
   <meta property="og:locale" content="en_US"/>
@@ -19,14 +19,14 @@
   <meta property="og:image:height" content="630"/>
   <meta property="article:modified_time" content="2026-06-22"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="OpenTelemetry — OpenTelemetry"/>
+  <meta name="twitter:title" content="OpenTelemetry"/>
   <meta name="twitter:description" content="Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus."/>
   <meta name="twitter:image" content="https://www.data-landscape.com/media/social/data-architecture-landscape.png"/>
   <meta name="theme-color" content="#4f46e5"/>
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/opentelemetry/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/opentelemetry/","url":"https://www.data-landscape.com/standards/opentelemetry/","name":"OpenTelemetry — OpenTelemetry | Data Landscape","description":"Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/opentelemetry/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/opentelemetry/#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/opentelemetry/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"OpenTelemetry"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/opentelemetry/","name":"OpenTelemetry","alternateName":"OpenTelemetry","termCode":"opentelemetry","description":"Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.","url":"https://www.data-landscape.com/standards/opentelemetry/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Vendor-neutral observability standard.","sameAs":["https://opentelemetry.io","https://github.com/open-telemetry"]}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/opentelemetry/","url":"https://www.data-landscape.com/standards/opentelemetry/","name":"OpenTelemetry — Observability | Data Landscape","description":"Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/opentelemetry/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/opentelemetry/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/oors/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/opentelemetry/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Observability","item":"https://www.data-landscape.com/categories/observability/"},{"@type":"ListItem","position":3,"name":"OpenTelemetry"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/opentelemetry/","name":"OpenTelemetry","termCode":"opentelemetry","description":"Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.","url":"https://www.data-landscape.com/standards/opentelemetry/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Vendor-neutral observability standard.","sameAs":["https://opentelemetry.io","https://github.com/open-telemetry"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
   <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
@@ -86,18 +86,20 @@
       <ol class="flex flex-wrap items-center gap-2">
         <li><a href="/" class="hover:text-gray-900">Data Landscape</a></li>
         <li aria-hidden="true">/</li>
+        <li><a href="/categories/observability/" class="hover:text-gray-900">Observability</a></li>
+        <li aria-hidden="true">/</li>
         <li><span aria-current="page" class="text-gray-700">OpenTelemetry</span></li>
       </ol>
     </nav>
 
     <header class="mt-6">
-      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Observability</p>
+      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600"><a href="/categories/observability/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Observability</a></p>
       <div class="mt-2 flex items-start gap-4">
           <img src="/media/icons/standards-map/logos/opentelemetry.svg" alt="" width="56" height="56"
                class="h-14 w-14 flex-shrink-0 object-contain">
         <div>
           <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">OpenTelemetry</h1>
-          <p class="mt-1 text-lg text-gray-600">OpenTelemetry</p>
+
         </div>
       </div>
       <div class="mt-5 flex flex-wrap items-center gap-2">
@@ -147,7 +149,7 @@
       </ul>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Related standards</h2>
-      <p class="mt-2 text-sm text-gray-600">Other standards in Observability.</p>
+      <p class="mt-2 text-sm text-gray-600">Other standards in <a href="/categories/observability/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Observability</a>.</p>
       <ul class="mt-4 space-y-2 text-sm list-disc pl-5">
           <li><a href="/standards/oors/" class="text-indigo-600 hover:text-indigo-500 hover:underline">OORS</a><span class="text-gray-500"> — Open Observability Results Standard</span></li>
       </ul>

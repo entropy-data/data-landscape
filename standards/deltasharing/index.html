@@ -4,14 +4,14 @@
   <title>Delta Sharing — Delta Sharing Protocol | Data Landscape</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Open REST protocol for sharing tabular datasets across organisations and platforms without copying data. A recipient gets short-lived signed URLs to read Parquet/Delta files directly from the provider's object store.">
+  <meta name="description" content="Open REST protocol for sharing tabular datasets across organisations and platforms without copying data.">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
   <meta name="color-scheme" content="light">
   <meta name="author" content="Dr. Simon Harrer">
   <meta property="og:site_name" content="Data Landscape">
   <meta property="og:type" content="article"/>
   <meta property="og:title" content="Delta Sharing — Delta Sharing Protocol"/>
-  <meta property="og:description" content="Open REST protocol for sharing tabular datasets across organisations and platforms without copying data. A recipient gets short-lived signed URLs to read Parquet/Delta files directly from the provider's object store."/>
+  <meta property="og:description" content="Open REST protocol for sharing tabular datasets across organisations and platforms without copying data."/>
   <meta property="og:url" content="https://www.data-landscape.com/standards/deltasharing/"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:image" content="https://www.data-landscape.com/media/social/data-architecture-landscape.png"/>
@@ -20,13 +20,13 @@
   <meta property="article:modified_time" content="2026-06-22"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Delta Sharing — Delta Sharing Protocol"/>
-  <meta name="twitter:description" content="Open REST protocol for sharing tabular datasets across organisations and platforms without copying data. A recipient gets short-lived signed URLs to read Parquet/Delta files directly from the provider's object store."/>
+  <meta name="twitter:description" content="Open REST protocol for sharing tabular datasets across organisations and platforms without copying data."/>
   <meta name="twitter:image" content="https://www.data-landscape.com/media/social/data-architecture-landscape.png"/>
   <meta name="theme-color" content="#4f46e5"/>
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/deltasharing/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/deltasharing/","url":"https://www.data-landscape.com/standards/deltasharing/","name":"Delta Sharing — Delta Sharing Protocol | Data Landscape","description":"Open REST protocol for sharing tabular datasets across organisations and platforms without copying data. A recipient gets short-lived signed URLs to read Parquet/Delta files directly from the provider's object store.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/deltasharing/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/deltasharing/#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/deltasharing/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Delta Sharing"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/deltasharing/","name":"Delta Sharing","alternateName":"Delta Sharing Protocol","termCode":"deltasharing","description":"Open REST protocol for sharing tabular datasets across organisations and platforms without copying data. A recipient gets short-lived signed URLs to read Parquet/Delta files directly from the provider's object store.","url":"https://www.data-landscape.com/standards/deltasharing/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Cross-org sharing without copies; well-defined niche.","sameAs":["https://delta.io/sharing/","https://github.com/delta-io/delta-sharing"]}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/deltasharing/","url":"https://www.data-landscape.com/standards/deltasharing/","name":"Delta Sharing — Delta Sharing Protocol | Data Landscape","description":"Open REST protocol for sharing tabular datasets across organisations and platforms without copying data.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/deltasharing/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/deltasharing/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/http/","https://www.data-landscape.com/standards/ftp/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/deltasharing/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Interconnection","item":"https://www.data-landscape.com/categories/interconnection/"},{"@type":"ListItem","position":3,"name":"Delta Sharing"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/deltasharing/","name":"Delta Sharing","alternateName":"Delta Sharing Protocol","termCode":"deltasharing","description":"Open REST protocol for sharing tabular datasets across organisations and platforms without copying data. A recipient gets short-lived signed URLs to read Parquet/Delta files directly from the provider's object store.","url":"https://www.data-landscape.com/standards/deltasharing/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Cross-org sharing without copies; well-defined niche.","sameAs":["https://delta.io/sharing/","https://github.com/delta-io/delta-sharing"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
   <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
@@ -86,12 +86,14 @@
       <ol class="flex flex-wrap items-center gap-2">
         <li><a href="/" class="hover:text-gray-900">Data Landscape</a></li>
         <li aria-hidden="true">/</li>
+        <li><a href="/categories/interconnection/" class="hover:text-gray-900">Interconnection</a></li>
+        <li aria-hidden="true">/</li>
         <li><span aria-current="page" class="text-gray-700">Delta Sharing</span></li>
       </ol>
     </nav>
 
     <header class="mt-6">
-      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Interconnection</p>
+      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600"><a href="/categories/interconnection/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Interconnection</a></p>
       <div class="mt-2 flex items-start gap-4">
           <img src="/media/icons/standards-map/logos/delta-sharing.svg" alt="" width="56" height="56"
                class="h-14 w-14 flex-shrink-0 object-contain">
@@ -152,7 +154,7 @@
       </ul>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Related standards</h2>
-      <p class="mt-2 text-sm text-gray-600">Other standards in Interconnection.</p>
+      <p class="mt-2 text-sm text-gray-600">Other standards in <a href="/categories/interconnection/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Interconnection</a>.</p>
       <ul class="mt-4 space-y-2 text-sm list-disc pl-5">
           <li><a href="/standards/http/" class="text-indigo-600 hover:text-indigo-500 hover:underline">HTTP</a><span class="text-gray-500"> — Hypertext Transfer Protocol</span></li>
           <li><a href="/standards/ftp/" class="text-indigo-600 hover:text-indigo-500 hover:underline">FTP / SFTP</a><span class="text-gray-500"> — File Transfer Protocol / SSH File Transfer Protocol</span></li>

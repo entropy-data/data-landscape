@@ -26,7 +26,7 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/sodacl/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/sodacl/","url":"https://www.data-landscape.com/standards/sodacl/","name":"SodaCL — Soda Checks Language | Data Landscape","description":"YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/sodacl/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/sodacl/#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/sodacl/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"SodaCL"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/sodacl/","name":"SodaCL","alternateName":"Soda Checks Language","termCode":"sodacl","description":"YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.","url":"https://www.data-landscape.com/standards/sodacl/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — YAML-first DQ; lighter than Great Expectations, smaller ecosystem.","sameAs":["https://docs.soda.io/soda-cl/soda-cl-overview.html","https://github.com/sodadata/soda-core"]}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/sodacl/","url":"https://www.data-landscape.com/standards/sodacl/","name":"SodaCL — Soda Checks Language | Data Landscape","description":"YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/sodacl/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/sodacl/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt-tests/","https://www.data-landscape.com/standards/great-expectations/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/sodacl/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Data Quality","item":"https://www.data-landscape.com/categories/data-quality/"},{"@type":"ListItem","position":3,"name":"SodaCL"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/sodacl/","name":"SodaCL","alternateName":"Soda Checks Language","termCode":"sodacl","description":"YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.","url":"https://www.data-landscape.com/standards/sodacl/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — YAML-first DQ; lighter than Great Expectations, smaller ecosystem.","sameAs":["https://docs.soda.io/soda-cl/soda-cl-overview.html","https://github.com/sodadata/soda-core"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
   <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
@@ -86,12 +86,14 @@
       <ol class="flex flex-wrap items-center gap-2">
         <li><a href="/" class="hover:text-gray-900">Data Landscape</a></li>
         <li aria-hidden="true">/</li>
+        <li><a href="/categories/data-quality/" class="hover:text-gray-900">Data Quality</a></li>
+        <li aria-hidden="true">/</li>
         <li><span aria-current="page" class="text-gray-700">SodaCL</span></li>
       </ol>
     </nav>
 
     <header class="mt-6">
-      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Data Quality</p>
+      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600"><a href="/categories/data-quality/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Data Quality</a></p>
       <div class="mt-2 flex items-start gap-4">
           <img src="/media/icons/standards-map/logos/soda.png" alt="" width="56" height="56"
                class="h-14 w-14 flex-shrink-0 object-contain">
@@ -153,10 +155,10 @@
       </ul>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Related standards</h2>
-      <p class="mt-2 text-sm text-gray-600">Other standards in Data Quality.</p>
+      <p class="mt-2 text-sm text-gray-600">Other standards in <a href="/categories/data-quality/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Data Quality</a>.</p>
       <ul class="mt-4 space-y-2 text-sm list-disc pl-5">
           <li><a href="/standards/dbt-tests/" class="text-indigo-600 hover:text-indigo-500 hover:underline">dbt tests</a><span class="text-gray-500"> — dbt schema and data tests</span></li>
-          <li><a href="/standards/great-expectations/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Great Expectations</a><span class="text-gray-500"> — Great Expectations</span></li>
+          <li><a href="/standards/great-expectations/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Great Expectations</a></li>
       </ul>
 
     <div class="mt-12 rounded-lg border border-indigo-200 bg-indigo-50 px-6 py-6 text-sm">
