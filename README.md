@@ -21,6 +21,14 @@ npm run build      # produces dist/output.css (minified)
 
 `dist/output.css` is checked in so GitHub Pages can serve the site without a build step.
 
+`npm run build` also runs `npm run prerender`, which regenerates from `standards.json`:
+
+- the static tile markup, JSON-LD, and footer date inside `index.html`
+- one page per standard under `standards/<slug>/index.html`
+- `sitemap.xml`, `llms.txt`, `llms-full.txt`
+
+All of it is checked in, so GitHub Pages serves the site without a build step. Edit `standards.json`, never the generated files.
+
 ## Regenerate artefacts
 
 - **PDF** (`data-landscape.pdf`): start a local server (`npm run dev` or `python -m http.server 8000`), then `uv run scripts/generate-pdf.py http://127.0.0.1:8000/`. Add `--variant full` to produce `data-landscape-full.pdf`, which includes niche & legacy standards.

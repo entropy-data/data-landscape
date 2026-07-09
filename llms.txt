@@ -2,151 +2,219 @@
 
 An opinionated, interactive map of the open standards that power a modern data architecture. Curated by Entropy Data. Source of truth: https://www.data-landscape.com/standards.json (JSON, machine-readable, freely fetchable).
 
-Each standard carries a judgement — Adopt, Situational, Assess, or Caution — with a one-line rationale. For the full per-standard prose, status, and links, see https://www.data-landscape.com/llms-full.txt.
+Each standard carries a judgement — Adopt, Situational, Assess, or Caution — with a one-line rationale, and has its own page at https://www.data-landscape.com/standards/<slug>/. For the full per-standard prose, status, and links in a single fetch, see https://www.data-landscape.com/llms-full.txt.
 
 - Site: https://www.data-landscape.com/
 - Data: https://www.data-landscape.com/standards.json
 - Full text: https://www.data-landscape.com/llms-full.txt
 - Industry ontologies: https://www.data-landscape.com/industry-ontologies.html
 - Sitemap: https://www.data-landscape.com/sitemap.xml
+- Data last updated: June 2026 (2026-06-22)
+
+## What the judgements mean
+
+- **Adopt** — The standard to reach for in new work. Proven, multi-vendor, clearly the default for its slot.
+- **Situational** — The right answer in some contexts but not others. Pick deliberately based on the constraint.
+- **Assess** — Promising but not yet proven for production-default use. Track it and prototype, but don't commit your architecture.
+- **Caution** — We'd avoid it for new work — superseded or fading, but still encountered in existing systems.
 
 ## Standards by category
 
 ### Query
 
-- [SQL](https://www.data-landscape.com/?std=sql) — Structured Query Language. Governance: ANSI / ISO/IEC 9075. **Adopt — The universal data query language; not a decision.** _adopt_
-- [MDX](https://www.data-landscape.com/?std=mdx) — Multidimensional Expressions. Governance: Originally Microsoft (1997); referenced by the XMLA specification. **Caution — Multidimensional query language; surviving only in MS Analysis Services.** _caution, legacy_
-- [Substrait](https://www.data-landscape.com/?std=substrait) — Substrait. Governance: Substrait Project (independent; ASF-inspired PMC). **Situational — Cross-engine query-plan IR — pick when you're building or integrating engines that need a portable plan format; end users rarely touch it.** _situational, niche_
-- [SPARQL](https://www.data-landscape.com/?std=sparql) — SPARQL Protocol and RDF Query Language. Governance: W3C. **Situational — Query RDF; right when your data lives in triples.** _situational_
-- [GQL](https://www.data-landscape.com/?std=gql) — Graph Query Language. Governance: ISO/IEC 39075:2024. **Situational — Vendor-neutral property-graph query language — pick when your stack is already on graph databases.** _situational, niche_
+- [SQL](https://www.data-landscape.com/standards/sql/) — Structured Query Language. Governance: ANSI / ISO/IEC 9075. **Adopt — The universal data query language; not a decision.** _adopt_
+- [MDX](https://www.data-landscape.com/standards/mdx/) — Multidimensional Expressions. Governance: Originally Microsoft (1997); referenced by the XMLA specification. **Caution — Multidimensional query language; surviving only in MS Analysis Services.** _caution, legacy_
+- [Substrait](https://www.data-landscape.com/standards/substrait/) — Substrait. Governance: Substrait Project (independent; ASF-inspired PMC). **Situational — Cross-engine query-plan IR — pick when you're building or integrating engines that need a portable plan format; end users rarely touch it.** _situational, niche_
+- [SPARQL](https://www.data-landscape.com/standards/sparql/) — SPARQL Protocol and RDF Query Language. Governance: W3C. **Situational — Query RDF; right when your data lives in triples.** _situational_
+- [GQL](https://www.data-landscape.com/standards/gql/) — Graph Query Language. Governance: ISO/IEC 39075:2024. **Situational — Vendor-neutral property-graph query language — pick when your stack is already on graph databases.** _situational, niche_
 
 ### Observability
 
-- [OpenTelemetry](https://www.data-landscape.com/?std=opentelemetry) — OpenTelemetry. Governance: CNCF (Cloud Native Computing Foundation), Linux Foundation. **Adopt — Vendor-neutral observability standard.** _adopt_
-- [OORS](https://www.data-landscape.com/?std=oors) — Open Observability Results Standard. Governance: BITOL / Linux Foundation (draft). **Assess — BITOL observability/quality-result standard; new and under-adopted.** _assess_
+- [OpenTelemetry](https://www.data-landscape.com/standards/opentelemetry/) — OpenTelemetry. Governance: CNCF (Cloud Native Computing Foundation), Linux Foundation. **Adopt — Vendor-neutral observability standard.** _adopt_
+- [OORS](https://www.data-landscape.com/standards/oors/) — Open Observability Results Standard. Governance: BITOL / Linux Foundation (draft). **Assess — BITOL observability/quality-result standard; new and under-adopted.** _assess_
 
 ### Contracts
 
-- [ODCS](https://www.data-landscape.com/?std=odcs) — Open Data Contract Standard. Governance: BITOL / Linux Foundation. **Adopt — Winning data-contract spec; YAML, multi-vendor.** _adopt, highlighted_
-- [OpenAPI](https://www.data-landscape.com/?std=openapi) — OpenAPI Specification. Governance: OpenAPI Initiative, Linux Foundation. **Adopt — De-facto REST description with tooling for almost every language.** _adopt_
-- [AsyncAPI](https://www.data-landscape.com/?std=asyncapi) — AsyncAPI Specification. Governance: AsyncAPI Initiative, Linux Foundation. **Adopt — The OpenAPI-equivalent for event APIs once you commit to documenting them.** _adopt_
-- [GraphQL](https://www.data-landscape.com/?std=graphql) — GraphQL. Governance: GraphQL Foundation, Linux Foundation. **Adopt — Default for client-driven aggregation; mature spec, multi-language tooling, well-established at scale.** _adopt_
-- [gRPC](https://www.data-landscape.com/?std=grpc) — gRPC Remote Procedure Call. Governance: CNCF (Incubating), Linux Foundation. **Situational — Right for service-to-service binary RPC; wrong for browser clients.** _situational_
-- [OData](https://www.data-landscape.com/?std=odata) — Open Data Protocol (v4). Governance: OASIS (originally Microsoft). **Situational — Pick when you live in the Microsoft BI/Dynamics world.** _situational_
+- [ODCS](https://www.data-landscape.com/standards/odcs/) — Open Data Contract Standard. Governance: BITOL / Linux Foundation. **Adopt — Winning data-contract spec; YAML, multi-vendor.** _adopt, highlighted_
+- [OpenAPI](https://www.data-landscape.com/standards/openapi/) — OpenAPI Specification. Governance: OpenAPI Initiative, Linux Foundation. **Adopt — De-facto REST description with tooling for almost every language.** _adopt_
+- [AsyncAPI](https://www.data-landscape.com/standards/asyncapi/) — AsyncAPI Specification. Governance: AsyncAPI Initiative, Linux Foundation. **Adopt — The OpenAPI-equivalent for event APIs once you commit to documenting them.** _adopt_
+- [GraphQL](https://www.data-landscape.com/standards/graphql/) — GraphQL. Governance: GraphQL Foundation, Linux Foundation. **Adopt — Default for client-driven aggregation; mature spec, multi-language tooling, well-established at scale.** _adopt_
+- [gRPC](https://www.data-landscape.com/standards/grpc/) — gRPC Remote Procedure Call. Governance: CNCF (Incubating), Linux Foundation. **Situational — Right for service-to-service binary RPC; wrong for browser clients.** _situational_
+- [OData](https://www.data-landscape.com/standards/odata/) — Open Data Protocol (v4). Governance: OASIS (originally Microsoft). **Situational — Pick when you live in the Microsoft BI/Dynamics world.** _situational_
 
 ### Processing
 
-- [dbt](https://www.data-landscape.com/?std=dbt) — data build tool. Governance: dbt Labs (vendor-driven open source). **Adopt — Analytics-engineering default: SQL-first models, tests, lineage.** _adopt, vendor_
-- [Spark](https://www.data-landscape.com/?std=spark) — Apache Spark. Governance: Apache Software Foundation. **Adopt — Default distributed batch+streaming engine.** _adopt_
-- [Beam](https://www.data-landscape.com/?std=beam) — Apache Beam. Governance: Apache Software Foundation. **Situational — Write once, run on Flink/Spark/Dataflow; right when runner portability matters.** _situational_
-- [Pandas](https://www.data-landscape.com/?std=pandas) — pandas. Governance: NumFOCUS (open source). **Adopt — Universal Python DataFrame; you don't choose it, you encounter it.** _adopt_
-- [Ibis](https://www.data-landscape.com/?std=ibis) — Ibis. Governance: Ibis Project (open source). **Assess — Portable Python DataFrame compiling to many backends; trajectory strong, footprint small.** _assess_
-- [SQL DML](https://www.data-landscape.com/?std=sql-dml) — SQL Data Manipulation Language. Governance: ANSI / ISO/IEC 9075. **Adopt — Portable transformation language across relational/lakehouse engines.** _adopt_
-- [XSLT](https://www.data-landscape.com/?std=xslt) — Extensible Stylesheet Language Transformations. Governance: W3C. **Caution — XML transformation; maintain if you have it, don't pick it new.** _caution, legacy_
+- [dbt](https://www.data-landscape.com/standards/dbt/) — data build tool. Governance: dbt Labs (vendor-driven open source). **Adopt — Analytics-engineering default: SQL-first models, tests, lineage.** _adopt, vendor_
+- [Spark](https://www.data-landscape.com/standards/spark/) — Apache Spark. Governance: Apache Software Foundation. **Adopt — Default distributed batch+streaming engine.** _adopt_
+- [Beam](https://www.data-landscape.com/standards/beam/) — Apache Beam. Governance: Apache Software Foundation. **Situational — Write once, run on Flink/Spark/Dataflow; right when runner portability matters.** _situational_
+- [Pandas](https://www.data-landscape.com/standards/pandas/) — pandas. Governance: NumFOCUS (open source). **Adopt — Universal Python DataFrame; you don't choose it, you encounter it.** _adopt_
+- [Ibis](https://www.data-landscape.com/standards/ibis/) — Ibis. Governance: Ibis Project (open source). **Assess — Portable Python DataFrame compiling to many backends; trajectory strong, footprint small.** _assess_
+- [SQL DML](https://www.data-landscape.com/standards/sql-dml/) — SQL Data Manipulation Language. Governance: ANSI / ISO/IEC 9075. **Adopt — Portable transformation language across relational/lakehouse engines.** _adopt_
+- [XSLT](https://www.data-landscape.com/standards/xslt/) — Extensible Stylesheet Language Transformations. Governance: W3C. **Caution — XML transformation; maintain if you have it, don't pick it new.** _caution, legacy_
 
 ### Data Quality
 
-- [Great Expectations](https://www.data-landscape.com/?std=great-expectations) — Great Expectations. Governance: GX Labs (vendor-driven open source). **Situational — Python-first DQ; powerful but heavy.** _situational, vendor_
-- [dbt tests](https://www.data-landscape.com/?std=dbt-tests) — dbt schema and data tests. Governance: dbt Labs (vendor-driven open source). **Situational — Right when your transformations already live in dbt; otherwise reach for a standalone DQ tool.** _situational, vendor_
-- [SodaCL](https://www.data-landscape.com/?std=sodacl) — Soda Checks Language. Governance: Soda (vendor-driven open source). **Situational — YAML-first DQ; lighter than Great Expectations, smaller ecosystem.** _situational, vendor_
+- [Great Expectations](https://www.data-landscape.com/standards/great-expectations/) — Great Expectations. Governance: GX Labs (vendor-driven open source). **Situational — Python-first DQ; powerful but heavy.** _situational, vendor_
+- [dbt tests](https://www.data-landscape.com/standards/dbt-tests/) — dbt schema and data tests. Governance: dbt Labs (vendor-driven open source). **Situational — Right when your transformations already live in dbt; otherwise reach for a standalone DQ tool.** _situational, vendor_
+- [SodaCL](https://www.data-landscape.com/standards/sodacl/) — Soda Checks Language. Governance: Soda (vendor-driven open source). **Situational — YAML-first DQ; lighter than Great Expectations, smaller ecosystem.** _situational, vendor_
 
 ### Data Products
 
-- [ODPS (BITOL @ LF)](https://www.data-landscape.com/?std=odps) — Open Data Product Standard. Governance: BITOL / Linux Foundation. **Adopt — Winning data-product spec; ODCS-aligned.** _adopt, highlighted_
-- [DPDS](https://www.data-landscape.com/?std=dpds) — Data Product Descriptor Specification. Governance: OpenDataMesh community. **Assess — Coexists with BITOL's ODPS but with smaller community.** _assess_
-- [ODPS (LF)](https://www.data-landscape.com/?std=odpspec) — Open Data Product Specification. Governance: opendataproducts.org / Linux Foundation. **Assess — LF-governed data-product spec; strong on commercial terms, modest adoption.** _assess_
-- [DPROD](https://www.data-landscape.com/?std=dprod) — Data Product Vocabulary (DPROD). Governance: EKGF / Object Management Group (OMG) — RDF/OWL vocabulary. **Assess — RDF/OWL data-product vocabulary; right only when your stack already lives in linked data.** _assess_
+- [ODPS (BITOL @ LF)](https://www.data-landscape.com/standards/odps/) — Open Data Product Standard. Governance: BITOL / Linux Foundation. **Adopt — Winning data-product spec; ODCS-aligned.** _adopt, highlighted_
+- [DPDS](https://www.data-landscape.com/standards/dpds/) — Data Product Descriptor Specification. Governance: OpenDataMesh community. **Assess — Coexists with BITOL's ODPS but with smaller community.** _assess_
+- [ODPS (LF)](https://www.data-landscape.com/standards/odpspec/) — Open Data Product Specification. Governance: opendataproducts.org / Linux Foundation. **Assess — LF-governed data-product spec; strong on commercial terms, modest adoption.** _assess_
+- [DPROD](https://www.data-landscape.com/standards/dprod/) — Data Product Vocabulary (DPROD). Governance: EKGF / Object Management Group (OMG) — RDF/OWL vocabulary. **Assess — RDF/OWL data-product vocabulary; right only when your stack already lives in linked data.** _assess_
 
 ### Open Table Formats
 
-- [Iceberg](https://www.data-landscape.com/?std=iceberg) — Apache Iceberg. Governance: Apache Software Foundation. **Adopt — Default open table format for new lakes; multi-vendor catalog support and ASF governance.** _adopt_
-- [Delta](https://www.data-landscape.com/?std=delta) — Delta Lake. Governance: Linux Foundation (originally Databricks). **Situational — Reach-For if you're on Databricks; Situational elsewhere.** _situational_
-- [Hudi](https://www.data-landscape.com/?std=hudi) — Apache Hudi. Governance: Apache Software Foundation. **Assess — Third-place table format; legitimate CDC-upsert use cases but lost the default slot.** _assess_
-- [Lance](https://www.data-landscape.com/?std=lance) — Lance. Governance: Lance community (independent open source, LF-inspired governance). **Assess — AI/ML-optimised columnar format; trajectory good, adoption concentrated.** _assess_
+- [Iceberg](https://www.data-landscape.com/standards/iceberg/) — Apache Iceberg. Governance: Apache Software Foundation. **Adopt — Default open table format for new lakes; multi-vendor catalog support and ASF governance.** _adopt_
+- [Delta](https://www.data-landscape.com/standards/delta/) — Delta Lake. Governance: Linux Foundation (originally Databricks). **Situational — Reach-For if you're on Databricks; Situational elsewhere.** _situational_
+- [Hudi](https://www.data-landscape.com/standards/hudi/) — Apache Hudi. Governance: Apache Software Foundation. **Assess — Third-place table format; legitimate CDC-upsert use cases but lost the default slot.** _assess_
+- [Lance](https://www.data-landscape.com/standards/lance/) — Lance. Governance: Lance community (independent open source, LF-inspired governance). **Assess — AI/ML-optimised columnar format; trajectory good, adoption concentrated.** _assess_
 
 ### Catalog APIs
 
-- [DuckLake](https://www.data-landscape.com/?std=ducklake) — DuckLake. Governance: DuckDB Labs (vendor-driven open source). **Assess — DuckDB-Labs catalog; v1.0 production-ready, ecosystem still small.** _assess, vendor_
-- [Iceberg Catalog](https://www.data-landscape.com/?std=iceberg-catalog) — Iceberg REST Catalog. Governance: Apache Software Foundation. **Adopt — Canonical catalog API for Iceberg; multi-vendor implementations.** _adopt_
-- [Unity Catalog](https://www.data-landscape.com/?std=unity-catalog) — Unity Catalog. Governance: Linux Foundation (originally Databricks). **Situational — LF-open-sourced but still Databricks-tilted in practice.** _situational_
-- [Hive Metastore](https://www.data-landscape.com/?std=hive-metastore) — Apache Hive Metastore. Governance: Apache Software Foundation. **Caution — The catalog Iceberg REST is displacing; maintain only.** _caution_
-- [Schema Registry](https://www.data-landscape.com/?std=schema-registry) — Confluent Schema Registry. Governance: Confluent (open API; multiple compatible implementations). **Adopt — The default Kafka schema-management surface.** _adopt, vendor_
+- [DuckLake](https://www.data-landscape.com/standards/ducklake/) — DuckLake. Governance: DuckDB Labs (vendor-driven open source). **Assess — DuckDB-Labs catalog; v1.0 production-ready, ecosystem still small.** _assess, vendor_
+- [Iceberg Catalog](https://www.data-landscape.com/standards/iceberg-catalog/) — Iceberg REST Catalog. Governance: Apache Software Foundation. **Adopt — Canonical catalog API for Iceberg; multi-vendor implementations.** _adopt_
+- [Unity Catalog](https://www.data-landscape.com/standards/unity-catalog/) — Unity Catalog. Governance: Linux Foundation (originally Databricks). **Situational — LF-open-sourced but still Databricks-tilted in practice.** _situational_
+- [Hive Metastore](https://www.data-landscape.com/standards/hive-metastore/) — Apache Hive Metastore. Governance: Apache Software Foundation. **Caution — The catalog Iceberg REST is displacing; maintain only.** _caution_
+- [Schema Registry](https://www.data-landscape.com/standards/schema-registry/) — Confluent Schema Registry. Governance: Confluent (open API; multiple compatible implementations). **Adopt — The default Kafka schema-management surface.** _adopt, vendor_
 
 ### Schema
 
-- [XML Schema](https://www.data-landscape.com/?std=xml-schema) — XML Schema Definition (XSD). Governance: W3C. **Adopt — The schema language for XML — load-bearing in enterprise integration, finance, healthcare, and government with mature tooling.** _adopt_
-- [JSON Schema](https://www.data-landscape.com/?std=json-schema) — JSON Schema. Governance: JSON Schema community / IETF. **Adopt — Default API-payload validation; behind OpenAPI/AsyncAPI.** _adopt_
-- [SQL DDL](https://www.data-landscape.com/?std=sql-ddl) — SQL Data Definition Language. Governance: ANSI / ISO/IEC 9075. **Adopt — Universal way to describe a relational schema; portable across engines.** _adopt_
-- [AVRO Schema](https://www.data-landscape.com/?std=avro-schema) — Apache Avro Schema. Governance: Apache Software Foundation. **Adopt — Schema language for Kafka payloads; pairs with Schema Registry.** _adopt_
-- [Protobuf](https://www.data-landscape.com/?std=protobuf) — Protocol Buffers. Governance: Google (open source, vendor-driven). **Adopt — Strong schema-evolution rules; default for gRPC.** _adopt, vendor_
-- [LinkML](https://www.data-landscape.com/?std=linkml) — Linked data Modeling Language. Governance: LinkML community / Monarch Initiative. **Assess — Multi-output schema language; strong in biomedical, niche elsewhere.** _assess, niche_
-- [Table Schema](https://www.data-landscape.com/?std=frictionless-table-schema) — Frictionless Table Schema. Governance: Frictionless Data / Open Knowledge Foundation. **Assess — Lightweight Frictionless tabular spec; small ecosystem.** _assess, niche_
+- [XML Schema](https://www.data-landscape.com/standards/xml-schema/) — XML Schema Definition (XSD). Governance: W3C. **Adopt — The schema language for XML — load-bearing in enterprise integration, finance, healthcare, and government with mature tooling.** _adopt_
+- [JSON Schema](https://www.data-landscape.com/standards/json-schema/) — JSON Schema. Governance: JSON Schema community / IETF. **Adopt — Default API-payload validation; behind OpenAPI/AsyncAPI.** _adopt_
+- [SQL DDL](https://www.data-landscape.com/standards/sql-ddl/) — SQL Data Definition Language. Governance: ANSI / ISO/IEC 9075. **Adopt — Universal way to describe a relational schema; portable across engines.** _adopt_
+- [AVRO Schema](https://www.data-landscape.com/standards/avro-schema/) — Apache Avro Schema. Governance: Apache Software Foundation. **Adopt — Schema language for Kafka payloads; pairs with Schema Registry.** _adopt_
+- [Protobuf](https://www.data-landscape.com/standards/protobuf/) — Protocol Buffers. Governance: Google (open source, vendor-driven). **Adopt — Strong schema-evolution rules; default for gRPC.** _adopt, vendor_
+- [LinkML](https://www.data-landscape.com/standards/linkml/) — Linked data Modeling Language. Governance: LinkML community / Monarch Initiative. **Assess — Multi-output schema language; strong in biomedical, niche elsewhere.** _assess, niche_
+- [Table Schema](https://www.data-landscape.com/standards/frictionless-table-schema/) — Frictionless Table Schema. Governance: Frictionless Data / Open Knowledge Foundation. **Assess — Lightweight Frictionless tabular spec; small ecosystem.** _assess, niche_
 
 ### File Formats
 
-- [CSV](https://www.data-landscape.com/?std=csv) — Comma-Separated Values (RFC 4180). Governance: IETF (RFC 4180). **Adopt — Universal flat file; ugly but ubiquitous.** _adopt_
-- [JSON](https://www.data-landscape.com/?std=json) — JavaScript Object Notation. Governance: IETF RFC 8259 / ECMA-404. **Adopt — Universal payload format; not a choice.** _adopt_
-- [XML](https://www.data-landscape.com/?std=xml) — Extensible Markup Language. Governance: W3C. **Adopt — Load-bearing in finance, healthcare, and government; mature tooling around XSD, XSLT, XPath, XQuery.** _adopt_
-- [YAML](https://www.data-landscape.com/?std=yaml) — YAML Ain't Markup Language. Governance: yaml.org / community spec. **Adopt — Default surface for config and contract specs.** _adopt, niche_
-- [PARQUET](https://www.data-landscape.com/?std=parquet) — Apache Parquet. Governance: Apache Software Foundation. **Adopt — De-facto columnar storage; baseline for analytics.** _adopt_
-- [AVRO](https://www.data-landscape.com/?std=avro) — Apache Avro. Governance: Apache Software Foundation. **Adopt — Kafka's binary payload of choice; first-class with Schema Registry.** _adopt_
-- [ORC](https://www.data-landscape.com/?std=orc) — Apache ORC (Optimized Row Columnar). Governance: Apache Software Foundation. **Situational — Pick if you're in Hive/Tez territory; otherwise Parquet wins.** _situational_
-- [Lance](https://www.data-landscape.com/?std=lance) — Lance. Governance: Lance community (independent open source, LF-inspired governance). **Assess — AI/ML-optimised columnar format; trajectory good, adoption concentrated.** _assess_
+- [CSV](https://www.data-landscape.com/standards/csv/) — Comma-Separated Values (RFC 4180). Governance: IETF (RFC 4180). **Adopt — Universal flat file; ugly but ubiquitous.** _adopt_
+- [JSON](https://www.data-landscape.com/standards/json/) — JavaScript Object Notation. Governance: IETF RFC 8259 / ECMA-404. **Adopt — Universal payload format; not a choice.** _adopt_
+- [XML](https://www.data-landscape.com/standards/xml/) — Extensible Markup Language. Governance: W3C. **Adopt — Load-bearing in finance, healthcare, and government; mature tooling around XSD, XSLT, XPath, XQuery.** _adopt_
+- [YAML](https://www.data-landscape.com/standards/yaml/) — YAML Ain't Markup Language. Governance: yaml.org / community spec. **Adopt — Default surface for config and contract specs.** _adopt, niche_
+- [PARQUET](https://www.data-landscape.com/standards/parquet/) — Apache Parquet. Governance: Apache Software Foundation. **Adopt — De-facto columnar storage; baseline for analytics.** _adopt_
+- [AVRO](https://www.data-landscape.com/standards/avro/) — Apache Avro. Governance: Apache Software Foundation. **Adopt — Kafka's binary payload of choice; first-class with Schema Registry.** _adopt_
+- [ORC](https://www.data-landscape.com/standards/orc/) — Apache ORC (Optimized Row Columnar). Governance: Apache Software Foundation. **Situational — Pick if you're in Hive/Tez territory; otherwise Parquet wins.** _situational_
+- [Lance](https://www.data-landscape.com/standards/lance/) — Lance. Governance: Lance community (independent open source, LF-inspired governance). **Assess — AI/ML-optimised columnar format; trajectory good, adoption concentrated.** _assess_
 
 ### Lineage
 
-- [OpenLineage](https://www.data-landscape.com/?std=openlineage) — OpenLineage. Governance: Linux Foundation. **Adopt — The lineage-emission standard, with column-level support.** _adopt_
-- [PROV](https://www.data-landscape.com/?std=prov) — PROV — Provenance Family. Governance: W3C. **Assess — W3C provenance vocabulary; predates OpenLineage by a decade, fading.** _assess, niche_
+- [OpenLineage](https://www.data-landscape.com/standards/openlineage/) — OpenLineage. Governance: Linux Foundation. **Adopt — The lineage-emission standard, with column-level support.** _adopt_
+- [PROV](https://www.data-landscape.com/standards/prov/) — PROV — Provenance Family. Governance: W3C. **Assess — W3C provenance vocabulary; predates OpenLineage by a decade, fading.** _assess, niche_
 
 ### Policies
 
-- [OPA](https://www.data-landscape.com/?std=opa) — Open Policy Agent. Governance: CNCF (Graduated). **Adopt — General-purpose policy engine; mature Rego ecosystem.** _adopt_
-- [ODRL](https://www.data-landscape.com/?std=odrl) — Open Digital Rights Language. Governance: W3C. **Assess — Rights-expression language; relevant where data licensing matters.** _assess, niche_
+- [OPA](https://www.data-landscape.com/standards/opa/) — Open Policy Agent. Governance: CNCF (Graduated). **Adopt — General-purpose policy engine; mature Rego ecosystem.** _adopt_
+- [ODRL](https://www.data-landscape.com/standards/odrl/) — Open Digital Rights Language. Governance: W3C. **Assess — Rights-expression language; relevant where data licensing matters.** _assess, niche_
 
 ### AI Interfaces
 
-- [MCP](https://www.data-landscape.com/?std=mcp) — Model Context Protocol. Governance: Linux Foundation (created by Anthropic; multi-vendor steering). **Adopt — Became the AI tool-integration default in 2024–2025.** _adopt_
-- [A2A](https://www.data-landscape.com/?std=a2a) — Agent2Agent Protocol. Governance: Linux Foundation (created by Google; multi-vendor steering). **Situational — Agent-to-agent protocol; right when you have multi-agent orchestration, otherwise overkill.** _situational_
+- [MCP](https://www.data-landscape.com/standards/mcp/) — Model Context Protocol. Governance: Linux Foundation (created by Anthropic; multi-vendor steering). **Adopt — Became the AI tool-integration default in 2024–2025.** _adopt_
+- [A2A](https://www.data-landscape.com/standards/a2a/) — Agent2Agent Protocol. Governance: Linux Foundation (created by Google; multi-vendor steering). **Situational — Agent-to-agent protocol; right when you have multi-agent orchestration, otherwise overkill.** _situational_
 
 ### Storage Systems
 
-- [S3](https://www.data-landscape.com/?std=s3) — Amazon S3 API. Governance: AWS (vendor-controlled, but de-facto standard). **Adopt — The object-storage API everyone implements.** _adopt, vendor_
-- [HDFS](https://www.data-landscape.com/?std=hdfs) — Hadoop Distributed File System. Governance: Apache Software Foundation. **Caution — Hadoop-era distributed FS; object storage replaced it for nearly all new builds.** _caution_
+- [S3](https://www.data-landscape.com/standards/s3/) — Amazon S3 API. Governance: AWS (vendor-controlled, but de-facto standard). **Adopt — The object-storage API everyone implements.** _adopt, vendor_
+- [HDFS](https://www.data-landscape.com/standards/hdfs/) — Hadoop Distributed File System. Governance: Apache Software Foundation. **Caution — Hadoop-era distributed FS; object storage replaced it for nearly all new builds.** _caution_
 
 ### Semantics
 
-- [OSI](https://www.data-landscape.com/?std=osi) — Open Semantic Interchange. Governance: OSI Initiative — Snowflake, Salesforce, dbt Labs, BlackRock, Databricks, Strategy (formerly MicroStrategy), and many more. **Assess — Emerging vendor-neutral semantic exchange; promising, adoption early.** _assess, highlighted_
-- [RDF/OWL](https://www.data-landscape.com/?std=rdf-owl) — Resource Description Framework / Web Ontology Language. Governance: W3C. **Situational — Semantic-web foundation; right when reasoning/inference matter.** _situational_
-- [DCAT](https://www.data-landscape.com/?std=dcat) — Data Catalog Vocabulary. Governance: W3C. **Situational — Mandatory in EU open-data and many regulatory contexts.** _situational_
-- [SKOS](https://www.data-landscape.com/?std=skos) — Simple Knowledge Organization System. Governance: W3C. **Situational — Right when you actually have a taxonomy.** _situational_
-- [SHACL](https://www.data-landscape.com/?std=shacl) — Shapes Constraint Language. Governance: W3C. **Situational — Validate RDF; only when you already speak RDF.** _situational_
-- [JSON-LD](https://www.data-landscape.com/?std=json-ld) — JSON for Linking Data. Governance: W3C. **Situational — Pragmatic semantic-web on-ramp inside ordinary JSON.** _situational_
-- [schema.org](https://www.data-landscape.com/?std=schemaorg) — schema.org vocabulary. Governance: schema.org Community Group / W3C. **Assess — Web SEO/structured-data vocabulary; different audience from data-platform work.** _assess, niche_
-- [ShEx](https://www.data-landscape.com/?std=shex) — Shape Expressions Language. Governance: W3C Shape Expressions Community Group. **Assess — RDF shape validation parallel to SHACL; smaller community.** _assess, niche_
+- [OSI](https://www.data-landscape.com/standards/osi/) — Open Semantic Interchange. Governance: OSI Initiative — Snowflake, Salesforce, dbt Labs, BlackRock, Databricks, Strategy (formerly MicroStrategy), and many more. **Assess — Emerging vendor-neutral semantic exchange; promising, adoption early.** _assess, highlighted_
+- [RDF/OWL](https://www.data-landscape.com/standards/rdf-owl/) — Resource Description Framework / Web Ontology Language. Governance: W3C. **Situational — Semantic-web foundation; right when reasoning/inference matter.** _situational_
+- [DCAT](https://www.data-landscape.com/standards/dcat/) — Data Catalog Vocabulary. Governance: W3C. **Situational — Mandatory in EU open-data and many regulatory contexts.** _situational_
+- [SKOS](https://www.data-landscape.com/standards/skos/) — Simple Knowledge Organization System. Governance: W3C. **Situational — Right when you actually have a taxonomy.** _situational_
+- [SHACL](https://www.data-landscape.com/standards/shacl/) — Shapes Constraint Language. Governance: W3C. **Situational — Validate RDF; only when you already speak RDF.** _situational_
+- [JSON-LD](https://www.data-landscape.com/standards/json-ld/) — JSON for Linking Data. Governance: W3C. **Situational — Pragmatic semantic-web on-ramp inside ordinary JSON.** _situational_
+- [schema.org](https://www.data-landscape.com/standards/schemaorg/) — schema.org vocabulary. Governance: schema.org Community Group / W3C. **Assess — Web SEO/structured-data vocabulary; different audience from data-platform work.** _assess, niche_
+- [ShEx](https://www.data-landscape.com/standards/shex/) — Shape Expressions Language. Governance: W3C Shape Expressions Community Group. **Assess — RDF shape validation parallel to SHACL; smaller community.** _assess, niche_
 
 ### Database Connectivity
 
-- [JDBC](https://www.data-landscape.com/?std=jdbc) — Java Database Connectivity. Governance: Java Community Process (JCP). **Adopt — Every JVM data tool speaks it; default for 25 years.** _adopt_
-- [ODBC](https://www.data-landscape.com/?std=odbc) — Open Database Connectivity. Governance: ISO/IEC 9075-3 (originally Microsoft / SQL Access Group). **Adopt — Cross-language equivalent of JDBC; sits behind every BI tool.** _adopt_
-- [XMLA](https://www.data-landscape.com/?std=xmla) — XML for Analysis. Governance: XMLA Council (Microsoft, Hyperion, SAS); de-facto industry spec. **Caution — Legacy SOAP-based BI protocol; survives only inside MS Analysis Services.** _caution, legacy_
-- [ADBC](https://www.data-landscape.com/?std=adbc) — Arrow Database Connectivity. Governance: Apache Software Foundation (Arrow project). **Adopt — Arrow-native DB connectivity; the modern replacement for JDBC/ODBC on analytical workloads.** _adopt_
-- [Quack](https://www.data-landscape.com/?std=quack) — Quack. Governance: DuckDB Labs (vendor-driven open source). **Assess — DuckDB's new client-server protocol; promising but early — watch adoption beyond the DuckDB ecosystem.** _assess, vendor_
+- [JDBC](https://www.data-landscape.com/standards/jdbc/) — Java Database Connectivity. Governance: Java Community Process (JCP). **Adopt — Every JVM data tool speaks it; default for 25 years.** _adopt_
+- [ODBC](https://www.data-landscape.com/standards/odbc/) — Open Database Connectivity. Governance: ISO/IEC 9075-3 (originally Microsoft / SQL Access Group). **Adopt — Cross-language equivalent of JDBC; sits behind every BI tool.** _adopt_
+- [XMLA](https://www.data-landscape.com/standards/xmla/) — XML for Analysis. Governance: XMLA Council (Microsoft, Hyperion, SAS); de-facto industry spec. **Caution — Legacy SOAP-based BI protocol; survives only inside MS Analysis Services.** _caution, legacy_
+- [ADBC](https://www.data-landscape.com/standards/adbc/) — Arrow Database Connectivity. Governance: Apache Software Foundation (Arrow project). **Adopt — Arrow-native DB connectivity; the modern replacement for JDBC/ODBC on analytical workloads.** _adopt_
+- [Quack](https://www.data-landscape.com/standards/quack/) — Quack. Governance: DuckDB Labs (vendor-driven open source). **Assess — DuckDB's new client-server protocol; promising but early — watch adoption beyond the DuckDB ecosystem.** _assess, vendor_
 
 ### Interconnection
 
-- [HTTP](https://www.data-landscape.com/?std=http) — Hypertext Transfer Protocol. Governance: IETF. **Adopt — Universal application transport; nobody decides to use it.** _adopt_
-- [FTP / SFTP](https://www.data-landscape.com/?std=ftp) — File Transfer Protocol / SSH File Transfer Protocol. Governance: IETF. **Caution — Unencrypted FTP is unsafe for new work; SFTP-only as a last resort when partners can't speak HTTP APIs.** _caution_
-- [Delta Sharing](https://www.data-landscape.com/?std=deltasharing) — Delta Sharing Protocol. Governance: Linux Foundation (donated by Databricks). **Situational — Cross-org sharing without copies; well-defined niche.** _situational_
+- [HTTP](https://www.data-landscape.com/standards/http/) — Hypertext Transfer Protocol. Governance: IETF. **Adopt — Universal application transport; nobody decides to use it.** _adopt_
+- [FTP / SFTP](https://www.data-landscape.com/standards/ftp/) — File Transfer Protocol / SSH File Transfer Protocol. Governance: IETF. **Caution — Unencrypted FTP is unsafe for new work; SFTP-only as a last resort when partners can't speak HTTP APIs.** _caution_
+- [Delta Sharing](https://www.data-landscape.com/standards/deltasharing/) — Delta Sharing Protocol. Governance: Linux Foundation (donated by Databricks). **Situational — Cross-org sharing without copies; well-defined niche.** _situational_
 
 ### Messaging
 
-- [Kafka](https://www.data-landscape.com/?std=kafka) — Apache Kafka. Governance: Apache Software Foundation. **Adopt — The streaming backbone; competitors challenge the implementation, not the category.** _adopt_
-- [MQTT](https://www.data-landscape.com/?std=mqtt) — Message Queuing Telemetry Transport. Governance: OASIS. **Situational — Excellent in IoT/edge, irrelevant outside it.** _situational_
-- [CloudEvents](https://www.data-landscape.com/?std=cloudevents) — CloudEvents. Governance: CNCF (Graduated). **Adopt — Default event envelope; HTTP/Kafka/AMQP/MQTT bindings all standardised.** _adopt_
-- [AMQP](https://www.data-landscape.com/?std=amqp) — Advanced Message Queuing Protocol. Governance: OASIS. **Situational — Pick when you want broker semantics (RabbitMQ-shaped problems).** _situational_
-- [JMS](https://www.data-landscape.com/?std=jms) — Jakarta Messaging (formerly Java Message Service). Governance: Eclipse Foundation (Jakarta EE); originally JCP. **Caution — Java-only messaging API; maintain if you have it, don't pick it new.** _caution, legacy_
+- [Kafka](https://www.data-landscape.com/standards/kafka/) — Apache Kafka. Governance: Apache Software Foundation. **Adopt — The streaming backbone; competitors challenge the implementation, not the category.** _adopt_
+- [MQTT](https://www.data-landscape.com/standards/mqtt/) — Message Queuing Telemetry Transport. Governance: OASIS. **Situational — Excellent in IoT/edge, irrelevant outside it.** _situational_
+- [CloudEvents](https://www.data-landscape.com/standards/cloudevents/) — CloudEvents. Governance: CNCF (Graduated). **Adopt — Default event envelope; HTTP/Kafka/AMQP/MQTT bindings all standardised.** _adopt_
+- [AMQP](https://www.data-landscape.com/standards/amqp/) — Advanced Message Queuing Protocol. Governance: OASIS. **Situational — Pick when you want broker semantics (RabbitMQ-shaped problems).** _situational_
+- [JMS](https://www.data-landscape.com/standards/jms/) — Jakarta Messaging (formerly Java Message Service). Governance: Eclipse Foundation (Jakarta EE); originally JCP. **Caution — Java-only messaging API; maintain if you have it, don't pick it new.** _caution, legacy_
 
 ### In-Memory Format
 
-- [DataFrame API](https://www.data-landscape.com/?std=dataframe) — Python Dataframe API Standard. Governance: Consortium for Python Data API Standards (data-apis.org). **Adopt — Portable Python DataFrame spec; the way to write library code that runs on pandas, Polars, Modin, and cuDF.** _adopt_
-- [Apache Arrow](https://www.data-landscape.com/?std=arrow) — Apache Arrow. Governance: Apache Software Foundation. **Adopt — In-memory columnar standard powering Flight, ADBC, DataFusion, Polars.** _adopt_
+- [DataFrame API](https://www.data-landscape.com/standards/dataframe/) — Python Dataframe API Standard. Governance: Consortium for Python Data API Standards (data-apis.org). **Adopt — Portable Python DataFrame spec; the way to write library code that runs on pandas, Polars, Modin, and cuDF.** _adopt_
+- [Apache Arrow](https://www.data-landscape.com/standards/arrow/) — Apache Arrow. Governance: Apache Software Foundation. **Adopt — In-memory columnar standard powering Flight, ADBC, DataFusion, Polars.** _adopt_
+
+## Frequently asked questions
+
+### What do you mean by open standards?
+
+An open standard, as used on this page, is a specification that anyone can read, implement, and build on — without paying a vendor for the privilege. Concretely, a spec qualifies if:
+- the specification text is published under an open license (Apache, CC-BY, MIT, or a recognised standards-body licence);
+- governance is preferably independently controlled — a foundation, working group, or community — and not in the hands of a single vendor;
+- there are multiple independent implementations, or a credible path to them — one repo controlled by one company is not enough;
+- it is the de-facto standard for its slot in a modern data architecture, not a niche curiosity.
+
+Origin doesn't matter — many of the entries here started as vendor specs (Iceberg at Netflix, Delta Lake at Databricks, gRPC at Google, OpenLineage at Datakin). What matters is whether the spec is openly governed and openly implementable today. The Status field in each entry's drawer makes the governance situation explicit (foundation-hosted, vendor-led, draft, etc.), so you can judge for yourself.
+
+### Why did we build this — and what's the origin story?
+
+Because Entropy Data loves open standards — and is building its product on top of them. ODCS, ODPS, OpenLineage, MCP, and the rest are the spine of our marketplace; the same set of specs you can use without us. We also use this landscape ourselves to communicate with stakeholders on PoCs — to explain why a contract-first, vendor-neutral foundation is the cheaper long-term bet than yet another proprietary catalog. See www.entropy-data.com for the full story.
+
+It started as a single slide. Simon was preparing a talk on open standards for data mesh for the Data Mesh Belgium meetup in Leuven (April 2026), and wanted one picture that answered "which standards actually matter, and where do they fit?" Every existing diagram either flattened everything into one box or focused on a single vendor's stack.
+
+The slide kept growing. After the talk, enough people asked for "the picture" that turning it into an interactive, linkable page made more sense than mailing around a PNG. Inspired by the CNCF Landscape for the categorisation and the ThoughtWorks Tech Radar for the per-entry judgement, but narrower in scope: open standards only, no vendors. It's still a living view — suggestions and corrections welcome.
+
+The launch post on LinkedIn went unexpectedly viral — most of the standards added since the launch came in as comments, DMs, and pull requests in the days that followed. The contributor list at the bottom of this page is the visible tip of that.
+
+### Why do you call this a data landscape?
+
+Fair pushback: most of what's here is metadata, not data. Schemas, contracts, lineage events, and catalog APIs all describe data rather than are data — and the page won't help you pick a vendor. Guilty as charged on both counts.
+
+We still call it the "Data Landscape" because that's the conversation people are having. When teams say "our data stack" they mean the standards, formats, and protocols around the data, not the bytes themselves.
+
+It's also deliberately not a vendor landscape. There's no Snowflake vs Databricks, no "best catalog of 2026". The CNCF Landscape catalogues vendors and projects; this one catalogues the open standards they should interoperate around. If you're picking a vendor, ask which of these standards they implement. That's the question this landscape helps you ask, not answer.
+
+### Why did you include vendor specs in an overview of open standards?
+
+Most "open standards" started as vendor specs. Iceberg came out of Netflix, Delta Lake out of Databricks, gRPC and Protobuf out of Google, OpenLineage was spun out of Datakin (now Astronomer) and incubated at LF AI & Data. What matters is whether the spec is openly governed and openly implementable today, not who wrote the first commit. See What do you mean by open standards? for the criteria we apply.
+
+### What do Adopt, Situational, Assess, and Caution mean?
+
+The coloured header on each tile is our editorial judgement — what we'd actually do with this standard if we were starting a new project today. The four levels borrow the verb-style framing of the ThoughtWorks Tech Radar (Adopt / Trial / Assess / Hold), tuned for open standards rather than internal tech adoption:
+- Adopt — the standard you should reach for in new work. Proven, multi-vendor, clearly the default for its slot (e.g. SQL, JSON, HTTP, ODCS for data contracts, Iceberg for table format, OpenLineage for lineage).
+- Situational — the right answer in some contexts but not others. Pick deliberately based on the constraint (gRPC for service-to-service binary RPC, GraphQL for client-driven aggregation, GQL when you're already on graph databases).
+- Assess — promising but not yet proven for production-default use. Track it, prototype with it, but don't commit your architecture to it yet (e.g. OSI, Substrait, OORS).
+- Caution — we'd avoid for new work. Either superseded by a better option or fading from active use (e.g. MDX, JMS, XSLT). Listed because they're still encountered in existing systems.
+
+Click a label in the toolbar legend to hide every tile of that judgement; click again to bring them back. Every standard's drawer carries the per-entry rationale (the Judgement reason line). The same field is in standards.json as judgement + judgementReason if you want to disagree at scale. Within each category panel, tiles are ordered by judgement: Adopt first, Caution last.
+
+### Why is X listed, not listed, or marked as a vendor spec?
+
+Why is X listed? Because it meets the four criteria above — openly licensed, independently governed (or noted as a vendor spec), multiple implementations, and de-facto for its slot. Each entry's drawer shows the Governance and Status we relied on; the same fields are in standards.json if you want to audit the whole set at once.
+
+Why isn't X listed? Most likely we haven't gotten to it yet, or we judged it a vendor product rather than an open spec. The bar is the spec, not the popularity of any one implementation. If you think we're wrong, open an issue — the data is a single JSON file, PRs welcome.
+
+Why is X greyed out / marked as a vendor spec? Vendor-led specs are openly published and de-facto, but governance is effectively controlled by one company — they meet every criterion except independent governance. We still list them because they matter (e.g. dbt, Protobuf, Schema Registry); the muted tile and grayscale logo are the caveat, not a downgrade.
+
+Where did legacy and niche go? Those used to be separate tags; they're now folded into the judgement. Standards we'd avoid for new work (XMLA, JMS, MDX) sit under Caution. Standards healthy only in a particular corner (ShEx, LinkML, GQL) sit under Situational or Assess depending on maturity. See the judgement explanation for the per-tier criteria.
+
+## Cite this landscape
+
+Harrer, S. (2026). *Data Landscape: Open Standards for Modern Data Architecture*. Entropy Data. https://www.data-landscape.com/
+
+BibTeX: https://www.data-landscape.com/data-landscape.bib. Licensed MIT; attribution appreciated.

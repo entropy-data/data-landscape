@@ -13,6 +13,12 @@ if (urlParams.has('ref')) {
 // Iterate through the links and add the query parameter
 let links = document.querySelectorAll('a');
 links.forEach(function (link) {
+  // Same-page fragment links (skip link, FAQ anchors) and mailto: must stay as
+  // authored — rewriting them to absolute URLs turns a jump into a page load.
+  const href = link.getAttribute('href') || '';
+  if (href.startsWith('#') || href.startsWith('mailto:')) {
+    return;
+  }
   let url = new URL(link.href);
   if (urlParams.has('ref')) {
     url.searchParams.set('ref', urlParams.get('ref'));
@@ -51,7 +57,8 @@ function openHashDetails() {
   const el = document.getElementById(id);
   if (el && el.tagName === 'DETAILS') {
     el.open = true;
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
   }
 }
 window.addEventListener('hashchange', openHashDetails);

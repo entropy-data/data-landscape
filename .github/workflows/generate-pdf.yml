@@ -1,7 +1,8 @@
 name: Build artefacts
 
 # Re-runs the prerender step (which keeps the static tile HTML, JSON-LD,
-# sitemap.xml, llms.txt, and the footer "Updated" date in sync with
+# sitemap.xml, llms.txt, llms-full.txt, the per-standard pages under
+# standards/, and the footer "Updated" date in sync with
 # standards.json) and regenerates data-landscape.pdf whenever the page
 # content or generation pipeline changes, then commits any changes back
 # to main. The PDF itself is excluded from the trigger paths to avoid
@@ -72,12 +73,17 @@ jobs:
 
       - name: Commit changes if any
         run: |
-          if git diff --quiet -- index.html sitemap.xml llms.txt data-landscape.pdf media/social/data-architecture-landscape.png media/social/industry-ontologies.png; then
+          # `git add` before diffing: the per-standard pages under standards/
+          # can be brand new (untracked), which `git diff` alone never reports.
+          git add index.html sitemap.xml llms.txt llms-full.txt standards/ \
+                  data-landscape.pdf \
+                  media/social/data-architecture-landscape.png \
+                  media/social/industry-ontologies.png
+          if git diff --cached --quiet; then
             echo "No artefact changes; nothing to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html sitemap.xml llms.txt data-landscape.pdf media/social/data-architecture-landscape.png media/social/industry-ontologies.png
           git commit -m "Regenerate prerendered artefacts and PDF"
           git push

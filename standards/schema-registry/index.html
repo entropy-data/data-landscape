@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Schema Registry — Confluent Schema Registry | Data Landscape</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, &quot;what shape is this Kafka topic?&quot; has no answer.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <meta name="color-scheme" content="light">
+  <meta name="author" content="Dr. Simon Harrer">
+  <meta property="og:site_name" content="Data Landscape">
+  <meta property="og:type" content="article"/>
+  <meta property="og:title" content="Schema Registry — Confluent Schema Registry"/>
+  <meta property="og:description" content="A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, &quot;what shape is this Kafka topic?&quot; has no answer."/>
+  <meta property="og:url" content="https://www.data-landscape.com/standards/schema-registry/"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="https://www.data-landscape.com/media/social/data-architecture-landscape.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="article:modified_time" content="2026-06-22"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Schema Registry — Confluent Schema Registry"/>
+  <meta name="twitter:description" content="A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, &quot;what shape is this Kafka topic?&quot; has no answer."/>
+  <meta name="twitter:image" content="https://www.data-landscape.com/media/social/data-architecture-landscape.png"/>
+  <meta name="theme-color" content="#4f46e5"/>
+
+  <link rel="canonical" href="https://www.data-landscape.com/standards/schema-registry/"/>
+  <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/schema-registry/","url":"https://www.data-landscape.com/standards/schema-registry/","name":"Schema Registry — Confluent Schema Registry | Data Landscape","description":"A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, \"what shape is this Kafka topic?\" has no answer.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/schema-registry/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/schema-registry/#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/schema-registry/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Schema Registry"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/schema-registry/","name":"Schema Registry","alternateName":"Confluent Schema Registry","termCode":"schema-registry","description":"A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, \"what shape is this Kafka topic?\" has no answer.","url":"https://www.data-landscape.com/standards/schema-registry/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — The default Kafka schema-management surface.","sameAs":["https://docs.confluent.io/platform/current/schema-registry/index.html","https://www.apicur.io/registry/"]}]}</script>
+  <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
+  <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
+  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/dist/output.css">
+  <style>
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+    }
+    .skip-link {
+      position: absolute; top: 0; left: 0; z-index: 60; transform: translateY(-120%);
+      background: #4f46e5; color: white; font-weight: 600; font-size: 0.875rem;
+      padding: 0.6rem 1rem; border-bottom-right-radius: 6px; transition: transform 120ms ease;
+    }
+    .skip-link:focus { transform: translateY(0); }
+    /* Links in running text need more than colour to be distinguishable
+       (WCAG 1.4.1) — indigo-600 on gray body copy is under 3:1. */
+    main p a[href] {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-thickness: 1px;
+    }
+    .fact {
+      display: inline-flex; align-items: center; border-radius: 9999px;
+      padding: 0.125rem 0.6rem; font-size: 0.75rem; font-weight: 600; line-height: 1.25rem;
+      background: #f3f4f6; color: #374151;
+    }
+    .fact-adopt       { background: #ecfdf5; color: #065f46; }
+    .fact-situational { background: #fffbeb; color: #92400e; }
+    .fact-assess      { background: #f8fafc; color: #334155; }
+    .fact-caution     { background: #fef2f2; color: #991b1b; }
+    .callout { border-left-width: 4px; border-radius: 0 0.375rem 0.375rem 0; padding: 1rem; }
+    .callout-adopt       { border-color: #10b981; background: #ecfdf5; color: #064e3b; }
+    .callout-situational { border-color: #f59e0b; background: #fffbeb; color: #78350f; }
+    .callout-assess      { border-color: #94a3b8; background: #f8fafc; color: #1e293b; }
+    .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
+    .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
+    .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-white">
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<main id="main" tabindex="-1" class="mt-8 mb-20">
+  <div class="mx-auto max-w-3xl px-6 lg:px-8 mt-10">
+
+    <nav aria-label="Breadcrumb" class="text-xs text-gray-500">
+      <ol class="flex flex-wrap items-center gap-2">
+        <li><a href="/" class="hover:text-gray-900">Data Landscape</a></li>
+        <li aria-hidden="true">/</li>
+        <li><span aria-current="page" class="text-gray-700">Schema Registry</span></li>
+      </ol>
+    </nav>
+
+    <header class="mt-6">
+      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Catalog APIs</p>
+      <div class="mt-2 flex items-start gap-4">
+          <img src="/media/icons/standards-map/logos/confluent.svg" alt="" width="56" height="56"
+               class="h-14 w-14 flex-shrink-0 object-contain">
+        <div>
+          <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Schema Registry</h1>
+          <p class="mt-1 text-lg text-gray-600">Confluent Schema Registry</p>
+        </div>
+      </div>
+      <div class="mt-5 flex flex-wrap items-center gap-2">
+        <span class="fact fact-adopt">Adopt</span>
+        <span class="fact">Vendor-led</span>
+        <span class="fact">Confluent (open API; multiple compatible implementations)</span>
+        <span class="fact">Since 2014</span>
+        <span class="fact">Single-vendor spec</span>
+      </div>
+    </header>
+
+      <div class="mt-8 callout callout-adopt text-sm leading-6">
+        <p class="font-semibold">Judgement: Adopt</p>
+        <p class="mt-1">The default Kafka schema-management surface.</p>
+      </div>
+
+      <div class="mt-8 space-y-4 text-base leading-7 text-gray-700">
+        <p>A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, "what shape is this Kafka topic?" has no answer.</p>
+        <p>The REST API was designed by Confluent but the protocol is widely re-implemented: Apicurio Registry (Red Hat), AWS Glue Schema Registry, Karapace (Aiven), and Redpanda Schema Registry all speak it. That makes it the de-facto schema catalog of the streaming world, even if it is not formally standardised.</p>
+      </div>
+
+      <div class="mt-8 callout callout-info text-sm leading-6">
+        <p class="font-semibold">Why it counts as a standard</p>
+        <p class="mt-1">Confluent's Schema Registry REST API is publicly documented and re-implemented by Apicurio (Red Hat), AWS Glue, Karapace (Aiven), and Redpanda. Producers and consumers depend on the API contract, not on Confluent's server — which is what promotes it from a vendor product to a de-facto standard.</p>
+      </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
+      <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+          <div class="border-t border-gray-100 pt-3">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">Category</dt>
+            <dd class="mt-1 text-sm text-gray-800">Catalog APIs</dd>
+          </div>
+          <div class="border-t border-gray-100 pt-3">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">Governance</dt>
+            <dd class="mt-1 text-sm text-gray-800">Confluent (open API; multiple compatible implementations)</dd>
+          </div>
+          <div class="border-t border-gray-100 pt-3">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">Status</dt>
+            <dd class="mt-1 text-sm text-gray-800">De-facto standard for streaming schemas</dd>
+          </div>
+          <div class="border-t border-gray-100 pt-3">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">First released</dt>
+            <dd class="mt-1 text-sm text-gray-800">2014</dd>
+          </div>
+      </dl>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Links</h2>
+      <ul class="mt-4 space-y-2 text-sm list-disc pl-5">
+          <li><a href="https://docs.confluent.io/platform/current/schema-registry/index.html" target="_blank" rel="noopener"
+                 class="text-indigo-600 hover:text-indigo-500 hover:underline">Confluent Schema Registry</a></li>
+          <li><a href="https://www.apicur.io/registry/" target="_blank" rel="noopener"
+                 class="text-indigo-600 hover:text-indigo-500 hover:underline">Apicurio Registry</a></li>
+      </ul>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Related standards</h2>
+      <p class="mt-2 text-sm text-gray-600">Other standards in Catalog APIs.</p>
+      <ul class="mt-4 space-y-2 text-sm list-disc pl-5">
+          <li><a href="/standards/iceberg-catalog/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Iceberg Catalog</a><span class="text-gray-500"> — Iceberg REST Catalog</span></li>
+          <li><a href="/standards/unity-catalog/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Unity Catalog</a><span class="text-gray-500"> — Unity Catalog</span></li>
+          <li><a href="/standards/ducklake/" class="text-indigo-600 hover:text-indigo-500 hover:underline">DuckLake</a><span class="text-gray-500"> — DuckLake</span></li>
+          <li><a href="/standards/hive-metastore/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Hive Metastore</a><span class="text-gray-500"> — Apache Hive Metastore</span></li>
+      </ul>
+
+    <div class="mt-12 rounded-lg border border-indigo-200 bg-indigo-50 px-6 py-6 text-sm">
+      <p class="font-semibold text-gray-900">See Schema Registry in context</p>
+      <p class="mt-1 text-gray-700">
+        Open the interactive
+        <a href="/?std=schema-registry" class="text-indigo-600 hover:text-indigo-500">Data Landscape</a>
+        to compare Schema Registry against every other open standard, or grab the
+        <a href="/standards.json" class="text-indigo-600 hover:text-indigo-500">raw JSON</a>.
+        Spotted something wrong?
+        <a href="https://github.com/entropy-data/data-landscape/issues/new" target="_blank" rel="noopener"
+           class="text-indigo-600 hover:text-indigo-500">Open an issue</a>.
+      </p>
+    </div>
+
+  </div>
+</main>
+
+<footer class="bg-white border-t border-gray-200">
+  <div class="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+    <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-gray-500" aria-label="Footer">
+      <a href="https://www.entropy-data.com" class="flex items-center gap-1 hover:text-gray-900">
+        <img src="/media/logo_fuchsia_v2.svg" alt="" class="h-3 w-auto"/>
+        <span>Entropy Data</span>
+      </a>
+      <a href="/" class="hover:text-gray-900">Data Landscape</a>
+      <a href="https://www.entropy-data.com/legal-notice" class="hover:text-gray-900">Legal Notice</a>
+      <a href="https://www.entropy-data.com/privacy-policy" class="hover:text-gray-900">Privacy Policy</a>
+      <a href="/standards.json" class="hover:text-gray-900" title="Machine-readable source data for the landscape">Data (JSON)</a>
+      <a href="/llms.txt" class="hover:text-gray-900" title="LLM-friendly summary of the landscape">llms.txt</a>
+      <a href="https://github.com/entropy-data/data-landscape/blob/main/LICENSE" class="hover:text-gray-900" title="MIT License">MIT License</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>
