@@ -10,7 +10,7 @@ Each standard carries a judgement — Adopt, Situational, Assess, or Caution —
 - Industry ontologies: https://www.data-landscape.com/industry-ontologies.html
 - Regulation sub-landscape: https://www.data-landscape.com/regulation.html (data: https://www.data-landscape.com/regulation.json)
 - Sitemap: https://www.data-landscape.com/sitemap.xml
-- Data last updated: June 2026 (2026-06-22)
+- Data last updated: July 2026 (2026-07-23)
 
 ## What the judgements mean
 
