@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>DID: Decentralized Identifiers | Data Landscape</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Globally unique identifiers that resolve to a document describing how to authenticate the subject, without depending on a central registry.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <meta name="color-scheme" content="light">
+  <meta name="author" content="Dr. Simon Harrer">
+  <meta property="og:site_name" content="Data Landscape">
+  <meta property="og:type" content="article"/>
+  <meta property="og:title" content="DID: Decentralized Identifiers"/>
+  <meta property="og:description" content="Globally unique identifiers that resolve to a document describing how to authenticate the subject, without depending on a central registry."/>
+  <meta property="og:url" content="https://www.data-landscape.com/regulation/did/"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="https://www.data-landscape.com/media/social/data-architecture-landscape.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="article:modified_time" content="2026-07-23"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="DID: Decentralized Identifiers"/>
+  <meta name="twitter:description" content="Globally unique identifiers that resolve to a document describing how to authenticate the subject, without depending on a central registry."/>
+  <meta name="twitter:image" content="https://www.data-landscape.com/media/social/data-architecture-landscape.png"/>
+  <meta name="theme-color" content="#4f46e5"/>
+
+  <link rel="canonical" href="https://www.data-landscape.com/regulation/did/"/>
+  <link rel="alternate" type="application/json" title="regulation.json" href="/regulation.json"/>
+  <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
+  <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
+  <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/dist/output.css">
+  <style>
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+    }
+    .skip-link {
+      position: absolute; top: 0; left: 0; z-index: 60; transform: translateY(-120%);
+      background: #4f46e5; color: white; font-weight: 600; font-size: 0.875rem;
+      padding: 0.6rem 1rem; border-bottom-right-radius: 6px; transition: transform 120ms ease;
+    }
+    .skip-link:focus { transform: translateY(0); }
+    /* Links in running text need more than colour to be distinguishable
+       (WCAG 1.4.1) — indigo-600 on gray body copy is under 3:1. */
+    main p a[href] {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-thickness: 1px;
+    }
+    .fact {
+      display: inline-flex; align-items: center; border-radius: 9999px;
+      padding: 0.125rem 0.6rem; font-size: 0.75rem; font-weight: 600; line-height: 1.25rem;
+      background: #f3f4f6; color: #374151;
+    }
+    .fact-adopt       { background: #ecfdf5; color: #065f46; }
+    .fact-situational { background: #fffbeb; color: #92400e; }
+    .fact-assess      { background: #f8fafc; color: #334155; }
+    .fact-caution     { background: #fef2f2; color: #991b1b; }
+    .callout { border-left-width: 4px; border-radius: 0 0.375rem 0.375rem 0; padding: 1rem; }
+    .callout-adopt       { border-color: #10b981; background: #ecfdf5; color: #064e3b; }
+    .callout-situational { border-color: #f59e0b; background: #fffbeb; color: #78350f; }
+    .callout-assess      { border-color: #94a3b8; background: #f8fafc; color: #1e293b; }
+    .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
+    .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
+    .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/regulation/did/","url":"https://www.data-landscape.com/regulation/did/","name":"DID: Decentralized Identifiers | Data Landscape","description":"Globally unique identifiers that resolve to a document describing how to authenticate the subject, without depending on a central registry.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-07-23","mainEntity":{"@id":"https://www.data-landscape.com/regulation/did/"},"breadcrumb":{"@id":"https://www.data-landscape.com/regulation/did/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/regulation/verifiable-credentials/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/regulation/did/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Data Landscape for Regulation","item":"https://www.data-landscape.com/regulation.html"},{"@type":"ListItem","position":3,"name":"DID"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/regulation/did/","name":"DID","alternateName":"Decentralized Identifiers","termCode":"did","description":"Globally unique identifiers that resolve to a document describing how to authenticate the subject, without depending on a central registry.","url":"https://www.data-landscape.com/regulation/did/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/regulation.html#frameworks-set","name":"Compliance Frameworks for Data","url":"https://www.data-landscape.com/regulation.html"},"sameAs":"https://www.w3.org/TR/did-core/"}]}</script>
+</head>
+<body class="bg-white">
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<main id="main" tabindex="-1" class="mt-8 mb-20">
+  <div class="mx-auto max-w-3xl px-6 lg:px-8 mt-10">
+
+    <nav aria-label="Breadcrumb" class="text-xs text-gray-500">
+      <ol class="flex flex-wrap items-center gap-2">
+        <li><a href="/" class="hover:text-gray-900">Data Landscape</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a href="/regulation.html" class="hover:text-gray-900">Data Landscape for Regulation</a></li>
+        <li aria-hidden="true">/</li>
+        <li><span aria-current="page" class="text-gray-700">DID</span></li>
+      </ol>
+    </nav>
+
+    <header class="mt-6">
+      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Agent Identity &amp; Trust</p>
+      <div class="mt-2 flex items-start gap-4">
+          <img src="/media/icons/standards-map/logos/w3c.svg" alt="" width="56" height="56"
+               class="h-14 w-14 flex-shrink-0 object-contain">
+        <div>
+          <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">DID</h1>
+          <p class="mt-1 text-lg text-gray-600">Decentralized Identifiers</p>
+        </div>
+      </div>
+      <div class="mt-5 flex flex-wrap items-center gap-2">
+        <span class="fact">Formal standard</span>
+        <span class="fact">Global</span>
+        <span class="fact">W3C</span>
+        <span class="fact">Since 2022</span>
+      </div>
+    </header>
+
+      <div class="mt-8 space-y-4 text-base leading-7 text-gray-700">
+        <p>Globally unique identifiers that resolve to a document describing how to authenticate the subject, without depending on a central registry.</p>
+        <p>The reason it appears on a compliance map: European data spaces and agent ecosystems both need a party to prove who it is across organisational boundaries, and a DID is the identifier those trust frameworks are built on.</p>
+      </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
+      <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+          <div class="border-t border-gray-100 pt-3">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">Category</dt>
+            <dd class="mt-1 text-sm text-gray-800">Agent Identity &amp; Trust</dd>
+          </div>
+          <div class="border-t border-gray-100 pt-3">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">Jurisdiction</dt>
+            <dd class="mt-1 text-sm text-gray-800">Global</dd>
+          </div>
+          <div class="border-t border-gray-100 pt-3">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">Governance</dt>
+            <dd class="mt-1 text-sm text-gray-800">W3C</dd>
+          </div>
+          <div class="border-t border-gray-100 pt-3">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">Status</dt>
+            <dd class="mt-1 text-sm text-gray-800">DID Core 1.0 W3C Recommendation (2022)</dd>
+          </div>
+          <div class="border-t border-gray-100 pt-3">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">First released</dt>
+            <dd class="mt-1 text-sm text-gray-800">2022</dd>
+          </div>
+      </dl>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Links</h2>
+      <ul class="mt-4 space-y-2 text-sm list-disc pl-5">
+          <li><a href="https://www.w3.org/TR/did-core/" target="_blank" rel="noopener"
+                 class="text-indigo-600 hover:text-indigo-500 hover:underline">DID Core 1.0</a></li>
+      </ul>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Related frameworks</h2>
+      <p class="mt-2 text-sm text-gray-600">Other entries under Agent Identity &amp; Trust.</p>
+      <ul class="mt-4 space-y-2 text-sm list-disc pl-5">
+          <li><a href="/regulation/verifiable-credentials/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Verifiable Credentials</a><span class="text-gray-500">: Verifiable Credentials Data Model</span></li>
+      </ul>
+
+    <div class="mt-12 rounded-lg border border-indigo-200 bg-indigo-50 px-6 py-6 text-sm">
+      <p class="font-semibold text-gray-900">See DID in context</p>
+      <p class="mt-1 text-gray-700">
+        Open the interactive
+        <a href="/regulation.html?std=did" class="text-indigo-600 hover:text-indigo-500">Data Landscape for Regulation</a>
+        to compare DID against every other framework, or grab the
+        <a href="/regulation.json" class="text-indigo-600 hover:text-indigo-500">raw JSON</a>.
+        Certification schemes and editions move &mdash; follow the source links before relying on this page.
+      </p>
+    </div>
+
+  </div>
+</main>
+
+<footer class="bg-white border-t border-gray-200">
+  <div class="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+    <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-gray-500" aria-label="Footer">
+      <a href="https://www.entropy-data.com" class="flex items-center gap-1 hover:text-gray-900">
+        <img src="/media/logo_fuchsia_v2.svg" alt="" class="h-3 w-auto"/>
+        <span>Entropy Data</span>
+      </a>
+      <a href="/" class="hover:text-gray-900">Data Landscape</a>
+      <a href="https://www.entropy-data.com/legal-notice" class="hover:text-gray-900">Legal Notice</a>
+      <a href="https://www.entropy-data.com/privacy-policy" class="hover:text-gray-900">Privacy Policy</a>
+      <a href="/standards.json" class="hover:text-gray-900" title="Machine-readable source data for the landscape">Data (JSON)</a>
+      <a href="/llms.txt" class="hover:text-gray-900" title="LLM-friendly summary of the landscape">llms.txt</a>
+      <a href="https://github.com/entropy-data/data-landscape/blob/main/LICENSE" class="hover:text-gray-900" title="MIT License">MIT License</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

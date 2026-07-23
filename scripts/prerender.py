@@ -64,6 +64,7 @@ INDEX = ROOT / "index.html"
 STANDARDS = ROOT / "standards.json"
 REGULATION = ROOT / "regulation.json"
 REGULATION_PAGE = ROOT / "regulation.html"
+REGULATION_DIR = ROOT / "regulation"
 STANDARDS_DIR = ROOT / "standards"
 CATEGORIES_DIR = ROOT / "categories"
 SITEMAP = ROOT / "sitemap.xml"
@@ -682,15 +683,19 @@ REGULATION_URL = f"{SITE}/regulation.html"
 REGULATION_TITLE = "Data Landscape for Regulation"
 
 REGULATION_DESCRIPTION = (
-    "The compliance frameworks a data platform is audited against — ISO/IEC "
-    "27001 and 42001, NIST CSF and AI RMF, DAMA-DMBOK, DCAM, MITRE ATT&CK, "
-    "OWASP, SOC 2, and the EU data space frameworks."
+    "The regulation that binds a data platform — GDPR, the EU AI Act, the Data "
+    "Act, NIS2, DORA, BCBS 239 — and the frameworks used to evidence it: ISO/IEC "
+    "27001 and 42001, NIST CSF and AI RMF, DAMA-DMBOK, DCAM, OWASP, SOC 2."
 )
 
 
-def reg_url(slug: str) -> str:
-    """Deep link to one framework — the page opens its drawer from `?std=`."""
-    return f"{REGULATION_URL}?std={slug}"
+def reg_page_path(slug: str) -> str:
+    """Site-relative path of one framework's own page."""
+    return f"/regulation/{slug}/"
+
+
+def reg_page_url(slug: str) -> str:
+    return f"{SITE}{reg_page_path(slug)}"
 
 
 def write_regulation_page() -> None:
@@ -710,8 +715,7 @@ def write_regulation_page() -> None:
     html = REGULATION_PAGE.read_text()
 
     html = replace_panel_bodies(
-        html, frameworks, href_for=lambda slug: f"/regulation.html?std={slug}",
-        handler="openFramework",
+        html, frameworks, href_for=reg_page_path, handler="openFramework",
     )
 
     modified = file_commit_date("regulation.json")
@@ -721,11 +725,11 @@ def write_regulation_page() -> None:
     ):
         term = {
             "@type": "DefinedTerm",
-            "@id": reg_url(slug),
+            "@id": reg_page_url(slug),
             "name": entry["name"],
             "termCode": slug,
             "description": short_description(entry),
-            "url": reg_url(slug),
+            "url": reg_page_url(slug),
             "inDefinedTermSet": {"@id": f"{REGULATION_URL}#frameworks-set"},
         }
         verdict = judgement_line(entry)
@@ -956,15 +960,27 @@ def write_sitemap(
         "    <priority>0.6</priority>",
         "  </url>",
     ]
+    frameworks_modified = file_commit_date("regulation.json")
     if REGULATION_PAGE.exists():
         lines += [
             "  <url>",
             f"    <loc>{REGULATION_URL}</loc>",
-            f"    <lastmod>{file_commit_date('regulation.json')}</lastmod>",
+            f"    <lastmod>{frameworks_modified}</lastmod>",
             "    <changefreq>monthly</changefreq>",
             "    <priority>0.6</priority>",
             "  </url>",
         ]
+        with REGULATION.open() as f:
+            frameworks = json.load(f, object_pairs_hook=OrderedDict)
+        for slug, entry in frameworks.items():
+            if not renderable(entry):
+                continue
+            lines.append("  <url>")
+            lines.append(f"    <loc>{xml_escape(reg_page_url(slug))}</loc>")
+            lines.append(f"    <lastmod>{frameworks_modified}</lastmod>")
+            lines.append("    <changefreq>monthly</changefreq>")
+            lines.append("    <priority>0.5</priority>")
+            lines.append("  </url>")
     for category in taxonomy:
         lines.append("  <url>")
         lines.append(f"    <loc>{xml_escape(cat_url(category))}</loc>")
@@ -1081,6 +1097,7 @@ JUDGEMENT_SLUG = {
 }
 
 STANDARDIZATION_LABEL = {
+    "law": "Law / regulation",
     "formal-standard": "Formal standard",
     "foundation": "Foundation",
     "community": "Community",
@@ -1762,6 +1779,274 @@ def standard_page_html(
 {PAGE_FOOTER}"""
 
 
+def framework_subtitle(entry: dict) -> str:
+    """`: Full Name` span for list rows, omitted when it adds nothing."""
+    sub = subtitle(entry, entry["name"])
+    return f'<span class="text-gray-500">: {esc(sub)}</span>' if sub else ""
+
+
+def framework_page_html(
+    slug: str,
+    entry: dict,
+    frameworks: "OrderedDict[str, dict]",
+    iso_modified: str,
+) -> str:
+    """Render one compliance framework's standalone page.
+
+    Same reasoning as the per-standard pages: the sub-landscape is a single
+    JS-driven page, so without these every framework's prose sits behind a
+    drawer that no crawler opens and no search result can address.
+    """
+    name = entry["name"]
+    label = name
+    category = entry["category"]
+    summary = short_description(entry)
+    canonical = reg_page_url(slug)
+    sub = subtitle(entry, label)
+    meta_desc = meta_description(summary)
+
+    title = f"{label}: {sub or category}"
+    if len(title) + len(SITE_TITLE_SUFFIX) <= 65:
+        title += SITE_TITLE_SUFFIX
+    social_title = f"{label}: {sub}" if sub else label
+
+    siblings = [
+        (other_slug, other)
+        for other_slug, other in frameworks.items()
+        if other_slug != slug and other.get("category") == category and renderable(other)
+    ]
+
+    term = {
+        "@type": "DefinedTerm",
+        "@id": canonical,
+        "name": label,
+        **({"alternateName": sub} if sub else {}),
+        "termCode": slug,
+        "description": summary,
+        "url": canonical,
+        "inDefinedTermSet": {
+            "@type": "DefinedTermSet",
+            "@id": f"{REGULATION_URL}#frameworks-set",
+            "name": "Compliance Frameworks for Data",
+            "url": REGULATION_URL,
+        },
+    }
+    same_as = sameas_links(entry)
+    if same_as:
+        term["sameAs"] = same_as if len(same_as) > 1 else same_as[0]
+
+    trail: "Trail" = [
+        ("Data Landscape", "/"),
+        (REGULATION_TITLE, "/regulation.html"),
+        (label, None),
+    ]
+    web_page = {
+        "@type": "WebPage",
+        "@id": canonical,
+        "url": canonical,
+        "name": title,
+        "description": meta_desc,
+        "inLanguage": "en",
+        "isPartOf": {"@id": f"{SITE}/#website"},
+        "dateModified": iso_modified,
+        "mainEntity": {"@id": canonical},
+        "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
+    }
+    if siblings:
+        web_page["relatedLink"] = [reg_page_url(other) for other, _ in siblings]
+    jsonld = json.dumps(
+        {"@context": "https://schema.org",
+         "@graph": [web_page, breadcrumb_nodes(canonical, trail), term]},
+        separators=(",", ":"),
+        ensure_ascii=False,
+    )
+
+    badges = []
+    if entry.get("standardization"):
+        badges.append(
+            '<span class="fact">'
+            f'{esc(STANDARDIZATION_LABEL.get(entry["standardization"], entry["standardization"]))}'
+            "</span>"
+        )
+    if entry.get("jurisdiction"):
+        badges.append(f'<span class="fact">{esc(entry["jurisdiction"])}</span>')
+    if entry.get("governance"):
+        badges.append(f'<span class="fact">{esc(entry["governance"])}</span>')
+    if entry.get("firstReleased"):
+        badges.append(f'<span class="fact">Since {esc(entry["firstReleased"])}</span>')
+
+    parts = []
+    if entry.get("description"):
+        prose = "\n".join(
+            f'        <p>{esc(paragraph.strip())}</p>' for paragraph in entry["description"]
+        )
+        parts.append(
+            f'      <div class="mt-8 space-y-4 text-base leading-7 text-gray-700">\n{prose}\n      </div>'
+        )
+
+    facts = [("Category", esc(category))]
+    if entry.get("jurisdiction"):
+        facts.append(("Jurisdiction", esc(entry["jurisdiction"])))
+    if entry.get("governance"):
+        facts.append(("Governance", esc(entry["governance"])))
+    if entry.get("status"):
+        facts.append(("Status", esc(entry["status"])))
+    if entry.get("firstReleased"):
+        facts.append(("First released", esc(entry["firstReleased"])))
+    facts_html = "\n".join(
+        f'          <div class="border-t border-gray-100 pt-3">\n'
+        f'            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">{term_name}</dt>\n'
+        f'            <dd class="mt-1 text-sm text-gray-800">{value}</dd>\n'
+        f'          </div>'
+        for term_name, value in facts
+    )
+    parts.append(
+        f'      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>\n'
+        f'      <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">\n{facts_html}\n      </dl>'
+    )
+
+    links = entry.get("links") or []
+    if links:
+        items = "\n".join(
+            f'          <li><a href="{html_attr(link["url"])}" target="_blank" rel="noopener"\n'
+            f'                 class="text-indigo-600 hover:text-indigo-500 hover:underline">'
+            f'{esc(link.get("label") or link["url"])}</a></li>'
+            for link in links
+            if link.get("url")
+        )
+        parts.append(
+            f'      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Links</h2>\n'
+            f'      <ul class="mt-4 space-y-2 text-sm list-disc pl-5">\n{items}\n      </ul>'
+        )
+
+    if siblings:
+        items = "\n".join(
+            f'          <li><a href="{html_attr(reg_page_path(other_slug))}" '
+            f'class="text-indigo-600 hover:text-indigo-500 hover:underline">{esc(other["name"])}</a>'
+            f'{framework_subtitle(other)}</li>'
+            for other_slug, other in siblings
+        )
+        noun = "regulation" if entry.get("standardization") == "law" else "frameworks"
+        parts.append(
+            f'      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Related {noun}</h2>\n'
+            f'      <p class="mt-2 text-sm text-gray-600">Other entries under {esc(category)}.</p>\n'
+            f'      <ul class="mt-4 space-y-2 text-sm list-disc pl-5">\n{items}\n      </ul>'
+        )
+
+    body_sections = "\n\n".join(parts)
+    logo = entry.get("logo")
+    logo_html = (
+        f'          <img src="{html_attr(logo)}" alt="" width="56" height="56"\n'
+        f'               class="h-14 w-14 flex-shrink-0 object-contain">\n'
+        if logo else ""
+    )
+    badges_html = (
+        f'      <div class="mt-5 flex flex-wrap items-center gap-2">\n        '
+        + "\n        ".join(badges)
+        + "\n      </div>"
+        if badges else ""
+    )
+    subtitle_html = (
+        f'          <p class="mt-1 text-lg text-gray-600">{esc(sub)}</p>' if sub else ""
+    )
+    social_image = f"{SITE}/media/social/data-architecture-landscape.png"
+
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <title>{esc(title)}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{html_attr(meta_desc)}">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <meta name="color-scheme" content="light">
+  <meta name="author" content="Dr. Simon Harrer">
+  <meta property="og:site_name" content="Data Landscape">
+  <meta property="og:type" content="article"/>
+  <meta property="og:title" content="{html_attr(social_title)}"/>
+  <meta property="og:description" content="{html_attr(meta_desc)}"/>
+  <meta property="og:url" content="{canonical}"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="{social_image}"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="article:modified_time" content="{iso_modified}"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="{html_attr(social_title)}"/>
+  <meta name="twitter:description" content="{html_attr(meta_desc)}"/>
+  <meta name="twitter:image" content="{social_image}"/>
+  <meta name="theme-color" content="#4f46e5"/>
+
+  <link rel="canonical" href="{canonical}"/>
+  <link rel="alternate" type="application/json" title="regulation.json" href="/regulation.json"/>
+{PAGE_HEAD_COMMON}  <script type="application/ld+json">{jsonld}</script>
+</head>
+<body class="bg-white">
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<main id="main" tabindex="-1" class="mt-8 mb-20">
+  <div class="mx-auto max-w-3xl px-6 lg:px-8 mt-10">
+
+{breadcrumb_html(trail)}
+
+    <header class="mt-6">
+      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">{esc(category)}</p>
+      <div class="mt-2 flex items-start gap-4">
+{logo_html}        <div>
+          <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{esc(label)}</h1>
+{subtitle_html}
+        </div>
+      </div>
+{badges_html}
+    </header>
+
+{body_sections}
+
+    <div class="mt-12 rounded-lg border border-indigo-200 bg-indigo-50 px-6 py-6 text-sm">
+      <p class="font-semibold text-gray-900">See {esc(name)} in context</p>
+      <p class="mt-1 text-gray-700">
+        Open the interactive
+        <a href="/regulation.html?std={html_attr(slug)}" class="text-indigo-600 hover:text-indigo-500">Data Landscape for Regulation</a>
+        to compare {esc(name)} against every other framework, or grab the
+        <a href="/regulation.json" class="text-indigo-600 hover:text-indigo-500">raw JSON</a>.
+        Certification schemes and editions move &mdash; follow the source links before relying on this page.
+      </p>
+    </div>
+
+  </div>
+</main>
+{PAGE_FOOTER}"""
+
+
+def write_framework_pages() -> None:
+    """Write `regulation/<slug>/index.html` for every framework."""
+    if not REGULATION.exists():
+        return
+    with REGULATION.open() as f:
+        frameworks = json.load(f, object_pairs_hook=OrderedDict)
+    iso_modified, _ = last_commit_date()
+    REGULATION_DIR.mkdir(exist_ok=True)
+
+    wanted = {slug for slug, entry in frameworks.items() if renderable(entry)}
+    for slug in sorted(wanted):
+        page_dir = REGULATION_DIR / slug
+        page_dir.mkdir(exist_ok=True)
+        (page_dir / "index.html").write_text(
+            framework_page_html(slug, frameworks[slug], frameworks, iso_modified)
+        )
+
+    # /regulation/ itself is not a page — send it to the landscape so the
+    # directory URL never dead-ends for a crawler or a hand-typed link.
+    (REGULATION_DIR / "index.html").write_text(
+        redirect_page_html("/regulation.html", REGULATION_TITLE)
+    )
+
+    removed = prune_generated_pages(REGULATION_DIR, wanted)
+    suffix = f", {removed} stale removed" if removed else ""
+    print(f"  regulation/: {len(wanted)} pages{suffix}")
+
+
 def redirect_page_html(target_path: str, label: str) -> str:
     """A minimal stub that sends an old URL to its renamed replacement."""
     target = f"{SITE}{target_path}"
@@ -2028,6 +2313,7 @@ def main() -> int:
     INDEX.write_text(html)
 
     write_regulation_page()
+    write_framework_pages()
     write_standard_pages(standards, taxonomy)
     write_category_pages(standards, taxonomy)
     write_sitemap(standards, taxonomy)
