@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/orc/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/orc/","url":"https://www.data-landscape.com/standards/orc/","name":"ORC — Apache ORC (Optimized Row Columnar) | Data Landscape","description":"Columnar file format created for the Hive ecosystem. Strong compression and ACID support inside Hive.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/orc/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/orc/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/avro/","https://www.data-landscape.com/standards/csv/","https://www.data-landscape.com/standards/json/","https://www.data-landscape.com/standards/parquet/","https://www.data-landscape.com/standards/xml/","https://www.data-landscape.com/standards/yaml/","https://www.data-landscape.com/standards/lance/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/orc/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"File Formats","item":"https://www.data-landscape.com/categories/file-formats/"},{"@type":"ListItem","position":3,"name":"ORC"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/orc/","name":"ORC","alternateName":"Apache ORC (Optimized Row Columnar)","termCode":"orc","description":"Columnar file format created for the Hive ecosystem. Strong compression and ACID support inside Hive.","url":"https://www.data-landscape.com/standards/orc/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Pick if you're in Hive/Tez territory; otherwise Parquet wins.","sameAs":"https://orc.apache.org"}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/orc/","url":"https://www.data-landscape.com/standards/orc/","name":"ORC — Apache ORC (Optimized Row Columnar) | Data Landscape","description":"Columnar file format created for the Hive ecosystem. Strong compression and ACID support inside Hive.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/orc/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/orc/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/avro/","https://www.data-landscape.com/standards/csv/","https://www.data-landscape.com/standards/json/","https://www.data-landscape.com/standards/parquet/","https://www.data-landscape.com/standards/xml/","https://www.data-landscape.com/standards/yaml/","https://www.data-landscape.com/standards/lance/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/orc/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"File Formats","item":"https://www.data-landscape.com/categories/file-formats/"},{"@type":"ListItem","position":3,"name":"ORC"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/orc/","name":"ORC","alternateName":"Apache ORC (Optimized Row Columnar)","termCode":"orc","description":"Columnar file format created for the Hive ecosystem. Strong compression and ACID support inside Hive.","url":"https://www.data-landscape.com/standards/orc/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Pick if you're in Hive/Tez territory; otherwise Parquet wins.","sameAs":"https://orc.apache.org"}]}</script>
 </head>
 <body class="bg-white">
 
@@ -124,6 +130,15 @@
         <p class="font-semibold">Why it counts as a standard</p>
         <p class="mt-1">ORC's on-disk format is an open Apache spec with independent readers in Java, C++, and Rust. Hive, Spark, Trino, Presto and others read and write the same files because they target the format, not a single library. The file format is the standard surface.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">ORC is read back-to-front: the postscript at the tail points at the footer, which indexes the stripes.</p>
+      <pre class="code-block mt-4"><code>ORC                           &lt;- 3-byte magic at the head
+  Stripe 0  [index streams][data streams][stripe footer]
+  Stripe 1  ...
+File footer                   &lt;- schema, stripe list, per-column statistics
+Postscript                    &lt;- compression kind, footer length, version
+&lt;1-byte postscript length&gt;    &lt;- the reader starts here and works backwards</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

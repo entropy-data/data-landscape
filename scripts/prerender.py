@@ -62,6 +62,8 @@ from xml.sax.saxutils import escape as xml_escape
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
 STANDARDS = ROOT / "standards.json"
+REGULATION = ROOT / "regulation.json"
+REGULATION_PAGE = ROOT / "regulation.html"
 STANDARDS_DIR = ROOT / "standards"
 CATEGORIES_DIR = ROOT / "categories"
 SITEMAP = ROOT / "sitemap.xml"
@@ -207,6 +209,16 @@ JUDGEMENT_RUBRIC = [
 ]
 
 
+def former_names(entry: dict) -> list[str]:
+    """Names the standard used to go by, e.g. OSI for Apache Ossie.
+
+    Renames are the one thing that reliably breaks a reference page: people
+    (and models) keep searching the old name for years. Carrying them as
+    explicit aliases keeps the entry findable under both.
+    """
+    return [name for name in (entry.get("formerNames") or []) if name]
+
+
 def sameas_links(entry: dict, limit: int = 3) -> list[str]:
     """Reference URLs that identify the standard (spec homepage, repo, …)."""
     urls = [link.get("url") for link in (entry.get("links") or []) if link.get("url")]
@@ -298,6 +310,8 @@ def render_tile(
     indent: str = "              ",
     *,
     with_id: bool = True,
+    href: "str | None" = None,
+    handler: str = "openStandard",
 ) -> str:
     """Produce the static HTML for one tile.
 
@@ -310,6 +324,10 @@ def render_tile(
     `with_id=False` suppresses the `id="<slug>-summary"` attribute — used for
     repeat renderings of the same entry (e.g. dbt appearing in two panels) so
     the id stays unique across the document.
+
+    `href`/`handler` override the link target and Alpine click handler. The
+    regulation sub-landscape has no per-entry pages, so its tiles link back to
+    itself with `?std=<slug>` and open the drawer via `openFramework`.
     """
     classes = ["item"]
     if entry.get("vendor"):
@@ -326,12 +344,19 @@ def render_tile(
     # Searchable text: name + fullName + umbrella, lowercased. The toolbar
     # search box does substring matching against this attribute, so the
     # data lives on the tile to keep DOM filtering O(N) and JS-light.
+    # Former names and slugs are searchable too: a standard that renames
+    # (OSI -> Apache Ossie) is still looked up under the name people learnt.
     search_text = " ".join(filter(None, [
         slug,
         entry.get("name", ""),
         entry.get("fullName", ""),
         entry.get("umbrella", ""),
         umbrella_search,
+        # Only the regulation entries carry a jurisdiction; searching "EU"
+        # should surface the European frameworks.
+        entry.get("jurisdiction", ""),
+        *former_names(entry),
+        *entry.get("formerSlugs", []),
     ])).lower()
     judgement_header = (
         f'{indent}  <span class="item-judgement">{html_attr(judgement)}</span>\n'
@@ -342,14 +367,23 @@ def render_tile(
         f'data-tooltip="Entropy Data pick">🏅</span>\n'
         if entry.get("highlight") else ""
     )
+    # The regulation landscape filters tiles by jurisdiction in pure CSS, so the
+    # value has to sit on the tile. Entries without one (every entry on the main
+    # landscape) simply don't get the attribute.
+    jurisdiction_attr = (
+        f'{indent}   data-jurisdiction="{html_attr(entry["jurisdiction"])}"\n'
+        if entry.get("jurisdiction") else ""
+    )
     return (
-        f'{indent}<a href="{html_attr(std_path(slug))}"{id_attr} class="{html_attr(cls)}"\n'
+        f'{indent}<a href="{html_attr(href or std_path(slug))}"{id_attr} class="{html_attr(cls)}"\n'
         f'{indent}   data-umbrella="{html_attr(umbrella_search)}"\n'
+        f'{jurisdiction_attr}'
         f'{indent}   data-search="{html_attr(search_text)}"\n'
-        f'{indent}   @click="openStandard($event, \'{slug}\')">\n'
+        f'{indent}   @click="{handler}($event, \'{slug}\')">\n'
         f'{judgement_header}'
         f'{pick_ribbon}'
-        f'{indent}  <img class="item-logo" src="{html_attr(entry["logo"])}" alt="" loading="lazy">\n'
+        f'{indent}  <img class="item-logo" src="{html_attr(entry["logo"])}" alt="" '
+        f'loading="lazy" decoding="async">\n'
         f'{indent}  <span class="item-name">{html_attr(entry["name"])}</span>\n'
         f'{indent}  <span class="item-umbrella">{html_attr(entry["umbrella"])}</span>\n'
         f'{indent}</a>'
@@ -377,7 +411,13 @@ def short_description(entry: dict, max_chars: int = 280) -> str:
     return cut[:last_space].rstrip(",;:") + "…"
 
 
-def replace_panel_bodies(html: str, standards: "OrderedDict[str, dict]") -> str:
+def replace_panel_bodies(
+    html: str,
+    standards: "OrderedDict[str, dict]",
+    *,
+    href_for: "callable | None" = None,
+    handler: str = "openStandard",
+) -> str:
     """Replace prerender marker blocks with the static tile HTML for that category.
 
     Each panel body has the shape:
@@ -420,7 +460,10 @@ def replace_panel_bodies(html: str, standards: "OrderedDict[str, dict]") -> str:
         for slug, entry in candidates:
             with_id = slug not in seen_ids
             seen_ids.add(slug)
-            tiles.append(render_tile(slug, entry, indent=indent, with_id=with_id))
+            tiles.append(render_tile(
+                slug, entry, indent=indent, with_id=with_id,
+                href=href_for(slug) if href_for else None, handler=handler,
+            ))
         body = "\n".join(tiles)
         marker_open = f'{indent}<!-- prerender:tiles category="{category}" -->'
         marker_close = f'{indent}<!-- /prerender:tiles -->'
@@ -445,10 +488,14 @@ PUBLISHER = {
     },
 }
 
+SITE_TITLE_SUFFIX = " | Data Landscape"
+
+# Kept under ~155 characters so search engines show it whole rather than
+# truncating mid-sentence; it is mirrored verbatim in index.html's
+# description/og:description/twitter:description tags.
 PAGE_DESCRIPTION = (
-    "An opinionated, interactive map of the open standards that power a "
-    "modern data architecture — ODCS, ODPS, OSI, OpenAPI, Iceberg, "
-    "OpenLineage, OpenTelemetry and more. Curated by Entropy Data."
+    "An opinionated, interactive map of the open standards behind a modern "
+    "data architecture — ODCS, ODPS, Iceberg, OpenLineage, OpenTelemetry and more."
 )
 
 
@@ -630,6 +677,193 @@ def replace_jsonld(html: str, standards: "OrderedDict[str, dict]") -> str:
     return new_html
 
 
+REGULATION_URL = f"{SITE}/regulation.html"
+
+REGULATION_TITLE = "Data Landscape for Regulation"
+
+REGULATION_DESCRIPTION = (
+    "The compliance frameworks a data platform is audited against — ISO/IEC "
+    "27001 and 42001, NIST CSF and AI RMF, DAMA-DMBOK, DCAM, MITRE ATT&CK, "
+    "OWASP, SOC 2, and the EU data space frameworks."
+)
+
+
+def reg_url(slug: str) -> str:
+    """Deep link to one framework — the page opens its drawer from `?std=`."""
+    return f"{REGULATION_URL}?std={slug}"
+
+
+def write_regulation_page() -> None:
+    """Prerender the regulation sub-landscape from regulation.json.
+
+    Same treatment index.html gets: static tiles behind the `prerender:tiles`
+    markers so the page is legible without JavaScript, plus a JSON-LD graph
+    describing every framework. There are no per-framework pages, so tiles link
+    back to this page with `?std=<slug>` and the JSON-LD terms use the same URL.
+    """
+    if not REGULATION.exists() or not REGULATION_PAGE.exists():
+        print("  regulation: skipped (no regulation.json / regulation.html)")
+        return
+
+    with REGULATION.open() as f:
+        frameworks = json.load(f, object_pairs_hook=OrderedDict)
+    html = REGULATION_PAGE.read_text()
+
+    html = replace_panel_bodies(
+        html, frameworks, href_for=lambda slug: f"/regulation.html?std={slug}",
+        handler="openFramework",
+    )
+
+    modified = file_commit_date("regulation.json")
+    terms = []
+    for i, (slug, entry) in enumerate(
+        ((s, e) for s, e in frameworks.items() if renderable(e)), start=1
+    ):
+        term = {
+            "@type": "DefinedTerm",
+            "@id": reg_url(slug),
+            "name": entry["name"],
+            "termCode": slug,
+            "description": short_description(entry),
+            "url": reg_url(slug),
+            "inDefinedTermSet": {"@id": f"{REGULATION_URL}#frameworks-set"},
+        }
+        verdict = judgement_line(entry)
+        if verdict:
+            term["disambiguatingDescription"] = verdict
+        same_as = sameas_links(entry)
+        if same_as:
+            term["sameAs"] = same_as if len(same_as) > 1 else same_as[0]
+        terms.append({"@type": "ListItem", "position": i, "item": term})
+
+    faq_questions = [
+        {
+            "@type": "Question",
+            "name": question,
+            "acceptedAnswer": {"@type": "Answer", "text": answer},
+        }
+        for question, answer in extract_faq(html)
+    ]
+
+    graph = [
+        {
+            "@type": ["WebPage", "FAQPage"],
+            "@id": REGULATION_URL,
+            "url": REGULATION_URL,
+            "name": f"{REGULATION_TITLE} — Compliance Frameworks for Data",
+            "description": REGULATION_DESCRIPTION,
+            "inLanguage": "en",
+            "isPartOf": {"@id": f"{SITE}/#website"},
+            "dateModified": modified,
+            "breadcrumb": {"@id": f"{REGULATION_URL}#breadcrumb"},
+            "mainEntity": faq_questions,
+        },
+        {
+            "@type": "TechArticle",
+            "@id": f"{REGULATION_URL}#article",
+            "headline": REGULATION_TITLE,
+            "description": REGULATION_DESCRIPTION,
+            "dateModified": modified,
+            "inLanguage": "en",
+            "isAccessibleForFree": True,
+            "license": "https://opensource.org/licenses/MIT",
+            "author": {
+                "@type": "Person",
+                "name": "Dr. Simon Harrer",
+                "url": "https://www.linkedin.com/in/simonharrer/",
+            },
+            "contributor": {
+                "@type": "Person",
+                "name": "Mark McCalla",
+                "url": "https://www.linkedin.com/in/mark001/",
+            },
+            "publisher": PUBLISHER,
+            "about": {"@id": f"{REGULATION_URL}#frameworks-set"},
+            "mainEntityOfPage": {"@id": REGULATION_URL},
+        },
+        {
+            "@type": "DefinedTermSet",
+            "@id": f"{REGULATION_URL}#frameworks-set",
+            "name": "Compliance Frameworks for Data",
+            "description": (
+                "Every framework in the Data Landscape for Regulation, each with "
+                "its governing body, jurisdiction, and an opinionated judgement: "
+                "Adopt, Situational, Assess, or Caution."
+            ),
+            "url": REGULATION_URL,
+            "inLanguage": "en",
+            "creator": PUBLISHER,
+            "hasDefinedTerm": [item["item"]["@id"] for item in terms],
+        },
+        {
+            "@type": "ItemList",
+            "@id": f"{REGULATION_URL}#frameworks",
+            "name": "Compliance Frameworks for Data",
+            "numberOfItems": len(terms),
+            "itemListElement": terms,
+        },
+        {
+            "@type": "Dataset",
+            "@id": f"{REGULATION_URL}#dataset",
+            "name": "Data Landscape for Regulation — Frameworks Dataset",
+            "description": (
+                "Machine-readable catalogue of the compliance, security, privacy "
+                "and assurance frameworks that apply to data platforms, with "
+                "governance, jurisdiction, status, and an opinionated judgement "
+                "per framework. Curated by Entropy Data."
+            ),
+            "url": REGULATION_URL,
+            "dateModified": modified,
+            "isAccessibleForFree": True,
+            "license": "https://opensource.org/licenses/MIT",
+            "keywords": [
+                "compliance frameworks",
+                "data governance",
+                "information security",
+                "AI governance",
+                "EU AI Act",
+                "GDPR",
+                "data spaces",
+            ],
+            "creator": {
+                "@type": "Organization",
+                "name": "Entropy Data",
+                "url": "https://www.entropy-data.com",
+            },
+            "distribution": [
+                {
+                    "@type": "DataDownload",
+                    "encodingFormat": "application/json",
+                    "contentUrl": f"{SITE}/regulation.json",
+                },
+            ],
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": f"{REGULATION_URL}#breadcrumb",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Data Landscape",
+                 "item": f"{SITE}/"},
+                {"@type": "ListItem", "position": 2, "name": REGULATION_TITLE},
+            ],
+        },
+    ]
+    payload = {"@context": "https://schema.org", "@graph": graph}
+    serialised = json.dumps(payload, separators=(",", ":"), ensure_ascii=False)
+    block = (
+        "  <!-- prerender:jsonld -->\n"
+        f'  <script type="application/ld+json">{serialised}</script>\n'
+        "  <!-- /prerender:jsonld -->"
+    )
+    pattern = re.compile(r"  <!-- prerender:jsonld -->.*?  <!-- /prerender:jsonld -->", re.DOTALL)
+    html, n = pattern.subn(lambda _: block, html, count=1)
+    if n != 1:
+        raise SystemExit("prerender: regulation JSON-LD markers not found")
+
+    REGULATION_PAGE.write_text(html)
+    print(f"  regulation.html: {len(terms)} frameworks, {len(faq_questions)} FAQ entries")
+
+
 def file_commit_date(relpath: str) -> str:
     """ISO date of the last commit touching `relpath`, or today if unknown."""
     try:
@@ -722,6 +956,15 @@ def write_sitemap(
         "    <priority>0.6</priority>",
         "  </url>",
     ]
+    if REGULATION_PAGE.exists():
+        lines += [
+            "  <url>",
+            f"    <loc>{REGULATION_URL}</loc>",
+            f"    <lastmod>{file_commit_date('regulation.json')}</lastmod>",
+            "    <changefreq>monthly</changefreq>",
+            "    <priority>0.6</priority>",
+            "  </url>",
+        ]
     for category in taxonomy:
         lines.append("  <url>")
         lines.append(f"    <loc>{xml_escape(cat_url(category))}</loc>")
@@ -744,12 +987,17 @@ def write_sitemap(
     lines.append("</urlset>")
     SITEMAP.write_text("\n".join(lines) + "\n")
     rendered = sum(1 for e in standards.values() if renderable(e))
-    print(f"  sitemap.xml: 2 pages + {len(taxonomy)} categories + {rendered} standards")
+    pages = 3 if REGULATION_PAGE.exists() else 2
+    print(f"  sitemap.xml: {pages} pages + {len(taxonomy)} categories + {rendered} standards")
 
 
+# Emitted *before* the JSON-LD block. The graph runs to tens of kilobytes on
+# the larger pages, and the preload scanner only discovers the stylesheet and
+# fonts once it has parsed past it — putting the render-critical links first
+# means CSS and fonts start downloading in the first packet or two.
 PAGE_HEAD_COMMON = """  <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -787,6 +1035,12 @@ PAGE_HEAD_COMMON = """  <link rel="icon" href="/media/logo_fuchsia_v2.svg" type=
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -1077,8 +1331,8 @@ def category_page_html(
 
   <link rel="canonical" href="{canonical}"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{jsonld}</script>
-{PAGE_HEAD_COMMON}</head>
+{PAGE_HEAD_COMMON}  <script type="application/ld+json">{jsonld}</script>
+</head>
 <body class="bg-white">
 
 <a href="#main" class="skip-link">Skip to content</a>
@@ -1219,15 +1473,29 @@ def standard_page_html(
     siblings = related_standards(slug, entry, standards)
     # Without a distinct fullName, lean on the category so the title still
     # says what kind of thing this is.
-    title = f"{label} — {sub or primary_category or 'Open Standard'} | Data Landscape"
+    #
+    # A handful of standards have long spelled-out names (RDF/OWL, FTP/SFTP)
+    # that push the title past the ~65 characters a SERP renders. Drop the site
+    # suffix for those rather than truncating: the name of the standard is what
+    # someone is searching for, and "| Data Landscape" is already carried by
+    # og:site_name and the breadcrumb.
+    title = f"{label} — {sub or primary_category or 'Open Standard'}"
+    if len(title) + len(SITE_TITLE_SUFFIX) <= 65:
+        title += SITE_TITLE_SUFFIX
     social_title = f"{label} — {sub}" if sub else label
 
     # ---- structured data -------------------------------------------------
+    # alternateName carries the full name *and* any former names, so a query
+    # for the old name still resolves to this term.
+    alt_names = ([sub] if sub else []) + former_names(entry)
     term = {
         "@type": "DefinedTerm",
         "@id": canonical,
         "name": label,
-        **({"alternateName": sub} if sub else {}),
+        **(
+            {"alternateName": alt_names if len(alt_names) > 1 else alt_names[0]}
+            if alt_names else {}
+        ),
         "termCode": slug,
         "description": summary,
         "url": canonical,
@@ -1328,9 +1596,26 @@ def standard_page_html(
             f'      </div>'
         )
 
+    example = entry.get("example")
+    if example and example.get("code"):
+        caption = (
+            f'      <p class="mt-2 text-sm text-gray-600">{esc(example["caption"])}</p>\n'
+            if example.get("caption") else ""
+        )
+        # `pre` keeps its own whitespace, so the code must sit flush against the
+        # tags — indenting it to match the surrounding markup would indent the
+        # rendered snippet too.
+        parts.append(
+            f'      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>\n'
+            f'{caption}'
+            f'      <pre class="code-block mt-4"><code>{esc(example["code"])}</code></pre>'
+        )
+
     facts = []
     if cats:
         facts.append(("Category", esc(", ".join(cats))))
+    if former_names(entry):
+        facts.append(("Formerly known as", esc(", ".join(former_names(entry)))))
     if entry.get("governance"):
         facts.append(("Governance", esc(entry["governance"])))
     if entry.get("status"):
@@ -1435,8 +1720,8 @@ def standard_page_html(
 
   <link rel="canonical" href="{canonical}"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{jsonld}</script>
-{PAGE_HEAD_COMMON}</head>
+{PAGE_HEAD_COMMON}  <script type="application/ld+json">{jsonld}</script>
+</head>
 <body class="bg-white">
 
 <a href="#main" class="skip-link">Skip to content</a>
@@ -1477,6 +1762,25 @@ def standard_page_html(
 {PAGE_FOOTER}"""
 
 
+def redirect_page_html(target_path: str, label: str) -> str:
+    """A minimal stub that sends an old URL to its renamed replacement."""
+    target = f"{SITE}{target_path}"
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Moved to {esc(label)} | Data Landscape</title>
+  <link rel="canonical" href="{html_attr(target)}"/>
+  <meta http-equiv="refresh" content="0; url={html_attr(target_path)}">
+</head>
+<body>
+  <p>This standard has been renamed. It now lives at
+     <a href="{html_attr(target_path)}">{esc(label)}</a>.</p>
+</body>
+</html>
+"""
+
+
 def write_standard_pages(
     standards: "OrderedDict[str, dict]", taxonomy: "OrderedDict[str, tuple[str, str]]"
 ) -> None:
@@ -1495,10 +1799,32 @@ def write_standard_pages(
             )
         )
 
+    # Keep the old URL alive whenever a standard is renamed. GitHub Pages has
+    # no server-side 301, so the stub does the next best thing: a canonical
+    # pointing at the new page (so the old URL never competes for the same
+    # query) plus a meta refresh for the human who followed a stale link.
+    redirects = {}
+    for slug, entry in standards.items():
+        if not renderable(entry):
+            continue
+        for old in entry.get("formerSlugs") or []:
+            if old in wanted:
+                raise SystemExit(
+                    f"prerender: formerSlug {old!r} on {slug!r} collides with a live standard"
+                )
+            redirects[old] = slug
+    for old, slug in sorted(redirects.items()):
+        page_dir = STANDARDS_DIR / old
+        page_dir.mkdir(exist_ok=True)
+        (page_dir / "index.html").write_text(
+            redirect_page_html(std_path(slug), display_label(standards[slug], name_counts))
+        )
+
     # Drop pages for standards that have since been removed from standards.json.
-    removed = prune_generated_pages(STANDARDS_DIR, wanted)
+    removed = prune_generated_pages(STANDARDS_DIR, wanted | set(redirects))
     suffix = f", {removed} stale removed" if removed else ""
-    print(f"  standards/: {len(wanted)} pages{suffix}")
+    redirect_note = f" + {len(redirects)} redirects" if redirects else ""
+    print(f"  standards/: {len(wanted)} pages{redirect_note}{suffix}")
 
 
 def citation_block() -> list[str]:
@@ -1566,6 +1892,7 @@ def write_llms_txt(standards: "OrderedDict[str, dict]", html: str) -> None:
     out.append(f"- Data: {SITE}/standards.json")
     out.append(f"- Full text: {SITE}/llms-full.txt")
     out.append(f"- Industry ontologies: {SITE}/industry-ontologies.html")
+    out.append(f"- Regulation sub-landscape: {REGULATION_URL} (data: {SITE}/regulation.json)")
     out.append(f"- Sitemap: {SITE}/sitemap.xml")
     out.append(f"- Data last updated: {friendly} ({iso_modified})")
     out.append("")
@@ -1662,6 +1989,17 @@ def write_llms_full_txt(standards: "OrderedDict[str, dict]", html: str) -> None:
         for paragraph in entry.get("description") or []:
             out.append(paragraph.strip())
             out.append("")
+        example = entry.get("example")
+        if example and example.get("code"):
+            if example.get("caption"):
+                out.append(f"Example — {example['caption']}")
+            else:
+                out.append("Example:")
+            out.append("")
+            out.append(f"```{example.get('language', '')}".rstrip())
+            out.append(example["code"])
+            out.append("```")
+            out.append("")
         links = entry.get("links") or []
         if links:
             out.append("Links:")
@@ -1689,6 +2027,7 @@ def main() -> int:
 
     INDEX.write_text(html)
 
+    write_regulation_page()
     write_standard_pages(standards, taxonomy)
     write_category_pages(standards, taxonomy)
     write_sitemap(standards, taxonomy)

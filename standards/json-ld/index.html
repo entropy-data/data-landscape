@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/json-ld/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/json-ld/","url":"https://www.data-landscape.com/standards/json-ld/","name":"JSON-LD — JSON for Linking Data | Data Landscape","description":"A JSON-based serialisation for linked data. Lets you embed semantic context (types, relationships, IRIs) into ordinary JSON without breaking JSON consumers…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/json-ld/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/json-ld/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dcat/","https://www.data-landscape.com/standards/rdf-owl/","https://www.data-landscape.com/standards/shacl/","https://www.data-landscape.com/standards/skos/","https://www.data-landscape.com/standards/osi/","https://www.data-landscape.com/standards/schemaorg/","https://www.data-landscape.com/standards/shex/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/json-ld/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Semantics","item":"https://www.data-landscape.com/categories/semantics/"},{"@type":"ListItem","position":3,"name":"JSON-LD"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/json-ld/","name":"JSON-LD","alternateName":"JSON for Linking Data","termCode":"json-ld","description":"A JSON-based serialisation for linked data. Lets you embed semantic context (types, relationships, IRIs) into ordinary JSON without breaking JSON consumers that ignore it.","url":"https://www.data-landscape.com/standards/json-ld/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Pragmatic semantic-web on-ramp inside ordinary JSON.","sameAs":["https://www.w3.org/TR/json-ld11/","https://json-ld.org"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/json-ld/","url":"https://www.data-landscape.com/standards/json-ld/","name":"JSON-LD — JSON for Linking Data | Data Landscape","description":"A JSON-based serialisation for linked data. Lets you embed semantic context (types, relationships, IRIs) into ordinary JSON without breaking JSON consumers…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/json-ld/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/json-ld/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dcat/","https://www.data-landscape.com/standards/rdf-owl/","https://www.data-landscape.com/standards/shacl/","https://www.data-landscape.com/standards/skos/","https://www.data-landscape.com/standards/ossie/","https://www.data-landscape.com/standards/schemaorg/","https://www.data-landscape.com/standards/shex/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/json-ld/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Semantics","item":"https://www.data-landscape.com/categories/semantics/"},{"@type":"ListItem","position":3,"name":"JSON-LD"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/json-ld/","name":"JSON-LD","alternateName":"JSON for Linking Data","termCode":"json-ld","description":"A JSON-based serialisation for linked data. Lets you embed semantic context (types, relationships, IRIs) into ordinary JSON without breaking JSON consumers that ignore it.","url":"https://www.data-landscape.com/standards/json-ld/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Pragmatic semantic-web on-ramp inside ordinary JSON.","sameAs":["https://www.w3.org/TR/json-ld11/","https://json-ld.org"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -120,6 +126,21 @@
         <p>The pragmatic on-ramp into the RDF world: how Schema.org rides on web pages, how decentralised identity (DID, Verifiable Credentials) ships its payloads, and how many APIs add semantics to existing JSON without forcing clients to learn RDF.</p>
       </div>
 
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">Ordinary JSON plus an `@context`, which turns keys into globally meaningful IRIs.</p>
+      <pre class="code-block mt-4"><code>{
+  "@context": "https://schema.org",
+  "@id": "https://example.com/orders/1001",
+  "@type": "Order",
+  "orderNumber": "1001",
+  "orderStatus": "OrderDelivered",
+  "customer": {
+    "@id": "https://example.com/customers/42",
+    "@type": "Person",
+    "name": "Ada Lovelace"
+  }
+}</code></pre>
+
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
           <div class="border-t border-gray-100 pt-3">
@@ -155,7 +176,7 @@
           <li><a href="/standards/rdf-owl/" class="text-indigo-600 hover:text-indigo-500 hover:underline">RDF/OWL</a><span class="text-gray-500"> — Resource Description Framework / Web Ontology Language</span></li>
           <li><a href="/standards/shacl/" class="text-indigo-600 hover:text-indigo-500 hover:underline">SHACL</a><span class="text-gray-500"> — Shapes Constraint Language</span></li>
           <li><a href="/standards/skos/" class="text-indigo-600 hover:text-indigo-500 hover:underline">SKOS</a><span class="text-gray-500"> — Simple Knowledge Organization System</span></li>
-          <li><a href="/standards/osi/" class="text-indigo-600 hover:text-indigo-500 hover:underline">OSI</a><span class="text-gray-500"> — Open Semantic Interchange</span></li>
+          <li><a href="/standards/ossie/" class="text-indigo-600 hover:text-indigo-500 hover:underline">Ossie</a><span class="text-gray-500"> — Apache Ossie (incubating)</span></li>
           <li><a href="/standards/schemaorg/" class="text-indigo-600 hover:text-indigo-500 hover:underline">schema.org</a><span class="text-gray-500"> — schema.org vocabulary</span></li>
           <li><a href="/standards/shex/" class="text-indigo-600 hover:text-indigo-500 hover:underline">ShEx</a><span class="text-gray-500"> — Shape Expressions Language</span></li>
       </ul>

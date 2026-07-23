@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/sql-dml/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/sql-dml/","url":"https://www.data-landscape.com/standards/sql-dml/","name":"SQL DML — SQL Data Manipulation Language | Data Landscape","description":"The processing side of SQL: CTEs and window functions for transformation logic, INSERT / UPDATE / DELETE / MERGE for state changes, and CREATE OR REPLACE TABLE…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/sql-dml/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/sql-dml/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt/","https://www.data-landscape.com/standards/pandas/","https://www.data-landscape.com/standards/spark/","https://www.data-landscape.com/standards/beam/","https://www.data-landscape.com/standards/ibis/","https://www.data-landscape.com/standards/xslt/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/sql-dml/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Processing","item":"https://www.data-landscape.com/categories/processing/"},{"@type":"ListItem","position":3,"name":"SQL DML"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/sql-dml/","name":"SQL DML","alternateName":"SQL Data Manipulation Language","termCode":"sql-dml","description":"The processing side of SQL: CTEs and window functions for transformation logic, INSERT / UPDATE / DELETE / MERGE for state changes, and CREATE OR REPLACE TABLE / VIEW for materialising results. The portable way to express batch transformations against any relational or lakehouse…","url":"https://www.data-landscape.com/standards/sql-dml/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Portable transformation language across relational/lakehouse engines.","sameAs":["https://www.iso.org/standard/76583.html","https://en.wikipedia.org/wiki/SQL"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/sql-dml/","url":"https://www.data-landscape.com/standards/sql-dml/","name":"SQL DML — SQL Data Manipulation Language | Data Landscape","description":"The processing side of SQL: CTEs and window functions for transformation logic, INSERT / UPDATE / DELETE / MERGE for state changes, and CREATE OR REPLACE TABLE…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/sql-dml/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/sql-dml/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt/","https://www.data-landscape.com/standards/pandas/","https://www.data-landscape.com/standards/spark/","https://www.data-landscape.com/standards/beam/","https://www.data-landscape.com/standards/ibis/","https://www.data-landscape.com/standards/xslt/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/sql-dml/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Processing","item":"https://www.data-landscape.com/categories/processing/"},{"@type":"ListItem","position":3,"name":"SQL DML"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/sql-dml/","name":"SQL DML","alternateName":"SQL Data Manipulation Language","termCode":"sql-dml","description":"The processing side of SQL: CTEs and window functions for transformation logic, INSERT / UPDATE / DELETE / MERGE for state changes, and CREATE OR REPLACE TABLE / VIEW for materialising results. The portable way to express batch transformations against any relational or lakehouse…","url":"https://www.data-landscape.com/standards/sql-dml/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Portable transformation language across relational/lakehouse engines.","sameAs":["https://www.iso.org/standard/76583.html","https://en.wikipedia.org/wiki/SQL"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -124,6 +130,18 @@
         <p class="font-semibold">Why it counts as a standard</p>
         <p class="mt-1">ISO/IEC 9075 specifies a portable DML core — CTEs (SQL:1999), window functions (SQL:2003), and MERGE (SQL:2003) — that every serious analytical engine implements. Transformations written against this core run on Snowflake, BigQuery, Databricks, DuckDB, Postgres, and Trino with minimal change. The standard surface, not any vendor's dialect, is what makes SQL the default processing language.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">Insert, update, and the merge that turns a staging table into an upsert.</p>
+      <pre class="code-block mt-4"><code>INSERT INTO orders (id, customer_id, amount, city)
+VALUES (1001, 42, 49.90, 'Bamberg');
+
+UPDATE orders SET amount = amount * 1.19 WHERE city = 'Bamberg';
+
+MERGE INTO orders AS t
+USING staged_orders AS s ON t.id = s.id
+WHEN MATCHED THEN UPDATE SET t.amount = s.amount
+WHEN NOT MATCHED THEN INSERT (id, amount) VALUES (s.id, s.amount);</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

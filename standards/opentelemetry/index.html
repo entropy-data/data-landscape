@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/opentelemetry/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/opentelemetry/","url":"https://www.data-landscape.com/standards/opentelemetry/","name":"OpenTelemetry — Observability | Data Landscape","description":"Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/opentelemetry/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/opentelemetry/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/oors/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/opentelemetry/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Observability","item":"https://www.data-landscape.com/categories/observability/"},{"@type":"ListItem","position":3,"name":"OpenTelemetry"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/opentelemetry/","name":"OpenTelemetry","termCode":"opentelemetry","description":"Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.","url":"https://www.data-landscape.com/standards/opentelemetry/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Vendor-neutral observability standard.","sameAs":["https://opentelemetry.io","https://github.com/open-telemetry"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/opentelemetry/","url":"https://www.data-landscape.com/standards/opentelemetry/","name":"OpenTelemetry — Observability | Data Landscape","description":"Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/opentelemetry/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/opentelemetry/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/oors/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/opentelemetry/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Observability","item":"https://www.data-landscape.com/categories/observability/"},{"@type":"ListItem","position":3,"name":"OpenTelemetry"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/opentelemetry/","name":"OpenTelemetry","termCode":"opentelemetry","description":"Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.","url":"https://www.data-landscape.com/standards/opentelemetry/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Vendor-neutral observability standard.","sameAs":["https://opentelemetry.io","https://github.com/open-telemetry"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,29 @@
         <p>Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.</p>
         <p>In a data mesh context, OpenTelemetry is the natural choice for instrumenting pipelines and platform services so a federated governance team can correlate behaviour across domains.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">An OTLP/JSON trace export: one span, carrying its resource and instrumentation scope.</p>
+      <pre class="code-block mt-4"><code>{
+  "resourceSpans": [{
+    "resource": {
+      "attributes": [
+        { "key": "service.name", "value": { "stringValue": "checkout" } }
+      ]
+    },
+    "scopeSpans": [{
+      "scope": { "name": "my.library", "version": "1.0.0" },
+      "spans": [{
+        "traceId": "5B8EFFF798038103D269B633813FC60C",
+        "spanId": "EEE19B7EC3C1B174",
+        "name": "GET /orders",
+        "kind": 2,
+        "startTimeUnixNano": "1544712660000000000",
+        "endTimeUnixNano": "1544712661000000000"
+      }]
+    }]
+  }]
+}</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

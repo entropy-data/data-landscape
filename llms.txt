@@ -8,6 +8,7 @@ Each standard carries a judgement — Adopt, Situational, Assess, or Caution —
 - Data: https://www.data-landscape.com/standards.json
 - Full text: https://www.data-landscape.com/llms-full.txt
 - Industry ontologies: https://www.data-landscape.com/industry-ontologies.html
+- Regulation sub-landscape: https://www.data-landscape.com/regulation.html (data: https://www.data-landscape.com/regulation.json)
 - Sitemap: https://www.data-landscape.com/sitemap.xml
 - Data last updated: June 2026 (2026-06-22)
 
@@ -153,7 +154,7 @@ Category page: https://www.data-landscape.com/categories/storage-systems/
 
 Category page: https://www.data-landscape.com/categories/semantics/
 
-- [OSI](https://www.data-landscape.com/standards/osi/) — Open Semantic Interchange. Governance: OSI Initiative — Snowflake, Salesforce, dbt Labs, BlackRock, Databricks, Strategy (formerly MicroStrategy), and many more. **Assess — Emerging vendor-neutral semantic exchange; promising, adoption early.** _assess, highlighted_
+- [Ossie](https://www.data-landscape.com/standards/ossie/) — Apache Ossie (incubating). Governance: Apache Software Foundation (incubating) — donated by the OSI Initiative; 50+ organisations including Snowflake, Salesforce, dbt Labs, Databricks, Dremio. **Assess — Emerging vendor-neutral semantic exchange, now under ASF governance; promising, adoption early.** _assess, highlighted_
 - [RDF/OWL](https://www.data-landscape.com/standards/rdf-owl/) — Resource Description Framework / Web Ontology Language. Governance: W3C. **Situational — Semantic-web foundation; right when reasoning/inference matter.** _situational_
 - [DCAT](https://www.data-landscape.com/standards/dcat/) — Data Catalog Vocabulary. Governance: W3C. **Situational — Mandatory in EU open-data and many regulatory contexts.** _situational_
 - [SKOS](https://www.data-landscape.com/standards/skos/) — Simple Knowledge Organization System. Governance: W3C. **Situational — Right when you actually have a taxonomy.** _situational_
@@ -236,7 +237,7 @@ Most "open standards" started as vendor specs. Iceberg came out of Netflix, Delt
 The coloured header on each tile is our editorial judgement — what we'd actually do with this standard if we were starting a new project today. The four levels borrow the verb-style framing of the ThoughtWorks Tech Radar (Adopt / Trial / Assess / Hold), tuned for open standards rather than internal tech adoption:
 - Adopt — the standard you should reach for in new work. Proven, multi-vendor, clearly the default for its slot (e.g. SQL, JSON, HTTP, ODCS for data contracts, Iceberg for table format, OpenLineage for lineage).
 - Situational — the right answer in some contexts but not others. Pick deliberately based on the constraint (gRPC for service-to-service binary RPC, GraphQL for client-driven aggregation, GQL when you're already on graph databases).
-- Assess — promising but not yet proven for production-default use. Track it, prototype with it, but don't commit your architecture to it yet (e.g. OSI, Substrait, OORS).
+- Assess — promising but not yet proven for production-default use. Track it, prototype with it, but don't commit your architecture to it yet (e.g. Ossie, Substrait, OORS).
 - Caution — we'd avoid for new work. Either superseded by a better option or fading from active use (e.g. MDX, JMS, XSLT). Listed because they're still encountered in existing systems.
 
 Click a label in the toolbar legend to hide every tile of that judgement; click again to bring them back. Every standard's drawer carries the per-entry rationale (the Judgement reason line). The same field is in standards.json as judgement + judgementReason if you want to disagree at scale. Within each category panel, tiles are ordered by judgement: Adopt first, Caution last.
@@ -250,6 +251,30 @@ Why isn't X listed? Most likely we haven't gotten to it yet, or we judged it a v
 Why is X greyed out / marked as a vendor spec? Vendor-led specs are openly published and de-facto, but governance is effectively controlled by one company — they meet every criterion except independent governance. We still list them because they matter (e.g. dbt, Protobuf, Schema Registry); the muted tile and grayscale logo are the caveat, not a downgrade.
 
 Where did legacy and niche go? Those used to be separate tags; they're now folded into the judgement. Standards we'd avoid for new work (XMLA, JMS, MDX) sit under Caution. Standards healthy only in a particular corner (ShEx, LinkML, GQL) sit under Situational or Assess depending on maturity. See the judgement explanation for the per-tier criteria.
+
+### How often is this updated?
+
+There's no release train. The landscape changes when the standards do — a new spec version, a project moving to a foundation, a judgement we no longer stand behind — and whenever a suggestion or pull request lands. In practice that has meant edits in bursts — a flurry in the weeks after launch, steadier corrections since — rather than a fixed schedule.
+
+The Data last updated date in the footer is not hand-maintained: it's the date of the last commit that touched standards.json, stamped in at build time. Every derived artefact — the per-standard pages, sitemap.xml, llms.txt, llms-full.txt — is regenerated from that same file, so nothing here can quietly drift out of sync with it.
+
+If you want to follow along or diff two points in time, the full edit history is public: the commit log for standards.json shows every addition, removal, and changed judgement.
+
+### How do I propose a standard, or correct one?
+
+Two ways, both fine. Open an issue — github.com/entropy-data/data-landscape — and say which standard, which slot it belongs in, and why it clears the four criteria. Or open a pull request against standards.json: one entry keyed by a slug, with a name, category, governance body, status, a two-paragraph description, and links. Tiles, pages, sitemap, and the LLM artefacts all generate from that entry — there's no second place to edit. CONTRIBUTING.md has the field reference.
+
+Corrections are the more valuable contribution, honestly. A wrong governance body, a stale version in Status, a dead link, or a judgement that the last twelve months have overtaken — those are the things we most want reported. Cite a source (the spec, the foundation's page, a release note) and it goes in quickly.
+
+Disagreeing with a judgement is also a legitimate issue to open. The judgements are editorial, not measured, and arguing us out of one has worked before.
+
+### Can I reuse this landscape and its data?
+
+Yes. The whole repository — the page, the generated artefacts, and standards.json — is MIT-licensed. Use it in a slide deck, an internal wiki, a blog post, or a tool of your own; commercial use included. The MIT terms ask only that the licence and copyright notice ride along, and we'd appreciate a link back.
+
+standards.json is the machine-readable source of truth and is served with permissive CORS, so you can fetch it straight from the browser: fetch('https://www.data-landscape.com/standards.json'). Every entry carries its slug, category, governance, status, judgement, rationale, and links. Please cache it rather than polling — it changes a few times a month at most.
+
+Building for an LLM or an answer engine instead? llms.txt is the summary and llms-full.txt is the complete per-standard prose in a single fetch. For papers and talks, the citation block below has plain-text and BibTeX forms.
 
 ## Cite this landscape
 

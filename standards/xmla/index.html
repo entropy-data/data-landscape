@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/xmla/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/xmla/","url":"https://www.data-landscape.com/standards/xmla/","name":"XMLA — XML for Analysis | Data Landscape","description":"SOAP-based protocol for querying multidimensional data sources — cubes, semantic layers, and tabular models.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/xmla/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/xmla/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/adbc/","https://www.data-landscape.com/standards/jdbc/","https://www.data-landscape.com/standards/odbc/","https://www.data-landscape.com/standards/quack/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/xmla/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Database Connectivity","item":"https://www.data-landscape.com/categories/database-connectivity/"},{"@type":"ListItem","position":3,"name":"XMLA"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/xmla/","name":"XMLA","alternateName":"XML for Analysis","termCode":"xmla","description":"SOAP-based protocol for querying multidimensional data sources — cubes, semantic layers, and tabular models. The transport that carries MDX (and DAX) queries between BI clients and analytical engines.","url":"https://www.data-landscape.com/standards/xmla/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Caution — Legacy SOAP-based BI protocol; survives only inside MS Analysis Services.","sameAs":["https://learn.microsoft.com/en-us/openspecs/sql_server_protocols/ms-ssas/c0e5c5fc-fe93-4e58-a3b6-b1d95a47d22d","https://en.wikipedia.org/wiki/XML_for_Analysis"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/xmla/","url":"https://www.data-landscape.com/standards/xmla/","name":"XMLA — XML for Analysis | Data Landscape","description":"SOAP-based protocol for querying multidimensional data sources — cubes, semantic layers, and tabular models.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/xmla/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/xmla/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/adbc/","https://www.data-landscape.com/standards/jdbc/","https://www.data-landscape.com/standards/odbc/","https://www.data-landscape.com/standards/quack/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/xmla/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Database Connectivity","item":"https://www.data-landscape.com/categories/database-connectivity/"},{"@type":"ListItem","position":3,"name":"XMLA"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/xmla/","name":"XMLA","alternateName":"XML for Analysis","termCode":"xmla","description":"SOAP-based protocol for querying multidimensional data sources — cubes, semantic layers, and tabular models. The transport that carries MDX (and DAX) queries between BI clients and analytical engines.","url":"https://www.data-landscape.com/standards/xmla/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Caution — Legacy SOAP-based BI protocol; survives only inside MS Analysis Services.","sameAs":["https://learn.microsoft.com/en-us/openspecs/sql_server_protocols/ms-ssas/c0e5c5fc-fe93-4e58-a3b6-b1d95a47d22d","https://en.wikipedia.org/wiki/XML_for_Analysis"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,26 @@
         <p>SOAP-based protocol for querying multidimensional data sources — cubes, semantic layers, and tabular models. The transport that carries MDX (and DAX) queries between BI clients and analytical engines.</p>
         <p>Implemented by Microsoft Analysis Services, Mondrian, SAP BW, AtScale, and consumed by Excel, Power BI, Tableau, and most enterprise BI tools. Greenfield analytics has moved on, but XMLA remains how a vast amount of cube-based reporting actually talks to its backend.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">SOAP on the outside, MDX on the inside — how BI clients talk to an OLAP server.</p>
+      <pre class="code-block mt-4"><code>&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+  &lt;soap:Body&gt;
+    &lt;Execute xmlns="urn:schemas-microsoft-com:xml-analysis"&gt;
+      &lt;Command&gt;
+        &lt;Statement&gt;
+          SELECT {[Measures].[Sales Amount]} ON COLUMNS
+          FROM [Adventure Works]
+        &lt;/Statement&gt;
+      &lt;/Command&gt;
+      &lt;Properties&gt;
+        &lt;PropertyList&gt;
+          &lt;Catalog&gt;AdventureWorks&lt;/Catalog&gt;
+        &lt;/PropertyList&gt;
+      &lt;/Properties&gt;
+    &lt;/Execute&gt;
+  &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

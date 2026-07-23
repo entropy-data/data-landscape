@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>JMS — Jakarta Messaging (formerly Java Message Service) | Data Landscape</title>
+  <title>JMS — Jakarta Messaging (formerly Java Message Service)</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Java API specification for producing, sending, and consuming messages between application components.">
@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/jms/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/jms/","url":"https://www.data-landscape.com/standards/jms/","name":"JMS — Jakarta Messaging (formerly Java Message Service) | Data Landscape","description":"Java API specification for producing, sending, and consuming messages between application components.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/jms/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/jms/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/cloudevents/","https://www.data-landscape.com/standards/kafka/","https://www.data-landscape.com/standards/amqp/","https://www.data-landscape.com/standards/mqtt/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/jms/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Messaging","item":"https://www.data-landscape.com/categories/messaging/"},{"@type":"ListItem","position":3,"name":"JMS"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/jms/","name":"JMS","alternateName":"Jakarta Messaging (formerly Java Message Service)","termCode":"jms","description":"Java API specification for producing, sending, and consuming messages between application components. Originally JSR 914 under the Java Community Process; now Jakarta Messaging under the Eclipse Foundation.","url":"https://www.data-landscape.com/standards/jms/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Caution — Java-only messaging API; maintain if you have it, don't pick it new.","sameAs":["https://jakarta.ee/specifications/messaging/","https://jcp.org/en/jsr/detail?id=914"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/jms/","url":"https://www.data-landscape.com/standards/jms/","name":"JMS — Jakarta Messaging (formerly Java Message Service)","description":"Java API specification for producing, sending, and consuming messages between application components.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/jms/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/jms/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/cloudevents/","https://www.data-landscape.com/standards/kafka/","https://www.data-landscape.com/standards/amqp/","https://www.data-landscape.com/standards/mqtt/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/jms/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Messaging","item":"https://www.data-landscape.com/categories/messaging/"},{"@type":"ListItem","position":3,"name":"JMS"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/jms/","name":"JMS","alternateName":"Jakarta Messaging (formerly Java Message Service)","termCode":"jms","description":"Java API specification for producing, sending, and consuming messages between application components. Originally JSR 914 under the Java Community Process; now Jakarta Messaging under the Eclipse Foundation.","url":"https://www.data-landscape.com/standards/jms/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Caution — Java-only messaging API; maintain if you have it, don't pick it new.","sameAs":["https://jakarta.ee/specifications/messaging/","https://jcp.org/en/jsr/detail?id=914"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,17 @@
         <p>Java API specification for producing, sending, and consuming messages between application components. Originally JSR 914 under the Java Community Process; now Jakarta Messaging under the Eclipse Foundation.</p>
         <p>Implemented by ActiveMQ, Artemis, IBM MQ, Solace, and most enterprise message brokers. JMS sits one layer above wire protocols like AMQP — it standardises the application API rather than the on-the-wire bytes.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">The Java API, not the wire format: the same code runs against any JMS provider.</p>
+      <pre class="code-block mt-4"><code>try (JMSContext ctx = connectionFactory.createContext()) {
+    Queue queue = ctx.createQueue("orders");
+
+    ctx.createProducer().send(queue, "{\"orderId\": 1001}");
+
+    JMSConsumer consumer = ctx.createConsumer(queue);
+    String body = consumer.receiveBody(String.class, 5000);
+}</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

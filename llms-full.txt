@@ -26,6 +26,17 @@ SQL is the standard query language for relational databases. It is the oldest an
 
 Despite vendor-specific dialects, the ISO/IEC 9075 core defines a portable subset that every serious analytical engine implements.
 
+Example — The same statement runs on Postgres, Snowflake, DuckDB, or Spark.
+
+```sql
+SELECT city, COUNT(*) AS orders, SUM(amount) AS revenue
+FROM orders
+WHERE order_date >= DATE '2026-01-01'
+GROUP BY city
+HAVING SUM(amount) > 10000
+ORDER BY revenue DESC;
+```
+
 Links:
 - ISO/IEC 9075 standard: https://www.iso.org/standard/76583.html
 - Wikipedia: SQL: https://en.wikipedia.org/wiki/SQL
@@ -42,6 +53,16 @@ Links:
 Query language for multidimensional databases — the OLAP-cube counterpart to SQL. Used to express slice, dice, and rollup operations against star/snowflake schemas exposed as cubes.
 
 Originated with Microsoft OLE DB for OLAP and adopted by Microsoft Analysis Services, Mondrian, SAP BW, AtScale, and Oracle Essbase. Still pervasive in enterprise BI estates even though greenfield analytics has largely moved to SQL plus semantic layers.
+
+Example — A multidimensional query: measures on one axis, a hierarchy on the other, sliced by a member.
+
+```mdx
+SELECT
+  {[Measures].[Sales Amount]} ON COLUMNS,
+  {[Date].[Calendar].[Calendar Year].Members} ON ROWS
+FROM [Adventure Works]
+WHERE [Product].[Category].[Bikes]
+```
 
 Links:
 - Microsoft MDX reference: https://learn.microsoft.com/en-us/analysis-services/multidimensional-models/mdx/mdx-query-the-basic-query
@@ -60,6 +81,26 @@ Cross-language, cross-engine specification for representing relational query pla
 
 Adopted by DuckDB, Apache DataFusion, Velox, and Ibis (which compiles its DataFrame expressions to Substrait). Aims to be the portable IR between query frontends and execution engines, similar to LLVM IR for compilers.
 
+Example — The read relation for `SELECT product_id, quantity FROM orders`, as it appears inside a plan.
+
+```json
+{
+  "read": {
+    "namedTable": { "names": ["orders"] },
+    "baseSchema": {
+      "names": ["product_id", "quantity"],
+      "struct": {
+        "types": [
+          { "i64": { "nullability": "NULLABILITY_REQUIRED" } },
+          { "i32": { "nullability": "NULLABILITY_REQUIRED" } }
+        ],
+        "nullability": "NULLABILITY_REQUIRED"
+      }
+    }
+  }
+}
+```
+
 Links:
 - substrait.io: https://substrait.io
 - GitHub: substrait-io/substrait: https://github.com/substrait-io/substrait
@@ -76,6 +117,31 @@ Links:
 Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.
 
 In a data mesh context, OpenTelemetry is the natural choice for instrumenting pipelines and platform services so a federated governance team can correlate behaviour across domains.
+
+Example — An OTLP/JSON trace export: one span, carrying its resource and instrumentation scope.
+
+```json
+{
+  "resourceSpans": [{
+    "resource": {
+      "attributes": [
+        { "key": "service.name", "value": { "stringValue": "checkout" } }
+      ]
+    },
+    "scopeSpans": [{
+      "scope": { "name": "my.library", "version": "1.0.0" },
+      "spans": [{
+        "traceId": "5B8EFFF798038103D269B633813FC60C",
+        "spanId": "EEE19B7EC3C1B174",
+        "name": "GET /orders",
+        "kind": 2,
+        "startTimeUnixNano": "1544712660000000000",
+        "endTimeUnixNano": "1544712661000000000"
+      }]
+    }]
+  }]
+}
+```
 
 Links:
 - opentelemetry.io: https://opentelemetry.io
@@ -110,6 +176,35 @@ YAML-based open standard for defining data contracts: schema, data quality, SLAs
 
 Originated as PayPal's internal Data Contract Template (donated as ODCS 2.x). Starting with v3.0 the standard was generalised for any enterprise.
 
+Example — A data contract: who owns the data, where it physically lives, and what the schema promises.
+
+```yaml
+apiVersion: v3.1.0
+kind: DataContract
+id: 53581432-6c55-4ba2-a65f-72344a91553a
+domain: seller
+dataProduct: my quantum
+version: 1.1.0
+status: active
+description:
+  purpose: Views built on top of the seller tables.
+servers:
+  - server: my-postgres
+    type: postgres
+    host: localhost
+    port: 5432
+    database: pypl-edw
+    schema: pp_access_views
+schema:
+  - name: tbl
+    physicalType: table
+    properties:
+      - name: rcvr_id
+        logicalType: string
+        physicalType: varchar(18)
+        primaryKey: true
+```
+
 Links:
 - Official site: https://bitol.io
 - GitHub: open-data-contract-standard: https://github.com/bitol-io/open-data-contract-standard
@@ -129,6 +224,35 @@ Originally Swagger (2011), now the de-facto standard for describing REST APIs. T
 
 OpenAPI is the reference success story for what an open standard can become. ODCS is essentially trying to do for data what OpenAPI did for REST APIs.
 
+Example — One path, one operation, one response schema — the shape every generator and mock server reads.
+
+```yaml
+openapi: 3.1.0
+info:
+  title: Orders API
+  version: 1.0.0
+paths:
+  /orders/{id}:
+    get:
+      operationId: getOrder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: The order
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id, amount]
+                properties:
+                  id: { type: string }
+                  amount: { type: number }
+```
+
 Links:
 - openapis.org: https://www.openapis.org
 - GitHub: OAI/OpenAPI-Specification: https://github.com/OAI/OpenAPI-Specification
@@ -145,6 +269,35 @@ Links:
 Open-source standard for defining event-driven and message-based APIs across protocols like Kafka, AMQP, MQTT, WebSocket, and NATS.
 
 Where OpenAPI describes synchronous request/response, AsyncAPI describes asynchronous channels. The two specifications are intentionally aligned in style.
+
+Example — The same idea as OpenAPI, but the unit is a channel and a message rather than a path and a response.
+
+```yaml
+asyncapi: 3.1.0
+info:
+  title: Account Service
+  version: 1.0.0
+  description: This service is in charge of processing user signups
+channels:
+  userSignedup:
+    address: user/signedup
+    messages:
+      UserSignedUp:
+        $ref: '#/components/messages/UserSignedUp'
+operations:
+  sendUserSignedup:
+    action: send
+    channel:
+      $ref: '#/channels/userSignedup'
+components:
+  messages:
+    UserSignedUp:
+      payload:
+        type: object
+        properties:
+          displayName: { type: string }
+          email: { type: string, format: email }
+```
 
 Links:
 - asyncapi.com: https://www.asyncapi.com
@@ -163,6 +316,21 @@ Query language and runtime for APIs originally created at Facebook. Lets clients
 
 In a data mesh, GraphQL appears mostly on the consumption side — an output-port style for application teams that prefer typed graph queries over SQL.
 
+Example — Schema Definition Language: the type system the client queries against.
+
+```graphql
+type Order {
+  id: ID!
+  amount: Float!
+  customer: Customer!
+}
+
+type Query {
+  order(id: ID!): Order
+  orders(city: String, first: Int = 20): [Order!]!
+}
+```
+
 Links:
 - graphql.org: https://graphql.org
 - Specification: https://spec.graphql.org
@@ -179,6 +347,25 @@ Links:
 High-performance, language-agnostic RPC framework built on HTTP/2 and Protocol Buffers. Originated at Google, donated to CNCF.
 
 In a data architecture, gRPC shows up wherever services need fast, strongly-typed binary communication — internal service mesh, streaming pipelines, ML model serving.
+
+Example — A service definition; the toolchain generates the client and server stubs from it.
+
+```protobuf
+syntax = "proto3";
+package orders.v1;
+
+service OrderService {
+  rpc GetOrder (GetOrderRequest) returns (Order);
+  rpc ListOrders (ListOrdersRequest) returns (stream Order);
+}
+
+message GetOrderRequest { string id = 1; }
+
+message Order {
+  string id = 1;
+  double amount = 2;
+}
+```
 
 Links:
 - grpc.io: https://grpc.io
@@ -197,6 +384,20 @@ SQL-first transformation framework with built-in tests, documentation, and linea
 
 Vendor-governed by dbt Labs rather than a foundation, so it isn't an open standard in the strict sense. Included here on the de-facto criterion: its YAML and Jinja-SQL conventions are what other tools (SQLMesh, Lightdash) interoperate with.
 
+Example — A model is a SELECT statement; `ref()` builds the DAG and materialisation is configuration.
+
+```sql
+-- models/marts/orders_by_city.sql
+{{ config(materialized='table') }}
+
+select
+    city,
+    count(*)    as orders,
+    sum(amount) as revenue
+from {{ ref('stg_orders') }}
+group by 1
+```
+
 Links:
 - getdbt.com: https://www.getdbt.com
 
@@ -212,6 +413,19 @@ Links:
 Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.
 
 Open source and useful, but the spec is governed by one company, so it sits in the same vendor-driven bucket as dbt and SodaCL.
+
+Example — Expectations are declarative objects, created once and reused across runs.
+
+```python
+import great_expectations as gx
+
+context = gx.get_context()
+
+# All Expectations are found in the `gx.expectations` module.
+preset_expectation = gx.expectations.ExpectColumnMaxToBeBetween(
+    column="passenger_count", min_value=1, max_value=6, severity="warning"
+)
+```
 
 Links:
 - greatexpectations.io: https://greatexpectations.io
@@ -230,6 +444,23 @@ The schema-test and data-test surface inside a dbt project — `tests:` blocks i
 
 Treated as a separate entry from dbt itself because the test surface is the part of dbt that data-quality tooling interoperates with. Adopt-grade if your transformations live in dbt; situational elsewhere because the tests can't easily be lifted out of a dbt project.
 
+Example — Tests declared next to the model; `dbt test` compiles each one into a SQL query that must return no rows.
+
+```yaml
+# models/schema.yml
+models:
+  - name: orders
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+      - name: status
+        data_tests:
+          - accepted_values:
+              values: ['placed', 'shipped', 'returned']
+```
+
 Links:
 - docs.getdbt.com — Tests: https://docs.getdbt.com/docs/build/data-tests
 
@@ -245,6 +476,17 @@ Links:
 YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.
 
 Used under the hood by the Data Contract CLI to actually execute the quality checks declared in an ODCS contract.
+
+Example — Checks read close to English and compile down to SQL against the warehouse.
+
+```yaml
+checks for dim_customer:
+  - row_count between 10 and 1000
+  - missing_count(birth_date) = 0
+  - duplicate_count(phone) = 0
+  - invalid_percent(phone) < 1 %:
+      valid format: phone number
+```
 
 Links:
 - docs.soda.io/soda-cl: https://docs.soda.io/soda-cl/soda-cl-overview.html
@@ -263,6 +505,29 @@ YAML standard for describing data products. Mirrors ODCS on fundamentals, owners
 
 Each port references an ODCS contract. Combined, ODCS + ODPS yield the full data-mesh dependency graph — consumers, products, sources — derived directly from YAML.
 
+Example — A data product: input ports it consumes, output ports it promises, each bound to a data contract.
+
+```yaml
+apiVersion: v1.0.0
+kind: DataProduct
+id: fbe8d147-28db-4f1d-bedf-a3fe9f458427
+name: Customer Data Product
+domain: seller
+status: draft
+description:
+  purpose: Enterprise view of a customer.
+inputPorts:
+  - name: payments
+    version: 1.0.0
+    contractId: dbb7b1eb-7628-436e-8914-2a00638ba6db
+outputPorts:
+  - name: rawtransactions
+    description: "Raw Transactions"
+    type: tables
+    version: v1.0.0
+    contractId: c2798941-1b7e-4b03-9e0d-955b1a872b32
+```
+
 Links:
 - GitHub: open-data-product-standard: https://github.com/bitol-io/open-data-product-standard
 - BITOL: https://bitol.io
@@ -279,6 +544,26 @@ Links:
 YAML-based specification for describing data products with input ports, output ports, control ports, and discovery ports. Maintained by the OpenDataMesh initiative.
 
 Distinct from BITOL's ODPS: similar problem space, different community and slightly different mental model. Worth knowing both exist before you commit to one.
+
+Example — The minimal descriptor: a fully qualified URN, version, domain, owner, and the interface components.
+
+```json
+{
+    "dataProductDescriptor": "1.0.0",
+    "info": {
+        "fullyQualifiedName": "urn:dpds:com.company-xyz:dataproducts:tripExecution:1",
+        "version": "1.2.3",
+        "domain": "Transport Management",
+        "owner": {
+            "id": "john.doe@company-xyz.com",
+            "name": "John Doe"
+        }
+    },
+    "interfaceComponents": {
+        "outputPorts": []
+    }
+}
+```
 
 Links:
 - dpds.opendatamesh.org: https://dpds.opendatamesh.org/concepts/data-product-descriptor/
@@ -297,6 +582,28 @@ Standalone open specification for describing data products, governed under the L
 
 Different mental model from BITOL's ODPS: no concept of input ports, at most one linked contract at the top level. Both are valid — they solve different problems.
 
+Example — Product-manager framing: value proposition, visibility, and status are first-class, with the contract referenced.
+
+```yaml
+schema: 'https://opendataproducts.org/v3.1/schema/odps.yaml'
+version: 3.1
+product:
+  contract:
+    id: 02323M123
+    type: ODCS
+    contractVersion: 2.2.2
+  details:
+    en:
+      name: UrbanPulse Events
+      productID: urbanpulse-events-001
+      valueProposition: >-
+        Structured, real-time public event data, ready for travel apps,
+        tourism platforms, and smart city services.
+      productVersion: 0.1.0
+      visibility: internal
+      status: production
+```
+
 Links:
 - opendataproducts.org: https://opendataproducts.org
 
@@ -312,6 +619,25 @@ Links:
 RDF/OWL vocabulary for describing data products. Composes naturally with other semantic-web vocabularies (DCAT, SKOS, FIBO, etc.) when your stack already lives in the linked-data world.
 
 Where BITOL's ODPS is YAML and strict, DPROD is RDF and graph-native. Both have their place; the format choice determines what else you can compose with.
+
+Example — The same data-product idea as RDF: a DCAT extension, so it composes with catalogues that already speak DCAT.
+
+```json
+{
+  "@context": "https://ekgf.github.io/dprod/dprod.jsonld",
+  "@id": "https://example.com/products/equity-trade",
+  "@type": "DataProduct",
+  "title": "Equity Trade",
+  "dataProductOwner": "https://example.com/person/AnnTaylor",
+  "lifecycle": "Consume",
+  "outputPort": [{
+    "@type": "dcat:DataService",
+    "@id": "https://example.com/service/equity-trade-prod",
+    "dcat:endpointURL": "abfss://datasets@demo.dfs.core.windows.net/trade",
+    "dcat:endpointDescription": "Details for accessing storage account"
+  }]
+}
+```
 
 Links:
 - DPROD specification: https://ekgf.github.io/dprod/
@@ -329,6 +655,22 @@ Open table format for huge analytic datasets — schema evolution, hidden partit
 
 Originated at Netflix; now a default in Snowflake, Databricks, AWS, and most query engines. Increasingly the substrate that other layers (catalogs, lakehouses) build on.
 
+Example — Hidden partitioning and snapshot isolation: the engine derives partitions, and old snapshots stay queryable.
+
+```sql
+CREATE TABLE prod.sales.orders (
+    id       bigint,
+    city     string,
+    amount   decimal(10,2),
+    order_ts timestamp
+)
+USING iceberg
+PARTITIONED BY (days(order_ts));
+
+-- read the table as it stood at an earlier snapshot
+SELECT * FROM prod.sales.orders VERSION AS OF 3821550127947089987;
+```
+
 Links:
 - iceberg.apache.org: https://iceberg.apache.org
 
@@ -344,6 +686,19 @@ Links:
 Open-source storage layer that brings ACID transactions, schema enforcement, and time travel to data lakes. The original lakehouse format.
 
 Delta Universal Format (UniForm) now also writes Iceberg-compatible metadata, narrowing the gap between the two formats.
+
+Example — Every write appends a commit to `_delta_log/`, which is what makes history and time travel possible.
+
+```sql
+CREATE TABLE orders (
+    id     BIGINT,
+    city   STRING,
+    amount DECIMAL(10,2)
+) USING DELTA;
+
+DESCRIBE HISTORY orders;
+SELECT * FROM orders VERSION AS OF 12;
+```
 
 Links:
 - delta.io: https://delta.io
@@ -361,6 +716,20 @@ Transactional data lake platform that pioneered incremental processing and upser
 
 Less mainstream than Iceberg or Delta today, but still the table format of choice when streaming upserts and CDC are first-class requirements.
 
+Example — A record key and partition make upserts the default write, rather than something you build yourself.
+
+```sql
+CREATE TABLE hudi_table (
+    ts     BIGINT,
+    uuid   STRING,
+    rider  STRING,
+    fare   DOUBLE,
+    city   STRING
+) USING HUDI
+TBLPROPERTIES (primaryKey = 'uuid')
+PARTITIONED BY (city);
+```
+
 Links:
 - hudi.apache.org: https://hudi.apache.org
 
@@ -374,6 +743,20 @@ Links:
 - Judgement: Assess — DuckDB-Labs catalog; v1.0 production-ready, ecosystem still small.
 
 Lakehouse catalog format from DuckDB Labs that puts the catalog inside a regular SQL database — no separate REST catalog, no manifest sprawl. Designed for simplicity and zero-infrastructure analytics.
+
+Example — The catalogue is an ordinary SQL database and the data is Parquet in object storage; DuckDB attaches both as one lakehouse.
+
+```sql
+INSTALL ducklake;
+
+ATTACH 'ducklake:metadata.ducklake'
+    AS my_ducklake
+    (DATA_PATH 'data/');
+
+USE my_ducklake;
+
+CREATE TABLE orders (id BIGINT, city VARCHAR, amount DECIMAL(10,2));
+```
 
 Links:
 - ducklake.select: https://ducklake.select
@@ -392,6 +775,22 @@ W3C standard for describing the structure, content, and constraints of XML docum
 
 Still the schema language of record in many enterprise integration scenarios — SOAP, banking, healthcare, and government.
 
+Example — An XSD constraining element order, types, and required attributes.
+
+```xml
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="order">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id"     type="xs:string"/>
+        <xs:element name="amount" type="xs:decimal"/>
+      </xs:sequence>
+      <xs:attribute name="city" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+```
+
 Links:
 - W3C: XML Schema: https://www.w3.org/XML/Schema
 
@@ -407,6 +806,24 @@ Links:
 Vocabulary for validating, annotating, and documenting JSON. The schema language of choice for modern HTTP APIs and event payloads.
 
 ODCS uses JSON Schema concepts for typing complex column structures, and the OpenAPI / AsyncAPI specs are themselves anchored in JSON Schema.
+
+Example — Validation vocabulary over JSON: types, required properties, and value constraints.
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/order.schema.json",
+  "title": "Order",
+  "type": "object",
+  "required": ["id", "amount"],
+  "properties": {
+    "id": { "type": "string" },
+    "amount": { "type": "number", "exclusiveMinimum": 0 },
+    "city": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+```
 
 Links:
 - json-schema.org: https://json-schema.org
@@ -424,6 +841,20 @@ The CREATE / ALTER / DROP subset of SQL — the most universal way to describe a
 
 The Data Contract CLI imports SQL DDL into ODCS contracts and exports back to it, because every relational engine speaks at least a flavour of it.
 
+Example — Structure and constraints as statements the database enforces, not documentation it ignores.
+
+```sql
+CREATE TABLE orders (
+    id          BIGINT        PRIMARY KEY,
+    customer_id BIGINT        NOT NULL REFERENCES customers (id),
+    amount      DECIMAL(10,2) NOT NULL CHECK (amount > 0),
+    city        VARCHAR(64),
+    created_at  TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE orders ADD COLUMN channel VARCHAR(32);
+```
+
 Links:
 - ISO/IEC 9075 standard: https://www.iso.org/standard/76583.html
 
@@ -440,6 +871,23 @@ JSON-based schema language used to describe Avro-encoded records. Standard in Ka
 
 Strong support for schema evolution rules — a key reason it has stuck around as the default schema dialect for event streams.
 
+Example — A record schema; the union with `null` plus a default is how Avro makes a field optional.
+
+```json
+{
+  "type": "record",
+  "name": "Order",
+  "namespace": "com.example.orders",
+  "fields": [
+    { "name": "id", "type": "string" },
+    { "name": "amount", "type": {
+        "type": "bytes", "logicalType": "decimal", "precision": 10, "scale": 2
+    }},
+    { "name": "city", "type": ["null", "string"], "default": null }
+  ]
+}
+```
+
 Links:
 - avro.apache.org: https://avro.apache.org
 
@@ -455,6 +903,25 @@ Links:
 Google's language-neutral, platform-neutral mechanism for serialising structured data. Compact binary encoding plus strong schema evolution rules.
 
 The schema language behind gRPC and many internal RPC stacks. Open source but governed by Google, so it sits in the same vendor-driven bucket as dbt.
+
+Example — Field numbers, not names, are the wire contract — which is what makes evolution safe.
+
+```protobuf
+syntax = "proto3";
+package example.orders.v1;
+
+message Order {
+  string   id       = 1;
+  double   amount   = 2;
+  optional string city = 3;
+  repeated LineItem items = 4;
+}
+
+message LineItem {
+  string sku      = 1;
+  int32  quantity = 2;
+}
+```
 
 Links:
 - protobuf.dev: https://protobuf.dev
@@ -473,6 +940,23 @@ Open REST API specification for Iceberg metadata catalogs. Decouples engines (Sp
 
 Together with Iceberg the table format, this is what is making "open lakehouse" something more than marketing.
 
+Example — The REST catalogue hands back the current metadata pointer; every engine then reads the same table state.
+
+```http
+GET /v1/namespaces/sales/tables/orders HTTP/1.1
+Host: catalog.example.com
+Authorization: Bearer <token>
+
+HTTP/1.1 200 OK
+{
+  "metadata-location": "s3://warehouse/sales/orders/metadata/00003-abc.metadata.json",
+  "metadata": {
+    "format-version": 2,
+    "table-uuid": "9c12d441-03fe-4693-9a96-a0a6b1e2a4a1"
+  }
+}
+```
+
 Links:
 - Iceberg REST catalog: https://iceberg.apache.org/terms/#catalog
 
@@ -488,6 +972,24 @@ Links:
 Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation.
 
 Now competing with Iceberg REST as a catalog protocol. The two camps overlap and influence each other; expect convergence over the next couple of years.
+
+Example — A three-level namespace — catalog, schema, table — addressed over an open REST API.
+
+```http
+GET /api/2.1/unity-catalog/tables/unity.default.numbers HTTP/1.1
+Host: uc.example.com
+Authorization: Bearer <token>
+
+HTTP/1.1 200 OK
+{
+  "name": "numbers",
+  "catalog_name": "unity",
+  "schema_name": "default",
+  "table_type": "EXTERNAL",
+  "data_source_format": "DELTA",
+  "storage_location": "s3://warehouse/numbers"
+}
+```
 
 Links:
 - unitycatalog.io: https://www.unitycatalog.io
@@ -506,6 +1008,18 @@ The metastore protocol of the Hadoop era. Long-standing de-facto standard for bi
 
 Slowly being superseded by Iceberg REST and Unity Catalog, but installed bases will keep it relevant for many years to come.
 
+Example — The Thrift client every legacy engine speaks: table location and partitions, resolved by name.
+
+```java
+HiveMetaStoreClient client = new HiveMetaStoreClient(conf);
+
+Table table = client.getTable("sales", "orders");
+System.out.println(table.getSd().getLocation());   // s3://warehouse/sales/orders
+
+List<String> partitions =
+    client.listPartitionNames("sales", "orders", (short) 10);
+```
+
 Links:
 - hive.apache.org: https://hive.apache.org
 
@@ -521,6 +1035,22 @@ Links:
 A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, "what shape is this Kafka topic?" has no answer.
 
 The REST API was designed by Confluent but the protocol is widely re-implemented: Apicurio Registry (Red Hat), AWS Glue Schema Registry, Karapace (Aiven), and Redpanda Schema Registry all speak it. That makes it the de-facto schema catalog of the streaming world, even if it is not formally standardised.
+
+Example — Producers register a schema and ship its id on the wire; consumers resolve the id back to the schema.
+
+```http
+POST /subjects/orders-value/versions HTTP/1.1
+Host: schema-registry.example.com
+Content-Type: application/vnd.schemaregistry.v1+json
+
+{
+  "schemaType": "AVRO",
+  "schema": "{\"type\":\"record\",\"name\":\"Order\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"}]}"
+}
+
+HTTP/1.1 200 OK
+{ "id": 42 }
+```
 
 Links:
 - Confluent Schema Registry: https://docs.confluent.io/platform/current/schema-registry/index.html
@@ -539,6 +1069,15 @@ Plain-text tabular format. RFC 4180 specifies a baseline; in practice every tool
 
 Loved and hated in equal measure: terrible for nested data, perfect for spreadsheets, mandatory in data lake on-ramps.
 
+Example — A header row and comma-separated values; quotes escape embedded commas, and an empty field is just empty.
+
+```csv
+order_id,city,amount,ordered_at
+1001,Bamberg,49.90,2026-01-14
+1002,"Frankfurt am Main",120.00,2026-01-15
+1003,Berlin,,2026-01-15
+```
+
 Links:
 - RFC 4180: https://www.ietf.org/rfc/rfc4180.txt
 
@@ -554,6 +1093,20 @@ Links:
 Standard text-based format for structured data. Pairs naturally with JSON Schema, OpenAPI, and AsyncAPI.
 
 In a lake, line-delimited JSON (NDJSON / JSONL) is the typical landing format before transformation into columnar formats like Parquet.
+
+Example — Objects, arrays, strings, numbers, booleans, null — the whole type system fits in a sentence.
+
+```json
+{
+  "order_id": 1001,
+  "city": "Bamberg",
+  "amount": 49.90,
+  "items": [
+    { "sku": "A-1", "quantity": 2 }
+  ],
+  "cancelled_at": null
+}
+```
 
 Links:
 - json.org: https://www.json.org
@@ -572,6 +1125,19 @@ Tag-based markup format for structured documents and data. Verbose by modern sta
 
 Still the format of record in many enterprise integration scenarios — banking, healthcare, government, and SOAP-based B2B exchange.
 
+Example — Elements carry structure, attributes carry metadata about the element they sit on.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<order id="1001">
+  <city>Bamberg</city>
+  <amount currency="EUR">49.90</amount>
+  <items>
+    <item sku="A-1" quantity="2"/>
+  </items>
+</order>
+```
+
 Links:
 - W3C: XML: https://www.w3.org/XML/
 
@@ -585,6 +1151,20 @@ Links:
 - Judgement: Adopt — Default surface for config and contract specs.
 
 Human-readable data serialisation format. The default surface for metadata, configuration, and contract specifications — Kubernetes manifests, CI/CD pipelines, OpenAPI / AsyncAPI / ODCS / DPDS / dbt project files all live in YAML.
+
+Example — Indentation for structure, plus block scalars for text that would be unreadable escaped.
+
+```yaml
+order_id: 1001
+city: Bamberg
+amount: 49.90
+items:
+  - sku: A-1
+    quantity: 2
+note: >
+  A folded block scalar: newlines in here
+  become spaces when parsed.
+```
 
 Links:
 - yaml.org: https://yaml.org
@@ -603,6 +1183,21 @@ Columnar storage format optimised for analytics: predicate pushdown, column prun
 
 Effectively the default storage format underneath every modern table format (Iceberg, Delta, Hudi).
 
+Example — The layout of a Parquet file — column chunks inside row groups, with the schema and statistics in the footer.
+
+```text
+PAR1                          <- 4-byte magic
+  Row group 0
+    Column chunk: order_id    [page header][dictionary page][data pages]
+    Column chunk: city        [page header][dictionary page][data pages]
+    Column chunk: amount      [page header][data pages]
+  Row group 1
+    ...
+FileMetaData                  <- schema, row groups, per-column min/max stats
+<4-byte metadata length>
+PAR1                          <- the same magic closes the file
+```
+
 Links:
 - parquet.apache.org: https://parquet.apache.org
 
@@ -618,6 +1213,18 @@ Links:
 Row-oriented binary format that ships its schema alongside the data. Excellent for streaming and event payloads where messages are written and read one at a time.
 
 The natural counterpart to Parquet: Avro for streams, Parquet for analytics.
+
+Example — An Avro object container file carries its own writer schema, so the data is readable without a registry.
+
+```text
+Obj\x01                        <- 4-byte magic
+File metadata (map):
+  avro.schema  {"type":"record","name":"Order","fields":[...]}
+  avro.codec   deflate
+16-byte sync marker
+Data block:  [record count][block size][serialized records][sync marker]
+Data block:  ...
+```
 
 Links:
 - avro.apache.org: https://avro.apache.org
@@ -635,6 +1242,17 @@ Columnar file format created for the Hive ecosystem. Strong compression and ACID
 
 Less common in greenfield projects today — Parquet has won most workloads — but still pervasive in big-data installations.
 
+Example — ORC is read back-to-front: the postscript at the tail points at the footer, which indexes the stripes.
+
+```text
+ORC                           <- 3-byte magic at the head
+  Stripe 0  [index streams][data streams][stripe footer]
+  Stripe 1  ...
+File footer                   <- schema, stripe list, per-column statistics
+Postscript                    <- compression kind, footer length, version
+<1-byte postscript length>    <- the reader starts here and works backwards
+```
+
 Links:
 - orc.apache.org: https://orc.apache.org
 
@@ -650,6 +1268,21 @@ Links:
 Modern columnar file format optimised for AI/ML workloads: 100x faster random access than Parquet, native support for embeddings and multimodal data (images, video, audio), and zero-copy schema evolution without rewriting files.
 
 Pairs with the Lance table format and catalog spec to form a lakehouse stack purpose-built for vector search and feature engineering alongside SQL analytics.
+
+Example — A columnar format built for random access: write once, then point-query rows without a full scan.
+
+```python
+import lance
+import pyarrow as pa
+
+tbl = pa.table({
+    "id": [1, 2],
+    "embedding": [[0.1, 0.2], [0.3, 0.4]],
+})
+lance.write_dataset(tbl, "/tmp/embeddings.lance")
+
+dataset = lance.dataset("/tmp/embeddings.lance")
+```
 
 Links:
 - lance.org: https://lance.org
@@ -668,6 +1301,20 @@ Open standard for collecting lineage metadata from data pipelines, including col
 
 For runtime lineage details — how the pipeline actually works — OpenLineage traces are the answer, not the data contract. Use both: contracts for design, OpenLineage for execution.
 
+Example — A run event: which job ran, which datasets went in, which came out. Emitted by the pipeline, not scraped after the fact.
+
+```json
+{
+  "eventType": "COMPLETE",
+  "eventTime": "2026-01-14T10:15:30.000Z",
+  "producer": "https://github.com/OpenLineage/OpenLineage/tree/1.0.0/integration/spark",
+  "run": { "runId": "d46e465b-d358-4d32-83d4-df660ff614dd" },
+  "job": { "namespace": "spark", "name": "orders_by_city" },
+  "inputs":  [{ "namespace": "postgres://db:5432", "name": "public.orders" }],
+  "outputs": [{ "namespace": "s3://warehouse",     "name": "marts.orders_by_city" }]
+}
+```
+
 Links:
 - openlineage.io: https://openlineage.io
 
@@ -684,6 +1331,21 @@ General-purpose policy engine that decouples policy decisions from your services
 
 In a data mesh, OPA shows up wherever federated governance needs to enforce rules — access requests, contract gates in CI, infrastructure guard-rails — without putting the rules into application code.
 
+Example — Policy as code: the decision is a function of the request, evaluated the same way in every service.
+
+```rego
+package data.access
+
+default allow := false
+
+# Analysts may read tables in their own domain, but never PII.
+allow if {
+    input.action == "read"
+    input.user.domain == input.table.domain
+    not "pii" in input.table.tags
+}
+```
+
 Links:
 - openpolicyagent.org: https://www.openpolicyagent.org
 
@@ -699,6 +1361,20 @@ Links:
 Open protocol for connecting AI applications and agents to external systems: data sources, tools, and workflows. The "USB-C for AI": one spec, many servers and clients.
 
 For data architectures, MCP is becoming the standard way LLMs discover and query data products, semantic models, and catalogs. Created by Anthropic and now hosted at the Linux Foundation; Claude, ChatGPT, Cursor, VS Code, and many others speak it.
+
+Example — A JSON-RPC tool call: the same envelope whether the server runs over stdio or HTTP.
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "query_orders",
+    "arguments": { "city": "Bamberg", "since": "2026-01-01" }
+  }
+}
+```
 
 Links:
 - modelcontextprotocol.io: https://modelcontextprotocol.io
@@ -717,6 +1393,23 @@ Open protocol for AI agents to discover, communicate, and collaborate with each 
 
 Created by Google and donated to the Linux Foundation. Increasingly paired with MCP in production stacks: A2A for agent-to-agent orchestration, MCP for the tools and data each agent reaches into.
 
+Example — One agent sends a message to another; the reply is either a direct message or a long-running task.
+
+```http
+POST /message:send HTTP/1.1
+Host: agent.example.com
+Content-Type: application/a2a+json
+Authorization: Bearer token
+
+{
+  "message": {
+    "role": "ROLE_USER",
+    "parts": [{ "text": "What is the weather today?" }],
+    "messageId": "msg-uuid"
+  }
+}
+```
+
 Links:
 - a2a-protocol.org: https://a2a-protocol.org
 - GitHub: a2aproject/A2A: https://github.com/a2aproject/A2A
@@ -734,26 +1427,65 @@ AWS's object storage API has become the lingua franca of the data lake. Every cl
 
 Strictly speaking it is not an open standard — AWS controls it — but the practical reality is that "talks S3" is treated as a portability guarantee.
 
+Example — A signed GET against a bucket endpoint — the request shape a dozen non-AWS stores now implement.
+
+```http
+GET /warehouse/orders/part-0000.parquet HTTP/1.1
+Host: my-bucket.s3.eu-central-1.amazonaws.com
+x-amz-date: 20260114T101530Z
+x-amz-content-sha256: UNSIGNED-PAYLOAD
+Authorization: AWS4-HMAC-SHA256 Credential=AKIA.../20260114/eu-central-1/s3/aws4_request,
+    SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=...
+```
+
 Links:
 - AWS S3 API reference: https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html
 
-## OSI — Open Semantic Interchange
+## Ossie — Apache Ossie (incubating)
 
-- URL: https://www.data-landscape.com/standards/osi/
+- URL: https://www.data-landscape.com/standards/ossie/
 - Category: Semantics
-- Governance: OSI Initiative — Snowflake, Salesforce, dbt Labs, BlackRock, Databricks, Strategy (formerly MicroStrategy), and many more
-- Status: v0.1.1; explicitly early, working groups very active
+- Governance: Apache Software Foundation (incubating) — donated by the OSI Initiative; 50+ organisations including Snowflake, Salesforce, dbt Labs, Databricks, Dremio
+- Status: Incubating at the ASF since July 2026; spec still early, working groups very active
 - First released: 2025
-- Judgement: Assess — Emerging vendor-neutral semantic exchange; promising, adoption early.
+- Judgement: Assess — Emerging vendor-neutral semantic exchange, now under ASF governance; promising, adoption early.
 
-Vendor-agnostic open-source standard for exchanging semantic models — datasets, relationships, metrics, and AI context — between BI platforms, AI agents, and analytics tools.
+Vendor-agnostic open standard for exchanging semantic models — datasets, relationships, metrics, and AI context — between BI platforms, AI agents, and analytics tools.
 
 Overlaps with ODCS on datasets and relationships, and adds metrics (e.g. total_revenue = SUM(order_total)) and dynamic fields (e.g. full_name = first_name + " " + last_name). ODCS still owns terms of use, quality, and SLAs.
 
+Launched in November 2025 as the Open Semantic Interchange (OSI) with 17 founding partners, and entered the Apache Incubator as Apache Ossie in July 2026. The spec, the community, and the mission are unchanged — only the name and the governance are.
+
+Example — Metrics and dimensions defined once, with the SQL expression per dialect, so every tool computes the same number.
+
+```yaml
+semantic_model:
+  - name: ecommerce_analytics
+    description: Sales and customer analytics
+    ai_context:
+      instructions: "Use for sales analysis"
+
+    datasets:
+      - name: orders
+        source: sales.public.orders
+        primary_key: [order_id]
+        fields:
+          - name: order_date
+            dimension:
+              is_time: true
+
+    metrics:
+      - name: total_revenue
+        expression:
+          dialects:
+            - dialect: ANSI_SQL
+              expression: SUM(orders.amount)
+```
+
 Links:
-- opensemantic.com: https://opensemantic.com
-- GitHub: open-semantic-interchange: https://github.com/open-semantic-interchange/OSI
-- Open Semantic Editor: https://editor.opensemantic.com
+- ossie.apache.org: https://ossie.apache.org
+- GitHub: apache/ossie: https://github.com/apache/ossie
+- Announcement: OSI is now Apache Ossie: https://ossie.apache.org/updates/ossie-enters-apache-incubator/
 
 ## RDF/OWL — Resource Description Framework / Web Ontology Language
 
@@ -766,7 +1498,25 @@ Links:
 
 RDF is the W3C model for representing graph data; OWL extends it for richer ontologies and reasoning. Together they are the foundation of the semantic web.
 
-YAML formats like ODCS and OSI buy simplicity at the cost of composability. RDF/OWL trade off the other way: harder to author, much easier to compose vocabularies that were never designed together.
+YAML formats like ODCS and Apache Ossie buy simplicity at the cost of composability. RDF/OWL trade off the other way: harder to author, much easier to compose vocabularies that were never designed together.
+
+Example — Classes and properties as triples; the same graph carries both the vocabulary and the data.
+
+```turtle
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix ex:   <https://example.com/ontology#> .
+
+ex:Order a owl:Class ;
+    rdfs:label "Order" .
+
+ex:placedBy a owl:ObjectProperty ;
+    rdfs:domain ex:Order ;
+    rdfs:range  ex:Customer .
+
+ex:order-1001 a ex:Order ;
+    ex:placedBy ex:customer-42 .
+```
 
 Links:
 - W3C: RDF: https://www.w3.org/RDF/
@@ -785,6 +1535,23 @@ RDF vocabulary designed to facilitate interoperability between data catalogs. Ma
 
 DCAT lives in the RDF / semantic-web world as a catalog vocabulary inspired by libraries and dataset offerings. Different mental model from contract-first standards like ODCS.
 
+Example — A dataset and the distributions it is available in — the vocabulary EU open-data portals index.
+
+```turtle
+@prefix dcat:    <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://example.com/dataset/orders> a dcat:Dataset ;
+    dcterms:title     "Orders" ;
+    dcterms:publisher <https://example.com/org/sales> ;
+    dcat:keyword      "orders", "sales" ;
+    dcat:distribution <https://example.com/dataset/orders/csv> .
+
+<https://example.com/dataset/orders/csv> a dcat:Distribution ;
+    dcat:accessURL <https://example.com/downloads/orders.csv> ;
+    dcterms:format "text/csv" .
+```
+
 Links:
 - W3C: DCAT: https://www.w3.org/TR/vocab-dcat/
 
@@ -800,6 +1567,20 @@ Links:
 W3C standard for representing thesauri, taxonomies, and controlled vocabularies in RDF.
 
 Useful for sharing classifications — PII categories, business glossaries, regulatory taxonomies — in a way that other tools can consume without bespoke mapping.
+
+Example — A concept with its preferred and alternative labels, placed in a broader/narrower hierarchy.
+
+```turtle
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix ex:   <https://example.com/scheme/> .
+
+ex:Revenue a skos:Concept ;
+    skos:prefLabel  "Revenue"@en ;
+    skos:altLabel   "Turnover"@en ;
+    skos:definition "Income from ordinary business activities."@en ;
+    skos:broader    ex:FinancialMetric ;
+    skos:inScheme   ex:FinanceGlossary .
+```
 
 Links:
 - W3C: SKOS: https://www.w3.org/2004/02/skos/
@@ -817,6 +1598,23 @@ W3C language for validating RDF graphs against a set of conditions — the JSON 
 
 Used heavily where the semantic stack actually has to enforce rules, not just describe them.
 
+Example — A shape that says what a valid Order node looks like; a validator reports every node that violates it.
+
+```turtle
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex:  <https://example.com/ontology#> .
+
+ex:OrderShape a sh:NodeShape ;
+    sh:targetClass ex:Order ;
+    sh:property [
+        sh:path         ex:amount ;
+        sh:datatype     xsd:decimal ;
+        sh:minCount     1 ;
+        sh:minExclusive 0 ;
+    ] .
+```
+
 Links:
 - W3C: SHACL: https://www.w3.org/TR/shacl/
 
@@ -833,6 +1631,23 @@ A JSON-based serialisation for linked data. Lets you embed semantic context (typ
 
 The pragmatic on-ramp into the RDF world: how Schema.org rides on web pages, how decentralised identity (DID, Verifiable Credentials) ships its payloads, and how many APIs add semantics to existing JSON without forcing clients to learn RDF.
 
+Example — Ordinary JSON plus an `@context`, which turns keys into globally meaningful IRIs.
+
+```json
+{
+  "@context": "https://schema.org",
+  "@id": "https://example.com/orders/1001",
+  "@type": "Order",
+  "orderNumber": "1001",
+  "orderStatus": "OrderDelivered",
+  "customer": {
+    "@id": "https://example.com/customers/42",
+    "@type": "Person",
+    "name": "Ada Lovelace"
+  }
+}
+```
+
 Links:
 - W3C: JSON-LD 1.1: https://www.w3.org/TR/json-ld11/
 - json-ld.org: https://json-ld.org
@@ -848,7 +1663,23 @@ Links:
 
 The query language for RDF graphs. Pattern-matching syntax that walks graph triples, with federation across endpoints, updates, and a standardised HTTP protocol.
 
-Where SQL is to relational tables, SPARQL is to RDF: the standard way to ask questions of an OSI, DCAT, SKOS, or SHACL-validated graph. Without it, the rest of the W3C semantic stack cannot answer queries portably.
+Where SQL is to relational tables, SPARQL is to RDF: the standard way to ask questions of an Ossie, DCAT, SKOS, or SHACL-validated graph. Without it, the rest of the W3C semantic stack cannot answer queries portably.
+
+Example — Graph pattern matching: bind variables against triples, then filter and order the bindings.
+
+```sparql
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?concept ?label
+WHERE {
+  ?concept a skos:Concept ;
+           skos:prefLabel ?label ;
+           skos:inScheme <https://example.com/scheme/FinanceGlossary> .
+  FILTER (lang(?label) = "en")
+}
+ORDER BY ?label
+LIMIT 20
+```
 
 Links:
 - W3C: SPARQL 1.1: https://www.w3.org/TR/sparql11-overview/
@@ -866,6 +1697,17 @@ Distributed file system designed to run on commodity hardware, originally inspir
 
 Object storage (S3 and friends) has displaced HDFS in most new architectures, but large existing deployments mean it remains an important interface to support.
 
+Example — A POSIX-shaped CLI over a distributed filesystem, and the URI scheme engines address it by.
+
+```sh
+hdfs dfs -mkdir -p /warehouse/sales/orders
+hdfs dfs -put orders.parquet /warehouse/sales/orders/
+hdfs dfs -ls /warehouse/sales/orders
+
+# engines address the same files through the hdfs:// scheme
+spark.read.parquet("hdfs://namenode:8020/warehouse/sales/orders")
+```
+
 Links:
 - hadoop.apache.org: https://hadoop.apache.org
 
@@ -882,6 +1724,23 @@ Standard Java API for connecting to relational databases. Every serious analytic
 
 Row-oriented by design — fine for transactional workloads, suboptimal for moving large analytical result sets where columnar transports like ADBC are faster.
 
+Example — A URL, a connection, a prepared statement — unchanged across every relational database with a driver.
+
+```java
+String url = "jdbc:postgresql://db.example.com:5432/sales";
+
+try (Connection conn = DriverManager.getConnection(url, "reader", secret);
+     PreparedStatement ps = conn.prepareStatement(
+         "SELECT city, SUM(amount) FROM orders WHERE order_date >= ? GROUP BY city")) {
+
+    ps.setDate(1, Date.valueOf("2026-01-01"));
+    ResultSet rs = ps.executeQuery();
+    while (rs.next()) {
+        System.out.println(rs.getString(1) + " " + rs.getBigDecimal(2));
+    }
+}
+```
+
 Links:
 - JDBC overview: https://docs.oracle.com/javase/tutorial/jdbc/
 
@@ -897,6 +1756,19 @@ Links:
 C-based, language-neutral API for accessing relational databases. The cross-platform sibling of JDBC, and the connectivity layer behind most BI tools and Excel-style integrations.
 
 Like JDBC, ODBC is row-oriented — efficient for transactional access, less so for analytical column-heavy result sets.
+
+Example — A DSN in odbc.ini; applications then connect with `DSN=sales;UID=reader` and never name the driver again.
+
+```ini
+[sales]
+Driver   = PostgreSQL Unicode
+Server   = db.example.com
+Port     = 5432
+Database = sales
+
+; or skip the DSN entirely:
+; Driver={PostgreSQL Unicode};Server=db.example.com;Port=5432;Database=sales;UID=reader;
+```
 
 Links:
 - ISO/IEC 9075-3: https://www.iso.org/standard/76585.html
@@ -915,6 +1787,28 @@ SOAP-based protocol for querying multidimensional data sources — cubes, semant
 
 Implemented by Microsoft Analysis Services, Mondrian, SAP BW, AtScale, and consumed by Excel, Power BI, Tableau, and most enterprise BI tools. Greenfield analytics has moved on, but XMLA remains how a vast amount of cube-based reporting actually talks to its backend.
 
+Example — SOAP on the outside, MDX on the inside — how BI clients talk to an OLAP server.
+
+```xml
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <Execute xmlns="urn:schemas-microsoft-com:xml-analysis">
+      <Command>
+        <Statement>
+          SELECT {[Measures].[Sales Amount]} ON COLUMNS
+          FROM [Adventure Works]
+        </Statement>
+      </Command>
+      <Properties>
+        <PropertyList>
+          <Catalog>AdventureWorks</Catalog>
+        </PropertyList>
+      </Properties>
+    </Execute>
+  </soap:Body>
+</soap:Envelope>
+```
+
 Links:
 - XMLA 1.1 specification: https://learn.microsoft.com/en-us/openspecs/sql_server_protocols/ms-ssas/c0e5c5fc-fe93-4e58-a3b6-b1d95a47d22d
 - Wikipedia: XML for Analysis: https://en.wikipedia.org/wiki/XML_for_Analysis
@@ -932,6 +1826,17 @@ Arrow-native database connectivity API. Where JDBC and ODBC marshal results row-
 
 Designed to coexist with JDBC and ODBC: drivers can wrap them today, and engines can expose ADBC natively for the columnar fast path.
 
+Example — The DBAPI shape you already know, except results arrive as Arrow — no row-by-row conversion on the way out.
+
+```python
+import adbc_driver_postgresql.dbapi as dbapi
+
+with dbapi.connect("postgresql://db.example.com:5432/sales") as conn:
+    with conn.cursor() as cur:
+        cur.execute("SELECT city, amount FROM orders")
+        table = cur.fetch_arrow_table()
+```
+
 Links:
 - arrow.apache.org/adbc: https://arrow.apache.org/adbc/
 
@@ -947,6 +1852,18 @@ Links:
 Client-server wire protocol from DuckDB Labs for talking to a DuckDB server. Where JDBC/ODBC/ADBC are client APIs that bind to drivers, Quack defines the protocol on the wire — so clients in any language can speak to a DuckDB server without an embedded engine.
 
 Positions DuckDB beyond the embedded use case it grew up in, and complements ADBC: ADBC standardises the columnar result contract, Quack standardises the connection.
+
+Example — A DuckDB instance attaches to a remote DuckDB server over the `quack:` scheme and queries it like a local database.
+
+```sql
+CREATE SECRET (
+    TYPE quack,
+    TOKEN 'super_secret'
+);
+
+ATTACH 'quack:localhost' AS remote;
+FROM remote.hello;
+```
 
 Links:
 - duckdb.org: https://duckdb.org
@@ -964,6 +1881,22 @@ The application protocol of the web, and the universal transport beneath REST AP
 
 Most data interfaces today are some flavour of "HTTP plus a schema" — which is why HTTP is a load-bearing assumption in almost any modern data architecture.
 
+Example — Methods, status codes, and caching headers — the substrate nearly every other standard here rides on.
+
+```http
+GET /api/orders?city=Bamberg HTTP/1.1
+Host: api.example.com
+Accept: application/json
+If-None-Match: "a41c8"
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+ETag: "b92f1"
+Cache-Control: max-age=60
+
+[{ "id": 1001, "amount": 49.90 }]
+```
+
 Links:
 - RFC 9110 (HTTP semantics): https://www.rfc-editor.org/rfc/rfc9110
 
@@ -980,6 +1913,15 @@ Distributed log and streaming platform. Originally built at LinkedIn, donated to
 
 The Kafka wire protocol is openly documented and re-implemented by Redpanda, WarpStream, and others, so it sits next to AMQP as a standard option for asynchronous data movement.
 
+Example — Produce to a topic, then consume it as part of a group — offsets and replay are the protocol's job, not yours.
+
+```sh
+kafka-console-producer --bootstrap-server localhost:9092 --topic orders
+
+kafka-console-consumer --bootstrap-server localhost:9092 \
+    --topic orders --group analytics --from-beginning
+```
+
 Links:
 - kafka.apache.org: https://kafka.apache.org
 
@@ -995,6 +1937,15 @@ Links:
 Lightweight publish-subscribe messaging protocol designed for constrained devices and unreliable networks. The dominant wire protocol for IoT and edge data.
 
 Where AMQP and Kafka fit centralised broker patterns inside the data centre, MQTT is what shows up at the edge: sensors, vehicles, factory floors. Bridging MQTT into Kafka is a common ingest pattern for industrial data.
+
+Example — Topic hierarchies with wildcards, quality-of-service per message, and retained values for late subscribers.
+
+```sh
+mosquitto_sub -h broker.example.com -t 'sensors/+/temperature' -q 1
+
+mosquitto_pub -h broker.example.com -t 'sensors/rack-1/temperature' \
+    -m '21.5' -q 1 --retain
+```
 
 Links:
 - mqtt.org: https://mqtt.org
@@ -1013,6 +1964,20 @@ Specification for describing event data in a common way. Defines a vendor-neutra
 
 Where Kafka/AMQP/MQTT are transports, CloudEvents is the shape of what flows over them. Increasingly the default cross-system event format in cloud-native and serverless architectures.
 
+Example — A thin envelope of required metadata around a payload the standard deliberately says nothing about.
+
+```json
+{
+  "specversion": "1.0",
+  "type": "com.example.order.placed",
+  "source": "/orders/service",
+  "id": "A234-1234-1234",
+  "time": "2026-01-14T10:15:30Z",
+  "datacontenttype": "application/json",
+  "data": { "orderId": 1001, "amount": 49.90 }
+}
+```
+
 Links:
 - cloudevents.io: https://cloudevents.io
 - GitHub: cloudevents/spec: https://github.com/cloudevents/spec
@@ -1029,6 +1994,18 @@ Links:
 Open wire-level protocol for message-oriented middleware. Reliable, broker-mediated message exchange independent of any single vendor.
 
 Implemented by RabbitMQ, Azure Service Bus, ActiveMQ and others. Sits next to MQTT and the Kafka protocol as a standard option for asynchronous data movement.
+
+Example — An AMQP 1.0 message is a sequence of typed sections; brokers route on the properties without parsing the body.
+
+```text
+header                  durable=true, priority=4, ttl=60000
+message-annotations     {"x-opt-jms-dest": "queue"}
+properties              message-id=1001, to=orders,
+                        content-type=application/json,
+                        creation-time=2026-01-14T10:15:30Z
+application-properties  {"city": "Bamberg"}
+body                    {"orderId": 1001, "amount": 49.90}
+```
 
 Links:
 - amqp.org: https://www.amqp.org
@@ -1047,6 +2024,19 @@ Java API specification for producing, sending, and consuming messages between ap
 
 Implemented by ActiveMQ, Artemis, IBM MQ, Solace, and most enterprise message brokers. JMS sits one layer above wire protocols like AMQP — it standardises the application API rather than the on-the-wire bytes.
 
+Example — The Java API, not the wire format: the same code runs against any JMS provider.
+
+```java
+try (JMSContext ctx = connectionFactory.createContext()) {
+    Queue queue = ctx.createQueue("orders");
+
+    ctx.createProducer().send(queue, "{\"orderId\": 1001}");
+
+    JMSConsumer consumer = ctx.createConsumer(queue);
+    String body = consumer.receiveBody(String.class, 5000);
+}
+```
+
 Links:
 - Jakarta Messaging spec: https://jakarta.ee/specifications/messaging/
 - JSR 914 (original JMS 1.1): https://jcp.org/en/jsr/detail?id=914
@@ -1063,6 +2053,16 @@ Links:
 FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.
 
 Unsexy but unavoidable: many regulated industries — banking, insurance, public sector — still hand off bulk data between organisations as nightly (S)FTP drops.
+
+Example — An interactive session over SSH; still the transport many partner and regulatory feeds arrive on.
+
+```sh
+sftp deploy@files.example.com
+sftp> cd /incoming/orders
+sftp> put orders-2026-01-14.csv
+sftp> ls -l
+sftp> bye
+```
 
 Links:
 - RFC 959 (FTP): https://www.rfc-editor.org/rfc/rfc959
@@ -1081,6 +2081,17 @@ Open REST protocol for sharing tabular datasets across organisations and platfor
 
 Implemented by Databricks, plus open-source servers and clients in Python, Spark, Pandas, and Power BI. Sits next to FTP and HTTP as a modern, table-aware option for cross-organisation data exchange.
 
+Example — The recipient gets a profile file, not a database account; the client then reads through the REST API, e.g. GET /shares/sales/schemas/public/tables/orders/metadata.
+
+```json
+{
+  "shareCredentialsVersion": 1,
+  "endpoint": "https://sharing.example.com/delta-sharing/",
+  "bearerToken": "<token>",
+  "expirationTime": "2026-12-31T23:59:59.0Z"
+}
+```
+
 Links:
 - delta.io/sharing: https://delta.io/sharing/
 - GitHub: delta-io/delta-sharing: https://github.com/delta-io/delta-sharing
@@ -1097,6 +2108,17 @@ Links:
 Open standard for a portable DataFrame API across Python implementations. The aim: write code once, run on pandas, Polars, Modin, cuDF, or any compliant library.
 
 Sister specification to the Array API Standard. Sponsored by data-apis.org with backing from Quansight, NVIDIA, Microsoft, Intel, and the major DataFrame projects. The standard everyone reaches for when "which DataFrame API?" needs to stop being a portability question.
+
+Example — Library code written against the standard runs unchanged on pandas, Polars, Modin, or cuDF — no isinstance branching.
+
+```python
+def large_orders(df):
+    """`df` is any compliant dataframe, whatever library produced it."""
+    return (
+        df.filter(df.col("amount") > 100)
+          .select("order_id", "city", "amount")
+    )
+```
 
 Links:
 - data-apis.org: https://data-apis.org
@@ -1115,6 +2137,20 @@ Language-agnostic columnar in-memory format for analytical data. Designed for ze
 
 Foundation for ADBC, the basis of pandas 2.x, the wire format of Arrow Flight, and the in-memory layout of DuckDB, Polars, and many others. Arrow is the connective tissue of modern analytics.
 
+Example — One columnar layout in memory, and an IPC format that hands it between processes and languages without a copy.
+
+```python
+import pyarrow as pa
+
+table = pa.table({
+    "order_id": pa.array([1001, 1002], type=pa.int64()),
+    "city":     pa.array(["Bamberg", "Berlin"]),
+})
+
+with pa.ipc.new_stream("orders.arrows", table.schema) as writer:
+    writer.write_table(table)
+```
+
 Links:
 - arrow.apache.org: https://arrow.apache.org
 
@@ -1130,6 +2166,17 @@ Links:
 Distributed analytics engine with a DataFrame API across Scala, Java, Python, and R. The classic large-scale processing engine for batch and streaming workloads.
 
 Spark Connect decouples client and engine, making the DataFrame API a portable client interface — which is why it shows up here as an interface, not just an engine.
+
+Example — The DataFrame API: a lazily built plan that the engine optimises before any data moves.
+
+```python
+df = (spark.read.parquet("s3://warehouse/orders")
+        .filter("order_date >= '2026-01-01'")
+        .groupBy("city")
+        .sum("amount"))
+
+df.write.mode("overwrite").saveAsTable("marts.orders_by_city")
+```
 
 Links:
 - spark.apache.org: https://spark.apache.org
@@ -1147,6 +2194,20 @@ Unified programming model for batch and streaming data processing. Pipelines wri
 
 Originated as Google's Dataflow SDK, donated to ASF in 2016. Stronger claim to “standard” than most processing frameworks: the model itself — PCollections, transforms, windowing, triggers — is the spec, with runners as competing implementations.
 
+Example — One pipeline definition, executed by whichever runner you point it at — Flink, Spark, or Dataflow.
+
+```python
+import apache_beam as beam
+
+with beam.Pipeline() as p:
+    (p
+     | "Read"   >> beam.io.ReadFromText("orders.csv")
+     | "Parse"  >> beam.Map(lambda line: line.split(","))
+     | "ByCity" >> beam.Map(lambda cols: (cols[1], float(cols[2])))
+     | "Sum"    >> beam.CombinePerKey(sum)
+     | "Write"  >> beam.io.WriteToText("revenue-by-city"))
+```
+
 Links:
 - beam.apache.org: https://beam.apache.org
 
@@ -1162,6 +2223,19 @@ Links:
 The original Python DataFrame library. Whatever else a Python data practitioner uses, they almost certainly know pandas — which makes its API a de-facto interface that other libraries (Polars, Modin, cuDF) deliberately mimic.
 
 Pandas 2.x added Arrow-backed columns, narrowing the gap with newer engines while preserving the familiar API.
+
+Example — The API whose idioms — boolean masks, groupby, method chaining — every later DataFrame library answers to.
+
+```python
+import pandas as pd
+
+df = pd.read_parquet("orders.parquet")
+
+revenue = (df[df["amount"] > 0]
+             .groupby("city", as_index=False)["amount"]
+             .sum()
+             .sort_values("amount", ascending=False))
+```
 
 Links:
 - pandas.pydata.org: https://pandas.pydata.org
@@ -1179,6 +2253,21 @@ Portable Python DataFrame API that compiles expressions to a backend of choice �
 
 Lets analytics code be written once and executed against whichever engine the data happens to live on, without rewriting in each backend's SQL dialect.
 
+Example — One expression, many backends: the same code compiles to DuckDB, Postgres, BigQuery, or Snowflake SQL.
+
+```python
+import ibis
+
+con = ibis.duckdb.connect("warehouse.ddb")
+orders = con.table("orders")
+
+expr = (orders.filter(orders.amount > 0)
+              .group_by("city")
+              .aggregate(revenue=orders.amount.sum()))
+
+expr.to_pandas()
+```
+
 Links:
 - ibis-project.org: https://ibis-project.org
 
@@ -1194,6 +2283,20 @@ Links:
 The processing side of SQL: CTEs and window functions for transformation logic, INSERT / UPDATE / DELETE / MERGE for state changes, and CREATE OR REPLACE TABLE / VIEW for materialising results. The portable way to express batch transformations against any relational or lakehouse engine.
 
 Tools like dbt, SQLMesh, and dataform are essentially orchestrators around this surface — the transformations themselves are SQL DML.
+
+Example — Insert, update, and the merge that turns a staging table into an upsert.
+
+```sql
+INSERT INTO orders (id, customer_id, amount, city)
+VALUES (1001, 42, 49.90, 'Bamberg');
+
+UPDATE orders SET amount = amount * 1.19 WHERE city = 'Bamberg';
+
+MERGE INTO orders AS t
+USING staged_orders AS s ON t.id = s.id
+WHEN MATCHED THEN UPDATE SET t.amount = s.amount
+WHEN NOT MATCHED THEN INSERT (id, amount) VALUES (s.id, s.amount);
+```
 
 Links:
 - ISO/IEC 9075 standard: https://www.iso.org/standard/76583.html
@@ -1212,6 +2315,22 @@ Declarative, template-based language for transforming XML documents into other X
 
 Implemented by Saxon, libxslt, and every major XML toolchain. Still load-bearing in publishing, government, banking, and healthcare integrations where XML pipelines never went away.
 
+Example — A stylesheet is itself XML: templates match nodes, and the processor walks the tree applying them.
+
+```xml
+<xsl:stylesheet version="1.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="text"/>
+
+  <xsl:template match="/orders">
+    <xsl:for-each select="order">
+      <xsl:value-of select="@id"/>,<xsl:value-of select="amount"/>
+      <xsl:text>&#10;</xsl:text>
+    </xsl:for-each>
+  </xsl:template>
+</xsl:stylesheet>
+```
+
 Links:
 - W3C: XSL Transformations (XSLT) 3.0: https://www.w3.org/TR/xslt-30/
 - Wikipedia: XSLT: https://en.wikipedia.org/wiki/XSLT
@@ -1228,6 +2347,28 @@ Links:
 YAML-based schema language for modelling structured data and ontologies. One LinkML schema can be compiled to JSON Schema, SHACL, RDF/OWL, Pydantic classes, Protobuf, and SQL DDL — useful when the same domain model needs to power validation, semantics, and code generation simultaneously.
 
 Sits between schema languages (JSON Schema, AVRO Schema) and ontology languages (RDF/OWL, SHACL). Pragmatic, opinionated, and increasingly the default modelling vehicle in linked-data-friendly research consortia.
+
+Example — A readable YAML schema that generates JSON Schema, SHACL, SQL DDL, and Python classes from one source.
+
+```yaml
+id: https://example.com/orders
+name: orders
+prefixes:
+  linkml: https://w3id.org/linkml/
+imports:
+  - linkml:types
+default_range: string
+
+classes:
+  Order:
+    attributes:
+      id:
+        identifier: true
+      amount:
+        range: decimal
+        required: true
+      city:
+```
 
 Links:
 - linkml.io: https://linkml.io
@@ -1246,6 +2387,26 @@ Open vocabulary of types and properties for structured data on the web, originat
 
 Most often serialised as JSON-LD inside HTML pages so search engines can read structured data. The Dataset and DataCatalog types overlap with DCAT — and many open-data portals publish both views of the same metadata.
 
+Example — JSON-LD in a script tag: the markup search engines read to understand what a page is about.
+
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Orders 2026",
+  "description": "All customer orders placed in 2026.",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "creator": { "@type": "Organization", "name": "Example GmbH" },
+  "distribution": {
+    "@type": "DataDownload",
+    "encodingFormat": "text/csv",
+    "contentUrl": "https://example.com/orders-2026.csv"
+  }
+}
+</script>
+```
+
 Links:
 - schema.org: https://schema.org
 - GitHub: schemaorg/schemaorg: https://github.com/schemaorg/schemaorg
@@ -1263,6 +2424,19 @@ Concise, human-friendly grammar for describing the expected shape of RDF graphs.
 
 Originated alongside SHACL during the W3C RDF Data Shapes Working Group. The two specs solve overlapping problems with different design choices: ShEx prioritises a compact ShExC syntax and recursive shape definitions; SHACL prioritises RDF-native rule expression.
 
+Example — The compact syntax: a shape reads like a record definition, with `?` marking an optional triple.
+
+```shex
+PREFIX ex:  <https://example.com/ontology#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ex:OrderShape {
+  ex:amount   xsd:decimal        ;
+  ex:city     xsd:string ?       ;
+  ex:placedBy @ex:CustomerShape  ;
+}
+```
+
 Links:
 - shex.io: https://shex.io/
 - ShEx 2.1 Primer: https://shex.io/shex-primer/
@@ -1279,6 +2453,25 @@ Links:
 RDF/JSON-based language for expressing permissions, prohibitions, and obligations over digital assets. Born out of digital-rights management; W3C ratified the Information Model (v2.2) and Vocabulary in 2018.
 
 Sees growing use in European data-spaces work where machine-readable usage policies are part of the contract surface — ODRL policies often ship alongside ODCS-style contracts to declare what consumers may and may not do with the data.
+
+Example — Machine-readable terms of use: who may do what to which asset, under which constraint.
+
+```json
+{
+  "@context": "http://www.w3.org/ns/odrl.jsonld",
+  "@type": "Set",
+  "uid": "https://example.com/policy/orders-9",
+  "permission": [{
+    "target": "https://example.com/dataset/orders",
+    "action": "read",
+    "constraint": [{
+      "leftOperand": "dateTime",
+      "operator": "lt",
+      "rightOperand": { "@value": "2027-01-01", "@type": "xsd:date" }
+    }]
+  }]
+}
+```
 
 Links:
 - ODRL Information Model 2.2: https://www.w3.org/TR/odrl-model/
@@ -1298,6 +2491,22 @@ Family of W3C documents (PROV-DM data model, PROV-O OWL ontology, PROV-N notatio
 
 Common in scientific data, archival systems, and FAIR-data contexts. The conceptual model (Entity / Activity / Agent / wasDerivedFrom / wasGeneratedBy) heavily influenced later lineage standards including OpenLineage's job/run/dataset triples.
 
+Example — Three core classes — Entity, Activity, Agent — and the relations between them.
+
+```turtle
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex:   <https://example.com/> .
+
+ex:orders_by_city a prov:Entity ;
+    prov:wasGeneratedBy ex:nightly_run_42 ;
+    prov:wasDerivedFrom ex:orders_raw .
+
+ex:nightly_run_42 a prov:Activity ;
+    prov:startedAtTime     "2026-01-14T02:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith ex:etl_service .
+```
+
 Links:
 - PROV Overview: https://www.w3.org/TR/prov-overview/
 - PROV-O ontology: https://www.w3.org/TR/prov-o/
@@ -1316,6 +2525,16 @@ ISO/IEC 39075 standard query language for property graphs, ratified in 2024. The
 
 Implemented or in-progress at Neo4j (extending Cypher), TigerGraph, Oracle, Memgraph, AWS Neptune, and others. Heavily influenced by openCypher and ISO SQL/PGQ (the SQL extension for property-graph queries that shipped in SQL:2023).
 
+Example — Pattern matching over nodes and relationships, standardised the way SQL standardised relational query.
+
+```gql
+MATCH (c:Customer)-[:PLACED]->(o:Order)
+WHERE o.amount > 100
+RETURN c.name AS customer, sum(o.amount) AS revenue
+ORDER BY revenue DESC
+LIMIT 10
+```
+
 Links:
 - ISO/IEC 39075:2024: https://www.iso.org/standard/76120.html
 - GQL Standards (project site): https://www.gqlstandards.org/
@@ -1332,6 +2551,20 @@ Links:
 Standardised protocol for building and consuming RESTful data APIs. Defines URL conventions, query syntax (filter, select, expand, orderby, pagination), and a metadata model (CSDL) so clients can discover schema and capabilities programmatically.
 
 Heavily used inside Microsoft (Dynamics 365, Power BI, Microsoft Graph), SAP (S/4HANA, OData services), Salesforce, and Oracle Fusion. Where OpenAPI describes any REST surface, OData prescribes a uniform shape so consumers don't have to learn each API individually.
+
+Example — Query options in the URL: filtering, projection, and paging without a bespoke API per resource.
+
+```http
+GET /odata/Orders?$filter=amount gt 100 and city eq 'Bamberg'&$select=id,amount&$top=10 HTTP/1.1
+Host: api.example.com
+Accept: application/json
+
+HTTP/1.1 200 OK
+{
+  "@odata.context": "$metadata#Orders(id,amount)",
+  "value": [ { "id": 1001, "amount": 149.90 } ]
+}
+```
 
 Links:
 - odata.org: https://www.odata.org/
@@ -1350,6 +2583,21 @@ Links:
 Lightweight JSON spec for describing the columns of a tabular dataset — name, type, format, constraints, primary key, foreign keys. Rendered alongside the actual CSV/JSON data inside a Data Package so consumers can validate and type-cast without out-of-band documentation.
 
 Common in open-data ecosystems: data.gov, the EU Open Data Portal, and many research-data publishers ship Frictionless Data Packages containing one Table Schema per resource.
+
+Example — A small JSON descriptor that gives a CSV the types, keys, and constraints the file itself cannot carry.
+
+```json
+{
+  "fields": [
+    { "name": "order_id", "type": "integer", "constraints": { "required": true } },
+    { "name": "city", "type": "string" },
+    { "name": "amount", "type": "number", "constraints": { "minimum": 0 } },
+    { "name": "ordered_at", "type": "date", "format": "%Y-%m-%d" }
+  ],
+  "primaryKey": ["order_id"],
+  "missingValues": [""]
+}
+```
 
 Links:
 - Table Schema spec: https://specs.frictionlessdata.io/table-schema/
@@ -1394,7 +2642,7 @@ Most "open standards" started as vendor specs. Iceberg came out of Netflix, Delt
 The coloured header on each tile is our editorial judgement — what we'd actually do with this standard if we were starting a new project today. The four levels borrow the verb-style framing of the ThoughtWorks Tech Radar (Adopt / Trial / Assess / Hold), tuned for open standards rather than internal tech adoption:
 - Adopt — the standard you should reach for in new work. Proven, multi-vendor, clearly the default for its slot (e.g. SQL, JSON, HTTP, ODCS for data contracts, Iceberg for table format, OpenLineage for lineage).
 - Situational — the right answer in some contexts but not others. Pick deliberately based on the constraint (gRPC for service-to-service binary RPC, GraphQL for client-driven aggregation, GQL when you're already on graph databases).
-- Assess — promising but not yet proven for production-default use. Track it, prototype with it, but don't commit your architecture to it yet (e.g. OSI, Substrait, OORS).
+- Assess — promising but not yet proven for production-default use. Track it, prototype with it, but don't commit your architecture to it yet (e.g. Ossie, Substrait, OORS).
 - Caution — we'd avoid for new work. Either superseded by a better option or fading from active use (e.g. MDX, JMS, XSLT). Listed because they're still encountered in existing systems.
 
 Click a label in the toolbar legend to hide every tile of that judgement; click again to bring them back. Every standard's drawer carries the per-entry rationale (the Judgement reason line). The same field is in standards.json as judgement + judgementReason if you want to disagree at scale. Within each category panel, tiles are ordered by judgement: Adopt first, Caution last.
@@ -1408,6 +2656,30 @@ Why isn't X listed? Most likely we haven't gotten to it yet, or we judged it a v
 Why is X greyed out / marked as a vendor spec? Vendor-led specs are openly published and de-facto, but governance is effectively controlled by one company — they meet every criterion except independent governance. We still list them because they matter (e.g. dbt, Protobuf, Schema Registry); the muted tile and grayscale logo are the caveat, not a downgrade.
 
 Where did legacy and niche go? Those used to be separate tags; they're now folded into the judgement. Standards we'd avoid for new work (XMLA, JMS, MDX) sit under Caution. Standards healthy only in a particular corner (ShEx, LinkML, GQL) sit under Situational or Assess depending on maturity. See the judgement explanation for the per-tier criteria.
+
+### How often is this updated?
+
+There's no release train. The landscape changes when the standards do — a new spec version, a project moving to a foundation, a judgement we no longer stand behind — and whenever a suggestion or pull request lands. In practice that has meant edits in bursts — a flurry in the weeks after launch, steadier corrections since — rather than a fixed schedule.
+
+The Data last updated date in the footer is not hand-maintained: it's the date of the last commit that touched standards.json, stamped in at build time. Every derived artefact — the per-standard pages, sitemap.xml, llms.txt, llms-full.txt — is regenerated from that same file, so nothing here can quietly drift out of sync with it.
+
+If you want to follow along or diff two points in time, the full edit history is public: the commit log for standards.json shows every addition, removal, and changed judgement.
+
+### How do I propose a standard, or correct one?
+
+Two ways, both fine. Open an issue — github.com/entropy-data/data-landscape — and say which standard, which slot it belongs in, and why it clears the four criteria. Or open a pull request against standards.json: one entry keyed by a slug, with a name, category, governance body, status, a two-paragraph description, and links. Tiles, pages, sitemap, and the LLM artefacts all generate from that entry — there's no second place to edit. CONTRIBUTING.md has the field reference.
+
+Corrections are the more valuable contribution, honestly. A wrong governance body, a stale version in Status, a dead link, or a judgement that the last twelve months have overtaken — those are the things we most want reported. Cite a source (the spec, the foundation's page, a release note) and it goes in quickly.
+
+Disagreeing with a judgement is also a legitimate issue to open. The judgements are editorial, not measured, and arguing us out of one has worked before.
+
+### Can I reuse this landscape and its data?
+
+Yes. The whole repository — the page, the generated artefacts, and standards.json — is MIT-licensed. Use it in a slide deck, an internal wiki, a blog post, or a tool of your own; commercial use included. The MIT terms ask only that the licence and copyright notice ride along, and we'd appreciate a link back.
+
+standards.json is the machine-readable source of truth and is served with permissive CORS, so you can fetch it straight from the browser: fetch('https://www.data-landscape.com/standards.json'). Every entry carries its slug, category, governance, status, judgement, rationale, and links. Please cache it rather than polling — it changes a few times a month at most.
+
+Building for an LLM or an answer engine instead? llms.txt is the summary and llms-full.txt is the complete per-standard prose in a single fetch. For papers and talks, the citation block below has plain-text and BibTeX forms.
 
 ## Cite this landscape
 

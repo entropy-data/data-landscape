@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/odata/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/odata/","url":"https://www.data-landscape.com/standards/odata/","name":"OData — Open Data Protocol (v4) | Data Landscape","description":"Standardised protocol for building and consuming RESTful data APIs. Defines URL conventions, query syntax (filter, select, expand, orderby, pagination), and a…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/odata/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/odata/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/asyncapi/","https://www.data-landscape.com/standards/graphql/","https://www.data-landscape.com/standards/odcs/","https://www.data-landscape.com/standards/openapi/","https://www.data-landscape.com/standards/grpc/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/odata/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Contracts","item":"https://www.data-landscape.com/categories/contracts/"},{"@type":"ListItem","position":3,"name":"OData"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/odata/","name":"OData","alternateName":"Open Data Protocol (v4)","termCode":"odata","description":"Standardised protocol for building and consuming RESTful data APIs. Defines URL conventions, query syntax (filter, select, expand, orderby, pagination), and a metadata model (CSDL) so clients can discover schema and capabilities programmatically.","url":"https://www.data-landscape.com/standards/odata/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Pick when you live in the Microsoft BI/Dynamics world.","sameAs":["https://www.odata.org/","https://www.oasis-open.org/committees/odata/","https://docs.oasis-open.org/odata/odata/v4.01/"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/odata/","url":"https://www.data-landscape.com/standards/odata/","name":"OData — Open Data Protocol (v4) | Data Landscape","description":"Standardised protocol for building and consuming RESTful data APIs. Defines URL conventions, query syntax (filter, select, expand, orderby, pagination), and a…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/odata/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/odata/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/asyncapi/","https://www.data-landscape.com/standards/graphql/","https://www.data-landscape.com/standards/odcs/","https://www.data-landscape.com/standards/openapi/","https://www.data-landscape.com/standards/grpc/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/odata/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Contracts","item":"https://www.data-landscape.com/categories/contracts/"},{"@type":"ListItem","position":3,"name":"OData"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/odata/","name":"OData","alternateName":"Open Data Protocol (v4)","termCode":"odata","description":"Standardised protocol for building and consuming RESTful data APIs. Defines URL conventions, query syntax (filter, select, expand, orderby, pagination), and a metadata model (CSDL) so clients can discover schema and capabilities programmatically.","url":"https://www.data-landscape.com/standards/odata/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Pick when you live in the Microsoft BI/Dynamics world.","sameAs":["https://www.odata.org/","https://www.oasis-open.org/committees/odata/","https://docs.oasis-open.org/odata/odata/v4.01/"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -124,6 +130,18 @@
         <p class="font-semibold">Why it counts as a standard</p>
         <p class="mt-1">OData is an OASIS Standard with a publicly-defined wire protocol and metadata format (CSDL). Multiple independent implementations exist across Microsoft, SAP, Salesforce, Oracle, and the OData4j / Olingo open-source stacks, so "speaks OData" is a portability claim rather than a vendor-lock-in label.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">Query options in the URL: filtering, projection, and paging without a bespoke API per resource.</p>
+      <pre class="code-block mt-4"><code>GET /odata/Orders?$filter=amount gt 100 and city eq 'Bamberg'&amp;$select=id,amount&amp;$top=10 HTTP/1.1
+Host: api.example.com
+Accept: application/json
+
+HTTP/1.1 200 OK
+{
+  "@odata.context": "$metadata#Orders(id,amount)",
+  "value": [ { "id": 1001, "amount": 149.90 } ]
+}</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

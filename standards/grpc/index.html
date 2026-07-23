@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/grpc/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/grpc/","url":"https://www.data-landscape.com/standards/grpc/","name":"gRPC — gRPC Remote Procedure Call | Data Landscape","description":"High-performance, language-agnostic RPC framework built on HTTP/2 and Protocol Buffers. Originated at Google, donated to CNCF.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/grpc/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/grpc/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/asyncapi/","https://www.data-landscape.com/standards/graphql/","https://www.data-landscape.com/standards/odcs/","https://www.data-landscape.com/standards/openapi/","https://www.data-landscape.com/standards/odata/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/grpc/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Contracts","item":"https://www.data-landscape.com/categories/contracts/"},{"@type":"ListItem","position":3,"name":"gRPC"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/grpc/","name":"gRPC","alternateName":"gRPC Remote Procedure Call","termCode":"grpc","description":"High-performance, language-agnostic RPC framework built on HTTP/2 and Protocol Buffers. Originated at Google, donated to CNCF.","url":"https://www.data-landscape.com/standards/grpc/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Right for service-to-service binary RPC; wrong for browser clients.","sameAs":["https://grpc.io","https://github.com/grpc/grpc"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/grpc/","url":"https://www.data-landscape.com/standards/grpc/","name":"gRPC — gRPC Remote Procedure Call | Data Landscape","description":"High-performance, language-agnostic RPC framework built on HTTP/2 and Protocol Buffers. Originated at Google, donated to CNCF.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/grpc/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/grpc/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/asyncapi/","https://www.data-landscape.com/standards/graphql/","https://www.data-landscape.com/standards/odcs/","https://www.data-landscape.com/standards/openapi/","https://www.data-landscape.com/standards/odata/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/grpc/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Contracts","item":"https://www.data-landscape.com/categories/contracts/"},{"@type":"ListItem","position":3,"name":"gRPC"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/grpc/","name":"gRPC","alternateName":"gRPC Remote Procedure Call","termCode":"grpc","description":"High-performance, language-agnostic RPC framework built on HTTP/2 and Protocol Buffers. Originated at Google, donated to CNCF.","url":"https://www.data-landscape.com/standards/grpc/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Right for service-to-service binary RPC; wrong for browser clients.","sameAs":["https://grpc.io","https://github.com/grpc/grpc"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,23 @@
         <p>High-performance, language-agnostic RPC framework built on HTTP/2 and Protocol Buffers. Originated at Google, donated to CNCF.</p>
         <p>In a data architecture, gRPC shows up wherever services need fast, strongly-typed binary communication — internal service mesh, streaming pipelines, ML model serving.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">A service definition; the toolchain generates the client and server stubs from it.</p>
+      <pre class="code-block mt-4"><code>syntax = "proto3";
+package orders.v1;
+
+service OrderService {
+  rpc GetOrder (GetOrderRequest) returns (Order);
+  rpc ListOrders (ListOrdersRequest) returns (stream Order);
+}
+
+message GetOrderRequest { string id = 1; }
+
+message Order {
+  string id = 1;
+  double amount = 2;
+}</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

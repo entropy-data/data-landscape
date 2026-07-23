@@ -32,6 +32,11 @@ Each entry is keyed by a slug and has the shape:
     "Second paragraph."
   ],
   "note": "Optional amber callout, e.g. acronym collisions.",
+  "example": {
+    "language": "yaml",
+    "caption": "One line on what the snippet shows.",
+    "code": "apiVersion: v3.1.0\nkind: DataContract"
+  },
   "links": [
     { "label": "Official site", "url": "https://bitol.io" }
   ],
@@ -51,6 +56,9 @@ Each entry is keyed by a slug and has the shape:
 - `tier` is optional — when present it overrides the derivation from `status`. Valid values: `stable`, `emerging`, `legacy`, `vendor`.
 - `niche` (boolean, optional) — set to `true` for narrowly-used or specialised standards. Niche entries are hidden from the default landscape and from the PDF, and only appear when a visitor flips the **Niche** toggle in the toolbar (`?include=niche` in the URL). Use this to admit deliberate omissions without bloating the headline grid.
 - `nicheReason` (string, required when `niche: true`) — short explanation of *why* the entry is niche. Surfaced as a slate callout at the top of the drawer ("Why this is listed as niche") so curious readers see the editorial rationale before the description.
+- `example` (object, optional) — a short, concrete snippet of the standard itself: `language` (used for the fenced block in `llms-full.txt`), `caption` (one line on what the snippet shows), and `code`. Rendered as an *Example* section on `standards/<slug>/index.html`, in the drawer on the landscape, and in `llms-full.txt`. Keep it under ~20 lines and prefer copying from the standard's own spec or docs over writing it from memory — a wrong snippet is worse than none, so leave it out if you can't verify it.
+- `formerNames` (array of strings, optional) — names the standard used to go by, e.g. `["OSI", "Open Semantic Interchange"]` on `ossie`. They feed the tile search text, the `alternateName` in the page's JSON-LD, and a *Formerly known as* row in the At-a-glance table, so the entry stays findable under the name people learnt.
+- `formerSlugs` (array of strings, optional) — slugs the standard was previously keyed by. Each one gets a stub at `standards/<old-slug>/` that canonicalises to (and meta-refreshes into) the new URL, so old links and indexed URLs survive a rename. Excluded from `sitemap.xml`.
 - Setting `tier: "legacy"` does double duty: it drives the gray *legacy* badge in the drawer **and** hides the entry behind the **Legacy** toggle (`?include=legacy`). Legacy entries get a strong black border on the tile when the toggle is on so they read as "superseded but still in use".
 
 ## Adding a new standard
@@ -82,6 +90,7 @@ These only need updating when the visual layout or content of the landscape chan
 
 - Keep `description` factual and neutral. Two short paragraphs is plenty.
 - Use `note` sparingly — reserve it for genuine ambiguity (e.g. acronym collisions, deprecated names).
+- An `example` should show the standard, not a tool that happens to use it, and must be correct — cite where you took it from in the pull request.
 - Prefer official project URLs over blog posts or vendor pages in `links`.
 - `governance` should name the body that stewards the standard, not the company that originated it.
 

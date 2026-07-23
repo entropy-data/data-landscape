@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/cloudevents/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/cloudevents/","url":"https://www.data-landscape.com/standards/cloudevents/","name":"CloudEvents — Messaging | Data Landscape","description":"Specification for describing event data in a common way. Defines a vendor-neutral envelope (id, source, type, time, data) plus protocol bindings for HTTP…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/cloudevents/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/cloudevents/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/kafka/","https://www.data-landscape.com/standards/amqp/","https://www.data-landscape.com/standards/mqtt/","https://www.data-landscape.com/standards/jms/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/cloudevents/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Messaging","item":"https://www.data-landscape.com/categories/messaging/"},{"@type":"ListItem","position":3,"name":"CloudEvents"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/cloudevents/","name":"CloudEvents","termCode":"cloudevents","description":"Specification for describing event data in a common way. Defines a vendor-neutral envelope (id, source, type, time, data) plus protocol bindings for HTTP, Kafka, AMQP, MQTT, NATS, and others.","url":"https://www.data-landscape.com/standards/cloudevents/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Default event envelope; HTTP/Kafka/AMQP/MQTT bindings all standardised.","sameAs":["https://cloudevents.io","https://github.com/cloudevents/spec"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/cloudevents/","url":"https://www.data-landscape.com/standards/cloudevents/","name":"CloudEvents — Messaging | Data Landscape","description":"Specification for describing event data in a common way. Defines a vendor-neutral envelope (id, source, type, time, data) plus protocol bindings for HTTP…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/cloudevents/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/cloudevents/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/kafka/","https://www.data-landscape.com/standards/amqp/","https://www.data-landscape.com/standards/mqtt/","https://www.data-landscape.com/standards/jms/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/cloudevents/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Messaging","item":"https://www.data-landscape.com/categories/messaging/"},{"@type":"ListItem","position":3,"name":"CloudEvents"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/cloudevents/","name":"CloudEvents","termCode":"cloudevents","description":"Specification for describing event data in a common way. Defines a vendor-neutral envelope (id, source, type, time, data) plus protocol bindings for HTTP, Kafka, AMQP, MQTT, NATS, and others.","url":"https://www.data-landscape.com/standards/cloudevents/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Default event envelope; HTTP/Kafka/AMQP/MQTT bindings all standardised.","sameAs":["https://cloudevents.io","https://github.com/cloudevents/spec"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,18 @@
         <p>Specification for describing event data in a common way. Defines a vendor-neutral envelope (id, source, type, time, data) plus protocol bindings for HTTP, Kafka, AMQP, MQTT, NATS, and others.</p>
         <p>Where Kafka/AMQP/MQTT are transports, CloudEvents is the shape of what flows over them. Increasingly the default cross-system event format in cloud-native and serverless architectures.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">A thin envelope of required metadata around a payload the standard deliberately says nothing about.</p>
+      <pre class="code-block mt-4"><code>{
+  "specversion": "1.0",
+  "type": "com.example.order.placed",
+  "source": "/orders/service",
+  "id": "A234-1234-1234",
+  "time": "2026-01-14T10:15:30Z",
+  "datacontenttype": "application/json",
+  "data": { "orderId": 1001, "amount": 49.90 }
+}</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

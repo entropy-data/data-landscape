@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>FTP / SFTP — File Transfer Protocol / SSH File Transfer Protocol | Data Landscape</title>
+  <title>FTP / SFTP — File Transfer Protocol / SSH File Transfer Protocol</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.">
@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/ftp/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/ftp/","url":"https://www.data-landscape.com/standards/ftp/","name":"FTP / SFTP — File Transfer Protocol / SSH File Transfer Protocol | Data Landscape","description":"FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/ftp/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/ftp/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/http/","https://www.data-landscape.com/standards/deltasharing/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/ftp/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Interconnection","item":"https://www.data-landscape.com/categories/interconnection/"},{"@type":"ListItem","position":3,"name":"FTP / SFTP"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/ftp/","name":"FTP / SFTP","alternateName":"File Transfer Protocol / SSH File Transfer Protocol","termCode":"ftp","description":"FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.","url":"https://www.data-landscape.com/standards/ftp/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Caution — Unencrypted FTP is unsafe for new work; SFTP-only as a last resort when partners can't speak HTTP APIs.","sameAs":["https://www.rfc-editor.org/rfc/rfc959","https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-13"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/ftp/","url":"https://www.data-landscape.com/standards/ftp/","name":"FTP / SFTP — File Transfer Protocol / SSH File Transfer Protocol","description":"FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/ftp/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/ftp/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/http/","https://www.data-landscape.com/standards/deltasharing/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/ftp/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Interconnection","item":"https://www.data-landscape.com/categories/interconnection/"},{"@type":"ListItem","position":3,"name":"FTP / SFTP"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/ftp/","name":"FTP / SFTP","alternateName":"File Transfer Protocol / SSH File Transfer Protocol","termCode":"ftp","description":"FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.","url":"https://www.data-landscape.com/standards/ftp/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Caution — Unencrypted FTP is unsafe for new work; SFTP-only as a last resort when partners can't speak HTTP APIs.","sameAs":["https://www.rfc-editor.org/rfc/rfc959","https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-13"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,14 @@
         <p>FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.</p>
         <p>Unsexy but unavoidable: many regulated industries — banking, insurance, public sector — still hand off bulk data between organisations as nightly (S)FTP drops.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">An interactive session over SSH; still the transport many partner and regulatory feeds arrive on.</p>
+      <pre class="code-block mt-4"><code>sftp deploy@files.example.com
+sftp&gt; cd /incoming/orders
+sftp&gt; put orders-2026-01-14.csv
+sftp&gt; ls -l
+sftp&gt; bye</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

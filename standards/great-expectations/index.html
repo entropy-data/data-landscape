@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/great-expectations/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/great-expectations/","url":"https://www.data-landscape.com/standards/great-expectations/","name":"Great Expectations — Data Quality | Data Landscape","description":"Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/great-expectations/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/great-expectations/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt-tests/","https://www.data-landscape.com/standards/sodacl/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/great-expectations/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Data Quality","item":"https://www.data-landscape.com/categories/data-quality/"},{"@type":"ListItem","position":3,"name":"Great Expectations"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/great-expectations/","name":"Great Expectations","termCode":"great-expectations","description":"Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.","url":"https://www.data-landscape.com/standards/great-expectations/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Python-first DQ; powerful but heavy.","sameAs":["https://greatexpectations.io","https://github.com/great-expectations/great_expectations"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/great-expectations/","url":"https://www.data-landscape.com/standards/great-expectations/","name":"Great Expectations — Data Quality | Data Landscape","description":"Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/great-expectations/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/great-expectations/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt-tests/","https://www.data-landscape.com/standards/sodacl/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/great-expectations/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Data Quality","item":"https://www.data-landscape.com/categories/data-quality/"},{"@type":"ListItem","position":3,"name":"Great Expectations"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/great-expectations/","name":"Great Expectations","termCode":"great-expectations","description":"Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.","url":"https://www.data-landscape.com/standards/great-expectations/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Python-first DQ; powerful but heavy.","sameAs":["https://greatexpectations.io","https://github.com/great-expectations/great_expectations"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -125,6 +131,17 @@
         <p class="font-semibold">Why it counts as a standard</p>
         <p class="mt-1">The expectations DSL and the JSON validation-result schema GX defines have become the reference vocabulary for declarative data quality in Python. Other tools embed or interoperate with Great Expectations rather than reinvent the same primitives. The standard part is the expectation language and its result format — not the company behind it.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">Expectations are declarative objects, created once and reused across runs.</p>
+      <pre class="code-block mt-4"><code>import great_expectations as gx
+
+context = gx.get_context()
+
+# All Expectations are found in the `gx.expectations` module.
+preset_expectation = gx.expectations.ExpectColumnMaxToBeBetween(
+    column="passenger_count", min_value=1, max_value=6, severity="warning"
+)</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

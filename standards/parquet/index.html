@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/parquet/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/parquet/","url":"https://www.data-landscape.com/standards/parquet/","name":"PARQUET — Apache Parquet | Data Landscape","description":"Columnar storage format optimised for analytics: predicate pushdown, column pruning, efficient compression, and typed schemas.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/parquet/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/parquet/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/avro/","https://www.data-landscape.com/standards/csv/","https://www.data-landscape.com/standards/json/","https://www.data-landscape.com/standards/xml/","https://www.data-landscape.com/standards/yaml/","https://www.data-landscape.com/standards/orc/","https://www.data-landscape.com/standards/lance/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/parquet/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"File Formats","item":"https://www.data-landscape.com/categories/file-formats/"},{"@type":"ListItem","position":3,"name":"PARQUET"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/parquet/","name":"PARQUET","alternateName":"Apache Parquet","termCode":"parquet","description":"Columnar storage format optimised for analytics: predicate pushdown, column pruning, efficient compression, and typed schemas.","url":"https://www.data-landscape.com/standards/parquet/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — De-facto columnar storage; baseline for analytics.","sameAs":"https://parquet.apache.org"}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/parquet/","url":"https://www.data-landscape.com/standards/parquet/","name":"PARQUET — Apache Parquet | Data Landscape","description":"Columnar storage format optimised for analytics: predicate pushdown, column pruning, efficient compression, and typed schemas.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/parquet/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/parquet/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/avro/","https://www.data-landscape.com/standards/csv/","https://www.data-landscape.com/standards/json/","https://www.data-landscape.com/standards/xml/","https://www.data-landscape.com/standards/yaml/","https://www.data-landscape.com/standards/orc/","https://www.data-landscape.com/standards/lance/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/parquet/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"File Formats","item":"https://www.data-landscape.com/categories/file-formats/"},{"@type":"ListItem","position":3,"name":"PARQUET"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/parquet/","name":"PARQUET","alternateName":"Apache Parquet","termCode":"parquet","description":"Columnar storage format optimised for analytics: predicate pushdown, column pruning, efficient compression, and typed schemas.","url":"https://www.data-landscape.com/standards/parquet/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — De-facto columnar storage; baseline for analytics.","sameAs":"https://parquet.apache.org"}]}</script>
 </head>
 <body class="bg-white">
 
@@ -124,6 +130,19 @@
         <p class="font-semibold">Why it counts as a standard</p>
         <p class="mt-1">Parquet's on-disk format is published as an open spec with independent reader/writer implementations in C++, Java, Rust, Go, and Python. Every analytics engine and lakehouse format depends on the format spec, not on a particular library. That makes the file format itself the standard.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">The layout of a Parquet file — column chunks inside row groups, with the schema and statistics in the footer.</p>
+      <pre class="code-block mt-4"><code>PAR1                          &lt;- 4-byte magic
+  Row group 0
+    Column chunk: order_id    [page header][dictionary page][data pages]
+    Column chunk: city        [page header][dictionary page][data pages]
+    Column chunk: amount      [page header][data pages]
+  Row group 1
+    ...
+FileMetaData                  &lt;- schema, row groups, per-column min/max stats
+&lt;4-byte metadata length&gt;
+PAR1                          &lt;- the same magic closes the file</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

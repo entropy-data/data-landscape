@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/dataframe/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/dataframe/","url":"https://www.data-landscape.com/standards/dataframe/","name":"DataFrame API — Python Dataframe API Standard | Data Landscape","description":"Open standard for a portable DataFrame API across Python implementations. The aim: write code once, run on pandas, Polars, Modin, cuDF, or any compliant…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/dataframe/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/dataframe/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/arrow/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/dataframe/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"In-Memory Format","item":"https://www.data-landscape.com/categories/in-memory-format/"},{"@type":"ListItem","position":3,"name":"DataFrame API"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/dataframe/","name":"DataFrame API","alternateName":"Python Dataframe API Standard","termCode":"dataframe","description":"Open standard for a portable DataFrame API across Python implementations. The aim: write code once, run on pandas, Polars, Modin, cuDF, or any compliant library.","url":"https://www.data-landscape.com/standards/dataframe/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Portable Python DataFrame spec; the way to write library code that runs on pandas, Polars, Modin, and cuDF.","sameAs":["https://data-apis.org","https://data-apis.org/dataframe-api/draft/"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/dataframe/","url":"https://www.data-landscape.com/standards/dataframe/","name":"DataFrame API — Python Dataframe API Standard | Data Landscape","description":"Open standard for a portable DataFrame API across Python implementations. The aim: write code once, run on pandas, Polars, Modin, cuDF, or any compliant…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/dataframe/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/dataframe/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/arrow/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/dataframe/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"In-Memory Format","item":"https://www.data-landscape.com/categories/in-memory-format/"},{"@type":"ListItem","position":3,"name":"DataFrame API"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/dataframe/","name":"DataFrame API","alternateName":"Python Dataframe API Standard","termCode":"dataframe","description":"Open standard for a portable DataFrame API across Python implementations. The aim: write code once, run on pandas, Polars, Modin, cuDF, or any compliant library.","url":"https://www.data-landscape.com/standards/dataframe/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Portable Python DataFrame spec; the way to write library code that runs on pandas, Polars, Modin, and cuDF.","sameAs":["https://data-apis.org","https://data-apis.org/dataframe-api/draft/"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,15 @@
         <p>Open standard for a portable DataFrame API across Python implementations. The aim: write code once, run on pandas, Polars, Modin, cuDF, or any compliant library.</p>
         <p>Sister specification to the Array API Standard. Sponsored by data-apis.org with backing from Quansight, NVIDIA, Microsoft, Intel, and the major DataFrame projects. The standard everyone reaches for when "which DataFrame API?" needs to stop being a portability question.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">Library code written against the standard runs unchanged on pandas, Polars, Modin, or cuDF — no isinstance branching.</p>
+      <pre class="code-block mt-4"><code>def large_orders(df):
+    """`df` is any compliant dataframe, whatever library produced it."""
+    return (
+        df.filter(df.col("amount") &gt; 100)
+          .select("order_id", "city", "amount")
+    )</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

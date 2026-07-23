@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/graphql/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/graphql/","url":"https://www.data-landscape.com/standards/graphql/","name":"GraphQL — Contracts | Data Landscape","description":"Query language and runtime for APIs originally created at Facebook. Lets clients ask for exactly the data they need from a typed schema.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/graphql/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/graphql/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/asyncapi/","https://www.data-landscape.com/standards/odcs/","https://www.data-landscape.com/standards/openapi/","https://www.data-landscape.com/standards/grpc/","https://www.data-landscape.com/standards/odata/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/graphql/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Contracts","item":"https://www.data-landscape.com/categories/contracts/"},{"@type":"ListItem","position":3,"name":"GraphQL"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/graphql/","name":"GraphQL","termCode":"graphql","description":"Query language and runtime for APIs originally created at Facebook. Lets clients ask for exactly the data they need from a typed schema.","url":"https://www.data-landscape.com/standards/graphql/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Default for client-driven aggregation; mature spec, multi-language tooling, well-established at scale.","sameAs":["https://graphql.org","https://spec.graphql.org"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/graphql/","url":"https://www.data-landscape.com/standards/graphql/","name":"GraphQL — Contracts | Data Landscape","description":"Query language and runtime for APIs originally created at Facebook. Lets clients ask for exactly the data they need from a typed schema.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/graphql/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/graphql/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/asyncapi/","https://www.data-landscape.com/standards/odcs/","https://www.data-landscape.com/standards/openapi/","https://www.data-landscape.com/standards/grpc/","https://www.data-landscape.com/standards/odata/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/graphql/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Contracts","item":"https://www.data-landscape.com/categories/contracts/"},{"@type":"ListItem","position":3,"name":"GraphQL"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/graphql/","name":"GraphQL","termCode":"graphql","description":"Query language and runtime for APIs originally created at Facebook. Lets clients ask for exactly the data they need from a typed schema.","url":"https://www.data-landscape.com/standards/graphql/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Default for client-driven aggregation; mature spec, multi-language tooling, well-established at scale.","sameAs":["https://graphql.org","https://spec.graphql.org"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,19 @@
         <p>Query language and runtime for APIs originally created at Facebook. Lets clients ask for exactly the data they need from a typed schema.</p>
         <p>In a data mesh, GraphQL appears mostly on the consumption side — an output-port style for application teams that prefer typed graph queries over SQL.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">Schema Definition Language: the type system the client queries against.</p>
+      <pre class="code-block mt-4"><code>type Order {
+  id: ID!
+  amount: Float!
+  customer: Customer!
+}
+
+type Query {
+  order(id: ID!): Order
+  orders(city: String, first: Int = 20): [Order!]!
+}</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

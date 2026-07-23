@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/a2a/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/a2a/","url":"https://www.data-landscape.com/standards/a2a/","name":"A2A — Agent2Agent Protocol | Data Landscape","description":"Open protocol for AI agents to discover, communicate, and collaborate with each other across vendors and frameworks.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/a2a/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/a2a/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/mcp/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/a2a/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"AI Interfaces","item":"https://www.data-landscape.com/categories/ai-interfaces/"},{"@type":"ListItem","position":3,"name":"A2A"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/a2a/","name":"A2A","alternateName":"Agent2Agent Protocol","termCode":"a2a","description":"Open protocol for AI agents to discover, communicate, and collaborate with each other across vendors and frameworks. Where MCP is agent-to-tools, A2A is agent-to-agent: capability discovery, task delegation, and multi-turn dialogue between independently developed agents.","url":"https://www.data-landscape.com/standards/a2a/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Agent-to-agent protocol; right when you have multi-agent orchestration, otherwise overkill.","sameAs":["https://a2a-protocol.org","https://github.com/a2aproject/A2A"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/a2a/","url":"https://www.data-landscape.com/standards/a2a/","name":"A2A — Agent2Agent Protocol | Data Landscape","description":"Open protocol for AI agents to discover, communicate, and collaborate with each other across vendors and frameworks.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/a2a/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/a2a/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/mcp/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/a2a/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"AI Interfaces","item":"https://www.data-landscape.com/categories/ai-interfaces/"},{"@type":"ListItem","position":3,"name":"A2A"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/a2a/","name":"A2A","alternateName":"Agent2Agent Protocol","termCode":"a2a","description":"Open protocol for AI agents to discover, communicate, and collaborate with each other across vendors and frameworks. Where MCP is agent-to-tools, A2A is agent-to-agent: capability discovery, task delegation, and multi-turn dialogue between independently developed agents.","url":"https://www.data-landscape.com/standards/a2a/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Agent-to-agent protocol; right when you have multi-agent orchestration, otherwise overkill.","sameAs":["https://a2a-protocol.org","https://github.com/a2aproject/A2A"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,21 @@
         <p>Open protocol for AI agents to discover, communicate, and collaborate with each other across vendors and frameworks. Where MCP is agent-to-tools, A2A is agent-to-agent: capability discovery, task delegation, and multi-turn dialogue between independently developed agents.</p>
         <p>Created by Google and donated to the Linux Foundation. Increasingly paired with MCP in production stacks: A2A for agent-to-agent orchestration, MCP for the tools and data each agent reaches into.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">One agent sends a message to another; the reply is either a direct message or a long-running task.</p>
+      <pre class="code-block mt-4"><code>POST /message:send HTTP/1.1
+Host: agent.example.com
+Content-Type: application/a2a+json
+Authorization: Bearer token
+
+{
+  "message": {
+    "role": "ROLE_USER",
+    "parts": [{ "text": "What is the weather today?" }],
+    "messageId": "msg-uuid"
+  }
+}</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

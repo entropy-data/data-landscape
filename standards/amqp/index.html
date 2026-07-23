@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/amqp/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/amqp/","url":"https://www.data-landscape.com/standards/amqp/","name":"AMQP — Advanced Message Queuing Protocol | Data Landscape","description":"Open wire-level protocol for message-oriented middleware. Reliable, broker-mediated message exchange independent of any single vendor.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/amqp/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/amqp/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/cloudevents/","https://www.data-landscape.com/standards/kafka/","https://www.data-landscape.com/standards/mqtt/","https://www.data-landscape.com/standards/jms/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/amqp/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Messaging","item":"https://www.data-landscape.com/categories/messaging/"},{"@type":"ListItem","position":3,"name":"AMQP"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/amqp/","name":"AMQP","alternateName":"Advanced Message Queuing Protocol","termCode":"amqp","description":"Open wire-level protocol for message-oriented middleware. Reliable, broker-mediated message exchange independent of any single vendor.","url":"https://www.data-landscape.com/standards/amqp/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Pick when you want broker semantics (RabbitMQ-shaped problems).","sameAs":["https://www.amqp.org","https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-overview-v1.0-os.html"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/amqp/","url":"https://www.data-landscape.com/standards/amqp/","name":"AMQP — Advanced Message Queuing Protocol | Data Landscape","description":"Open wire-level protocol for message-oriented middleware. Reliable, broker-mediated message exchange independent of any single vendor.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/amqp/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/amqp/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/cloudevents/","https://www.data-landscape.com/standards/kafka/","https://www.data-landscape.com/standards/mqtt/","https://www.data-landscape.com/standards/jms/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/amqp/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Messaging","item":"https://www.data-landscape.com/categories/messaging/"},{"@type":"ListItem","position":3,"name":"AMQP"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/amqp/","name":"AMQP","alternateName":"Advanced Message Queuing Protocol","termCode":"amqp","description":"Open wire-level protocol for message-oriented middleware. Reliable, broker-mediated message exchange independent of any single vendor.","url":"https://www.data-landscape.com/standards/amqp/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — Pick when you want broker semantics (RabbitMQ-shaped problems).","sameAs":["https://www.amqp.org","https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-overview-v1.0-os.html"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,16 @@
         <p>Open wire-level protocol for message-oriented middleware. Reliable, broker-mediated message exchange independent of any single vendor.</p>
         <p>Implemented by RabbitMQ, Azure Service Bus, ActiveMQ and others. Sits next to MQTT and the Kafka protocol as a standard option for asynchronous data movement.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">An AMQP 1.0 message is a sequence of typed sections; brokers route on the properties without parsing the body.</p>
+      <pre class="code-block mt-4"><code>header                  durable=true, priority=4, ttl=60000
+message-annotations     {"x-opt-jms-dest": "queue"}
+properties              message-id=1001, to=orders,
+                        content-type=application/json,
+                        creation-time=2026-01-14T10:15:30Z
+application-properties  {"city": "Bamberg"}
+body                    {"orderId": 1001, "amount": 49.90}</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

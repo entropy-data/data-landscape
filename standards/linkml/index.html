@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/linkml/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/linkml/","url":"https://www.data-landscape.com/standards/linkml/","name":"LinkML — Linked data Modeling Language | Data Landscape","description":"YAML-based schema language for modelling structured data and ontologies. One LinkML schema can be compiled to JSON Schema, SHACL, RDF/OWL, Pydantic classes…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/linkml/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/linkml/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/avro-schema/","https://www.data-landscape.com/standards/json-schema/","https://www.data-landscape.com/standards/protobuf/","https://www.data-landscape.com/standards/sql-ddl/","https://www.data-landscape.com/standards/xml-schema/","https://www.data-landscape.com/standards/frictionless-table-schema/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/linkml/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Schema","item":"https://www.data-landscape.com/categories/schema/"},{"@type":"ListItem","position":3,"name":"LinkML"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/linkml/","name":"LinkML","alternateName":"Linked data Modeling Language","termCode":"linkml","description":"YAML-based schema language for modelling structured data and ontologies. One LinkML schema can be compiled to JSON Schema, SHACL, RDF/OWL, Pydantic classes, Protobuf, and SQL DDL — useful when the same domain model needs to power validation, semantics, and code generation…","url":"https://www.data-landscape.com/standards/linkml/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Assess — Multi-output schema language; strong in biomedical, niche elsewhere.","sameAs":["https://linkml.io","https://github.com/linkml/linkml"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/linkml/","url":"https://www.data-landscape.com/standards/linkml/","name":"LinkML — Linked data Modeling Language | Data Landscape","description":"YAML-based schema language for modelling structured data and ontologies. One LinkML schema can be compiled to JSON Schema, SHACL, RDF/OWL, Pydantic classes…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/linkml/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/linkml/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/avro-schema/","https://www.data-landscape.com/standards/json-schema/","https://www.data-landscape.com/standards/protobuf/","https://www.data-landscape.com/standards/sql-ddl/","https://www.data-landscape.com/standards/xml-schema/","https://www.data-landscape.com/standards/frictionless-table-schema/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/linkml/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Schema","item":"https://www.data-landscape.com/categories/schema/"},{"@type":"ListItem","position":3,"name":"LinkML"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/linkml/","name":"LinkML","alternateName":"Linked data Modeling Language","termCode":"linkml","description":"YAML-based schema language for modelling structured data and ontologies. One LinkML schema can be compiled to JSON Schema, SHACL, RDF/OWL, Pydantic classes, Protobuf, and SQL DDL — useful when the same domain model needs to power validation, semantics, and code generation…","url":"https://www.data-landscape.com/standards/linkml/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Assess — Multi-output schema language; strong in biomedical, niche elsewhere.","sameAs":["https://linkml.io","https://github.com/linkml/linkml"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -125,6 +131,26 @@
         <p class="font-semibold">Why this is listed as niche</p>
         <p class="mt-1">Specialised modelling language with deepest adoption in biomedical and research data communities (Monarch, NIH Bridge2AI, INCLUDE). Powerful for cross-format schemas — generates JSON Schema, SHACL, RDF, Pydantic, Java, etc. from one source — but outside life-sciences its mindshare is still small.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">A readable YAML schema that generates JSON Schema, SHACL, SQL DDL, and Python classes from one source.</p>
+      <pre class="code-block mt-4"><code>id: https://example.com/orders
+name: orders
+prefixes:
+  linkml: https://w3id.org/linkml/
+imports:
+  - linkml:types
+default_range: string
+
+classes:
+  Order:
+    attributes:
+      id:
+        identifier: true
+      amount:
+        range: decimal
+        required: true
+      city:</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

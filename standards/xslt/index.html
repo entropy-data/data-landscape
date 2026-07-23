@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>XSLT — Extensible Stylesheet Language Transformations | Data Landscape</title>
+  <title>XSLT — Extensible Stylesheet Language Transformations</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Declarative, template-based language for transforming XML documents into other XML, HTML, or text. The processing counterpart to XML Schema — where XSD…">
@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/xslt/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/xslt/","url":"https://www.data-landscape.com/standards/xslt/","name":"XSLT — Extensible Stylesheet Language Transformations | Data Landscape","description":"Declarative, template-based language for transforming XML documents into other XML, HTML, or text. The processing counterpart to XML Schema — where XSD…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/xslt/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/xslt/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt/","https://www.data-landscape.com/standards/pandas/","https://www.data-landscape.com/standards/spark/","https://www.data-landscape.com/standards/sql-dml/","https://www.data-landscape.com/standards/beam/","https://www.data-landscape.com/standards/ibis/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/xslt/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Processing","item":"https://www.data-landscape.com/categories/processing/"},{"@type":"ListItem","position":3,"name":"XSLT"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/xslt/","name":"XSLT","alternateName":"Extensible Stylesheet Language Transformations","termCode":"xslt","description":"Declarative, template-based language for transforming XML documents into other XML, HTML, or text. The processing counterpart to XML Schema — where XSD describes structure, XSLT rewrites it.","url":"https://www.data-landscape.com/standards/xslt/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Caution — XML transformation; maintain if you have it, don't pick it new.","sameAs":["https://www.w3.org/TR/xslt-30/","https://en.wikipedia.org/wiki/XSLT"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/xslt/","url":"https://www.data-landscape.com/standards/xslt/","name":"XSLT — Extensible Stylesheet Language Transformations","description":"Declarative, template-based language for transforming XML documents into other XML, HTML, or text. The processing counterpart to XML Schema — where XSD…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/xslt/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/xslt/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt/","https://www.data-landscape.com/standards/pandas/","https://www.data-landscape.com/standards/spark/","https://www.data-landscape.com/standards/sql-dml/","https://www.data-landscape.com/standards/beam/","https://www.data-landscape.com/standards/ibis/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/xslt/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Processing","item":"https://www.data-landscape.com/categories/processing/"},{"@type":"ListItem","position":3,"name":"XSLT"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/xslt/","name":"XSLT","alternateName":"Extensible Stylesheet Language Transformations","termCode":"xslt","description":"Declarative, template-based language for transforming XML documents into other XML, HTML, or text. The processing counterpart to XML Schema — where XSD describes structure, XSLT rewrites it.","url":"https://www.data-landscape.com/standards/xslt/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Caution — XML transformation; maintain if you have it, don't pick it new.","sameAs":["https://www.w3.org/TR/xslt-30/","https://en.wikipedia.org/wiki/XSLT"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,20 @@
         <p>Declarative, template-based language for transforming XML documents into other XML, HTML, or text. The processing counterpart to XML Schema — where XSD describes structure, XSLT rewrites it.</p>
         <p>Implemented by Saxon, libxslt, and every major XML toolchain. Still load-bearing in publishing, government, banking, and healthcare integrations where XML pipelines never went away.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">A stylesheet is itself XML: templates match nodes, and the processor walks the tree applying them.</p>
+      <pre class="code-block mt-4"><code>&lt;xsl:stylesheet version="1.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;
+  &lt;xsl:output method="text"/&gt;
+
+  &lt;xsl:template match="/orders"&gt;
+    &lt;xsl:for-each select="order"&gt;
+      &lt;xsl:value-of select="@id"/&gt;,&lt;xsl:value-of select="amount"/&gt;
+      &lt;xsl:text&gt;&amp;#10;&lt;/xsl:text&gt;
+    &lt;/xsl:for-each&gt;
+  &lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

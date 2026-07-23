@@ -11,6 +11,11 @@
       "SQL is the standard query language for relational databases. It is the oldest and most universal de-facto standard in the data world.",
       "Despite vendor-specific dialects, the ISO/IEC 9075 core defines a portable subset that every serious analytical engine implements."
     ],
+    "example": {
+      "language": "sql",
+      "caption": "The same statement runs on Postgres, Snowflake, DuckDB, or Spark.",
+      "code": "SELECT city, COUNT(*) AS orders, SUM(amount) AS revenue\nFROM orders\nWHERE order_date >= DATE '2026-01-01'\nGROUP BY city\nHAVING SUM(amount) > 10000\nORDER BY revenue DESC;"
+    },
     "links": [
       {
         "label": "ISO/IEC 9075 standard",
@@ -38,6 +43,11 @@
       "Query language for multidimensional databases — the OLAP-cube counterpart to SQL. Used to express slice, dice, and rollup operations against star/snowflake schemas exposed as cubes.",
       "Originated with Microsoft OLE DB for OLAP and adopted by Microsoft Analysis Services, Mondrian, SAP BW, AtScale, and Oracle Essbase. Still pervasive in enterprise BI estates even though greenfield analytics has largely moved to SQL plus semantic layers."
     ],
+    "example": {
+      "language": "mdx",
+      "caption": "A multidimensional query: measures on one axis, a hierarchy on the other, sliced by a member.",
+      "code": "SELECT\n  {[Measures].[Sales Amount]} ON COLUMNS,\n  {[Date].[Calendar].[Calendar Year].Members} ON ROWS\nFROM [Adventure Works]\nWHERE [Product].[Category].[Bikes]"
+    },
     "links": [
       {
         "label": "Microsoft MDX reference",
@@ -68,6 +78,11 @@
       "Cross-language, cross-engine specification for representing relational query plans. Where SQL is the query language for humans, Substrait is the serialised intermediate representation engines exchange.",
       "Adopted by DuckDB, Apache DataFusion, Velox, and Ibis (which compiles its DataFrame expressions to Substrait). Aims to be the portable IR between query frontends and execution engines, similar to LLVM IR for compilers."
     ],
+    "example": {
+      "language": "json",
+      "caption": "The read relation for `SELECT product_id, quantity FROM orders`, as it appears inside a plan.",
+      "code": "{\n  \"read\": {\n    \"namedTable\": { \"names\": [\"orders\"] },\n    \"baseSchema\": {\n      \"names\": [\"product_id\", \"quantity\"],\n      \"struct\": {\n        \"types\": [\n          { \"i64\": { \"nullability\": \"NULLABILITY_REQUIRED\" } },\n          { \"i32\": { \"nullability\": \"NULLABILITY_REQUIRED\" } }\n        ],\n        \"nullability\": \"NULLABILITY_REQUIRED\"\n      }\n    }\n  }\n}"
+    },
     "standardReason": "Substrait is published as an open specification with protobuf-defined plan types, governed by an independent, ASF-inspired PMC. Multiple independent engines consume and produce Substrait plans, which is exactly the cross-vendor interchange contract that makes it a standard rather than a project.",
     "links": [
       {
@@ -96,6 +111,11 @@
       "Vendor-neutral framework for collecting traces, metrics, and logs from distributed systems. The result of merging OpenTracing and OpenCensus.",
       "In a data mesh context, OpenTelemetry is the natural choice for instrumenting pipelines and platform services so a federated governance team can correlate behaviour across domains."
     ],
+    "example": {
+      "language": "json",
+      "caption": "An OTLP/JSON trace export: one span, carrying its resource and instrumentation scope.",
+      "code": "{\n  \"resourceSpans\": [{\n    \"resource\": {\n      \"attributes\": [\n        { \"key\": \"service.name\", \"value\": { \"stringValue\": \"checkout\" } }\n      ]\n    },\n    \"scopeSpans\": [{\n      \"scope\": { \"name\": \"my.library\", \"version\": \"1.0.0\" },\n      \"spans\": [{\n        \"traceId\": \"5B8EFFF798038103D269B633813FC60C\",\n        \"spanId\": \"EEE19B7EC3C1B174\",\n        \"name\": \"GET /orders\",\n        \"kind\": 2,\n        \"startTimeUnixNano\": \"1544712660000000000\",\n        \"endTimeUnixNano\": \"1544712661000000000\"\n      }]\n    }]\n  }]\n}"
+    },
     "links": [
       {
         "label": "opentelemetry.io",
@@ -147,6 +167,11 @@
       "YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.",
       "Originated as PayPal's internal Data Contract Template (donated as ODCS 2.x). Starting with v3.0 the standard was generalised for any enterprise."
     ],
+    "example": {
+      "language": "yaml",
+      "caption": "A data contract: who owns the data, where it physically lives, and what the schema promises.",
+      "code": "apiVersion: v3.1.0\nkind: DataContract\nid: 53581432-6c55-4ba2-a65f-72344a91553a\ndomain: seller\ndataProduct: my quantum\nversion: 1.1.0\nstatus: active\ndescription:\n  purpose: Views built on top of the seller tables.\nservers:\n  - server: my-postgres\n    type: postgres\n    host: localhost\n    port: 5432\n    database: pypl-edw\n    schema: pp_access_views\nschema:\n  - name: tbl\n    physicalType: table\n    properties:\n      - name: rcvr_id\n        logicalType: string\n        physicalType: varchar(18)\n        primaryKey: true"
+    },
     "links": [
       {
         "label": "Official site",
@@ -182,6 +207,11 @@
       "Originally Swagger (2011), now the de-facto standard for describing REST APIs. Tooling exists for almost every language and platform.",
       "OpenAPI is the reference success story for what an open standard can become. ODCS is essentially trying to do for data what OpenAPI did for REST APIs."
     ],
+    "example": {
+      "language": "yaml",
+      "caption": "One path, one operation, one response schema — the shape every generator and mock server reads.",
+      "code": "openapi: 3.1.0\ninfo:\n  title: Orders API\n  version: 1.0.0\npaths:\n  /orders/{id}:\n    get:\n      operationId: getOrder\n      parameters:\n        - name: id\n          in: path\n          required: true\n          schema: { type: string }\n      responses:\n        '200':\n          description: The order\n          content:\n            application/json:\n              schema:\n                type: object\n                required: [id, amount]\n                properties:\n                  id: { type: string }\n                  amount: { type: number }"
+    },
     "links": [
       {
         "label": "openapis.org",
@@ -209,6 +239,11 @@
       "Open-source standard for defining event-driven and message-based APIs across protocols like Kafka, AMQP, MQTT, WebSocket, and NATS.",
       "Where OpenAPI describes synchronous request/response, AsyncAPI describes asynchronous channels. The two specifications are intentionally aligned in style."
     ],
+    "example": {
+      "language": "yaml",
+      "caption": "The same idea as OpenAPI, but the unit is a channel and a message rather than a path and a response.",
+      "code": "asyncapi: 3.1.0\ninfo:\n  title: Account Service\n  version: 1.0.0\n  description: This service is in charge of processing user signups\nchannels:\n  userSignedup:\n    address: user/signedup\n    messages:\n      UserSignedUp:\n        $ref: '#/components/messages/UserSignedUp'\noperations:\n  sendUserSignedup:\n    action: send\n    channel:\n      $ref: '#/channels/userSignedup'\ncomponents:\n  messages:\n    UserSignedUp:\n      payload:\n        type: object\n        properties:\n          displayName: { type: string }\n          email: { type: string, format: email }"
+    },
     "links": [
       {
         "label": "asyncapi.com",
@@ -236,6 +271,11 @@
       "Query language and runtime for APIs originally created at Facebook. Lets clients ask for exactly the data they need from a typed schema.",
       "In a data mesh, GraphQL appears mostly on the consumption side — an output-port style for application teams that prefer typed graph queries over SQL."
     ],
+    "example": {
+      "language": "graphql",
+      "caption": "Schema Definition Language: the type system the client queries against.",
+      "code": "type Order {\n  id: ID!\n  amount: Float!\n  customer: Customer!\n}\n\ntype Query {\n  order(id: ID!): Order\n  orders(city: String, first: Int = 20): [Order!]!\n}"
+    },
     "links": [
       {
         "label": "graphql.org",
@@ -263,6 +303,11 @@
       "High-performance, language-agnostic RPC framework built on HTTP/2 and Protocol Buffers. Originated at Google, donated to CNCF.",
       "In a data architecture, gRPC shows up wherever services need fast, strongly-typed binary communication — internal service mesh, streaming pipelines, ML model serving."
     ],
+    "example": {
+      "language": "protobuf",
+      "caption": "A service definition; the toolchain generates the client and server stubs from it.",
+      "code": "syntax = \"proto3\";\npackage orders.v1;\n\nservice OrderService {\n  rpc GetOrder (GetOrderRequest) returns (Order);\n  rpc ListOrders (ListOrdersRequest) returns (stream Order);\n}\n\nmessage GetOrderRequest { string id = 1; }\n\nmessage Order {\n  string id = 1;\n  double amount = 2;\n}"
+    },
     "links": [
       {
         "label": "grpc.io",
@@ -290,6 +335,11 @@
       "SQL-first transformation framework with built-in tests, documentation, and lineage. The de-facto standard for analytics engineering — used both to model warehouse data and to express the quality checks that ride alongside the transformations.",
       "Vendor-governed by dbt Labs rather than a foundation, so it isn't an open standard in the strict sense. Included here on the de-facto criterion: its YAML and Jinja-SQL conventions are what other tools (SQLMesh, Lightdash) interoperate with."
     ],
+    "example": {
+      "language": "sql",
+      "caption": "A model is a SELECT statement; `ref()` builds the DAG and materialisation is configuration.",
+      "code": "-- models/marts/orders_by_city.sql\n{{ config(materialized='table') }}\n\nselect\n    city,\n    count(*)    as orders,\n    sum(amount) as revenue\nfrom {{ ref('stg_orders') }}\ngroup by 1"
+    },
     "standardReason": "The dbt project artefacts — the manifest.json, the model YAML, the schema.yml tests — have become the interchange format for analytics engineering. SQLMesh, Lightdash, Elementary, dbt-osmosis and many other tools read or emit dbt's project structure rather than inventing their own. Quality checks declared in dbt are part of that surface. That makes the format itself the standard, even though dbt Labs governs it.",
     "links": [
       {
@@ -316,6 +366,11 @@
       "Python framework for declaring and validating expectations on data — nulls, ranges, distributions, distinctness.",
       "Open source and useful, but the spec is governed by one company, so it sits in the same vendor-driven bucket as dbt and SodaCL."
     ],
+    "example": {
+      "language": "python",
+      "caption": "Expectations are declarative objects, created once and reused across runs.",
+      "code": "import great_expectations as gx\n\ncontext = gx.get_context()\n\n# All Expectations are found in the `gx.expectations` module.\npreset_expectation = gx.expectations.ExpectColumnMaxToBeBetween(\n    column=\"passenger_count\", min_value=1, max_value=6, severity=\"warning\"\n)"
+    },
     "standardReason": "The expectations DSL and the JSON validation-result schema GX defines have become the reference vocabulary for declarative data quality in Python. Other tools embed or interoperate with Great Expectations rather than reinvent the same primitives. The standard part is the expectation language and its result format — not the company behind it.",
     "links": [
       {
@@ -346,6 +401,11 @@
       "The schema-test and data-test surface inside a dbt project — `tests:` blocks in schema.yml, generic and singular tests, and the test results that downstream tools (Elementary, dbt-osmosis, dbt artifacts) consume.",
       "Treated as a separate entry from dbt itself because the test surface is the part of dbt that data-quality tooling interoperates with. Adopt-grade if your transformations live in dbt; situational elsewhere because the tests can't easily be lifted out of a dbt project."
     ],
+    "example": {
+      "language": "yaml",
+      "caption": "Tests declared next to the model; `dbt test` compiles each one into a SQL query that must return no rows.",
+      "code": "# models/schema.yml\nmodels:\n  - name: orders\n    columns:\n      - name: order_id\n        data_tests:\n          - unique\n          - not_null\n      - name: status\n        data_tests:\n          - accepted_values:\n              values: ['placed', 'shipped', 'returned']"
+    },
     "standardReason": "dbt's test definitions and the manifest entries they produce are what other DQ tools (Elementary, re_data, dbt-osmosis) read. The format is the standard surface even though dbt Labs governs it.",
     "links": [
       {
@@ -372,6 +432,11 @@
       "YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.",
       "Used under the hood by the Data Contract CLI to actually execute the quality checks declared in an ODCS contract."
     ],
+    "example": {
+      "language": "yaml",
+      "caption": "Checks read close to English and compile down to SQL against the warehouse.",
+      "code": "checks for dim_customer:\n  - row_count between 10 and 1000\n  - missing_count(birth_date) = 0\n  - duplicate_count(phone) = 0\n  - invalid_percent(phone) < 1 %:\n      valid format: phone number"
+    },
     "standardReason": "SodaCL is the YAML check language Soda publishes — and the part that other tools have standardised on. The Data Contract CLI delegates ODCS quality checks to SodaCL because expressing checks portably matters more than running them in Soda Cloud. The check syntax is the standard surface, even though Soda governs it.",
     "links": [
       {
@@ -403,6 +468,11 @@
       "YAML standard for describing data products. Mirrors ODCS on fundamentals, ownership, and terms, and adds input ports, output ports, and management ports.",
       "Each port references an ODCS contract. Combined, ODCS + ODPS yield the full data-mesh dependency graph — consumers, products, sources — derived directly from YAML."
     ],
+    "example": {
+      "language": "yaml",
+      "caption": "A data product: input ports it consumes, output ports it promises, each bound to a data contract.",
+      "code": "apiVersion: v1.0.0\nkind: DataProduct\nid: fbe8d147-28db-4f1d-bedf-a3fe9f458427\nname: Customer Data Product\ndomain: seller\nstatus: draft\ndescription:\n  purpose: Enterprise view of a customer.\ninputPorts:\n  - name: payments\n    version: 1.0.0\n    contractId: dbb7b1eb-7628-436e-8914-2a00638ba6db\noutputPorts:\n  - name: rawtransactions\n    description: \"Raw Transactions\"\n    type: tables\n    version: v1.0.0\n    contractId: c2798941-1b7e-4b03-9e0d-955b1a872b32"
+    },
     "note": "Acronym collision: \"ODPS\" is also used for the Open Data Product Specification, a separate LF project. Both display as ODPS here — disambiguate by governance (BITOL vs opendataproducts.org).",
     "links": [
       {
@@ -431,6 +501,11 @@
       "YAML-based specification for describing data products with input ports, output ports, control ports, and discovery ports. Maintained by the OpenDataMesh initiative.",
       "Distinct from BITOL's ODPS: similar problem space, different community and slightly different mental model. Worth knowing both exist before you commit to one."
     ],
+    "example": {
+      "language": "json",
+      "caption": "The minimal descriptor: a fully qualified URN, version, domain, owner, and the interface components.",
+      "code": "{\n    \"dataProductDescriptor\": \"1.0.0\",\n    \"info\": {\n        \"fullyQualifiedName\": \"urn:dpds:com.company-xyz:dataproducts:tripExecution:1\",\n        \"version\": \"1.2.3\",\n        \"domain\": \"Transport Management\",\n        \"owner\": {\n            \"id\": \"john.doe@company-xyz.com\",\n            \"name\": \"John Doe\"\n        }\n    },\n    \"interfaceComponents\": {\n        \"outputPorts\": []\n    }\n}"
+    },
     "links": [
       {
         "label": "dpds.opendatamesh.org",
@@ -459,6 +534,11 @@
       "Standalone open specification for describing data products, governed under the Linux Foundation umbrella. Strong on pricing plans and internationalisation, making it a natural fit for external data marketplaces with complex commercial terms.",
       "Different mental model from BITOL's ODPS: no concept of input ports, at most one linked contract at the top level. Both are valid — they solve different problems."
     ],
+    "example": {
+      "language": "yaml",
+      "caption": "Product-manager framing: value proposition, visibility, and status are first-class, with the contract referenced.",
+      "code": "schema: 'https://opendataproducts.org/v3.1/schema/odps.yaml'\nversion: 3.1\nproduct:\n  contract:\n    id: 02323M123\n    type: ODCS\n    contractVersion: 2.2.2\n  details:\n    en:\n      name: UrbanPulse Events\n      productID: urbanpulse-events-001\n      valueProposition: >-\n        Structured, real-time public event data, ready for travel apps,\n        tourism platforms, and smart city services.\n      productVersion: 0.1.0\n      visibility: internal\n      status: production"
+    },
     "links": [
       {
         "label": "opendataproducts.org",
@@ -484,6 +564,11 @@
       "RDF/OWL vocabulary for describing data products. Composes naturally with other semantic-web vocabularies (DCAT, SKOS, FIBO, etc.) when your stack already lives in the linked-data world.",
       "Where BITOL's ODPS is YAML and strict, DPROD is RDF and graph-native. Both have their place; the format choice determines what else you can compose with."
     ],
+    "example": {
+      "language": "json",
+      "caption": "The same data-product idea as RDF: a DCAT extension, so it composes with catalogues that already speak DCAT.",
+      "code": "{\n  \"@context\": \"https://ekgf.github.io/dprod/dprod.jsonld\",\n  \"@id\": \"https://example.com/products/equity-trade\",\n  \"@type\": \"DataProduct\",\n  \"title\": \"Equity Trade\",\n  \"dataProductOwner\": \"https://example.com/person/AnnTaylor\",\n  \"lifecycle\": \"Consume\",\n  \"outputPort\": [{\n    \"@type\": \"dcat:DataService\",\n    \"@id\": \"https://example.com/service/equity-trade-prod\",\n    \"dcat:endpointURL\": \"abfss://datasets@demo.dfs.core.windows.net/trade\",\n    \"dcat:endpointDescription\": \"Details for accessing storage account\"\n  }]\n}"
+    },
     "links": [
       {
         "label": "DPROD specification",
@@ -507,6 +592,11 @@
       "Open table format for huge analytic datasets — schema evolution, hidden partitioning, time travel, ACID semantics on object storage.",
       "Originated at Netflix; now a default in Snowflake, Databricks, AWS, and most query engines. Increasingly the substrate that other layers (catalogs, lakehouses) build on."
     ],
+    "example": {
+      "language": "sql",
+      "caption": "Hidden partitioning and snapshot isolation: the engine derives partitions, and old snapshots stay queryable.",
+      "code": "CREATE TABLE prod.sales.orders (\n    id       bigint,\n    city     string,\n    amount   decimal(10,2),\n    order_ts timestamp\n)\nUSING iceberg\nPARTITIONED BY (days(order_ts));\n\n-- read the table as it stood at an earlier snapshot\nSELECT * FROM prod.sales.orders VERSION AS OF 3821550127947089987;"
+    },
     "standardReason": "Iceberg's table-format specification — manifest files, metadata layout, snapshot semantics — is published openly and re-implemented by every major engine: Snowflake, Databricks, Trino, Spark, Dremio, DuckDB. The format itself is the standard; the original Netflix implementation is just one client of it.",
     "links": [
       {
@@ -532,6 +622,11 @@
       "Open-source storage layer that brings ACID transactions, schema enforcement, and time travel to data lakes. The original lakehouse format.",
       "Delta Universal Format (UniForm) now also writes Iceberg-compatible metadata, narrowing the gap between the two formats."
     ],
+    "example": {
+      "language": "sql",
+      "caption": "Every write appends a commit to `_delta_log/`, which is what makes history and time travel possible.",
+      "code": "CREATE TABLE orders (\n    id     BIGINT,\n    city   STRING,\n    amount DECIMAL(10,2)\n) USING DELTA;\n\nDESCRIBE HISTORY orders;\nSELECT * FROM orders VERSION AS OF 12;"
+    },
     "standardReason": "The Delta transaction-log protocol is published as an open spec and implemented by readers and writers beyond Databricks — delta-rs, Trino, Flink, Spark. The standard surface is the protocol, not the Databricks runtime; that is what makes a Delta table portable across engines.",
     "links": [
       {
@@ -556,6 +651,11 @@
       "Transactional data lake platform that pioneered incremental processing and upserts on data lakes.",
       "Less mainstream than Iceberg or Delta today, but still the table format of choice when streaming upserts and CDC are first-class requirements."
     ],
+    "example": {
+      "language": "sql",
+      "caption": "A record key and partition make upserts the default write, rather than something you build yourself.",
+      "code": "CREATE TABLE hudi_table (\n    ts     BIGINT,\n    uuid   STRING,\n    rider  STRING,\n    fare   DOUBLE,\n    city   STRING\n) USING HUDI\nTBLPROPERTIES (primaryKey = 'uuid')\nPARTITIONED BY (city);"
+    },
     "standardReason": "Hudi publishes its on-disk table format and timeline protocol as an open spec, and engines beyond the Hudi runtime (Spark, Flink, Trino, Presto) read and write it directly. The format is the standard part; the platform tooling is one implementation of it.",
     "links": [
       {
@@ -581,6 +681,11 @@
     "description": [
       "Lakehouse catalog format from DuckDB Labs that puts the catalog inside a regular SQL database — no separate REST catalog, no manifest sprawl. Designed for simplicity and zero-infrastructure analytics."
     ],
+    "example": {
+      "language": "sql",
+      "caption": "The catalogue is an ordinary SQL database and the data is Parquet in object storage; DuckDB attaches both as one lakehouse.",
+      "code": "INSTALL ducklake;\n\nATTACH 'ducklake:metadata.ducklake'\n    AS my_ducklake\n    (DATA_PATH 'data/');\n\nUSE my_ducklake;\n\nCREATE TABLE orders (id BIGINT, city VARCHAR, amount DECIMAL(10,2));"
+    },
     "standardReason": "DuckLake's catalog schema is published as an open SQL specification — any database that speaks SQL can host a DuckLake catalog. Listed on the de-facto criterion: the schema is the standard surface, even though DuckDB Labs governs it and adoption is still early.",
     "links": [
       {
@@ -611,6 +716,11 @@
       "W3C standard for describing the structure, content, and constraints of XML documents.",
       "Still the schema language of record in many enterprise integration scenarios — SOAP, banking, healthcare, and government."
     ],
+    "example": {
+      "language": "xml",
+      "caption": "An XSD constraining element order, types, and required attributes.",
+      "code": "<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n  <xs:element name=\"order\">\n    <xs:complexType>\n      <xs:sequence>\n        <xs:element name=\"id\"     type=\"xs:string\"/>\n        <xs:element name=\"amount\" type=\"xs:decimal\"/>\n      </xs:sequence>\n      <xs:attribute name=\"city\" type=\"xs:string\" use=\"required\"/>\n    </xs:complexType>\n  </xs:element>\n</xs:schema>"
+    },
     "links": [
       {
         "label": "W3C: XML Schema",
@@ -634,6 +744,11 @@
       "Vocabulary for validating, annotating, and documenting JSON. The schema language of choice for modern HTTP APIs and event payloads.",
       "ODCS uses JSON Schema concepts for typing complex column structures, and the OpenAPI / AsyncAPI specs are themselves anchored in JSON Schema."
     ],
+    "example": {
+      "language": "json",
+      "caption": "Validation vocabulary over JSON: types, required properties, and value constraints.",
+      "code": "{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"https://example.com/order.schema.json\",\n  \"title\": \"Order\",\n  \"type\": \"object\",\n  \"required\": [\"id\", \"amount\"],\n  \"properties\": {\n    \"id\": { \"type\": \"string\" },\n    \"amount\": { \"type\": \"number\", \"exclusiveMinimum\": 0 },\n    \"city\": { \"type\": \"string\" }\n  },\n  \"additionalProperties\": false\n}"
+    },
     "links": [
       {
         "label": "json-schema.org",
@@ -658,6 +773,11 @@
       "The CREATE / ALTER / DROP subset of SQL — the most universal way to describe a relational schema.",
       "The Data Contract CLI imports SQL DDL into ODCS contracts and exports back to it, because every relational engine speaks at least a flavour of it."
     ],
+    "example": {
+      "language": "sql",
+      "caption": "Structure and constraints as statements the database enforces, not documentation it ignores.",
+      "code": "CREATE TABLE orders (\n    id          BIGINT        PRIMARY KEY,\n    customer_id BIGINT        NOT NULL REFERENCES customers (id),\n    amount      DECIMAL(10,2) NOT NULL CHECK (amount > 0),\n    city        VARCHAR(64),\n    created_at  TIMESTAMP     DEFAULT CURRENT_TIMESTAMP\n);\n\nALTER TABLE orders ADD COLUMN channel VARCHAR(32);"
+    },
     "links": [
       {
         "label": "ISO/IEC 9075 standard",
@@ -681,6 +801,11 @@
       "JSON-based schema language used to describe Avro-encoded records. Standard in Kafka via Confluent Schema Registry.",
       "Strong support for schema evolution rules — a key reason it has stuck around as the default schema dialect for event streams."
     ],
+    "example": {
+      "language": "json",
+      "caption": "A record schema; the union with `null` plus a default is how Avro makes a field optional.",
+      "code": "{\n  \"type\": \"record\",\n  \"name\": \"Order\",\n  \"namespace\": \"com.example.orders\",\n  \"fields\": [\n    { \"name\": \"id\", \"type\": \"string\" },\n    { \"name\": \"amount\", \"type\": {\n        \"type\": \"bytes\", \"logicalType\": \"decimal\", \"precision\": 10, \"scale\": 2\n    }},\n    { \"name\": \"city\", \"type\": [\"null\", \"string\"], \"default\": null }\n  ]\n}"
+    },
     "links": [
       {
         "label": "avro.apache.org",
@@ -705,6 +830,11 @@
       "Google's language-neutral, platform-neutral mechanism for serialising structured data. Compact binary encoding plus strong schema evolution rules.",
       "The schema language behind gRPC and many internal RPC stacks. Open source but governed by Google, so it sits in the same vendor-driven bucket as dbt."
     ],
+    "example": {
+      "language": "protobuf",
+      "caption": "Field numbers, not names, are the wire contract — which is what makes evolution safe.",
+      "code": "syntax = \"proto3\";\npackage example.orders.v1;\n\nmessage Order {\n  string   id       = 1;\n  double   amount   = 2;\n  optional string city = 3;\n  repeated LineItem items = 4;\n}\n\nmessage LineItem {\n  string sku      = 1;\n  int32  quantity = 2;\n}"
+    },
     "standardReason": "The .proto language and the wire format are publicly specified, with compilers and runtimes for every major language. gRPC, Schema Registry, and countless internal RPC stacks depend on the format definition rather than Google's implementation. That is the standard surface, even though Google governs it.",
     "links": [
       {
@@ -735,6 +865,11 @@
       "Open REST API specification for Iceberg metadata catalogs. Decouples engines (Spark, Trino, Snowflake, Dremio, ...) from the catalog backend.",
       "Together with Iceberg the table format, this is what is making \"open lakehouse\" something more than marketing."
     ],
+    "example": {
+      "language": "http",
+      "caption": "The REST catalogue hands back the current metadata pointer; every engine then reads the same table state.",
+      "code": "GET /v1/namespaces/sales/tables/orders HTTP/1.1\nHost: catalog.example.com\nAuthorization: Bearer <token>\n\nHTTP/1.1 200 OK\n{\n  \"metadata-location\": \"s3://warehouse/sales/orders/metadata/00003-abc.metadata.json\",\n  \"metadata\": {\n    \"format-version\": 2,\n    \"table-uuid\": \"9c12d441-03fe-4693-9a96-a0a6b1e2a4a1\"\n  }\n}"
+    },
     "links": [
       {
         "label": "Iceberg REST catalog",
@@ -759,6 +894,11 @@
       "Unified governance layer for tables, files, models, and functions, originally built inside Databricks and donated to the Linux Foundation.",
       "Now competing with Iceberg REST as a catalog protocol. The two camps overlap and influence each other; expect convergence over the next couple of years."
     ],
+    "example": {
+      "language": "http",
+      "caption": "A three-level namespace — catalog, schema, table — addressed over an open REST API.",
+      "code": "GET /api/2.1/unity-catalog/tables/unity.default.numbers HTTP/1.1\nHost: uc.example.com\nAuthorization: Bearer <token>\n\nHTTP/1.1 200 OK\n{\n  \"name\": \"numbers\",\n  \"catalog_name\": \"unity\",\n  \"schema_name\": \"default\",\n  \"table_type\": \"EXTERNAL\",\n  \"data_source_format\": \"DELTA\",\n  \"storage_location\": \"s3://warehouse/numbers\"\n}"
+    },
     "standardReason": "Unity Catalog publishes a public REST API that other catalogs and engines can implement and consume. The API is the standard surface — that is what makes \"speaks Unity\" a portability claim rather than a Databricks lock-in. The reference implementation is open source under the Linux Foundation.",
     "links": [
       {
@@ -787,6 +927,11 @@
       "The metastore protocol of the Hadoop era. Long-standing de-facto standard for big-data catalogs — spoken by Spark, Trino, Presto, and most lakehouse engines.",
       "Slowly being superseded by Iceberg REST and Unity Catalog, but installed bases will keep it relevant for many years to come."
     ],
+    "example": {
+      "language": "java",
+      "caption": "The Thrift client every legacy engine speaks: table location and partitions, resolved by name.",
+      "code": "HiveMetaStoreClient client = new HiveMetaStoreClient(conf);\n\nTable table = client.getTable(\"sales\", \"orders\");\nSystem.out.println(table.getSd().getLocation());   // s3://warehouse/sales/orders\n\nList<String> partitions =\n    client.listPartitionNames(\"sales\", \"orders\", (short) 10);"
+    },
     "standardReason": "The Hive Metastore Thrift API is publicly defined and re-implemented by every major lakehouse engine. \"Speaks the Hive Metastore API\" became the portability test for a generation of big-data tools — the API is the standard, independent of the original Hive server.",
     "links": [
       {
@@ -813,6 +958,11 @@
       "A central registry for the schemas of messages flowing through Kafka topics. Producers register Avro, JSON Schema, or Protobuf schemas; consumers fetch them by ID to deserialise safely. Without it, \"what shape is this Kafka topic?\" has no answer.",
       "The REST API was designed by Confluent but the protocol is widely re-implemented: Apicurio Registry (Red Hat), AWS Glue Schema Registry, Karapace (Aiven), and Redpanda Schema Registry all speak it. That makes it the de-facto schema catalog of the streaming world, even if it is not formally standardised."
     ],
+    "example": {
+      "language": "http",
+      "caption": "Producers register a schema and ship its id on the wire; consumers resolve the id back to the schema.",
+      "code": "POST /subjects/orders-value/versions HTTP/1.1\nHost: schema-registry.example.com\nContent-Type: application/vnd.schemaregistry.v1+json\n\n{\n  \"schemaType\": \"AVRO\",\n  \"schema\": \"{\\\"type\\\":\\\"record\\\",\\\"name\\\":\\\"Order\\\",\\\"fields\\\":[{\\\"name\\\":\\\"id\\\",\\\"type\\\":\\\"string\\\"}]}\"\n}\n\nHTTP/1.1 200 OK\n{ \"id\": 42 }"
+    },
     "standardReason": "Confluent's Schema Registry REST API is publicly documented and re-implemented by Apicurio (Red Hat), AWS Glue, Karapace (Aiven), and Redpanda. Producers and consumers depend on the API contract, not on Confluent's server — which is what promotes it from a vendor product to a de-facto standard.",
     "links": [
       {
@@ -843,6 +993,11 @@
       "Plain-text tabular format. RFC 4180 specifies a baseline; in practice every tool has its own dialect for quoting, escaping, and line endings.",
       "Loved and hated in equal measure: terrible for nested data, perfect for spreadsheets, mandatory in data lake on-ramps."
     ],
+    "example": {
+      "language": "csv",
+      "caption": "A header row and comma-separated values; quotes escape embedded commas, and an empty field is just empty.",
+      "code": "order_id,city,amount,ordered_at\n1001,Bamberg,49.90,2026-01-14\n1002,\"Frankfurt am Main\",120.00,2026-01-15\n1003,Berlin,,2026-01-15"
+    },
     "links": [
       {
         "label": "RFC 4180",
@@ -866,6 +1021,11 @@
       "Standard text-based format for structured data. Pairs naturally with JSON Schema, OpenAPI, and AsyncAPI.",
       "In a lake, line-delimited JSON (NDJSON / JSONL) is the typical landing format before transformation into columnar formats like Parquet."
     ],
+    "example": {
+      "language": "json",
+      "caption": "Objects, arrays, strings, numbers, booleans, null — the whole type system fits in a sentence.",
+      "code": "{\n  \"order_id\": 1001,\n  \"city\": \"Bamberg\",\n  \"amount\": 49.90,\n  \"items\": [\n    { \"sku\": \"A-1\", \"quantity\": 2 }\n  ],\n  \"cancelled_at\": null\n}"
+    },
     "links": [
       {
         "label": "json.org",
@@ -893,6 +1053,11 @@
       "Tag-based markup format for structured documents and data. Verbose by modern standards, but unmatched tooling around schemas, transformations, and validation (XSD, XSLT, XPath, XQuery).",
       "Still the format of record in many enterprise integration scenarios — banking, healthcare, government, and SOAP-based B2B exchange."
     ],
+    "example": {
+      "language": "xml",
+      "caption": "Elements carry structure, attributes carry metadata about the element they sit on.",
+      "code": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<order id=\"1001\">\n  <city>Bamberg</city>\n  <amount currency=\"EUR\">49.90</amount>\n  <items>\n    <item sku=\"A-1\" quantity=\"2\"/>\n  </items>\n</order>"
+    },
     "links": [
       {
         "label": "W3C: XML",
@@ -917,6 +1082,11 @@
     "description": [
       "Human-readable data serialisation format. The default surface for metadata, configuration, and contract specifications — Kubernetes manifests, CI/CD pipelines, OpenAPI / AsyncAPI / ODCS / DPDS / dbt project files all live in YAML."
     ],
+    "example": {
+      "language": "yaml",
+      "caption": "Indentation for structure, plus block scalars for text that would be unreadable escaped.",
+      "code": "order_id: 1001\ncity: Bamberg\namount: 49.90\nitems:\n  - sku: A-1\n    quantity: 2\nnote: >\n  A folded block scalar: newlines in here\n  become spaces when parsed."
+    },
     "links": [
       {
         "label": "yaml.org",
@@ -945,6 +1115,11 @@
       "Columnar storage format optimised for analytics: predicate pushdown, column pruning, efficient compression, and typed schemas.",
       "Effectively the default storage format underneath every modern table format (Iceberg, Delta, Hudi)."
     ],
+    "example": {
+      "language": "text",
+      "caption": "The layout of a Parquet file — column chunks inside row groups, with the schema and statistics in the footer.",
+      "code": "PAR1                          <- 4-byte magic\n  Row group 0\n    Column chunk: order_id    [page header][dictionary page][data pages]\n    Column chunk: city        [page header][dictionary page][data pages]\n    Column chunk: amount      [page header][data pages]\n  Row group 1\n    ...\nFileMetaData                  <- schema, row groups, per-column min/max stats\n<4-byte metadata length>\nPAR1                          <- the same magic closes the file"
+    },
     "standardReason": "Parquet's on-disk format is published as an open spec with independent reader/writer implementations in C++, Java, Rust, Go, and Python. Every analytics engine and lakehouse format depends on the format spec, not on a particular library. That makes the file format itself the standard.",
     "links": [
       {
@@ -970,6 +1145,11 @@
       "Row-oriented binary format that ships its schema alongside the data. Excellent for streaming and event payloads where messages are written and read one at a time.",
       "The natural counterpart to Parquet: Avro for streams, Parquet for analytics."
     ],
+    "example": {
+      "language": "text",
+      "caption": "An Avro object container file carries its own writer schema, so the data is readable without a registry.",
+      "code": "Obj\\x01                        <- 4-byte magic\nFile metadata (map):\n  avro.schema  {\"type\":\"record\",\"name\":\"Order\",\"fields\":[...]}\n  avro.codec   deflate\n16-byte sync marker\nData block:  [record count][block size][serialized records][sync marker]\nData block:  ..."
+    },
     "standardReason": "The Avro container format and binary encoding are open specifications with independent implementations across Java, Python, Go, C++, and Rust. Kafka, Schema Registry, and most stream processors depend on the format spec, not on a particular Avro library — which is what makes it portable.",
     "links": [
       {
@@ -995,6 +1175,11 @@
       "Columnar file format created for the Hive ecosystem. Strong compression and ACID support inside Hive.",
       "Less common in greenfield projects today — Parquet has won most workloads — but still pervasive in big-data installations."
     ],
+    "example": {
+      "language": "text",
+      "caption": "ORC is read back-to-front: the postscript at the tail points at the footer, which indexes the stripes.",
+      "code": "ORC                           <- 3-byte magic at the head\n  Stripe 0  [index streams][data streams][stripe footer]\n  Stripe 1  ...\nFile footer                   <- schema, stripe list, per-column statistics\nPostscript                    <- compression kind, footer length, version\n<1-byte postscript length>    <- the reader starts here and works backwards"
+    },
     "standardReason": "ORC's on-disk format is an open Apache spec with independent readers in Java, C++, and Rust. Hive, Spark, Trino, Presto and others read and write the same files because they target the format, not a single library. The file format is the standard surface.",
     "links": [
       {
@@ -1023,6 +1208,11 @@
       "Modern columnar file format optimised for AI/ML workloads: 100x faster random access than Parquet, native support for embeddings and multimodal data (images, video, audio), and zero-copy schema evolution without rewriting files.",
       "Pairs with the Lance table format and catalog spec to form a lakehouse stack purpose-built for vector search and feature engineering alongside SQL analytics."
     ],
+    "example": {
+      "language": "python",
+      "caption": "A columnar format built for random access: write once, then point-query rows without a full scan.",
+      "code": "import lance\nimport pyarrow as pa\n\ntbl = pa.table({\n    \"id\": [1, 2],\n    \"embedding\": [[0.1, 0.2], [0.3, 0.4]],\n})\nlance.write_dataset(tbl, \"/tmp/embeddings.lance\")\n\ndataset = lance.dataset(\"/tmp/embeddings.lance\")"
+    },
     "standardReason": "Lance's on-disk format is published as an open spec with independent Rust and Python implementations. LanceDB, DataFusion, DuckDB integrations, and downstream tools target the format itself rather than a single library — putting it on the de-facto standard track under an open, LF-style community governance model.",
     "links": [
       {
@@ -1052,6 +1242,11 @@
       "Open standard for collecting lineage metadata from data pipelines, including column-level lineage. Producers emit OpenLineage events; consumers (Marquez, catalogs, custom UIs) ingest them.",
       "For runtime lineage details — how the pipeline actually works — OpenLineage traces are the answer, not the data contract. Use both: contracts for design, OpenLineage for execution."
     ],
+    "example": {
+      "language": "json",
+      "caption": "A run event: which job ran, which datasets went in, which came out. Emitted by the pipeline, not scraped after the fact.",
+      "code": "{\n  \"eventType\": \"COMPLETE\",\n  \"eventTime\": \"2026-01-14T10:15:30.000Z\",\n  \"producer\": \"https://github.com/OpenLineage/OpenLineage/tree/1.0.0/integration/spark\",\n  \"run\": { \"runId\": \"d46e465b-d358-4d32-83d4-df660ff614dd\" },\n  \"job\": { \"namespace\": \"spark\", \"name\": \"orders_by_city\" },\n  \"inputs\":  [{ \"namespace\": \"postgres://db:5432\", \"name\": \"public.orders\" }],\n  \"outputs\": [{ \"namespace\": \"s3://warehouse\",     \"name\": \"marts.orders_by_city\" }]\n}"
+    },
     "links": [
       {
         "label": "openlineage.io",
@@ -1075,6 +1270,11 @@
       "General-purpose policy engine that decouples policy decisions from your services. Policies are written in Rego and evaluated at request time.",
       "In a data mesh, OPA shows up wherever federated governance needs to enforce rules — access requests, contract gates in CI, infrastructure guard-rails — without putting the rules into application code."
     ],
+    "example": {
+      "language": "rego",
+      "caption": "Policy as code: the decision is a function of the request, evaluated the same way in every service.",
+      "code": "package data.access\n\ndefault allow := false\n\n# Analysts may read tables in their own domain, but never PII.\nallow if {\n    input.action == \"read\"\n    input.user.domain == input.table.domain\n    not \"pii\" in input.table.tags\n}"
+    },
     "standardReason": "Rego — the policy language OPA defines — has become the portable way to express authorization rules across cloud-native systems. Kubernetes admission control, service meshes, CI gates, and data-mesh governance all consume the same Rego policies. The language and the OPA evaluation API are the standard, with multiple compatible runtimes.",
     "links": [
       {
@@ -1099,6 +1299,11 @@
       "Open protocol for connecting AI applications and agents to external systems: data sources, tools, and workflows. The \"USB-C for AI\": one spec, many servers and clients.",
       "For data architectures, MCP is becoming the standard way LLMs discover and query data products, semantic models, and catalogs. Created by Anthropic and now hosted at the Linux Foundation; Claude, ChatGPT, Cursor, VS Code, and many others speak it."
     ],
+    "example": {
+      "language": "json",
+      "caption": "A JSON-RPC tool call: the same envelope whether the server runs over stdio or HTTP.",
+      "code": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"query_orders\",\n    \"arguments\": { \"city\": \"Bamberg\", \"since\": \"2026-01-01\" }\n  }\n}"
+    },
     "links": [
       {
         "label": "modelcontextprotocol.io",
@@ -1127,6 +1332,11 @@
       "Open protocol for AI agents to discover, communicate, and collaborate with each other across vendors and frameworks. Where MCP is agent-to-tools, A2A is agent-to-agent: capability discovery, task delegation, and multi-turn dialogue between independently developed agents.",
       "Created by Google and donated to the Linux Foundation. Increasingly paired with MCP in production stacks: A2A for agent-to-agent orchestration, MCP for the tools and data each agent reaches into."
     ],
+    "example": {
+      "language": "http",
+      "caption": "One agent sends a message to another; the reply is either a direct message or a long-running task.",
+      "code": "POST /message:send HTTP/1.1\nHost: agent.example.com\nContent-Type: application/a2a+json\nAuthorization: Bearer token\n\n{\n  \"message\": {\n    \"role\": \"ROLE_USER\",\n    \"parts\": [{ \"text\": \"What is the weather today?\" }],\n    \"messageId\": \"msg-uuid\"\n  }\n}"
+    },
     "links": [
       {
         "label": "a2a-protocol.org",
@@ -1155,6 +1365,11 @@
       "AWS's object storage API has become the lingua franca of the data lake. Every cloud, every storage vendor, every minio-style appliance speaks some flavour of it.",
       "Strictly speaking it is not an open standard — AWS controls it — but the practical reality is that \"talks S3\" is treated as a portability guarantee."
     ],
+    "example": {
+      "language": "http",
+      "caption": "A signed GET against a bucket endpoint — the request shape a dozen non-AWS stores now implement.",
+      "code": "GET /warehouse/orders/part-0000.parquet HTTP/1.1\nHost: my-bucket.s3.eu-central-1.amazonaws.com\nx-amz-date: 20260114T101530Z\nx-amz-content-sha256: UNSIGNED-PAYLOAD\nAuthorization: AWS4-HMAC-SHA256 Credential=AKIA.../20260114/eu-central-1/s3/aws4_request,\n    SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=..."
+    },
     "standardReason": "AWS publishes the S3 REST API, and MinIO, Cloudflare R2, Backblaze B2, Wasabi, Ceph RGW, GCS interop, and most on-prem object stores re-implement it. \"Speaks S3\" is treated as a portability guarantee precisely because the API surface — not AWS's server — is what tools depend on.",
     "links": [
       {
@@ -1169,38 +1384,51 @@
     "vendor": true,
     "standardization": "vendor-led"
   },
-  "osi": {
-    "name": "OSI",
-    "fullName": "Open Semantic Interchange",
+  "ossie": {
+    "name": "Ossie",
+    "fullName": "Apache Ossie (incubating)",
+    "formerNames": [
+      "OSI",
+      "Open Semantic Interchange"
+    ],
+    "formerSlugs": [
+      "osi"
+    ],
     "category": "Semantics",
     "highlight": true,
-    "governance": "OSI Initiative — Snowflake, Salesforce, dbt Labs, BlackRock, Databricks, Strategy (formerly MicroStrategy), and many more",
-    "status": "v0.1.1; explicitly early, working groups very active",
+    "governance": "Apache Software Foundation (incubating) — donated by the OSI Initiative; 50+ organisations including Snowflake, Salesforce, dbt Labs, Databricks, Dremio",
+    "status": "Incubating at the ASF since July 2026; spec still early, working groups very active",
     "judgement": "Assess",
-    "judgementReason": "Emerging vendor-neutral semantic exchange; promising, adoption early.",
+    "judgementReason": "Emerging vendor-neutral semantic exchange, now under ASF governance; promising, adoption early.",
     "description": [
-      "Vendor-agnostic open-source standard for exchanging semantic models — datasets, relationships, metrics, and AI context — between BI platforms, AI agents, and analytics tools.",
-      "Overlaps with ODCS on datasets and relationships, and adds metrics (e.g. total_revenue = SUM(order_total)) and dynamic fields (e.g. full_name = first_name + \" \" + last_name). ODCS still owns terms of use, quality, and SLAs."
+      "Vendor-agnostic open standard for exchanging semantic models — datasets, relationships, metrics, and AI context — between BI platforms, AI agents, and analytics tools.",
+      "Overlaps with ODCS on datasets and relationships, and adds metrics (e.g. total_revenue = SUM(order_total)) and dynamic fields (e.g. full_name = first_name + \" \" + last_name). ODCS still owns terms of use, quality, and SLAs.",
+      "Launched in November 2025 as the Open Semantic Interchange (OSI) with 17 founding partners, and entered the Apache Incubator as Apache Ossie in July 2026. The spec, the community, and the mission are unchanged — only the name and the governance are."
     ],
-    "note": "Acronym collision with the OSI networking model from CS class. This OSI is the Open Semantic Interchange.",
+    "example": {
+      "language": "yaml",
+      "caption": "Metrics and dimensions defined once, with the SQL expression per dialect, so every tool computes the same number.",
+      "code": "semantic_model:\n  - name: ecommerce_analytics\n    description: Sales and customer analytics\n    ai_context:\n      instructions: \"Use for sales analysis\"\n\n    datasets:\n      - name: orders\n        source: sales.public.orders\n        primary_key: [order_id]\n        fields:\n          - name: order_date\n            dimension:\n              is_time: true\n\n    metrics:\n      - name: total_revenue\n        expression:\n          dialects:\n            - dialect: ANSI_SQL\n              expression: SUM(orders.amount)"
+    },
+    "note": "Renamed from OSI (Open Semantic Interchange) to Apache Ossie in July 2026, partly to end the acronym collision with the OSI networking model and the Open Source Initiative.",
     "links": [
       {
-        "label": "opensemantic.com",
-        "url": "https://opensemantic.com"
+        "label": "ossie.apache.org",
+        "url": "https://ossie.apache.org"
       },
       {
-        "label": "GitHub: open-semantic-interchange",
-        "url": "https://github.com/open-semantic-interchange/OSI"
+        "label": "GitHub: apache/ossie",
+        "url": "https://github.com/apache/ossie"
       },
       {
-        "label": "Open Semantic Editor",
-        "url": "https://editor.opensemantic.com"
+        "label": "Announcement: OSI is now Apache Ossie",
+        "url": "https://ossie.apache.org/updates/ossie-enters-apache-incubator/"
       }
     ],
     "firstReleased": 2025,
-    "logo": "/media/icons/standards-map/logos/osi.svg",
-    "umbrella": "OSI Initiative",
-    "standardization": "community"
+    "logo": "/media/icons/standards-map/logos/ossie.svg",
+    "umbrella": "ASF",
+    "standardization": "foundation"
   },
   "rdf-owl": {
     "name": "RDF/OWL",
@@ -1212,8 +1440,13 @@
     "judgementReason": "Semantic-web foundation; right when reasoning/inference matter.",
     "description": [
       "RDF is the W3C model for representing graph data; OWL extends it for richer ontologies and reasoning. Together they are the foundation of the semantic web.",
-      "YAML formats like ODCS and OSI buy simplicity at the cost of composability. RDF/OWL trade off the other way: harder to author, much easier to compose vocabularies that were never designed together."
+      "YAML formats like ODCS and Apache Ossie buy simplicity at the cost of composability. RDF/OWL trade off the other way: harder to author, much easier to compose vocabularies that were never designed together."
     ],
+    "example": {
+      "language": "turtle",
+      "caption": "Classes and properties as triples; the same graph carries both the vocabulary and the data.",
+      "code": "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n@prefix owl:  <http://www.w3.org/2002/07/owl#> .\n@prefix ex:   <https://example.com/ontology#> .\n\nex:Order a owl:Class ;\n    rdfs:label \"Order\" .\n\nex:placedBy a owl:ObjectProperty ;\n    rdfs:domain ex:Order ;\n    rdfs:range  ex:Customer .\n\nex:order-1001 a ex:Order ;\n    ex:placedBy ex:customer-42 ."
+    },
     "links": [
       {
         "label": "W3C: RDF",
@@ -1241,6 +1474,11 @@
       "RDF vocabulary designed to facilitate interoperability between data catalogs. Mandatory for many EU open-data portals.",
       "DCAT lives in the RDF / semantic-web world as a catalog vocabulary inspired by libraries and dataset offerings. Different mental model from contract-first standards like ODCS."
     ],
+    "example": {
+      "language": "turtle",
+      "caption": "A dataset and the distributions it is available in — the vocabulary EU open-data portals index.",
+      "code": "@prefix dcat:    <http://www.w3.org/ns/dcat#> .\n@prefix dcterms: <http://purl.org/dc/terms/> .\n\n<https://example.com/dataset/orders> a dcat:Dataset ;\n    dcterms:title     \"Orders\" ;\n    dcterms:publisher <https://example.com/org/sales> ;\n    dcat:keyword      \"orders\", \"sales\" ;\n    dcat:distribution <https://example.com/dataset/orders/csv> .\n\n<https://example.com/dataset/orders/csv> a dcat:Distribution ;\n    dcat:accessURL <https://example.com/downloads/orders.csv> ;\n    dcterms:format \"text/csv\" ."
+    },
     "links": [
       {
         "label": "W3C: DCAT",
@@ -1264,6 +1502,11 @@
       "W3C standard for representing thesauri, taxonomies, and controlled vocabularies in RDF.",
       "Useful for sharing classifications — PII categories, business glossaries, regulatory taxonomies — in a way that other tools can consume without bespoke mapping."
     ],
+    "example": {
+      "language": "turtle",
+      "caption": "A concept with its preferred and alternative labels, placed in a broader/narrower hierarchy.",
+      "code": "@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n@prefix ex:   <https://example.com/scheme/> .\n\nex:Revenue a skos:Concept ;\n    skos:prefLabel  \"Revenue\"@en ;\n    skos:altLabel   \"Turnover\"@en ;\n    skos:definition \"Income from ordinary business activities.\"@en ;\n    skos:broader    ex:FinancialMetric ;\n    skos:inScheme   ex:FinanceGlossary ."
+    },
     "links": [
       {
         "label": "W3C: SKOS",
@@ -1287,6 +1530,11 @@
       "W3C language for validating RDF graphs against a set of conditions — the JSON Schema of the RDF world.",
       "Used heavily where the semantic stack actually has to enforce rules, not just describe them."
     ],
+    "example": {
+      "language": "turtle",
+      "caption": "A shape that says what a valid Order node looks like; a validator reports every node that violates it.",
+      "code": "@prefix sh:  <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n@prefix ex:  <https://example.com/ontology#> .\n\nex:OrderShape a sh:NodeShape ;\n    sh:targetClass ex:Order ;\n    sh:property [\n        sh:path         ex:amount ;\n        sh:datatype     xsd:decimal ;\n        sh:minCount     1 ;\n        sh:minExclusive 0 ;\n    ] ."
+    },
     "links": [
       {
         "label": "W3C: SHACL",
@@ -1310,6 +1558,11 @@
       "A JSON-based serialisation for linked data. Lets you embed semantic context (types, relationships, IRIs) into ordinary JSON without breaking JSON consumers that ignore it.",
       "The pragmatic on-ramp into the RDF world: how Schema.org rides on web pages, how decentralised identity (DID, Verifiable Credentials) ships its payloads, and how many APIs add semantics to existing JSON without forcing clients to learn RDF."
     ],
+    "example": {
+      "language": "json",
+      "caption": "Ordinary JSON plus an `@context`, which turns keys into globally meaningful IRIs.",
+      "code": "{\n  \"@context\": \"https://schema.org\",\n  \"@id\": \"https://example.com/orders/1001\",\n  \"@type\": \"Order\",\n  \"orderNumber\": \"1001\",\n  \"orderStatus\": \"OrderDelivered\",\n  \"customer\": {\n    \"@id\": \"https://example.com/customers/42\",\n    \"@type\": \"Person\",\n    \"name\": \"Ada Lovelace\"\n  }\n}"
+    },
     "links": [
       {
         "label": "W3C: JSON-LD 1.1",
@@ -1335,8 +1588,13 @@
     "judgementReason": "Query RDF; right when your data lives in triples.",
     "description": [
       "The query language for RDF graphs. Pattern-matching syntax that walks graph triples, with federation across endpoints, updates, and a standardised HTTP protocol.",
-      "Where SQL is to relational tables, SPARQL is to RDF: the standard way to ask questions of an OSI, DCAT, SKOS, or SHACL-validated graph. Without it, the rest of the W3C semantic stack cannot answer queries portably."
+      "Where SQL is to relational tables, SPARQL is to RDF: the standard way to ask questions of an Ossie, DCAT, SKOS, or SHACL-validated graph. Without it, the rest of the W3C semantic stack cannot answer queries portably."
     ],
+    "example": {
+      "language": "sparql",
+      "caption": "Graph pattern matching: bind variables against triples, then filter and order the bindings.",
+      "code": "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n\nSELECT ?concept ?label\nWHERE {\n  ?concept a skos:Concept ;\n           skos:prefLabel ?label ;\n           skos:inScheme <https://example.com/scheme/FinanceGlossary> .\n  FILTER (lang(?label) = \"en\")\n}\nORDER BY ?label\nLIMIT 20"
+    },
     "links": [
       {
         "label": "W3C: SPARQL 1.1",
@@ -1360,6 +1618,11 @@
       "Distributed file system designed to run on commodity hardware, originally inspired by Google File System. The storage substrate of the classic Hadoop stack.",
       "Object storage (S3 and friends) has displaced HDFS in most new architectures, but large existing deployments mean it remains an important interface to support."
     ],
+    "example": {
+      "language": "sh",
+      "caption": "A POSIX-shaped CLI over a distributed filesystem, and the URI scheme engines address it by.",
+      "code": "hdfs dfs -mkdir -p /warehouse/sales/orders\nhdfs dfs -put orders.parquet /warehouse/sales/orders/\nhdfs dfs -ls /warehouse/sales/orders\n\n# engines address the same files through the hdfs:// scheme\nspark.read.parquet(\"hdfs://namenode:8020/warehouse/sales/orders\")"
+    },
     "links": [
       {
         "label": "hadoop.apache.org",
@@ -1384,6 +1647,11 @@
       "Standard Java API for connecting to relational databases. Every serious analytical engine, BI tool, and JVM-based data pipeline speaks JDBC.",
       "Row-oriented by design — fine for transactional workloads, suboptimal for moving large analytical result sets where columnar transports like ADBC are faster."
     ],
+    "example": {
+      "language": "java",
+      "caption": "A URL, a connection, a prepared statement — unchanged across every relational database with a driver.",
+      "code": "String url = \"jdbc:postgresql://db.example.com:5432/sales\";\n\ntry (Connection conn = DriverManager.getConnection(url, \"reader\", secret);\n     PreparedStatement ps = conn.prepareStatement(\n         \"SELECT city, SUM(amount) FROM orders WHERE order_date >= ? GROUP BY city\")) {\n\n    ps.setDate(1, Date.valueOf(\"2026-01-01\"));\n    ResultSet rs = ps.executeQuery();\n    while (rs.next()) {\n        System.out.println(rs.getString(1) + \" \" + rs.getBigDecimal(2));\n    }\n}"
+    },
     "links": [
       {
         "label": "JDBC overview",
@@ -1407,6 +1675,11 @@
       "C-based, language-neutral API for accessing relational databases. The cross-platform sibling of JDBC, and the connectivity layer behind most BI tools and Excel-style integrations.",
       "Like JDBC, ODBC is row-oriented — efficient for transactional access, less so for analytical column-heavy result sets."
     ],
+    "example": {
+      "language": "ini",
+      "caption": "A DSN in odbc.ini; applications then connect with `DSN=sales;UID=reader` and never name the driver again.",
+      "code": "[sales]\nDriver   = PostgreSQL Unicode\nServer   = db.example.com\nPort     = 5432\nDatabase = sales\n\n; or skip the DSN entirely:\n; Driver={PostgreSQL Unicode};Server=db.example.com;Port=5432;Database=sales;UID=reader;"
+    },
     "links": [
       {
         "label": "ISO/IEC 9075-3",
@@ -1434,6 +1707,11 @@
       "SOAP-based protocol for querying multidimensional data sources — cubes, semantic layers, and tabular models. The transport that carries MDX (and DAX) queries between BI clients and analytical engines.",
       "Implemented by Microsoft Analysis Services, Mondrian, SAP BW, AtScale, and consumed by Excel, Power BI, Tableau, and most enterprise BI tools. Greenfield analytics has moved on, but XMLA remains how a vast amount of cube-based reporting actually talks to its backend."
     ],
+    "example": {
+      "language": "xml",
+      "caption": "SOAP on the outside, MDX on the inside — how BI clients talk to an OLAP server.",
+      "code": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <Execute xmlns=\"urn:schemas-microsoft-com:xml-analysis\">\n      <Command>\n        <Statement>\n          SELECT {[Measures].[Sales Amount]} ON COLUMNS\n          FROM [Adventure Works]\n        </Statement>\n      </Command>\n      <Properties>\n        <PropertyList>\n          <Catalog>AdventureWorks</Catalog>\n        </PropertyList>\n      </Properties>\n    </Execute>\n  </soap:Body>\n</soap:Envelope>"
+    },
     "links": [
       {
         "label": "XMLA 1.1 specification",
@@ -1462,6 +1740,11 @@
       "Arrow-native database connectivity API. Where JDBC and ODBC marshal results row-by-row, ADBC moves data as Arrow record batches — zero-copy where possible, dramatically faster for analytical workloads.",
       "Designed to coexist with JDBC and ODBC: drivers can wrap them today, and engines can expose ADBC natively for the columnar fast path."
     ],
+    "example": {
+      "language": "python",
+      "caption": "The DBAPI shape you already know, except results arrive as Arrow — no row-by-row conversion on the way out.",
+      "code": "import adbc_driver_postgresql.dbapi as dbapi\n\nwith dbapi.connect(\"postgresql://db.example.com:5432/sales\") as conn:\n    with conn.cursor() as cur:\n        cur.execute(\"SELECT city, amount FROM orders\")\n        table = cur.fetch_arrow_table()"
+    },
     "standardReason": "ADBC is published as an open API specification under the Apache Arrow project, with drivers contributed by multiple vendors (Snowflake, BigQuery, DuckDB, Postgres, SQLite). The driver interface and the Arrow-batch result contract are the standard surface — like JDBC/ODBC, but columnar.",
     "links": [
       {
@@ -1488,6 +1771,11 @@
       "Client-server wire protocol from DuckDB Labs for talking to a DuckDB server. Where JDBC/ODBC/ADBC are client APIs that bind to drivers, Quack defines the protocol on the wire — so clients in any language can speak to a DuckDB server without an embedded engine.",
       "Positions DuckDB beyond the embedded use case it grew up in, and complements ADBC: ADBC standardises the columnar result contract, Quack standardises the connection."
     ],
+    "example": {
+      "language": "sql",
+      "caption": "A DuckDB instance attaches to a remote DuckDB server over the `quack:` scheme and queries it like a local database.",
+      "code": "CREATE SECRET (\n    TYPE quack,\n    TOKEN 'super_secret'\n);\n\nATTACH 'quack:localhost' AS remote;\nFROM remote.hello;"
+    },
     "standardReason": "Quack is published as an open protocol specification by DuckDB Labs. Listed on the de-facto criterion: the wire format is the standard surface, even though governance sits with a single vendor and adoption is still concentrated in the DuckDB ecosystem.",
     "links": [
       {
@@ -1514,6 +1802,11 @@
       "The application protocol of the web, and the universal transport beneath REST APIs, OpenAPI, GraphQL, gRPC (HTTP/2), Iceberg REST catalogs, and OpenLineage events.",
       "Most data interfaces today are some flavour of \"HTTP plus a schema\" — which is why HTTP is a load-bearing assumption in almost any modern data architecture."
     ],
+    "example": {
+      "language": "http",
+      "caption": "Methods, status codes, and caching headers — the substrate nearly every other standard here rides on.",
+      "code": "GET /api/orders?city=Bamberg HTTP/1.1\nHost: api.example.com\nAccept: application/json\nIf-None-Match: \"a41c8\"\n\nHTTP/1.1 200 OK\nContent-Type: application/json\nETag: \"b92f1\"\nCache-Control: max-age=60\n\n[{ \"id\": 1001, \"amount\": 49.90 }]"
+    },
     "links": [
       {
         "label": "RFC 9110 (HTTP semantics)",
@@ -1537,6 +1830,11 @@
       "Distributed log and streaming platform. Originally built at LinkedIn, donated to ASF; now the default backbone for event-driven data pipelines.",
       "The Kafka wire protocol is openly documented and re-implemented by Redpanda, WarpStream, and others, so it sits next to AMQP as a standard option for asynchronous data movement."
     ],
+    "example": {
+      "language": "sh",
+      "caption": "Produce to a topic, then consume it as part of a group — offsets and replay are the protocol's job, not yours.",
+      "code": "kafka-console-producer --bootstrap-server localhost:9092 --topic orders\n\nkafka-console-consumer --bootstrap-server localhost:9092 \\\n    --topic orders --group analytics --from-beginning"
+    },
     "standardReason": "The Kafka wire protocol is publicly documented and re-implemented by Redpanda, WarpStream, and AutoMQ — clients written for one server work against the others. The standard surface is the protocol, not the Apache Kafka broker; that is what lets producers and consumers stay portable across vendors.",
     "links": [
       {
@@ -1562,6 +1860,11 @@
       "Lightweight publish-subscribe messaging protocol designed for constrained devices and unreliable networks. The dominant wire protocol for IoT and edge data.",
       "Where AMQP and Kafka fit centralised broker patterns inside the data centre, MQTT is what shows up at the edge: sensors, vehicles, factory floors. Bridging MQTT into Kafka is a common ingest pattern for industrial data."
     ],
+    "example": {
+      "language": "sh",
+      "caption": "Topic hierarchies with wildcards, quality-of-service per message, and retained values for late subscribers.",
+      "code": "mosquitto_sub -h broker.example.com -t 'sensors/+/temperature' -q 1\n\nmosquitto_pub -h broker.example.com -t 'sensors/rack-1/temperature' \\\n    -m '21.5' -q 1 --retain"
+    },
     "links": [
       {
         "label": "mqtt.org",
@@ -1589,6 +1892,11 @@
       "Specification for describing event data in a common way. Defines a vendor-neutral envelope (id, source, type, time, data) plus protocol bindings for HTTP, Kafka, AMQP, MQTT, NATS, and others.",
       "Where Kafka/AMQP/MQTT are transports, CloudEvents is the shape of what flows over them. Increasingly the default cross-system event format in cloud-native and serverless architectures."
     ],
+    "example": {
+      "language": "json",
+      "caption": "A thin envelope of required metadata around a payload the standard deliberately says nothing about.",
+      "code": "{\n  \"specversion\": \"1.0\",\n  \"type\": \"com.example.order.placed\",\n  \"source\": \"/orders/service\",\n  \"id\": \"A234-1234-1234\",\n  \"time\": \"2026-01-14T10:15:30Z\",\n  \"datacontenttype\": \"application/json\",\n  \"data\": { \"orderId\": 1001, \"amount\": 49.90 }\n}"
+    },
     "links": [
       {
         "label": "cloudevents.io",
@@ -1616,6 +1924,11 @@
       "Open wire-level protocol for message-oriented middleware. Reliable, broker-mediated message exchange independent of any single vendor.",
       "Implemented by RabbitMQ, Azure Service Bus, ActiveMQ and others. Sits next to MQTT and the Kafka protocol as a standard option for asynchronous data movement."
     ],
+    "example": {
+      "language": "text",
+      "caption": "An AMQP 1.0 message is a sequence of typed sections; brokers route on the properties without parsing the body.",
+      "code": "header                  durable=true, priority=4, ttl=60000\nmessage-annotations     {\"x-opt-jms-dest\": \"queue\"}\nproperties              message-id=1001, to=orders,\n                        content-type=application/json,\n                        creation-time=2026-01-14T10:15:30Z\napplication-properties  {\"city\": \"Bamberg\"}\nbody                    {\"orderId\": 1001, \"amount\": 49.90}"
+    },
     "links": [
       {
         "label": "amqp.org",
@@ -1643,6 +1956,11 @@
       "Java API specification for producing, sending, and consuming messages between application components. Originally JSR 914 under the Java Community Process; now Jakarta Messaging under the Eclipse Foundation.",
       "Implemented by ActiveMQ, Artemis, IBM MQ, Solace, and most enterprise message brokers. JMS sits one layer above wire protocols like AMQP — it standardises the application API rather than the on-the-wire bytes."
     ],
+    "example": {
+      "language": "java",
+      "caption": "The Java API, not the wire format: the same code runs against any JMS provider.",
+      "code": "try (JMSContext ctx = connectionFactory.createContext()) {\n    Queue queue = ctx.createQueue(\"orders\");\n\n    ctx.createProducer().send(queue, \"{\\\"orderId\\\": 1001}\");\n\n    JMSConsumer consumer = ctx.createConsumer(queue);\n    String body = consumer.receiveBody(String.class, 5000);\n}"
+    },
     "links": [
       {
         "label": "Jakarta Messaging spec",
@@ -1672,6 +1990,11 @@
       "FTP (RFC 959) is the original file transfer protocol; SFTP runs file transfer over an SSH channel and is the secure variant most enterprises actually deploy.",
       "Unsexy but unavoidable: many regulated industries — banking, insurance, public sector — still hand off bulk data between organisations as nightly (S)FTP drops."
     ],
+    "example": {
+      "language": "sh",
+      "caption": "An interactive session over SSH; still the transport many partner and regulatory feeds arrive on.",
+      "code": "sftp deploy@files.example.com\nsftp> cd /incoming/orders\nsftp> put orders-2026-01-14.csv\nsftp> ls -l\nsftp> bye"
+    },
     "links": [
       {
         "label": "RFC 959 (FTP)",
@@ -1700,6 +2023,11 @@
       "Open REST protocol for sharing tabular datasets across organisations and platforms without copying data. A recipient gets short-lived signed URLs to read Parquet/Delta files directly from the provider's object store.",
       "Implemented by Databricks, plus open-source servers and clients in Python, Spark, Pandas, and Power BI. Sits next to FTP and HTTP as a modern, table-aware option for cross-organisation data exchange."
     ],
+    "example": {
+      "language": "json",
+      "caption": "The recipient gets a profile file, not a database account; the client then reads through the REST API, e.g. GET /shares/sales/schemas/public/tables/orders/metadata.",
+      "code": "{\n  \"shareCredentialsVersion\": 1,\n  \"endpoint\": \"https://sharing.example.com/delta-sharing/\",\n  \"bearerToken\": \"<token>\",\n  \"expirationTime\": \"2026-12-31T23:59:59.0Z\"\n}"
+    },
     "standardReason": "Delta Sharing is published as an open REST protocol specification under the Linux Foundation, with reference servers and clients across multiple languages and several independent implementations (Databricks, AWS, Azure, Power BI). The wire protocol is the standard surface — not the Databricks product.",
     "links": [
       {
@@ -1728,6 +2056,11 @@
       "Open standard for a portable DataFrame API across Python implementations. The aim: write code once, run on pandas, Polars, Modin, cuDF, or any compliant library.",
       "Sister specification to the Array API Standard. Sponsored by data-apis.org with backing from Quansight, NVIDIA, Microsoft, Intel, and the major DataFrame projects. The standard everyone reaches for when \"which DataFrame API?\" needs to stop being a portability question."
     ],
+    "example": {
+      "language": "python",
+      "caption": "Library code written against the standard runs unchanged on pandas, Polars, Modin, or cuDF — no isinstance branching.",
+      "code": "def large_orders(df):\n    \"\"\"`df` is any compliant dataframe, whatever library produced it.\"\"\"\n    return (\n        df.filter(df.col(\"amount\") > 100)\n          .select(\"order_id\", \"city\", \"amount\")\n    )"
+    },
     "links": [
       {
         "label": "data-apis.org",
@@ -1756,6 +2089,11 @@
       "Language-agnostic columnar in-memory format for analytical data. Designed for zero-copy reads and efficient interchange between processes, languages, and engines.",
       "Foundation for ADBC, the basis of pandas 2.x, the wire format of Arrow Flight, and the in-memory layout of DuckDB, Polars, and many others. Arrow is the connective tissue of modern analytics."
     ],
+    "example": {
+      "language": "python",
+      "caption": "One columnar layout in memory, and an IPC format that hands it between processes and languages without a copy.",
+      "code": "import pyarrow as pa\n\ntable = pa.table({\n    \"order_id\": pa.array([1001, 1002], type=pa.int64()),\n    \"city\":     pa.array([\"Bamberg\", \"Berlin\"]),\n})\n\nwith pa.ipc.new_stream(\"orders.arrows\", table.schema) as writer:\n    writer.write_table(table)"
+    },
     "standardReason": "Arrow's columnar memory layout and IPC format are an open specification, not a library. DuckDB, Polars, pandas 2.x, Spark, and ADBC all align on the same in-memory representation, which is what enables zero-copy interchange across engines and languages. The format spec is the standard.",
     "links": [
       {
@@ -1781,6 +2119,11 @@
       "Distributed analytics engine with a DataFrame API across Scala, Java, Python, and R. The classic large-scale processing engine for batch and streaming workloads.",
       "Spark Connect decouples client and engine, making the DataFrame API a portable client interface — which is why it shows up here as an interface, not just an engine."
     ],
+    "example": {
+      "language": "python",
+      "caption": "The DataFrame API: a lazily built plan that the engine optimises before any data moves.",
+      "code": "df = (spark.read.parquet(\"s3://warehouse/orders\")\n        .filter(\"order_date >= '2026-01-01'\")\n        .groupBy(\"city\")\n        .sum(\"amount\"))\n\ndf.write.mode(\"overwrite\").saveAsTable(\"marts.orders_by_city\")"
+    },
     "standardReason": "Spark's DataFrame API and the Spark Connect protocol are the standard parts. Spark Connect publishes a gRPC contract that any Spark-compatible engine can serve, and the DataFrame API is what other engines (e.g. Databricks Connect, Apache Sedona) target. The interface, not the JVM runtime, is what makes Spark a standard.",
     "links": [
       {
@@ -1807,6 +2150,11 @@
       "Unified programming model for batch and streaming data processing. Pipelines written once in Beam can run on Flink, Spark, Google Cloud Dataflow, or the direct local runner.",
       "Originated as Google's Dataflow SDK, donated to ASF in 2016. Stronger claim to “standard” than most processing frameworks: the model itself — PCollections, transforms, windowing, triggers — is the spec, with runners as competing implementations."
     ],
+    "example": {
+      "language": "python",
+      "caption": "One pipeline definition, executed by whichever runner you point it at — Flink, Spark, or Dataflow.",
+      "code": "import apache_beam as beam\n\nwith beam.Pipeline() as p:\n    (p\n     | \"Read\"   >> beam.io.ReadFromText(\"orders.csv\")\n     | \"Parse\"  >> beam.Map(lambda line: line.split(\",\"))\n     | \"ByCity\" >> beam.Map(lambda cols: (cols[1], float(cols[2])))\n     | \"Sum\"    >> beam.CombinePerKey(sum)\n     | \"Write\"  >> beam.io.WriteToText(\"revenue-by-city\"))"
+    },
     "standardReason": "Beam's value is the model, not the runner. The Beam programming model and the portability framework (Fn API, Runner API) are an open specification that multiple runners implement. Pipelines move between Flink, Spark, and Dataflow without code changes precisely because all three implement the same Beam contract — making the model the standard surface tools and teams target.",
     "links": [
       {
@@ -1832,6 +2180,11 @@
       "The original Python DataFrame library. Whatever else a Python data practitioner uses, they almost certainly know pandas — which makes its API a de-facto interface that other libraries (Polars, Modin, cuDF) deliberately mimic.",
       "Pandas 2.x added Arrow-backed columns, narrowing the gap with newer engines while preserving the familiar API."
     ],
+    "example": {
+      "language": "python",
+      "caption": "The API whose idioms — boolean masks, groupby, method chaining — every later DataFrame library answers to.",
+      "code": "import pandas as pd\n\ndf = pd.read_parquet(\"orders.parquet\")\n\nrevenue = (df[df[\"amount\"] > 0]\n             .groupby(\"city\", as_index=False)[\"amount\"]\n             .sum()\n             .sort_values(\"amount\", ascending=False))"
+    },
     "standardReason": "The pandas Python API is the de-facto DataFrame interface other libraries deliberately mimic — Modin, cuDF, Dask, and many wrappers expose pandas-compatible surfaces precisely because users already know it. The API shape, not the implementation, is what makes pandas a standard reference.",
     "links": [
       {
@@ -1856,6 +2209,11 @@
       "Portable Python DataFrame API that compiles expressions to a backend of choice — DuckDB, BigQuery, Snowflake, Postgres, Spark, and many others.",
       "Lets analytics code be written once and executed against whichever engine the data happens to live on, without rewriting in each backend's SQL dialect."
     ],
+    "example": {
+      "language": "python",
+      "caption": "One expression, many backends: the same code compiles to DuckDB, Postgres, BigQuery, or Snowflake SQL.",
+      "code": "import ibis\n\ncon = ibis.duckdb.connect(\"warehouse.ddb\")\norders = con.table(\"orders\")\n\nexpr = (orders.filter(orders.amount > 0)\n              .group_by(\"city\")\n              .aggregate(revenue=orders.amount.sum()))\n\nexpr.to_pandas()"
+    },
     "standardReason": "Ibis defines a backend-neutral DataFrame expression API, with a published backend protocol that 20+ engines implement. The API and the backend contract are the standard surface — Ibis is the rare project where the standardised \"interface\" is its whole reason to exist.",
     "links": [
       {
@@ -1881,6 +2239,11 @@
       "The processing side of SQL: CTEs and window functions for transformation logic, INSERT / UPDATE / DELETE / MERGE for state changes, and CREATE OR REPLACE TABLE / VIEW for materialising results. The portable way to express batch transformations against any relational or lakehouse engine.",
       "Tools like dbt, SQLMesh, and dataform are essentially orchestrators around this surface — the transformations themselves are SQL DML."
     ],
+    "example": {
+      "language": "sql",
+      "caption": "Insert, update, and the merge that turns a staging table into an upsert.",
+      "code": "INSERT INTO orders (id, customer_id, amount, city)\nVALUES (1001, 42, 49.90, 'Bamberg');\n\nUPDATE orders SET amount = amount * 1.19 WHERE city = 'Bamberg';\n\nMERGE INTO orders AS t\nUSING staged_orders AS s ON t.id = s.id\nWHEN MATCHED THEN UPDATE SET t.amount = s.amount\nWHEN NOT MATCHED THEN INSERT (id, amount) VALUES (s.id, s.amount);"
+    },
     "standardReason": "ISO/IEC 9075 specifies a portable DML core — CTEs (SQL:1999), window functions (SQL:2003), and MERGE (SQL:2003) — that every serious analytical engine implements. Transformations written against this core run on Snowflake, BigQuery, Databricks, DuckDB, Postgres, and Trino with minimal change. The standard surface, not any vendor's dialect, is what makes SQL the default processing language.",
     "links": [
       {
@@ -1909,6 +2272,11 @@
       "Declarative, template-based language for transforming XML documents into other XML, HTML, or text. The processing counterpart to XML Schema — where XSD describes structure, XSLT rewrites it.",
       "Implemented by Saxon, libxslt, and every major XML toolchain. Still load-bearing in publishing, government, banking, and healthcare integrations where XML pipelines never went away."
     ],
+    "example": {
+      "language": "xml",
+      "caption": "A stylesheet is itself XML: templates match nodes, and the processor walks the tree applying them.",
+      "code": "<xsl:stylesheet version=\"1.0\"\n                xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">\n  <xsl:output method=\"text\"/>\n\n  <xsl:template match=\"/orders\">\n    <xsl:for-each select=\"order\">\n      <xsl:value-of select=\"@id\"/>,<xsl:value-of select=\"amount\"/>\n      <xsl:text>&#10;</xsl:text>\n    </xsl:for-each>\n  </xsl:template>\n</xsl:stylesheet>"
+    },
     "links": [
       {
         "label": "W3C: XSL Transformations (XSLT) 3.0",
@@ -1939,6 +2307,11 @@
       "YAML-based schema language for modelling structured data and ontologies. One LinkML schema can be compiled to JSON Schema, SHACL, RDF/OWL, Pydantic classes, Protobuf, and SQL DDL — useful when the same domain model needs to power validation, semantics, and code generation simultaneously.",
       "Sits between schema languages (JSON Schema, AVRO Schema) and ontology languages (RDF/OWL, SHACL). Pragmatic, opinionated, and increasingly the default modelling vehicle in linked-data-friendly research consortia."
     ],
+    "example": {
+      "language": "yaml",
+      "caption": "A readable YAML schema that generates JSON Schema, SHACL, SQL DDL, and Python classes from one source.",
+      "code": "id: https://example.com/orders\nname: orders\nprefixes:\n  linkml: https://w3id.org/linkml/\nimports:\n  - linkml:types\ndefault_range: string\n\nclasses:\n  Order:\n    attributes:\n      id:\n        identifier: true\n      amount:\n        range: decimal\n        required: true\n      city:"
+    },
     "links": [
       {
         "label": "linkml.io",
@@ -1968,6 +2341,11 @@
       "Open vocabulary of types and properties for structured data on the web, originated by Google, Microsoft, Yahoo, and Yandex in 2011 and now stewarded by the schema.org Community Group at W3C. Provides ~800 types (Person, Organization, Product, Dataset, Article…) and thousands of properties.",
       "Most often serialised as JSON-LD inside HTML pages so search engines can read structured data. The Dataset and DataCatalog types overlap with DCAT — and many open-data portals publish both views of the same metadata."
     ],
+    "example": {
+      "language": "html",
+      "caption": "JSON-LD in a script tag: the markup search engines read to understand what a page is about.",
+      "code": "<script type=\"application/ld+json\">\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Dataset\",\n  \"name\": \"Orders 2026\",\n  \"description\": \"All customer orders placed in 2026.\",\n  \"license\": \"https://creativecommons.org/licenses/by/4.0/\",\n  \"creator\": { \"@type\": \"Organization\", \"name\": \"Example GmbH\" },\n  \"distribution\": {\n    \"@type\": \"DataDownload\",\n    \"encodingFormat\": \"text/csv\",\n    \"contentUrl\": \"https://example.com/orders-2026.csv\"\n  }\n}\n</script>"
+    },
     "links": [
       {
         "label": "schema.org",
@@ -1997,6 +2375,11 @@
       "Concise, human-friendly grammar for describing the expected shape of RDF graphs. Used to validate that linked data conforms to a target schema before publishing or ingesting it.",
       "Originated alongside SHACL during the W3C RDF Data Shapes Working Group. The two specs solve overlapping problems with different design choices: ShEx prioritises a compact ShExC syntax and recursive shape definitions; SHACL prioritises RDF-native rule expression."
     ],
+    "example": {
+      "language": "shex",
+      "caption": "The compact syntax: a shape reads like a record definition, with `?` marking an optional triple.",
+      "code": "PREFIX ex:  <https://example.com/ontology#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n\nex:OrderShape {\n  ex:amount   xsd:decimal        ;\n  ex:city     xsd:string ?       ;\n  ex:placedBy @ex:CustomerShape  ;\n}"
+    },
     "links": [
       {
         "label": "shex.io",
@@ -2026,6 +2409,11 @@
       "RDF/JSON-based language for expressing permissions, prohibitions, and obligations over digital assets. Born out of digital-rights management; W3C ratified the Information Model (v2.2) and Vocabulary in 2018.",
       "Sees growing use in European data-spaces work where machine-readable usage policies are part of the contract surface — ODRL policies often ship alongside ODCS-style contracts to declare what consumers may and may not do with the data."
     ],
+    "example": {
+      "language": "json",
+      "caption": "Machine-readable terms of use: who may do what to which asset, under which constraint.",
+      "code": "{\n  \"@context\": \"http://www.w3.org/ns/odrl.jsonld\",\n  \"@type\": \"Set\",\n  \"uid\": \"https://example.com/policy/orders-9\",\n  \"permission\": [{\n    \"target\": \"https://example.com/dataset/orders\",\n    \"action\": \"read\",\n    \"constraint\": [{\n      \"leftOperand\": \"dateTime\",\n      \"operator\": \"lt\",\n      \"rightOperand\": { \"@value\": \"2027-01-01\", \"@type\": \"xsd:date\" }\n    }]\n  }]\n}"
+    },
     "links": [
       {
         "label": "ODRL Information Model 2.2",
@@ -2059,6 +2447,11 @@
       "Family of W3C documents (PROV-DM data model, PROV-O OWL ontology, PROV-N notation, PROV-XML serialisation) for describing entities, activities, and agents involved in producing a piece of data.",
       "Common in scientific data, archival systems, and FAIR-data contexts. The conceptual model (Entity / Activity / Agent / wasDerivedFrom / wasGeneratedBy) heavily influenced later lineage standards including OpenLineage's job/run/dataset triples."
     ],
+    "example": {
+      "language": "turtle",
+      "caption": "Three core classes — Entity, Activity, Agent — and the relations between them.",
+      "code": "@prefix prov: <http://www.w3.org/ns/prov#> .\n@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .\n@prefix ex:   <https://example.com/> .\n\nex:orders_by_city a prov:Entity ;\n    prov:wasGeneratedBy ex:nightly_run_42 ;\n    prov:wasDerivedFrom ex:orders_raw .\n\nex:nightly_run_42 a prov:Activity ;\n    prov:startedAtTime     \"2026-01-14T02:00:00Z\"^^xsd:dateTime ;\n    prov:wasAssociatedWith ex:etl_service ."
+    },
     "links": [
       {
         "label": "PROV Overview",
@@ -2092,6 +2485,11 @@
       "ISO/IEC 39075 standard query language for property graphs, ratified in 2024. The first new ISO data query language standard since SQL; designed to do for graph databases what SQL did for relational ones.",
       "Implemented or in-progress at Neo4j (extending Cypher), TigerGraph, Oracle, Memgraph, AWS Neptune, and others. Heavily influenced by openCypher and ISO SQL/PGQ (the SQL extension for property-graph queries that shipped in SQL:2023)."
     ],
+    "example": {
+      "language": "gql",
+      "caption": "Pattern matching over nodes and relationships, standardised the way SQL standardised relational query.",
+      "code": "MATCH (c:Customer)-[:PLACED]->(o:Order)\nWHERE o.amount > 100\nRETURN c.name AS customer, sum(o.amount) AS revenue\nORDER BY revenue DESC\nLIMIT 10"
+    },
     "links": [
       {
         "label": "ISO/IEC 39075:2024",
@@ -2119,6 +2517,11 @@
       "Standardised protocol for building and consuming RESTful data APIs. Defines URL conventions, query syntax (filter, select, expand, orderby, pagination), and a metadata model (CSDL) so clients can discover schema and capabilities programmatically.",
       "Heavily used inside Microsoft (Dynamics 365, Power BI, Microsoft Graph), SAP (S/4HANA, OData services), Salesforce, and Oracle Fusion. Where OpenAPI describes any REST surface, OData prescribes a uniform shape so consumers don't have to learn each API individually."
     ],
+    "example": {
+      "language": "http",
+      "caption": "Query options in the URL: filtering, projection, and paging without a bespoke API per resource.",
+      "code": "GET /odata/Orders?$filter=amount gt 100 and city eq 'Bamberg'&$select=id,amount&$top=10 HTTP/1.1\nHost: api.example.com\nAccept: application/json\n\nHTTP/1.1 200 OK\n{\n  \"@odata.context\": \"$metadata#Orders(id,amount)\",\n  \"value\": [ { \"id\": 1001, \"amount\": 149.90 } ]\n}"
+    },
     "standardReason": "OData is an OASIS Standard with a publicly-defined wire protocol and metadata format (CSDL). Multiple independent implementations exist across Microsoft, SAP, Salesforce, Oracle, and the OData4j / Olingo open-source stacks, so \"speaks OData\" is a portability claim rather than a vendor-lock-in label.",
     "links": [
       {
@@ -2153,6 +2556,11 @@
       "Lightweight JSON spec for describing the columns of a tabular dataset — name, type, format, constraints, primary key, foreign keys. Rendered alongside the actual CSV/JSON data inside a Data Package so consumers can validate and type-cast without out-of-band documentation.",
       "Common in open-data ecosystems: data.gov, the EU Open Data Portal, and many research-data publishers ship Frictionless Data Packages containing one Table Schema per resource."
     ],
+    "example": {
+      "language": "json",
+      "caption": "A small JSON descriptor that gives a CSV the types, keys, and constraints the file itself cannot carry.",
+      "code": "{\n  \"fields\": [\n    { \"name\": \"order_id\", \"type\": \"integer\", \"constraints\": { \"required\": true } },\n    { \"name\": \"city\", \"type\": \"string\" },\n    { \"name\": \"amount\", \"type\": \"number\", \"constraints\": { \"minimum\": 0 } },\n    { \"name\": \"ordered_at\", \"type\": \"date\", \"format\": \"%Y-%m-%d\" }\n  ],\n  \"primaryKey\": [\"order_id\"],\n  \"missingValues\": [\"\"]\n}"
+    },
     "links": [
       {
         "label": "Table Schema spec",

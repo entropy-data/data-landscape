@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/jdbc/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/jdbc/","url":"https://www.data-landscape.com/standards/jdbc/","name":"JDBC — Java Database Connectivity | Data Landscape","description":"Standard Java API for connecting to relational databases. Every serious analytical engine, BI tool, and JVM-based data pipeline speaks JDBC.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/jdbc/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/jdbc/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/adbc/","https://www.data-landscape.com/standards/odbc/","https://www.data-landscape.com/standards/quack/","https://www.data-landscape.com/standards/xmla/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/jdbc/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Database Connectivity","item":"https://www.data-landscape.com/categories/database-connectivity/"},{"@type":"ListItem","position":3,"name":"JDBC"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/jdbc/","name":"JDBC","alternateName":"Java Database Connectivity","termCode":"jdbc","description":"Standard Java API for connecting to relational databases. Every serious analytical engine, BI tool, and JVM-based data pipeline speaks JDBC.","url":"https://www.data-landscape.com/standards/jdbc/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Every JVM data tool speaks it; default for 25 years.","sameAs":"https://docs.oracle.com/javase/tutorial/jdbc/"}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/jdbc/","url":"https://www.data-landscape.com/standards/jdbc/","name":"JDBC — Java Database Connectivity | Data Landscape","description":"Standard Java API for connecting to relational databases. Every serious analytical engine, BI tool, and JVM-based data pipeline speaks JDBC.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/jdbc/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/jdbc/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/adbc/","https://www.data-landscape.com/standards/odbc/","https://www.data-landscape.com/standards/quack/","https://www.data-landscape.com/standards/xmla/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/jdbc/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Database Connectivity","item":"https://www.data-landscape.com/categories/database-connectivity/"},{"@type":"ListItem","position":3,"name":"JDBC"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/jdbc/","name":"JDBC","alternateName":"Java Database Connectivity","termCode":"jdbc","description":"Standard Java API for connecting to relational databases. Every serious analytical engine, BI tool, and JVM-based data pipeline speaks JDBC.","url":"https://www.data-landscape.com/standards/jdbc/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Every JVM data tool speaks it; default for 25 years.","sameAs":"https://docs.oracle.com/javase/tutorial/jdbc/"}]}</script>
 </head>
 <body class="bg-white">
 
@@ -119,6 +125,21 @@
         <p>Standard Java API for connecting to relational databases. Every serious analytical engine, BI tool, and JVM-based data pipeline speaks JDBC.</p>
         <p>Row-oriented by design — fine for transactional workloads, suboptimal for moving large analytical result sets where columnar transports like ADBC are faster.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">A URL, a connection, a prepared statement — unchanged across every relational database with a driver.</p>
+      <pre class="code-block mt-4"><code>String url = "jdbc:postgresql://db.example.com:5432/sales";
+
+try (Connection conn = DriverManager.getConnection(url, "reader", secret);
+     PreparedStatement ps = conn.prepareStatement(
+         "SELECT city, SUM(amount) FROM orders WHERE order_date &gt;= ? GROUP BY city")) {
+
+    ps.setDate(1, Date.valueOf("2026-01-01"));
+    ResultSet rs = ps.executeQuery();
+    while (rs.next()) {
+        System.out.println(rs.getString(1) + " " + rs.getBigDecimal(2));
+    }
+}</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

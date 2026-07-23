@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/adbc/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/adbc/","url":"https://www.data-landscape.com/standards/adbc/","name":"ADBC — Arrow Database Connectivity | Data Landscape","description":"Arrow-native database connectivity API. Where JDBC and ODBC marshal results row-by-row, ADBC moves data as Arrow record batches — zero-copy where possible…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/adbc/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/adbc/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/jdbc/","https://www.data-landscape.com/standards/odbc/","https://www.data-landscape.com/standards/quack/","https://www.data-landscape.com/standards/xmla/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/adbc/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Database Connectivity","item":"https://www.data-landscape.com/categories/database-connectivity/"},{"@type":"ListItem","position":3,"name":"ADBC"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/adbc/","name":"ADBC","alternateName":"Arrow Database Connectivity","termCode":"adbc","description":"Arrow-native database connectivity API. Where JDBC and ODBC marshal results row-by-row, ADBC moves data as Arrow record batches — zero-copy where possible, dramatically faster for analytical workloads.","url":"https://www.data-landscape.com/standards/adbc/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Arrow-native DB connectivity; the modern replacement for JDBC/ODBC on analytical workloads.","sameAs":"https://arrow.apache.org/adbc/"}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/adbc/","url":"https://www.data-landscape.com/standards/adbc/","name":"ADBC — Arrow Database Connectivity | Data Landscape","description":"Arrow-native database connectivity API. Where JDBC and ODBC marshal results row-by-row, ADBC moves data as Arrow record batches — zero-copy where possible…","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/adbc/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/adbc/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/jdbc/","https://www.data-landscape.com/standards/odbc/","https://www.data-landscape.com/standards/quack/","https://www.data-landscape.com/standards/xmla/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/adbc/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Database Connectivity","item":"https://www.data-landscape.com/categories/database-connectivity/"},{"@type":"ListItem","position":3,"name":"ADBC"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/adbc/","name":"ADBC","alternateName":"Arrow Database Connectivity","termCode":"adbc","description":"Arrow-native database connectivity API. Where JDBC and ODBC marshal results row-by-row, ADBC moves data as Arrow record batches — zero-copy where possible, dramatically faster for analytical workloads.","url":"https://www.data-landscape.com/standards/adbc/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Arrow-native DB connectivity; the modern replacement for JDBC/ODBC on analytical workloads.","sameAs":"https://arrow.apache.org/adbc/"}]}</script>
 </head>
 <body class="bg-white">
 
@@ -124,6 +130,15 @@
         <p class="font-semibold">Why it counts as a standard</p>
         <p class="mt-1">ADBC is published as an open API specification under the Apache Arrow project, with drivers contributed by multiple vendors (Snowflake, BigQuery, DuckDB, Postgres, SQLite). The driver interface and the Arrow-batch result contract are the standard surface — like JDBC/ODBC, but columnar.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">The DBAPI shape you already know, except results arrive as Arrow — no row-by-row conversion on the way out.</p>
+      <pre class="code-block mt-4"><code>import adbc_driver_postgresql.dbapi as dbapi
+
+with dbapi.connect("postgresql://db.example.com:5432/sales") as conn:
+    with conn.cursor() as cur:
+        cur.execute("SELECT city, amount FROM orders")
+        table = cur.fetch_arrow_table()</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

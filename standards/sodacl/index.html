@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/sodacl/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/sodacl/","url":"https://www.data-landscape.com/standards/sodacl/","name":"SodaCL — Soda Checks Language | Data Landscape","description":"YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/sodacl/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/sodacl/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt-tests/","https://www.data-landscape.com/standards/great-expectations/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/sodacl/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Data Quality","item":"https://www.data-landscape.com/categories/data-quality/"},{"@type":"ListItem","position":3,"name":"SodaCL"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/sodacl/","name":"SodaCL","alternateName":"Soda Checks Language","termCode":"sodacl","description":"YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.","url":"https://www.data-landscape.com/standards/sodacl/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — YAML-first DQ; lighter than Great Expectations, smaller ecosystem.","sameAs":["https://docs.soda.io/soda-cl/soda-cl-overview.html","https://github.com/sodadata/soda-core"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/sodacl/","url":"https://www.data-landscape.com/standards/sodacl/","name":"SodaCL — Soda Checks Language | Data Landscape","description":"YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/sodacl/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/sodacl/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt-tests/","https://www.data-landscape.com/standards/great-expectations/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/sodacl/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Data Quality","item":"https://www.data-landscape.com/categories/data-quality/"},{"@type":"ListItem","position":3,"name":"SodaCL"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/sodacl/","name":"SodaCL","alternateName":"Soda Checks Language","termCode":"sodacl","description":"YAML-based DSL for expressing data quality checks against tables and columns. Belgian roots — appropriately close to home for the Leuven meetup.","url":"https://www.data-landscape.com/standards/sodacl/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Situational — YAML-first DQ; lighter than Great Expectations, smaller ecosystem.","sameAs":["https://docs.soda.io/soda-cl/soda-cl-overview.html","https://github.com/sodadata/soda-core"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -125,6 +131,15 @@
         <p class="font-semibold">Why it counts as a standard</p>
         <p class="mt-1">SodaCL is the YAML check language Soda publishes — and the part that other tools have standardised on. The Data Contract CLI delegates ODCS quality checks to SodaCL because expressing checks portably matters more than running them in Soda Cloud. The check syntax is the standard surface, even though Soda governs it.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">Checks read close to English and compile down to SQL against the warehouse.</p>
+      <pre class="code-block mt-4"><code>checks for dim_customer:
+  - row_count between 10 and 1000
+  - missing_count(birth_date) = 0
+  - duplicate_count(phone) = 0
+  - invalid_percent(phone) &lt; 1 %:
+      valid format: phone number</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

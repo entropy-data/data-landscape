@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/odcs/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/odcs/","url":"https://www.data-landscape.com/standards/odcs/","name":"ODCS — Open Data Contract Standard | Data Landscape","description":"YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/odcs/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/odcs/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/asyncapi/","https://www.data-landscape.com/standards/graphql/","https://www.data-landscape.com/standards/openapi/","https://www.data-landscape.com/standards/grpc/","https://www.data-landscape.com/standards/odata/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/odcs/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Contracts","item":"https://www.data-landscape.com/categories/contracts/"},{"@type":"ListItem","position":3,"name":"ODCS"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/odcs/","name":"ODCS","alternateName":"Open Data Contract Standard","termCode":"odcs","description":"YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.","url":"https://www.data-landscape.com/standards/odcs/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Winning data-contract spec; YAML, multi-vendor.","sameAs":["https://bitol.io","https://github.com/bitol-io/open-data-contract-standard","https://bitol-io.github.io/open-data-contract-standard/latest/"]}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/odcs/","url":"https://www.data-landscape.com/standards/odcs/","name":"ODCS — Open Data Contract Standard | Data Landscape","description":"YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/odcs/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/odcs/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/asyncapi/","https://www.data-landscape.com/standards/graphql/","https://www.data-landscape.com/standards/openapi/","https://www.data-landscape.com/standards/grpc/","https://www.data-landscape.com/standards/odata/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/odcs/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Contracts","item":"https://www.data-landscape.com/categories/contracts/"},{"@type":"ListItem","position":3,"name":"ODCS"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/odcs/","name":"ODCS","alternateName":"Open Data Contract Standard","termCode":"odcs","description":"YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.","url":"https://www.data-landscape.com/standards/odcs/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Adopt — Winning data-contract spec; YAML, multi-vendor.","sameAs":["https://bitol.io","https://github.com/bitol-io/open-data-contract-standard","https://bitol-io.github.io/open-data-contract-standard/latest/"]}]}</script>
 </head>
 <body class="bg-white">
 
@@ -120,6 +126,33 @@
         <p>YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.</p>
         <p>Originated as PayPal's internal Data Contract Template (donated as ODCS 2.x). Starting with v3.0 the standard was generalised for any enterprise.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">A data contract: who owns the data, where it physically lives, and what the schema promises.</p>
+      <pre class="code-block mt-4"><code>apiVersion: v3.1.0
+kind: DataContract
+id: 53581432-6c55-4ba2-a65f-72344a91553a
+domain: seller
+dataProduct: my quantum
+version: 1.1.0
+status: active
+description:
+  purpose: Views built on top of the seller tables.
+servers:
+  - server: my-postgres
+    type: postgres
+    host: localhost
+    port: 5432
+    database: pypl-edw
+    schema: pp_access_views
+schema:
+  - name: tbl
+    physicalType: table
+    properties:
+      - name: rcvr_id
+        logicalType: string
+        physicalType: varchar(18)
+        primaryKey: true</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

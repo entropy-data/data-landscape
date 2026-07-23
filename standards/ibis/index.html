@@ -26,10 +26,9 @@
 
   <link rel="canonical" href="https://www.data-landscape.com/standards/ibis/"/>
   <link rel="alternate" type="text/markdown" title="llms-full.txt" href="/llms-full.txt"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/ibis/","url":"https://www.data-landscape.com/standards/ibis/","name":"Ibis — Processing | Data Landscape","description":"Portable Python DataFrame API that compiles expressions to a backend of choice — DuckDB, BigQuery, Snowflake, Postgres, Spark, and many others.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/ibis/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/ibis/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt/","https://www.data-landscape.com/standards/pandas/","https://www.data-landscape.com/standards/spark/","https://www.data-landscape.com/standards/sql-dml/","https://www.data-landscape.com/standards/beam/","https://www.data-landscape.com/standards/xslt/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/ibis/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Processing","item":"https://www.data-landscape.com/categories/processing/"},{"@type":"ListItem","position":3,"name":"Ibis"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/ibis/","name":"Ibis","termCode":"ibis","description":"Portable Python DataFrame API that compiles expressions to a backend of choice — DuckDB, BigQuery, Snowflake, Postgres, Spark, and many others.","url":"https://www.data-landscape.com/standards/ibis/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Assess — Portable Python DataFrame compiling to many backends; trajectory strong, footprint small.","sameAs":"https://ibis-project.org"}]}</script>
   <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
   <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
-  <link rel="apple-touch-icon" href="/media/logo_fuchsia_v2.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
@@ -67,6 +66,12 @@
     .callout-caution     { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
     .callout-info        { border-color: #6366f1; background: #eef2ff; color: #312e81; }
     .callout-note        { border-color: #fbbf24; background: #fffbeb; color: #78350f; }
+    .code-block {
+      overflow-x: auto; border-radius: 0.5rem; border: 1px solid #e5e7eb;
+      background: #f9fafb; padding: 1rem; color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8125rem; line-height: 1.5; tab-size: 2;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
@@ -74,6 +79,7 @@
       }
     }
   </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.data-landscape.com/standards/ibis/","url":"https://www.data-landscape.com/standards/ibis/","name":"Ibis — Processing | Data Landscape","description":"Portable Python DataFrame API that compiles expressions to a backend of choice — DuckDB, BigQuery, Snowflake, Postgres, Spark, and many others.","inLanguage":"en","isPartOf":{"@id":"https://www.data-landscape.com/#website"},"dateModified":"2026-06-22","mainEntity":{"@id":"https://www.data-landscape.com/standards/ibis/"},"breadcrumb":{"@id":"https://www.data-landscape.com/standards/ibis/#breadcrumb"},"relatedLink":["https://www.data-landscape.com/standards/dbt/","https://www.data-landscape.com/standards/pandas/","https://www.data-landscape.com/standards/spark/","https://www.data-landscape.com/standards/sql-dml/","https://www.data-landscape.com/standards/beam/","https://www.data-landscape.com/standards/xslt/"]},{"@type":"BreadcrumbList","@id":"https://www.data-landscape.com/standards/ibis/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Landscape","item":"https://www.data-landscape.com/"},{"@type":"ListItem","position":2,"name":"Processing","item":"https://www.data-landscape.com/categories/processing/"},{"@type":"ListItem","position":3,"name":"Ibis"}]},{"@type":"DefinedTerm","@id":"https://www.data-landscape.com/standards/ibis/","name":"Ibis","termCode":"ibis","description":"Portable Python DataFrame API that compiles expressions to a backend of choice — DuckDB, BigQuery, Snowflake, Postgres, Spark, and many others.","url":"https://www.data-landscape.com/standards/ibis/","inDefinedTermSet":{"@type":"DefinedTermSet","@id":"https://www.data-landscape.com/#standards-set","name":"Open Standards for Modern Data Architecture","url":"https://www.data-landscape.com/"},"disambiguatingDescription":"Assess — Portable Python DataFrame compiling to many backends; trajectory strong, footprint small.","sameAs":"https://ibis-project.org"}]}</script>
 </head>
 <body class="bg-white">
 
@@ -124,6 +130,19 @@
         <p class="font-semibold">Why it counts as a standard</p>
         <p class="mt-1">Ibis defines a backend-neutral DataFrame expression API, with a published backend protocol that 20+ engines implement. The API and the backend contract are the standard surface — Ibis is the rare project where the standardised "interface" is its whole reason to exist.</p>
       </div>
+
+      <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">Example</h2>
+      <p class="mt-2 text-sm text-gray-600">One expression, many backends: the same code compiles to DuckDB, Postgres, BigQuery, or Snowflake SQL.</p>
+      <pre class="code-block mt-4"><code>import ibis
+
+con = ibis.duckdb.connect("warehouse.ddb")
+orders = con.table("orders")
+
+expr = (orders.filter(orders.amount &gt; 0)
+              .group_by("city")
+              .aggregate(revenue=orders.amount.sum()))
+
+expr.to_pandas()</code></pre>
 
       <h2 class="mt-10 text-lg font-bold tracking-tight text-gray-900">At a glance</h2>
       <dl class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
