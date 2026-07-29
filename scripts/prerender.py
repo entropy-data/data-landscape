@@ -1017,6 +1017,7 @@ PAGE_HEAD_COMMON = """  <link rel="icon" href="/media/logo_fuchsia_v2.svg" type=
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/dist/output.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="065b50da-d97b-4605-8f67-b3692d2d023e"></script>
   <style>
     .sr-only {
       position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -2057,6 +2058,7 @@ def redirect_page_html(target_path: str, label: str) -> str:
   <title>Moved to {esc(label)} | Data Landscape</title>
   <link rel="canonical" href="{html_attr(target)}"/>
   <meta http-equiv="refresh" content="0; url={html_attr(target_path)}">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="065b50da-d97b-4605-8f67-b3692d2d023e"></script>
 </head>
 <body>
   <p>This standard has been renamed. It now lives at
