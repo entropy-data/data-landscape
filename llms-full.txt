@@ -2605,6 +2605,14 @@ Links:
 
 ## Frequently asked questions
 
+### What is a data landscape?
+
+A data landscape is a map of the standards, formats, and protocols that an organisation's data systems have to agree on — the connective tissue between the tools, rather than the tools themselves. It answers “what does everything here need to speak in order to interoperate?”, which is a different question from “what systems do we run?”
+
+An architecture diagram names your systems: this warehouse, that catalog, those pipelines. A landscape names the agreements between them — the schema format, the lineage event spec, the table format, the query protocol. Systems get replaced every few years; the standards they interoperate around tend to outlive them, which is why they are worth drawing separately.
+
+The map on this page is one such landscape, scoped to open standards and organised by what each one describes: definition, storage, movement, transformation, discovery, and operations. It is also available as a PDF diagram.
+
 ### What do you mean by open standards?
 
 An open standard, as used on this page, is a specification that anyone can read, implement, and build on — without paying a vendor for the privilege. Concretely, a spec qualifies if:
