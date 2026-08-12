@@ -127,7 +127,7 @@ Category page: https://www.data-landscape.com/categories/file-formats/
 Category page: https://www.data-landscape.com/categories/lineage/
 
 - [OpenLineage](https://www.data-landscape.com/standards/openlineage/) — OpenLineage. Governance: Linux Foundation. **Adopt — The lineage-emission standard, with column-level support.** _adopt_
-- [PROV](https://www.data-landscape.com/standards/prov/) — PROV — Provenance Family. Governance: W3C. **Assess — W3C provenance vocabulary; predates OpenLineage by a decade, fading.** _assess, niche_
+- [PROV](https://www.data-landscape.com/standards/prov/) — Provenance Family. Governance: W3C. **Assess — W3C provenance vocabulary; predates OpenLineage by a decade, fading.** _assess, niche_
 
 ### Policies
 

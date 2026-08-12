@@ -2435,7 +2435,7 @@
   },
   "prov": {
     "name": "PROV",
-    "fullName": "PROV — Provenance Family",
+    "fullName": "Provenance Family",
     "category": "Lineage",
     "governance": "W3C",
     "status": "W3C Recommendation since 2013",

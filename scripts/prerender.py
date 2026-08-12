@@ -1116,10 +1116,19 @@ def subtitle(entry: dict, label: str) -> str:
 
     13 entries (OpenLineage, GraphQL, Arrow, …) set `fullName` to the name
     itself; rendering both gives "OpenLineage — OpenLineage".
+
+    A fullName may also carry the name *and* the em dash the caller is about to
+    add, as PROV's "PROV — Provenance Family" did, which rendered as the title
+    "PROV — PROV — Provenance Family". Strip that leading repetition. The test is
+    deliberately the separator and not the bare prefix: "OpenAPI Specification"
+    on "OpenAPI" is a real full name and must survive.
     """
     full_name = entry.get("fullName", "")
     if not full_name or full_name in (entry.get("name"), label):
         return ""
+    for prefix in (entry.get("name"), label):
+        if prefix and full_name.startswith(f"{prefix} — "):
+            return full_name[len(prefix) + 3:]
     return full_name
 
 

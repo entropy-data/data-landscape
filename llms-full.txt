@@ -2478,7 +2478,7 @@ Links:
 - ODRL Vocabulary 2.2: https://www.w3.org/TR/odrl-vocab/
 - ODRL Community Group: https://www.w3.org/community/odrl/
 
-## PROV — PROV — Provenance Family
+## PROV — Provenance Family
 
 - URL: https://www.data-landscape.com/standards/prov/
 - Category: Lineage
