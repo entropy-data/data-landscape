@@ -154,7 +154,8 @@ Category page: https://www.data-landscape.com/categories/storage-systems/
 
 Category page: https://www.data-landscape.com/categories/semantics/
 
-- [Ossie](https://www.data-landscape.com/standards/ossie/) — Apache Ossie (incubating). Governance: Apache Software Foundation (incubating) — donated by the OSI Initiative; 50+ organisations including Snowflake, Salesforce, dbt Labs, Databricks, Dremio. **Assess — Emerging vendor-neutral semantic exchange, now under ASF governance; promising, adoption early.** _assess, highlighted_
+- [Ossie Semantic Model](https://www.data-landscape.com/standards/ossie/) — Apache Ossie Semantic Model (incubating). Governance: Apache Software Foundation (incubating) — donated by the OSI Initiative; 50+ organisations including Snowflake, Salesforce, dbt Labs, Databricks, Dremio. **Assess — Emerging vendor-neutral semantic model exchange, now under ASF governance; promising, adoption early.** _assess, highlighted_
+- [Ossie Ontology](https://www.data-landscape.com/standards/ossie-ontology/) — Apache Ossie Ontology Specification (incubating). Governance: Apache Software Foundation (incubating) — part of Apache Ossie. **Assess — Conceptual layer above Ossie semantic models; very early, watch whether tools adopt it.** _assess_
 - [RDF/OWL](https://www.data-landscape.com/standards/rdf-owl/) — Resource Description Framework / Web Ontology Language. Governance: W3C. **Situational — Semantic-web foundation; right when reasoning/inference matter.** _situational_
 - [DCAT](https://www.data-landscape.com/standards/dcat/) — Data Catalog Vocabulary. Governance: W3C. **Situational — Mandatory in EU open-data and many regulatory contexts.** _situational_
 - [SKOS](https://www.data-landscape.com/standards/skos/) — Simple Knowledge Organization System. Governance: W3C. **Situational — Right when you actually have a taxonomy.** _situational_

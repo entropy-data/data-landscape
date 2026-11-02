@@ -1441,20 +1441,20 @@ Authorization: AWS4-HMAC-SHA256 Credential=AKIA.../20260114/eu-central-1/s3/aws4
 Links:
 - AWS S3 API reference: https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html
 
-## Ossie — Apache Ossie (incubating)
+## Ossie Semantic Model — Apache Ossie Semantic Model (incubating)
 
 - URL: https://www.data-landscape.com/standards/ossie/
 - Category: Semantics
 - Governance: Apache Software Foundation (incubating) — donated by the OSI Initiative; 50+ organisations including Snowflake, Salesforce, dbt Labs, Databricks, Dremio
-- Status: Incubating at the ASF since July 2026; spec still early, working groups very active
+- Status: Incubating at the ASF since July 2026; core spec 0.2.0 in draft, working groups very active
 - First released: 2025
-- Judgement: Assess — Emerging vendor-neutral semantic exchange, now under ASF governance; promising, adoption early.
+- Judgement: Assess — Emerging vendor-neutral semantic model exchange, now under ASF governance; promising, adoption early.
 
-Vendor-agnostic open standard for exchanging semantic models — datasets, relationships, metrics, and AI context — between BI platforms, AI agents, and analytics tools.
+The core specification of Apache Ossie: a vendor-agnostic open standard for exchanging semantic models — datasets, relationships, metrics, and AI context — between BI platforms, AI agents, and analytics tools.
 
 Overlaps with ODCS on datasets and relationships, and adds metrics (e.g. total_revenue = SUM(order_total)) and dynamic fields (e.g. full_name = first_name + " " + last_name). ODCS still owns terms of use, quality, and SLAs.
 
-Launched in November 2025 as the Open Semantic Interchange (OSI) with 17 founding partners, and entered the Apache Incubator as Apache Ossie in July 2026. The spec, the community, and the mission are unchanged — only the name and the governance are.
+Launched in November 2025 as the Open Semantic Interchange (OSI) with 17 founding partners, and entered the Apache Incubator as Apache Ossie in July 2026. Apache Ossie also hosts a separate Ossie Ontology specification for the business concepts a semantic model maps onto.
 
 Example — Metrics and dimensions defined once, with the SQL expression per dialect, so every tool computes the same number.
 
@@ -1484,8 +1484,51 @@ semantic_model:
 
 Links:
 - ossie.apache.org: https://ossie.apache.org
+- Core spec (spec.md): https://github.com/apache/ossie/blob/main/core-spec/spec.md
 - GitHub: apache/ossie: https://github.com/apache/ossie
 - Announcement: OSI is now Apache Ossie: https://ossie.apache.org/updates/ossie-enters-apache-incubator/
+
+## Ossie Ontology — Apache Ossie Ontology Specification (incubating)
+
+- URL: https://www.data-landscape.com/standards/ossie-ontology/
+- Category: Semantics
+- Governance: Apache Software Foundation (incubating) — part of Apache Ossie
+- Status: Draft (0.2.0.dev0); standalone mapping documents specified, parser and converter support still pending
+- First released: 2026
+- Judgement: Assess — Conceptual layer above Ossie semantic models; very early, watch whether tools adopt it.
+
+The ontology specification of Apache Ossie: a conceptual model of enterprise data in terms of concepts (entity types and value types), relationships with multiplicities and verbalizations, and business rules — independent of where the data lives.
+
+Separate mapping documents tie the fields of an Ossie semantic model to the concepts and relationships of an ontology, so different semantic models that describe the same Customer or Order can be aligned. Concepts and relationships can carry IRIs to link them to RDF/OWL vocabularies, but the format itself is YAML/JSON, not RDF.
+
+Example — Value types extend built-in types; an entity type is identified by a relationship and verbalizes its links (from the flights example in the Ossie repo).
+
+```yaml
+version: 0.2.0.dev0
+name: Flights
+description: Ontology of flights into and out of airports.
+ontology:
+- concept: DegreesLatitude
+  type: ValueType
+  extends: [ Decimal ]
+  requires: [ DegreesLatitude <= 90, DegreesLatitude >= -90 ]
+- concept: Airport
+  type: EntityType
+  identify_by: [ code ]
+  relationships:
+  - name: city
+    roles:
+    - concept: City
+    verbalizes:
+    - '{Airport} is located in {City}'
+    multiplicity: ManyToOne
+```
+
+Links:
+- Ontology spec (ontology.md): https://github.com/apache/ossie/blob/main/ontology/ontology.md
+- Flights example (ontology, semantic model, mapping): https://github.com/apache/ossie/tree/main/examples
+- Roadmap: Ontology & Semantic Interoperability: https://github.com/apache/ossie/blob/main/ROADMAP.md
+- ossie.apache.org: https://ossie.apache.org
 
 ## RDF/OWL — Resource Description Framework / Web Ontology Language
 
