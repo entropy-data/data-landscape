@@ -10,7 +10,7 @@ Each standard carries a judgement — Adopt, Situational, Assess, or Caution —
 - Industry ontologies: https://www.data-landscape.com/industry-ontologies.html
 - Regulation sub-landscape: https://www.data-landscape.com/regulation.html (data: https://www.data-landscape.com/regulation.json)
 - Sitemap: https://www.data-landscape.com/sitemap.xml
-- Data last updated: November 2026 (2026-11-02)
+- Data last updated: November 2026 (2026-11-07)
 
 ## What the judgements mean
 
@@ -135,6 +135,7 @@ Category page: https://www.data-landscape.com/categories/policies/
 
 - [OPA](https://www.data-landscape.com/standards/opa/) — Open Policy Agent. Governance: CNCF (Graduated). **Adopt — General-purpose policy engine; mature Rego ecosystem.** _adopt_
 - [ODRL](https://www.data-landscape.com/standards/odrl/) — Open Digital Rights Language. Governance: W3C. **Assess — Rights-expression language; relevant where data licensing matters.** _assess, niche_
+- [OAAS](https://www.data-landscape.com/standards/oaas/) — Open Access Agreement Standard. Governance: BITOL / Linux Foundation (draft). **Assess — BITOL access-agreement standard; RFC stage, no adoption yet.** _assess_
 
 ### AI Interfaces
 

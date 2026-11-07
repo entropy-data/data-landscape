@@ -2521,6 +2521,46 @@ Links:
 - ODRL Vocabulary 2.2: https://www.w3.org/TR/odrl-vocab/
 - ODRL Community Group: https://www.w3.org/community/odrl/
 
+## OAAS — Open Access Agreement Standard
+
+- URL: https://www.data-landscape.com/standards/oaas/
+- Category: Policies
+- Governance: BITOL / Linux Foundation (draft)
+- Status: Emerging — RFC 0056 in the BITOL TSC; initial version v0.9.0, not yet released
+- First released: 2026
+- Judgement: Assess — BITOL access-agreement standard; RFC stage, no adoption yet.
+
+Auxiliary BITOL standard (`kind: AccessAgreement`) that records a 1:1 agreement between a data provider and a data consumer: who may access which output port, for what purpose, and for how long. It adapts the Data Usage Agreement Specification to BITOL conventions.
+
+ODCS describes what the data looks like and ODPS what the data product is; neither records who may use it and why. OAAS makes the access grant a versioned, auditable artifact that tooling can provision from, auditors can read, and that expires on its own terms.
+
+Example — Minimal access agreement from RFC 0056: marketing may use the orders output port to train a churn model.
+
+```yaml
+apiVersion: v0.9.0
+kind: AccessAgreement
+id: 8f5d1c2a-4b3e-4a91-9d7c-6e2f0a1b3c4d
+status: approved
+
+description:
+  purpose: Train the churn prediction model.
+
+startTimestamp: 2026-07-01T00:00:00Z
+
+provider:
+  teamId: sales
+  dataProductId: orders
+  outputPortId: orders_snowflake
+
+consumer:
+  teamId: marketing
+```
+
+Links:
+- RFC 0056: OAAS: https://github.com/bitol-io/tsc/blob/main/rfcs/0056-oaas.md
+- Data Usage Agreement Specification: https://datausageagreement.com/
+- BITOL project: https://bitol.io
+
 ## PROV — Provenance Family
 
 - URL: https://www.data-landscape.com/standards/prov/
