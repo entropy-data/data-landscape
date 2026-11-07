@@ -135,8 +135,8 @@
     "name": "OORS",
     "fullName": "Open Observability Results Standard",
     "category": "Observability",
-    "governance": "BITOL / Linux Foundation (draft)",
-    "status": "Emerging — auxiliary BITOL standard, not yet released",
+    "governance": "BITOL / Linux Foundation",
+    "status": "Emerging — v0.8.0 approved Oct 2026; breaking changes expected until v1.0.0",
     "judgement": "Assess",
     "judgementReason": "BITOL observability/quality-result standard; new and under-adopted.",
     "description": [
@@ -145,11 +145,15 @@
     ],
     "links": [
       {
+        "label": "GitHub: open-observability-results-standard",
+        "url": "https://github.com/bitol-io/open-observability-results-standard"
+      },
+      {
         "label": "BITOL project",
         "url": "https://bitol.io"
       }
     ],
-    "firstReleased": 2025,
+    "firstReleased": 2026,
     "logo": "/media/icons/standards-map/logos/bitol.svg",
     "umbrella": "BITOL @ LF",
     "standardization": "foundation"
@@ -160,7 +164,7 @@
     "category": "Contracts",
     "highlight": true,
     "governance": "BITOL / Linux Foundation",
-    "status": "v3.1 stable; v3.2 in progress",
+    "status": "v3.2 stable (released Sep 2026)",
     "judgement": "Adopt",
     "judgementReason": "Winning data-contract spec; YAML, multi-vendor.",
     "description": [
@@ -170,7 +174,7 @@
     "example": {
       "language": "yaml",
       "caption": "A data contract: who owns the data, where it physically lives, and what the schema promises.",
-      "code": "apiVersion: v3.1.0\nkind: DataContract\nid: 53581432-6c55-4ba2-a65f-72344a91553a\ndomain: seller\ndataProduct: my quantum\nversion: 1.1.0\nstatus: active\ndescription:\n  purpose: Views built on top of the seller tables.\nservers:\n  - server: my-postgres\n    type: postgres\n    host: localhost\n    port: 5432\n    database: pypl-edw\n    schema: pp_access_views\nschema:\n  - name: tbl\n    physicalType: table\n    properties:\n      - name: rcvr_id\n        logicalType: string\n        physicalType: varchar(18)\n        primaryKey: true"
+      "code": "apiVersion: v3.2.0\nkind: DataContract\nid: 53581432-6c55-4ba2-a65f-72344a91553a\ndomain: seller\ndataProduct: my quantum\nversion: 1.1.0\nstatus: active\ndescription:\n  purpose: Views built on top of the seller tables.\nservers:\n  - server: my-postgres\n    type: postgres\n    host: localhost\n    port: 5432\n    database: pypl-edw\n    schema: pp_access_views\nschema:\n  - name: tbl\n    physicalType: table\n    properties:\n      - name: rcvr_id\n        logicalType: string\n        physicalType: varchar(18)\n        primaryKey: true"
     },
     "links": [
       {
@@ -200,7 +204,7 @@
     "fullName": "OpenAPI Specification",
     "category": "Contracts",
     "governance": "OpenAPI Initiative, Linux Foundation",
-    "status": "Stable; OAS 3.1 current",
+    "status": "Stable; OAS 3.2 current (3.2.0 Sep 2025, 3.2.1 Sep 2026)",
     "judgement": "Adopt",
     "judgementReason": "De-facto REST description with tooling for almost every language.",
     "description": [
@@ -210,7 +214,7 @@
     "example": {
       "language": "yaml",
       "caption": "One path, one operation, one response schema — the shape every generator and mock server reads.",
-      "code": "openapi: 3.1.0\ninfo:\n  title: Orders API\n  version: 1.0.0\npaths:\n  /orders/{id}:\n    get:\n      operationId: getOrder\n      parameters:\n        - name: id\n          in: path\n          required: true\n          schema: { type: string }\n      responses:\n        '200':\n          description: The order\n          content:\n            application/json:\n              schema:\n                type: object\n                required: [id, amount]\n                properties:\n                  id: { type: string }\n                  amount: { type: number }"
+      "code": "openapi: 3.2.0\ninfo:\n  title: Orders API\n  version: 1.0.0\npaths:\n  /orders/{id}:\n    get:\n      operationId: getOrder\n      parameters:\n        - name: id\n          in: path\n          required: true\n          schema: { type: string }\n      responses:\n        '200':\n          description: The order\n          content:\n            application/json:\n              schema:\n                type: object\n                required: [id, amount]\n                properties:\n                  id: { type: string }\n                  amount: { type: number }"
     },
     "links": [
       {
@@ -461,7 +465,7 @@
     "category": "Data Products",
     "highlight": true,
     "governance": "BITOL / Linux Foundation",
-    "status": "v1.0",
+    "status": "v1.1 stable (released Sep 2026)",
     "judgement": "Adopt",
     "judgementReason": "Winning data-product spec; ODCS-aligned.",
     "description": [
@@ -471,7 +475,7 @@
     "example": {
       "language": "yaml",
       "caption": "A data product: input ports it consumes, output ports it promises, each bound to a data contract.",
-      "code": "apiVersion: v1.0.0\nkind: DataProduct\nid: fbe8d147-28db-4f1d-bedf-a3fe9f458427\nname: Customer Data Product\ndomain: seller\nstatus: draft\ndescription:\n  purpose: Enterprise view of a customer.\ninputPorts:\n  - name: payments\n    version: 1.0.0\n    contractId: dbb7b1eb-7628-436e-8914-2a00638ba6db\noutputPorts:\n  - name: rawtransactions\n    description: \"Raw Transactions\"\n    type: tables\n    version: v1.0.0\n    contractId: c2798941-1b7e-4b03-9e0d-955b1a872b32"
+      "code": "apiVersion: v1.1.0\nkind: DataProduct\nid: fbe8d147-28db-4f1d-bedf-a3fe9f458427\nname: Customer Data Product\ndomain: seller\nstatus: draft\ndescription:\n  purpose: Enterprise view of a customer.\ninputPorts:\n  - name: payments\n    version: 1.0.0\n    contractId: dbb7b1eb-7628-436e-8914-2a00638ba6db\noutputPorts:\n  - name: rawtransactions\n    description: \"Raw Transactions\"\n    type: tables\n    version: v1.0.0\n    contractId: c2798941-1b7e-4b03-9e0d-955b1a872b32"
     },
     "note": "Acronym collision: \"ODPS\" is also used for the Open Data Product Specification, a separate LF project. Both display as ODPS here — disambiguate by governance (BITOL vs opendataproducts.org).",
     "links": [
@@ -2629,7 +2633,7 @@
     "fullName": "Frictionless Table Schema",
     "category": "Schema",
     "governance": "Frictionless Data / Open Knowledge Foundation",
-    "status": "Stable; v1.0 (2017), continually maintained",
+    "status": "Stable; v2.0 (2024) current, v1.0 since 2017",
     "judgement": "Assess",
     "judgementReason": "Lightweight Frictionless tabular spec; small ecosystem.",
     "niche": true,
