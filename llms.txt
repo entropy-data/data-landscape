@@ -36,7 +36,7 @@ Category page: https://www.data-landscape.com/categories/query/
 Category page: https://www.data-landscape.com/categories/observability/
 
 - [OpenTelemetry](https://www.data-landscape.com/standards/opentelemetry/) — OpenTelemetry. Governance: CNCF (Cloud Native Computing Foundation), Linux Foundation. **Adopt — Vendor-neutral observability standard.** _adopt_
-- [OORS](https://www.data-landscape.com/standards/oors/) — Open Observability Results Standard. Governance: BITOL / Linux Foundation (draft). **Assess — BITOL observability/quality-result standard; new and under-adopted.** _assess_
+- [OORS](https://www.data-landscape.com/standards/oors/) — Open Observability Results Standard. Governance: BITOL / Linux Foundation. **Assess — BITOL observability/quality-result standard; new and under-adopted.** _assess_
 
 ### Contracts
 

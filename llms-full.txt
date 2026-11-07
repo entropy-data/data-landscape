@@ -151,9 +151,9 @@ Links:
 
 - URL: https://www.data-landscape.com/standards/oors/
 - Category: Observability
-- Governance: BITOL / Linux Foundation (draft)
-- Status: Emerging — auxiliary BITOL standard, not yet released
-- First released: 2025
+- Governance: BITOL / Linux Foundation
+- Status: Emerging — v0.8.0 approved Oct 2026; breaking changes expected until v1.0.0
+- First released: 2026
 - Judgement: Assess — BITOL observability/quality-result standard; new and under-adopted.
 
 Auxiliary BITOL standard answering: what does an observability or quality-check result look like? Designed to sit alongside ODCS and ODPS so any tool can publish and consume verifiable check results.
@@ -161,6 +161,7 @@ Auxiliary BITOL standard answering: what does an observability or quality-check 
 Today every tool reports check outcomes in its own shape. OORS aims to give the marketplace, governance UI, and AI agents one consistent format to ingest.
 
 Links:
+- GitHub: open-observability-results-standard: https://github.com/bitol-io/open-observability-results-standard
 - BITOL project: https://bitol.io
 
 ## ODCS — Open Data Contract Standard
@@ -168,7 +169,7 @@ Links:
 - URL: https://www.data-landscape.com/standards/odcs/
 - Category: Contracts
 - Governance: BITOL / Linux Foundation
-- Status: v3.1 stable; v3.2 in progress
+- Status: v3.2 stable (released Sep 2026)
 - First released: 2023
 - Judgement: Adopt — Winning data-contract spec; YAML, multi-vendor.
 
@@ -179,7 +180,7 @@ Originated as PayPal's internal Data Contract Template (donated as ODCS 2.x). St
 Example — A data contract: who owns the data, where it physically lives, and what the schema promises.
 
 ```yaml
-apiVersion: v3.1.0
+apiVersion: v3.2.0
 kind: DataContract
 id: 53581432-6c55-4ba2-a65f-72344a91553a
 domain: seller
@@ -216,7 +217,7 @@ Links:
 - URL: https://www.data-landscape.com/standards/openapi/
 - Category: Contracts
 - Governance: OpenAPI Initiative, Linux Foundation
-- Status: Stable; OAS 3.1 current
+- Status: Stable; OAS 3.2 current (3.2.0 Sep 2025, 3.2.1 Sep 2026)
 - First released: 2011
 - Judgement: Adopt — De-facto REST description with tooling for almost every language.
 
@@ -227,7 +228,7 @@ OpenAPI is the reference success story for what an open standard can become. ODC
 Example — One path, one operation, one response schema — the shape every generator and mock server reads.
 
 ```yaml
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Orders API
   version: 1.0.0
@@ -497,7 +498,7 @@ Links:
 - URL: https://www.data-landscape.com/standards/odps/
 - Category: Data Products
 - Governance: BITOL / Linux Foundation
-- Status: v1.0
+- Status: v1.1 stable (released Sep 2026)
 - First released: 2025
 - Judgement: Adopt — Winning data-product spec; ODCS-aligned.
 
@@ -508,7 +509,7 @@ Each port references an ODCS contract. Combined, ODCS + ODPS yield the full data
 Example — A data product: input ports it consumes, output ports it promises, each bound to a data contract.
 
 ```yaml
-apiVersion: v1.0.0
+apiVersion: v1.1.0
 kind: DataProduct
 id: fbe8d147-28db-4f1d-bedf-a3fe9f458427
 name: Customer Data Product
@@ -2659,7 +2660,7 @@ Links:
 - URL: https://www.data-landscape.com/standards/frictionless-table-schema/
 - Category: Schema
 - Governance: Frictionless Data / Open Knowledge Foundation
-- Status: Stable; v1.0 (2017), continually maintained
+- Status: Stable; v2.0 (2024) current, v1.0 since 2017
 - First released: 2017
 - Judgement: Assess — Lightweight Frictionless tabular spec; small ecosystem.
 
