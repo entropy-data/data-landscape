@@ -2479,6 +2479,42 @@
     "umbrella": "W3C",
     "standardization": "formal-standard"
   },
+  "oaas": {
+    "name": "OAAS",
+    "fullName": "Open Access Agreement Standard",
+    "category": "Policies",
+    "governance": "BITOL / Linux Foundation (draft)",
+    "status": "Emerging — RFC 0056 in the BITOL TSC; initial version v0.9.0, not yet released",
+    "judgement": "Assess",
+    "judgementReason": "BITOL access-agreement standard; RFC stage, no adoption yet.",
+    "description": [
+      "Auxiliary BITOL standard (`kind: AccessAgreement`) that records a 1:1 agreement between a data provider and a data consumer: who may access which output port, for what purpose, and for how long. It adapts the Data Usage Agreement Specification to BITOL conventions.",
+      "ODCS describes what the data looks like and ODPS what the data product is; neither records who may use it and why. OAAS makes the access grant a versioned, auditable artifact that tooling can provision from, auditors can read, and that expires on its own terms."
+    ],
+    "example": {
+      "language": "yaml",
+      "caption": "Minimal access agreement from RFC 0056: marketing may use the orders output port to train a churn model.",
+      "code": "apiVersion: v0.9.0\nkind: AccessAgreement\nid: 8f5d1c2a-4b3e-4a91-9d7c-6e2f0a1b3c4d\nstatus: approved\n\ndescription:\n  purpose: Train the churn prediction model.\n\nstartTimestamp: 2026-07-01T00:00:00Z\n\nprovider:\n  teamId: sales\n  dataProductId: orders\n  outputPortId: orders_snowflake\n\nconsumer:\n  teamId: marketing"
+    },
+    "links": [
+      {
+        "label": "RFC 0056: OAAS",
+        "url": "https://github.com/bitol-io/tsc/blob/main/rfcs/0056-oaas.md"
+      },
+      {
+        "label": "Data Usage Agreement Specification",
+        "url": "https://datausageagreement.com/"
+      },
+      {
+        "label": "BITOL project",
+        "url": "https://bitol.io"
+      }
+    ],
+    "firstReleased": 2026,
+    "logo": "/media/icons/standards-map/logos/bitol.svg",
+    "umbrella": "BITOL @ LF",
+    "standardization": "foundation"
+  },
   "prov": {
     "name": "PROV",
     "fullName": "Provenance Family",
