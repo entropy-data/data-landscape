@@ -171,11 +171,13 @@ Links:
 - Governance: BITOL / Linux Foundation
 - Status: v3.2 stable (released Sep 2026)
 - First released: 2023
-- Judgement: Adopt — Winning data-contract spec; YAML, multi-vendor.
+- Judgement: Adopt — Winning data-contract spec; YAML, multi-vendor; Adopt on the Thoughtworks Radar.
 
 YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.
 
 Originated as PayPal's internal Data Contract Template (donated as ODCS 2.x). Starting with v3.0 the standard was generalised for any enterprise.
+
+Placed in Adopt on the Thoughtworks Technology Radar (Nov 2026) as a sensible default for teams building data products.
 
 Example — A data contract: who owns the data, where it physically lives, and what the schema promises.
 
@@ -211,6 +213,7 @@ Links:
 - GitHub: open-data-contract-standard: https://github.com/bitol-io/open-data-contract-standard
 - Spec (latest): https://bitol-io.github.io/open-data-contract-standard/latest/
 - Data Contract CLI: https://github.com/datacontract/datacontract-cli
+- Thoughtworks Tech Radar: Adopt: https://www.thoughtworks.com/radar/languages-and-frameworks/open-data-contract-standard-odcs
 
 ## OpenAPI — OpenAPI Specification
 

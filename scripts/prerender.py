@@ -1011,8 +1011,8 @@ def write_sitemap(
 # the larger pages, and the preload scanner only discovers the stylesheet and
 # fonts once it has parsed past it — putting the render-critical links first
 # means CSS and fonts start downloading in the first packet or two.
-PAGE_HEAD_COMMON = """  <link rel="icon" href="/media/logo_fuchsia_v2.svg" type="image/svg+xml"/>
-  <link rel="icon" href="/media/logo_fuchsia_v2.ico" type="image/x-icon"/>
+PAGE_HEAD_COMMON = """  <link rel="icon" href="/media/favicon.svg" type="image/svg+xml"/>
+  <link rel="icon" href="/media/favicon.ico" type="image/x-icon"/>
   <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png"/>
   <link rel="preload" href="/fonts/inter-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v12-latin-500.woff2" as="font" type="font/woff2" crossorigin>

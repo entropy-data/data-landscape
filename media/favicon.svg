@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#c026d3"/>
+    </linearGradient>
+    <linearGradient id="far" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5d0fe"/>
+      <stop offset="1" stop-color="#e879f9"/>
+    </linearGradient>
+    <linearGradient id="near" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e0e7ff"/>
+    </linearGradient>
+    <clipPath id="tile"><rect width="64" height="64" rx="14"/></clipPath>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="64" height="64" fill="url(#sky)"/>
+    <circle cx="46" cy="18" r="7" fill="#fde68a"/>
+    <path d="M-2 50 L22 22 L34 36 L40 30 L66 54 L66 66 L-2 66 Z" fill="url(#far)"/>
+    <path d="M18 27.5 L22 22 L26 27 L23.5 26 L21 28.5 Z" fill="#ffffff"/>
+    <path d="M-2 66 L-2 54 Q16 42 32 48 T66 46 L66 66 Z" fill="url(#near)"/>
+    <path d="M6 58 Q22 50 38 56 T60 54" fill="none" stroke="#a5b4fc" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 3.5"/>
+  </g>
+</svg>

@@ -42,7 +42,7 @@ Category page: https://www.data-landscape.com/categories/observability/
 
 Category page: https://www.data-landscape.com/categories/contracts/
 
-- [ODCS](https://www.data-landscape.com/standards/odcs/) — Open Data Contract Standard. Governance: BITOL / Linux Foundation. **Adopt — Winning data-contract spec; YAML, multi-vendor.** _adopt, highlighted_
+- [ODCS](https://www.data-landscape.com/standards/odcs/) — Open Data Contract Standard. Governance: BITOL / Linux Foundation. **Adopt — Winning data-contract spec; YAML, multi-vendor; Adopt on the Thoughtworks Radar.** _adopt, highlighted_
 - [OpenAPI](https://www.data-landscape.com/standards/openapi/) — OpenAPI Specification. Governance: OpenAPI Initiative, Linux Foundation. **Adopt — De-facto REST description with tooling for almost every language.** _adopt_
 - [AsyncAPI](https://www.data-landscape.com/standards/asyncapi/) — AsyncAPI Specification. Governance: AsyncAPI Initiative, Linux Foundation. **Adopt — The OpenAPI-equivalent for event APIs once you commit to documenting them.** _adopt_
 - [GraphQL](https://www.data-landscape.com/standards/graphql/) — GraphQL. Governance: GraphQL Foundation, Linux Foundation. **Adopt — Default for client-driven aggregation; mature spec, multi-language tooling, well-established at scale.** _adopt_

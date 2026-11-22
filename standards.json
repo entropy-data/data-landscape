@@ -166,10 +166,11 @@
     "governance": "BITOL / Linux Foundation",
     "status": "v3.2 stable (released Sep 2026)",
     "judgement": "Adopt",
-    "judgementReason": "Winning data-contract spec; YAML, multi-vendor.",
+    "judgementReason": "Winning data-contract spec; YAML, multi-vendor; Adopt on the Thoughtworks Radar.",
     "description": [
       "YAML-based open standard for defining data contracts: schema, data quality, SLAs, terms of use, team ownership, servers. Think of it as OpenAPI, but for data.",
-      "Originated as PayPal's internal Data Contract Template (donated as ODCS 2.x). Starting with v3.0 the standard was generalised for any enterprise."
+      "Originated as PayPal's internal Data Contract Template (donated as ODCS 2.x). Starting with v3.0 the standard was generalised for any enterprise.",
+      "Placed in Adopt on the Thoughtworks Technology Radar (Nov 2026) as a sensible default for teams building data products."
     ],
     "example": {
       "language": "yaml",
@@ -192,6 +193,10 @@
       {
         "label": "Data Contract CLI",
         "url": "https://github.com/datacontract/datacontract-cli"
+      },
+      {
+        "label": "Thoughtworks Tech Radar: Adopt",
+        "url": "https://www.thoughtworks.com/radar/languages-and-frameworks/open-data-contract-standard-odcs"
       }
     ],
     "firstReleased": 2023,
